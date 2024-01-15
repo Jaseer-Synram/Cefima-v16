@@ -1,0 +1,51 @@
+.Persönliche-Informationen {
+    background: #eaeaea;
+    padding: 5px 10px;
+    float: left;
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 20px;
+    height: 43px;
+  }
+  
+  .customer-table-section {
+    padding: 10px 10px;
+    background: #fff;
+    /* box-shadow: 5px 3px 20px 1px #262d3424; */
+    /* border-radius: 10px; */
+    /* margin-top: 25px;
+    margin-bottom: 20px; */
+  }
+  
+  .Persönliche-Informationen span img {
+    max-width: 40px;
+    float: left;
+    padding: 7px 10px 5px;
+  }
+  .Persönliche-Informationen h2 {
+    /* font-family: Open Sans; */
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #454c58;
+    float: left;
+    margin-bottom: 0px;
+    margin-top: 6px;
+  }
+  .Persönliche-Informationen p {
+    margin: 0px;
+  }
+  .Persönliche-Informationen p img {
+    float: right;
+    padding: 6px;
+  }
+  .closed-arrow {
+    rotate: 270deg;
+    margin-top: 4px;
+  }
+  .opened-arrow {
+    rotate: 0deg;
+    margin-top: 5px;
+  }
+  

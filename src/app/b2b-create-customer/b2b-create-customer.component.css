@@ -1,0 +1,261 @@
+.new-user-card {
+    padding: 30px;
+    /* box-shadow:1px 1px 2px 1px #184397; */
+    background-color: #7c8182;
+  }
+  
+  .role-card {
+    height: auto;
+    width: auto;
+    text-align-last: center
+  }
+  
+  .personal-data-form {
+    width: 100% !important;
+    display: block !important;
+  }
+  
+  .card-style {
+    padding: 50px;
+    /* box-shadow:5px 5px 5px 1px #1b1c19;  */
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+  
+  .card-style-2 {
+    padding: 37px 35px;
+    /* box-shadow:5px 5px 5px 1px #1b1c19;  */
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+  
+  .stepper-container {
+    padding: 35px;
+    /* box-shadow:1px 1px 2px 1px #184397; */
+    /* background-color: rgba(0, 0, 0, 0.12); */
+    height: auto;
+    background: transparent;
+    /* width: 100vh; */
+  }
+  
+  .stepper-btn {
+    /* margin-top: 20px !important; */
+    background: linear-gradient(to bottom, #17459b 0%, #0c76c3 51%, #02a8ec 100%);
+    color: #fff !important;
+  }
+  
+  .stepper-btn:hover {
+    opacity: 0.6;
+  }
+  
+  .fioretto-logo {
+    height: 38px;
+    background: #C0C0C0;
+  }
+  
+  .fioretto-logo:hover {
+    cursor: pointer;
+  }
+  
+  international-phone-number {
+    width: 415px;
+    background-color: bottom;
+  }
+  
+  .mat-horizontal-stepper-header .mat-step-icon-selected {
+    background-image: linear-gradient(to right, #154FA3, #049FE5);
+    border: none !important;
+  }
+  
+  .checkboxStyle {
+    float: right;
+    margin-right: 16px;
+    margin-top: -45px;
+  }
+  
+  .checkboxStyle2 {
+    float: right;
+    margin-right: 0;
+    margin-top: 55px;
+    position: relative;
+    right: 35px;
+  }
+  
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px;
+    /* Should be removed. Only for demonstration */
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .pass .mat-form-field-infix {
+    padding: 0 !important;
+  }
+  
+  .test input {
+    background: transparent;
+    height: 63.5px;
+    border: 1px solid currentColor;
+  }
+  
+  .mat-form-field-infix {
+    width: 100% !important;
+  }
+  
+  .links1 {
+    padding: 35px;
+    width: 250px;
+    height: 150px;
+    background-color: transparent;
+    border:  1px solid #02a8ec;
+    cursor: pointer;
+    margin: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .links1:hover {
+    box-shadow: inset;
+    transform: scale(1.05);
+    background: linear-gradient(to bottom, #17459b 0%, #0c76c3 51%, #02a8ec 100%);
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.05));
+    border: 1px solid transparent;
+    color: white;
+  }
+  
+  .arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+  }
+  
+  .up {
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    top: -3px;
+  }
+  
+  .uparrow1 {
+    padding: 3px;
+    position: relative;
+    margin: 0px 0px 0px 5px;
+    left: 3px;
+  }
+  
+  .rightarrow {
+  
+    padding: 2px;
+    position: relative;
+    top: -1px;
+    margin: 0px 0px 0px 5px;
+  }
+  
+  .uparrow {
+    padding: 2px;
+    position: relative;
+    /* top: -1px; */
+    margin: 0px 0px 0px 5px;
+  }
+  
+  .down {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+  }
+  
+  .radioclass1 {
+    width: 207px;
+  }
+  
+  .radioclass2 {
+    width: 138px;
+  }
+  
+  .radioclass3 {
+    width: 135px;
+  }
+  
+  :host ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #184397;
+  }
+  
+  :host ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: rgba(66, 134, 244, .26);
+  }
+  
+  :host ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #184397;
+  }
+  
+  #b2bCreate .mat-horizontal-content-container {
+    margin-top: 30px;
+  }
+  
+  .custom-margin {
+    margin-bottom: 3px;
+  }
+  
+  .custom-heading {
+    font-family: Open Sans;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 33px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  
+  .form-width {
+    width: 95%;
+  }
+  
+  
+  button:disabled,
+  button[disabled] {
+    border: 1px solid #999999 !important;
+    background: #8a8a8a !important;
+  }
+  
+  .mat-step-header:not([aria-selected]) {
+    .mat-step-label {
+      display: none;
+    }
+  }
+  
+  .underKundenHead{
+    font-family: Open Sans;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #0094d8;
+    background-color: #dcecf8;
+    padding-left: 2px;
+  }
+
+  .button-primary {
+    /* background: linear-gradient(310.12deg, #33a4df -11.74%, #587dba 66.6%); */
+    background: linear-gradient(#17459b, #02a9ed);
+    color: #fff !important;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+  
+  i.fas.fa-angle-right::before{
+    font-weight: lighter;
+    margin-left: 3px;
+    font-size: larger;
+  }
+  
+  .arrowsetting{
+    display: inline-block;
+    margin-left: 7px;
+  }
+  
+  

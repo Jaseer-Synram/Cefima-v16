@@ -1,0 +1,91 @@
+<mat-sidenav-container class="example-container" autosize>
+    <!-- <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()"> -->
+    <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true">
+
+        <div class="example-app-name" *ngIf="isExpanded">
+            <img class="img-large" role="button" routerLink="" src="assets/cefima-logo.png">
+        </div>
+
+        <div class="example-app-name1" *ngIf="!isExpanded">
+            <img class="img-compact" role="button" routerLink="" src="assets/cefima-compact-logo.png">
+        </div>
+        <button mat-icon-button *ngIf="isExpanded" (click)="isExpanded = !isExpanded"><img src="assets/arrow.png"
+                class="arrow"></button>
+
+
+        <div class="new-side-bar1">
+            <mat-nav-list style="width:95%;margin:auto;">
+                <mat-list-item
+                    [ngClass]="router.url == '/cefima/consulting' ? 'active text-dark parent' : 'parent text-white'"
+                    (click)="router.navigate(['./cefima/consulting'])">
+                    <img *ngIf="router.url == '/cefima/consulting'" src="assets/beratung-icon-active.png">
+                    <img *ngIf="router.url != '/cefima/consulting'" src="assets/beratung-icon.png">
+                    <span [ngClass]="router.url == '/cefima/consulting' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 pb-2" *ngIf="isExpanded || isShowing" role="button">Beratung</span>
+                </mat-list-item>
+                <!-- (click)="router.navigate(['cefima/consulting'])" -->
+                <!-- [ngStyle]="{'filter': router.url == '/neoloop/customer-managment' ? 'brightness(0.5)' : 'brightness(1)' }" -->
+                <mat-list-item class="parent"
+                    [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'"
+                    (click)="router.navigate(['cefima/customer'])">
+                    <img *ngIf="router.url == '/cefima/customer'" src="assets/kunden-icon-active.png">
+                    <img *ngIf="router.url != '/cefima/customer'" src="assets/kunden-icon.png">
+                    <span [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 pb-2" *ngIf="isExpanded || isShowing" role="button">Kunden</span>
+                </mat-list-item>
+                <!-- <mat-list-item class="parent"
+                    [ngClass]="router.url == '/neoloop/mediacloud/All' ? 'active text-dark parent' : 'parent text-white'">
+                    <img *ngIf="router.url == '/neoloop/mediacloud/All'" src="assets/upload-icon-active.png">
+                    <img *ngIf="router.url != '/neoloop/mediacloud/All'" src="assets/upload-icon.png">
+                    <span class="full-width ml-2" *ngIf="isExpanded || isShowing" role="button">Dokumenten Upload</span>
+                </mat-list-item> -->
+                <mat-list-item class="parent"
+                    [ngClass]="router.url == '/cefima/upload-document' ? 'active text-dark parent' : 'parent text-white'"
+                    (click)="router.navigate(['cefima/upload-document'])">
+                    <img *ngIf="router.url == '/cefima/upload-document'" src="assets/upload-icon-active.png">
+                    <img *ngIf="router.url != '/cefima/upload-document'" src="assets/upload-icon.png">
+                    <span [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 pb-2" *ngIf="isExpanded || isShowing" role="button">Dokumenten Upload</span>
+                </mat-list-item>
+
+            </mat-nav-list>
+        </div>
+        <!-- (click)="router.navigate(['neoloop/mediacloud/All'])" -->
+        <!-- <div class="new-side-bar1">
+            <mat-nav-list>
+                <ng-container *ngFor="let company of all_companies;">
+
+                    <mat-list-item (click)="showSubmenu[company._id] = !showSubmenu[company._id]" class="parent">
+                        <span class="full-width" *ngIf="isExpanded || isShowing" role="button">{{ company.name }}</span>
+                        <mat-icon class="images-section" mat-list-icon><img src="assets/company(white).svg"></mat-icon>
+                        <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu[company._id]}"
+                            *ngIf="isExpanded || isShowing">expand_more</mat-icon>
+                    </mat-list-item>
+                    <div class="submenu" [ngClass]="{'expanded' : showSubmenu[company._id]}"
+                        *ngIf="isShowing || isExpanded">
+                        <a mat-list-item *ngFor="let brand of company.brands;">{{brand.name}}</a>
+                    </div>
+                </ng-container>
+            </mat-nav-list>
+        </div> -->
+
+        <!-- <div class="new-side-bar1">
+            <mat-nav-list>
+                <mat-list-item class="parent">
+                    <span class="full-width" *ngIf="isExpanded || isShowing">Modul Management</span>
+                    <mat-icon class="images-section" mat-list-icon><img src="assets/company(white).svg"></mat-icon>
+                </mat-list-item>
+
+                <mat-list-item class="parent">
+                    <span class="full-width" *ngIf="isExpanded || isShowing">Unternehmensmanagement</span>
+                    <mat-icon class="images-section" mat-list-icon><img src="assets/company(white).svg"></mat-icon>
+                </mat-list-item>
+            </mat-nav-list>
+        </div> -->
+    </mat-sidenav>
+    <button mat-icon-button class="left-arrow" *ngIf="!isExpanded" (click)="isExpanded = !isExpanded"><img
+            src="assets/left-arrow.png"></button>
+
+    <div class="example-sidenav-content">
+        <app-header></app-header>
+
+        <router-outlet></router-outlet>
+    </div>
+</mat-sidenav-container>

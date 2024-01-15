@@ -1,0 +1,182 @@
+<div class="modal fade" id="exampleModalCenter" tabIndex="{-1}" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div *ngIf="forgotPasswordFormShow">
+                <div class="modal-header modal-header-cefima">
+                    <div class="top-btn" style="
+              width: 10%;
+              margin: -13px 10px 0px 0px;
+              color: #999;
+              cursor: pointer;
+            ">
+                        <i class="fas fa-long-arrow-alt-left" (click)="setState()"></i>
+                    </div>
+                    <h5 class="modal-title modal-title-cefima" id="exampleModalLongTitle">
+                        <h4>Geben Sie Ihre registrierte E-Mail-Adresse ein</h4>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 0;     margin-top: -64px;
+            position: absolute;
+            right: 23px;
+            opacity: 0.99;" (click)="newfunction()">
+                        <span class="cross-span" aria-hidden="true" style="font-size: 50px;"> × </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="forgotPasswordForm" (ngSubmit)="next()">
+                        <div class="row modal-box">
+                            <div class="col-md-12">
+                                <div id="login-input">
+                                    <div class="form-group">
+                                        <label class="modal-title-label"> E-Mail </label>
+                                        <input class="form-control" placeholder="E-Mail" type="email"
+                                            formControlName="username" />
+                                        <small class="help-block text-danger"> </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <span *ngIf="loginSuccess" class="text-success">
+                                    {{ showsucc }}
+                                </span>
+
+                                <span *ngIf="loginPhoneError" class="text-danger">
+                                    {{ showErr1 }}
+                                </span>
+
+                                <div class="top-btn" style="width: 100%; margin-top: 7%">
+                                    <button type="submit" class="btn btn-primary side" id="logoin-btn">
+                                        Senden
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div *ngIf="!forgotPasswordFormShow">
+                <div class="modal-header modal-header-cefima"
+                    style="border-bottom: 0px solid #fff;padding-bottom: 0px !important;">
+                    <h5 class="modal-title modal-title-cefima" id="exampleModalLongTitle">
+                        Login <br />
+                        <span>Anmelden mit Ihrer CEFIMA ID</span>
+                        <p *ngIf="ppid" style="font-size: 15px;margin-top: 15px;line-height: 19px;">
+                            <i class="fa fa-info-circle" style="color: #184297;    font-size: 24px;
+             margin-top: 5px;"></i>
+                            <span style=" color: green;   margin-left: 3px;margin-right: 9px;
+             position: absolute;">Sie sind bereits registriert. Bitte melden Sie sich mit Ihren Zugangsdaten an.</span>
+                        </p>
+                    </h5>
+
+                    <button id="loginModalClose1" type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="padding: 0; margin-top: -135px;
+          position: absolute;
+          right: 23px;
+          opacity: 0.99;" *ngIf="ppid" (click)="newfunction()">
+                        <span class="cross-span" aria-hidden="true" style="font-size: 50px;"> × </span>
+                    </button>
+
+                    <button id="loginModalClose2" type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="padding: 0; margin-top: -60px;
+        position: absolute;
+        right: 23px;
+        opacity: 0.99;" *ngIf="ppid==undefined" (click)="newfunction()">
+                        <span class="cross-span" aria-hidden="true" style="font-size: 50px;"> × </span>
+                    </button>
+
+                </div>
+
+                <div class="modal-body mb-4" style="padding-top: 0px;">
+                    <form [formGroup]="loginForm" (ngSubmit)="login()">
+                        <div class="row modal-box">
+                            <div class="col-md-12">
+
+
+                                <div *ngIf="loginError" style="color: white;
+                  font-size: 14px;
+                  text-align: left;
+                  width: 100%!important;
+                  background: #ff000069;
+                  padding: 10px;
+                  border-radius: 6px;
+                  margin-bottom: 9px;">
+                                    <i class="fa fa-warning"
+                                        style="font-size: 35px;display: block;text-align: center;"></i>
+                                    {{ showErr1 }}
+                                </div>
+
+
+                                <div id="login-input">
+                                    <div class="form-group">
+                                        <label class="modal-title-label"> E-Mail </label>
+                                        <input class="form-control" placeholder="E-Mail" type="email"
+                                            formControlName="username" />
+                                        <div *ngIf="emailError" style="color: red">
+                                            <span>Please Enter Email Id</span>
+                                        </div>
+                                        <small class="help-block text-danger"> </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="login-input">
+                                    <div class="form-group">
+                                        <label class="modal-title-label"> Passwort </label>
+                                        <input class="form-control" [type]="showPassword ? 'text' : 'password'"
+                                            placeholder="Passwort" formControlName="password" />
+                                        <span class="field-icon">
+                                            <div *ngIf="showPassword">
+                                                <i (click)="HideAndShow()" class="fas fa-eye"
+                                                    style="cursor: pointer"></i>
+                                            </div>
+
+                                            <div *ngIf="!showPassword">
+                                                <i (click)="HideAndShow()" class="fas fa-eye-slash"
+                                                    style="cursor: pointer"></i>
+                                            </div>
+                                        </span>
+                                        <div *ngIf="passwordError" style="color: red">
+                                            <span>Please Enter Password</span>
+                                        </div>
+                                        <small class="help-block text-danger"> </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <!-- <span *ngIf="loginError" class="text-danger">
+                  {{ showErr1 }}
+                </span> -->
+
+
+                                <div class="col-md-12" style="padding: 0">
+                                    <div id="recaptcha" *ngIf="check_domain()">
+                                        <re-captcha class="g-recaptchanew" (resolved)="resolvedcefima($event)"
+                                            siteKey="6Ld7cTcaAAAAAHxx6whHNgf2OP4C8SYKqC4dRFy1"></re-captcha>
+
+                                        <div *ngIf="captchaError" style="color: red">
+                                            <span>reCaptcha validieren</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="top-btn" style="width: 100%; margin-top: 7%">
+                                    <button type="submit" class="btn btn-primary side transitionanimation"
+                                        id="logoin-btn">
+                                        Login
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div *ngIf="forgotLink" class="top-btn" style="width: 100%; margin-top: 15px">
+                                    <button type="button" class="btn btn-primary side" id="logoin-btn"
+                                        (click)="forgotPassword()">
+                                        Passwort vergessen?
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

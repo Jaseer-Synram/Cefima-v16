@@ -1,0 +1,636 @@
+<div class="loaderouter" id="loaderouterid">
+    <div class="loader"></div>
+</div>
+
+<div class="d-flex flex-column app-background">
+    <div class="d-flex flex-column">
+        <div class="d-flex ">
+            <div  class="d-flex flex-row flex-fill flex-wrap justify-content-center align-items-center" style="gap: 0px;">
+                <div class="col-md-12 p-0">
+                    <!-- <div class="table-section">
+                <div class="d-flex justify-content-end customer-search mt-3">
+                    <form action="" class="w-100">
+                        <div class="row" style="width: 530px">
+                            <div class="form-group col-md-8 position-relative">
+                                <mat-icon (click)="onSubmit()" class="position-absolute has-icon">search</mat-icon>
+                                <input class="form-control pl-5 mr-4" name="search"
+                                    placeholder="z.b. Benutzer ID, Name, E-Mail, Stadt" type="text" id="searchid"
+                                    (keyup)="onKey($event)" />
+                            </div>
+                            <div class="form-group col-md-4 p-0 position-relative">
+                                <div (click)="gotonewuser()" style="width: 127px; cursor: pointer">
+                                    <mat-card class="links"
+                                        style="width: max-content; height: 40px; background: #184397">
+                                        <img mat-card-image src="../assets/add_customerwhite.png"
+                                            style="height: -webkit-fill-available" />
+                                    </mat-card>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="total-cnt form-group col-md-3 text-right">
+                        Anzahl der Ergebnisse: {{ startRecord }} - {{ endRecord }} /
+                        {{ customerList.length }}
+                    </div>
+                </div>
+            </div> -->
+
+                    <div class="second-section">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-4 pr-1">
+                                    <mat-icon (click)="onSubmit()" style="position: absolute;
+                                    top: 30%;
+                                    left: 7%;color:#777777">search</mat-icon>
+                                    <input type="text" class="search myInput" name="search"
+                                        placeholder="z.b. Benutzer ID, Name, E-Mail, Stadt" type="text"
+                                        (keyup)="onKey($event)">
+                                </div>
+                                <!-- (keyup)="filterTable($event)" -->
+                                <!-- (click)="open_modal('addCountryModal')" -->
+                                <div class="col-sm-3 pl-1">
+                                    <button style="width:50%;border: none;" data-toggle="modal" data-target="#addCountryModal"
+                                        class="mat-raised-button button-primary botton-hover" (click)="gotonewuser()">
+                                        <img src="../assets/add_customerwhite.svg" style="width: 80%;margin-top: 10px;">
+                                    </button>
+                                </div>
+                                <div class="col-sm-5">
+                                    <span class="table-count">Anzahl der Ergebnisse: {{ startRecord }} - {{ endRecord }}
+                                        / {{ customerList.length }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-min-height">
+                        <div class="table-section">
+                            <div class="card assigments-list">
+                                <div class="card-body" id="cardbodyid">
+                                    <div class="accordion-main" id="accordion">
+                                        <div class="accordion-head">
+                                            <ul class="accordion-head-list list-unstyled d-flex">
+                                                <li class="customer-id font-weight-bold" style="width:10%">#</li>
+                                                <li class="customer-name font-weight-bold" style="width:20%">
+                                                    Name
+                                                    <i class="fas fa-sort-down" [appSort]="pagedItems" data-order="asc"
+                                                        data-name="firstname"></i>
+                                                </li>
+                                                <li class="customer-email font-weight-bold" style="width:20%">
+                                                    E-Mail
+                                                    <i class="fas fa-sort-down" [appSort]="pagedItems" data-order="asc"
+                                                        data-name="email"></i>
+                                                </li>
+                                                <li class="customer-roles font-weight-bold" style="width:10%">
+                                                    Rolle
+                                                    <i class="fas fa-sort-down" [appSort]="pagedItems" data-order="asc"
+                                                        data-name="roles"></i>
+                                                </li>
+                                                <li class="customer-number font-weight-bold" style="width:20%">
+                                                    Kunden-/ Benutzer Nr.
+                                                    <i class="fas fa-sort-down" [appSort]="pagedItems" data-order="asc"
+                                                        data-name="customerno"></i>
+                                                </li>
+                                                <li class="customer-action font-weight-bold" style="width:20%">
+                                                    Interaktionen</li>
+                                            </ul>
+                                        </div>
+                                        <hr />
+                                        <div class="accordion-list-main">
+                                            <div class="accordion-list-item"
+                                                *ngFor="let cl of pagedItems; let i = index">
+                                                <ul class="accordion-list-data list-unstyled d-flex align-items-center"
+                                                    id="ul{{ cl._id }}">
+                                                    <li class="customer-id" style="width:10%">{{ startRecord + i }}</li>
+                                                    <li class="customer-name" style="width:20%">
+                                                        <span *ngIf="cl.title == 'Firma'; else nofirma">{{
+                                                            cl.companyname
+                                                            }}</span>
+                                                        <ng-template #nofirma>
+                                                            <span> {{ cl.firstname }} {{ cl.lastname }}</span>
+                                                        </ng-template>
+                                                    </li>
+                                                    <li class="customer-email d-flex" style="width:20%">
+                                                        {{ cl.email }}
+                                                        <img src="./assets/phone_verified_120x120.png" class="mr-2 ml-2"
+                                                            *ngIf="cl.mobile_verify == '1'"
+                                                            style="width: 24px; height: 24px" />
+                                                        <img src="./assets/email_120x120.png" class="mr-2"
+                                                            *ngIf="cl.email_verify == '1'"
+                                                            style="width: 24px; height: 24px" />
+                                                    </li>
+                                                    <li class="customer-roles" style="width:10%">
+                                                        <!-- {{cl.roles}} -->
+                                                        <div *ngIf="cl.roles.length == 0">Benutzer</div>
+                                                        <span *ngFor="let role of cl.roles">
+                                                            <div *ngIf="role == 'employee'">Mitarbeiter</div>
+                                                            <div *ngIf="role == 'b2b'">B2B</div>
+                                                            <div *ngIf="role == 'customer'">Kunde</div>
+                                                            <div *ngIf="role == 'admin'">Admin</div>
+                                                            <div *ngIf="role == 'Benutzer'">Benutzer</div>
+                                                            <div *ngIf="role == ''">Benutzer</div>
+                                                            <div *ngIf="role == 'Superadmin'">Superadmin</div>
+                                                        </span>
+                                                    </li>
+                                                    <li class="customer-number" style="width:20%">{{ cl.customerno }}
+                                                    </li>
+                                                    <!--
+                                                            class="openclass offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1 b"
+                                                            -->
+                                                    <li class="customer-action mb-2" style="width:20%">
+                                                        <a class="btn btn-sm button-primary botton-hover mr-2"
+                                                            data-toggle="collapse"
+                                                            (click)="editRecord(cl._id, i + 1, cl)"
+                                                            id="click{{ cl._id }}">Öffnen</a>
+                                                        <a href="javascript:void(0)"
+                                                            class="btn btn-danger btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Status"
+                                                            (click)="statusCustomer(cl._id)" *ngIf="cl.status == '1'">
+                                                            Deaktivieren</a>
+                                                        <a style="
+                              color: white;
+                              cursor: not-allowed;
+                              text-decoration: underline;
+                              background-color: #28a7459e;
+                            " href="javascript:void(0)" class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Please Fill all information to activate this button"
+                                                            data-original-title="Status"
+                                                            *ngIf="cl.status == '0' && cl.email == ''">
+                                                            Aktivieren</a>
+
+                                                        <a href="javascript:void(0)"
+                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Status"
+                                                            (click)="statusCustomernew(cl._id)" *ngIf="
+                              cl.status == '0' &&
+                              cl.email != '' &&
+                              cl.email_verify == '0' &&
+                              cl.mobile_verify == '0' &&
+                              secondsSinceEpoch >= cl.activatetime
+                            ">
+                                                            Aktivieren</a>
+                                                        <a href="javascript:void(0)"
+                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Status"
+                                                            (click)="statusCustomer(cl._id)" *ngIf="
+                              cl.status == '0' &&
+                              cl.email != '' &&
+                              cl.email_verify == '1' &&
+                              cl.mobile_verify == '1'
+                            ">
+                                                            Aktivieren</a>
+
+                                                        <a href="javascript:void(0)"
+                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Status" *ngIf="
+                              cl.status == '0' &&
+                              cl.email != '' &&
+                              cl.email_verify == '0' &&
+                              cl.mobile_verify == '0' &&
+                              cl.activatetime >= secondsSinceEpoch
+                            ">
+                                                            Aktivieren Geschickt</a>
+
+                                                        <button *ngIf="
+                              cl.roles.includes('b2b') ||
+                              (cl.companies_with_roles &&
+                                cl.companies_with_roles.includes('cefima_customer'))
+                            " mat-icon-button [matMenuTriggerFor]="menu" (click)="saveCurrentSelectedUser(cl)"
+                                                            aria-label="Example icon-button with a menu" style="
+                              line-height: 30px !important;
+                              height: 30px !important;
+                            ">
+                                                            <mat-icon>menu</mat-icon>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <mat-menu #menu="matMenu">
+                                            <button *ngIf="selectedUser.roles.includes('customer')"
+                                                (click)="navigateWittcustomerID()" mat-menu-item>
+                                                <span>Kunden-Dashboard</span>
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+                                    <div class="d-flex justify-content-end pagination-main mt-3">
+                                        <ul *ngIf="customerList.length" class="pagination m-0 pagerAction">
+                                            <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
+                                                <a (click)="setPage(1)" class="page-link">
+                                                    << </a>
+                                            </li>
+                                            <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
+                                                <a (click)="setPage(pager.currentPage - 1)" class="page-link">
+                                                    < </a>
+                                            </li>
+                                            <li *ngFor="let page of pager.pages"
+                                                [ngClass]="{ active: pager.currentPage === page }" class="page-item">
+                                                <a (click)="setPage(page)" class="page-link">{{ page }}</a>
+                                            </li>
+                                            <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+                                                class="page-item">
+                                                <a (click)="setPage(pager.currentPage + 1)" class="page-link">>
+                                                </a>
+                                            </li>
+                                            <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+                                                class="page-item">
+                                                <a (click)="setPage(pager.totalPages)" class="page-link">
+                                                    >>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="collapse" class="collapse opened-list-item-collapse px-3 pb-2 pt-1 mb-2"
+                                    data-parent="#accordion">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div fxFlex></div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" id="openpreviewmodel" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop"
+    style="display: none;">
+    Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div id="staticBackdropParent">
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Sach</h5>
+                    <button type="button" style="border: none;width: 32px;background: transparent;"
+                        (click)="close_modal('staticBackdrop','staticBackdropParent')" data-dismiss="modal"
+                        aria-label="Close">
+                        <img width="100%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-table-section">
+                        <form [formGroup]="customerFormGroup" #f="ngForm" novalidate="">
+                            <div role="button" class="Persönliche-Informationen mb-3"
+                                (click)="opened_tab.personal_data = !opened_tab.personal_data">
+                                <span><img src="assets/PERSONLICHE.svg" /></span>
+                                <h2>Persönliche Daten</h2>
+                                <p>
+                                    <img src="assets/dwon.png" class="opened-arrow" *ngIf="opened_tab.personal_data" />
+                                    <img src="assets/dwon.png" class="closed-arrow" *ngIf="!opened_tab.personal_data" />
+                                </p>
+                            </div>
+                            <div [ngClass]="opened_tab.personal_data ? '' : 'd-none'">
+                                <div class="row">
+                                    <div *ngIf="customer && !b2b" class="form-group p-0 col-md-8 d-flex">
+                                        <mat-form-field class="example-full-width col-md-6" appearance="outline"
+                                            >
+                                            <mat-label>Geschäftszweig</mat-label>
+                                            <mat-select matNativeControl formControlName="statusbrand"
+                                                [disabled]="true">
+                                                <mat-option *ngFor="let clnew of roleCompaniesbrand['customer']"
+                                                    style="text-transform: capitalize" value="{{ clnew }}">{{ clnew
+                                                    }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="col-md-6" appearance="outline">
+                                            <mat-label>Status</mat-label>
+                                            <mat-select matNativeControl formControlName="status">
+                                                <mat-option value="Kunde (Interessent)">Kunde
+                                                    (Interessent)
+                                                </mat-option>
+                                                <mat-option value="Kunde">Kunde</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div *ngIf="!customer && b2b" class="form-group p-0 col-md-4">
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
+                                            >
+                                            <mat-label>Geschäftszweig</mat-label>
+                                            <mat-select matNativeControl formControlName="statusbrand">
+                                                <mat-option *ngFor="let clnew of roleCompaniesbrand['b2b']"
+                                                    style="text-transform: capitalize" value="{{ clnew }}">{{ clnew
+                                                    }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Status</mat-label>
+                                            <mat-select matNativeControl formControlName="status">
+                                                <mat-option value="B2B (Interessent)">B2B
+                                                    (Interessent)
+                                                </mat-option>
+                                                <mat-option value="B2B">B2B</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div *ngIf="customer && b2b" class="form-group p-0 col-md-4">
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
+                                            >
+                                            <mat-label>Geschäftszweig</mat-label>
+                                            <mat-select matNativeControl formControlName="statusbrand">
+                                                <mat-option *ngFor="let clnew of roleCompaniesbrandnew"
+                                                    style="text-transform: capitalize" value="{{ clnew }}">{{ clnew
+                                                    }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Status</mat-label>
+                                            <mat-select matNativeControl formControlName="status" [disabled]="true">
+                                                <mat-option value="Kunde (Interessent)/B2B (Interessent)">
+                                                    Kunde
+                                                    (Interessent)/B2B (Interessent)</mat-option>
+                                                <mat-option value="Kunde (Interessent)/B2B">
+                                                    Kunde
+                                                    (Interessent)/B2B
+                                                </mat-option>
+                                                <mat-option value="B2B (Interessent)/Kunde">B2B
+                                                    (Interessent)/Kunde
+                                                </mat-option>
+                                                <mat-option value="Kunde/B2B">Kunde/B2B
+                                                </mat-option>
+                                            </mat-select>
+                                            <input hidden="true" matInput formControlName="status"
+                                                placeholder="Firmenname" />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div *ngIf="employee" style="display: none" class="form-group col-md-4 p-0">
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
+                                            >
+                                            <mat-label>Geschäftszweig</mat-label>
+                                            <mat-select matNativeControl formControlName="employeebrand">
+                                                <mat-option *ngFor="let clnew of roleCompaniesbrand['employee']"
+                                                    style="text-transform: capitalize" value="{{ clnew }}">{{ clnew
+                                                    }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Mitarbeitertyp</mat-label>
+                                            <mat-select matNativeControl formControlName="employeetype">
+                                                <mat-option value="Abrechnung">Abrechnung
+                                                </mat-option>
+                                                <mat-option value="Funktionell">Funktionell
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    
+                                    <div class="form-group col-md-4 p-0" *ngIf="companyTitleShow">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Firmenname</mat-label>
+                                            <input (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" matInput
+                                                formControlName="companyname" placeholder="Firmenname" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Anrede</mat-label>
+                                            <mat-select matNativeControl formControlName="title"
+                                                style="font-size: 12px">
+                                                <mat-option value="Herr">Herr</mat-option>
+                                                <mat-option value="Frau">Frau</mat-option>
+                                                <mat-option value="Firma">Firma</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Vorname</mat-label>
+                                            <input matInput (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" formControlName="firstName"
+                                                placeholder="Vorname" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Nachname</mat-label>
+                                            <input matInput (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" formControlName="lastName"
+                                                placeholder="Nachname" />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>E-Mail</mat-label>
+                                            <input type="email" matInput (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" placeholder="E-Mail"
+                                                formControlName="email" />
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Geburtsdatum</mat-label>
+                                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                                placeholder="Geburtsdatum" (dateChange)="checkDataAndCreateUpdateData()"
+                                                formControlName="dob" />
+                                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker format="dd\MM\yyyy">
+                                            </mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Geburtsort</mat-label>
+                                            <input matInput placeholder="Geburtsort" formControlName="birthPlace"
+                                                (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" ngx-google-places-autocomplete
+                                                #placesRef="ngx-places" />
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline">
+                                            <mat-label>Nationalität</mat-label>
+                                            <input type="text" placeholder="Nationalität" aria-label="Number" matInput
+                                                [formControl]="myControl" (keyup)="patchnationalityValue($event)"
+                                                [matAutocomplete]="auto" />
+                                            <mat-autocomplete #auto="matAutocomplete">
+                                                <mat-option *ngFor="let employee of filteredOptions | async"
+                                                    [value]="employee">
+                                                    {{ employee }}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="button" class="Persönliche-Informationen mb-3"
+                                (click)="opened_tab.official_residence = !opened_tab.official_residence">
+                                <span><img src="assets/PERSONLICHE.svg" /></span>
+                                <h2>Offizieller Wohnsitz</h2>
+                                <p>
+                                    <img src="assets/dwon.png" class="opened-arrow"
+                                        *ngIf="opened_tab.official_residence" />
+                                    <img src="assets/dwon.png" class="closed-arrow"
+                                        *ngIf="!opened_tab.official_residence" />
+                                </p>
+                            </div>
+                            <div [ngClass]="opened_tab.official_residence ? '' : 'd-none'">
+                                <div class="row">
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Straße</mat-label>
+                                            <input matInput placeholder="Straße"
+                                                (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" formControlName="street"
+                                                ngx-google-places-autocomplete #placesRef="ngx-places"
+                                                (onAddressChange)="handleAllFields($event)" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Nr.</mat-label>
+                                            <input matInput placeholder="Nr." (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()"
+                                                formControlName="streetNumber" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>PLZ</mat-label>
+                                            <input matInput placeholder="PLZ" (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" formControlName="postCode" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Stadt</mat-label>
+                                            <input matInput placeholder="Stadt" formControlName="city"
+                                                (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>C/O Appartmentnummer, Türcode, usw.
+                                            </mat-label>
+                                            <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                                                (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()"
+                                                formControlName="additionalReference" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Land des Wohnsitzes</mat-label>
+                                            <input matInput placeholder="Land des Wohnsitzes"
+                                                formControlName="countryOfResidence"
+                                                (keyup)="checkDataAndCreateUpdateData()"
+                                                (blur)="checkDataAndCreateUpdateData()" ngx-google-places-autocomplete
+                                                #placesRef="ngx-places" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="button" class="Persönliche-Informationen mb-3"
+                                (click)="opened_tab.more_info = !opened_tab.more_info">
+                                <span><img src="assets/PERSONLICHE.svg" /></span>
+                                <h2>Mehr Info</h2>
+                                <p>
+                                    <img src="assets/dwon.png" class="opened-arrow" *ngIf="opened_tab.more_info" />
+                                    <img src="assets/dwon.png" class="closed-arrow" *ngIf="!opened_tab.more_info" />
+                                </p>
+                            </div>
+                            <div [ngClass]="opened_tab.more_info ? '' : 'd-none'">
+                                <div class="row">
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Telefonnummer</mat-label>
+                                            <input matInput id="phone" name="phone_number"
+                                                formControlName="phone_number" class="test" placeholder="Telefonnummer"
+                                                type="tel" (keyup)="checkDataAndCreateUpdateData()"
+                                                oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0">
+                                        <mat-form-field class="col-md-12" appearance="outline">
+                                            <mat-label>Benutzer Nr.</mat-label>
+                                            <input type="text" name="customerno" formControlName="customerno" matInput
+                                                placeholder="CustomerNo" value="{{ customerNo }}" readonly="readonly"
+                                                style="height: 19px" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0" *ngIf="customer">
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
+                                            >
+                                            <mat-label>Geschäftszweig</mat-label>
+                                            <mat-select matNativeControl formControlName="brokerbrand"
+                                                (selectionChange)="changebrandbroker($event)">
+                                                <mat-option *ngFor="let clnew of roleCompaniesbrand['customer']"
+                                                    style="text-transform: capitalize" value="{{ clnew }}">{{ clnew
+                                                    }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-4 p-0" *ngIf="customer">
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline">
+                                            <mat-label>Verknüpftes Konto</mat-label>
+
+                                            <input type="text" placeholder="Verknüpftes Konto" matInput
+                                                [formControl]="brokerFormControl" [matAutocomplete]="broker1" />
+                                            <mat-autocomplete #broker1="matAutocomplete" [displayWith]="brokerDisplayFn"
+                                                (optionSelected)="patchBrokerValue($event)">
+                                                <mat-option *ngFor="let option of brokerListOptions | async"
+                                                    [value]="option">
+                                                    {{ option.name }}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="alert alert-success d-flex py-2 " role="alert" *ngIf="registerDone">
+                                    <p style="text-align-last: center;margin: 0px;font-size: 14px;">
+                                        Benutzer erfolgreich aktualisiert
+                                    </p>
+                                </div>
+                                <div class="alert alert-danger d-flex py-2" role="alert" *ngIf="registraionError">
+                                    <p style="text-align-last: center;margin: 0px;font-size: 14px;">
+                                        Benutzerdetails konnten nicht aktualisiert werden. Bitte
+                                        versuchen Sie es später noch einmal.
+                                    </p>
+                                </div>
+
+                                <button [disabled]="disableEditSubmit" class="btn button-primary botton-hover"
+                                    type="button" (click)="checkDataAndCreateUpdateData(true)">
+                                    <i class="ft-x"></i> Änderungen Speichern
+                                </button>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button [disabled]="disableEditSubmit" class="btn button-primary botton-hover mr-3" type="button"
+                        (click)="checkDataAndCreateUpdateData(true)">
+                        <i class="ft-x"></i> Änderungen Speichern
+                    </button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,595 @@
+<div class="p-0 w-100">
+  <div
+    class="
+      w-100
+      mb-2
+      d-flex
+      flex-row
+      justify-content-between
+      align-items-center
+    "
+    style="background-color: #1b4599; border-radius: 15px"
+  >
+    <div
+      class="d-flex flex-column justify-content-start icon-div"
+      *ngIf="modalView == 'maximized'"
+    >
+      <p class="m-0 font-weight-bold">
+        Vorgangs Nr.:
+        <span class="font-weight-normal"
+          >{{ data.chat_data.user.Activity_No }}
+        </span>
+      </p>
+      <p class="m-0 font-weight-bold">
+        Vorgangs Name:
+        <span class="font-weight-normal">
+          {{ data.chat_data.user.Transaction_Type }}</span
+        >
+      </p>
+      <p class="m-0 font-weight-bold" *ngIf="roomId">
+        Konferenz-ID:
+        <span class="font-weight-normal"> {{ roomId }}</span>
+      </p>
+    </div>
+
+    <div class="d-flex flex-row justify-content-center align-items-center">
+      <!-- <div style="background-color: #1b4599"> -->
+      <!-- <app-notification
+          *ngIf="modalView == 'maximized'"
+          (notidata)="getnotidata($event)"
+        ></app-notification> -->
+      <!-- </div> -->
+
+      <!-- <button
+          *ngIf="modalView == 'maximized'"
+          mat-mini-fab
+          color="primary"
+          class="m-2"
+        >
+          <mat-icon>mark_chat_unread</mat-icon>
+        </button> -->
+
+      <button
+        *ngIf="modalView == 'maximized'"
+        mat-mini-fab
+        style="background-color: lightgray; color: black"
+        (click)="onMinimize()"
+      >
+        <mat-icon>close_fullscreen</mat-icon>
+      </button>
+
+      <button
+        *ngIf="modalView == 'maximized'"
+        mat-mini-fab
+        color="warn"
+        class="m-2"
+        mat-dialog-close
+        (click)="destroyPeer()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <button
+        *ngIf="modalView == 'minimized'"
+        mat-mini-fab
+        style="background-color: lightgray; color: black"
+        (click)="onMaximize()"
+      >
+        <mat-icon>open_in_full</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div
+    class="row p-0 main-video-div"
+    [ngStyle]="{
+      'min-height': modalView == 'maximized' ? 'calc(100vh - 130px)' : '250px'
+    }"
+  >
+    <div class="col-12 p-0">
+      <div
+        class="col-3 chat-box p-0 position-absolute end-0 bg-white"
+        *ngIf="modalView == 'maximized' && isChatActive"
+        style="z-index: 99"
+      >
+        <div
+          class="overflow-auto"
+          style="height: 420px"
+          #scrollMe
+          [scrollTop]="scrollMe.scrollHeight"
+        >
+          <div
+            *ngFor="let message of messagelist"
+            style="margin-bottom: 5px"
+            [className]="
+              currentUser == message.mid
+                ? 'd-flex flex-row justify-content-end mr-1'
+                : 'd-flex flex-row justify-content-start ml-1'
+            "
+          >
+            <div
+              [ngClass]="
+                currentUser == message.mid
+                  ? 'message-div-right'
+                  : 'message-div-left'
+              "
+            >
+              <p class="m-0">{{ message.message }}</p>
+              <p class="text-right small m-0 font-weight-light font-italic">
+                <ng-container
+                  *ngIf="
+                    message.userinfo &&
+                    message.userinfo.length > 0 &&
+                    message.userinfo[0].firstname
+                  "
+                >
+                  {{ message.userinfo[0].firstname }}
+                  {{ message.userinfo[0].lastname }}
+                </ng-container>
+                {{ message.createdAt | date: "dd-MM-yyyy H:mm" }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mt-2">
+          <div
+            class="
+              w-100
+              d-flex
+              flex-row
+              justify-content-center
+              align-items-center
+            "
+          >
+            <mat-form-field
+              appearance="outline"
+              class="w-100 ml-1 mr-1 remove_bottom_margin"
+            >
+              <mat-label>Nachricht schreiben</mat-label>
+              <input
+                id="inputmessage1"
+                type="text"
+                matInput
+                placeholder="Nachricht schreiben..."
+                (keyup.enter)="sendmessage()"
+              />
+            </mat-form-field>
+            <button
+              [ngStyle]="{
+                'background-color': checkmessage() ? 'gray' : '#19449b'
+              }"
+              class="fa fa-paper-plane p-3 send-icon"
+              [disabled]="checkmessage()"
+              (click)="sendmessage()"
+            ></button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+          position-absolute
+          bg-light
+          p-3
+        "
+        *ngIf="modalView == 'maximized' && infoMode"
+      >
+        <div *ngFor="let video of videos">
+          <p class="m-0 font-weight-bold">
+            Name :
+            <span class="font-weight-normal">{{ video.name }}</span>
+          </p>
+          <p class="m-0 font-weight-bold">
+            Customer No.:
+            <span class="font-weight-normal">{{ video.customerNo }}</span>
+          </p>
+          <hr />
+        </div>
+      </div>
+      <div
+        class="
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+          position-absolute
+          bg-light
+          p-3
+        "
+        *ngIf="modalView == 'maximized' && settingMode"
+      >
+        <div>
+          <h4>Video Eingang</h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Wähle eine Option</mat-label>
+            <mat-select (change)="videoInputChange($event)">
+              <mat-option
+                *ngFor="let device of videoInput"
+                [value]="device.value"
+                >{{ device.label }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <h4>Audio Eingang</h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Wähle eine Option</mat-label>
+            <mat-select (change)="audioInputChange($event)">
+              <mat-option
+                *ngFor="let device of audioInput"
+                [value]="device.value"
+                >{{ device.label }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <button
+        mat-mini-fab
+        color="primary"
+        class="m-3 position-absolute bottom-0"
+        (click)="settingMode = !settingMode"
+        style="z-index: 10"
+        [hidden]="!isCallStarted"
+        *ngIf="modalView == 'maximized'"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+      <div
+        class="
+          d-flex
+          flex-row
+          justify-content-center
+          align-items-center
+          flex-wrap
+          position-absolute
+          w-100
+          bottom-0
+        "
+        style="z-index: 5"
+        *ngIf="modalView == 'maximized'"
+      >
+        <button
+          mat-fab
+          color="primary"
+          class="m-3"
+          (click)="startCall()"
+          [hidden]="isCallStarted"
+        >
+          <mat-icon>video_call</mat-icon>
+          <!-- Anruf starten -->
+        </button>
+        <button
+          mat-fab
+          class="m-3"
+          (click)="showModal(true)"
+          [hidden]="isCallStarted"
+        >
+          <mat-icon>missed_video_call</mat-icon>
+          <!-- Anruf beitreten -->
+        </button>
+        <button
+          mat-fab
+          color="warn"
+          class="m-3"
+          (click)="destroyPeer()"
+          [hidden]="!isCallStarted"
+        >
+          <mat-icon>call_end</mat-icon>
+          <!-- Anruf beenden -->
+        </button>
+        <button
+          mat-fab
+          color="primary"
+          class="m-3"
+          (click)="startScreenShare()"
+          [hidden]="!isCallStarted"
+          *ngIf="!isScreenShare"
+        >
+          <mat-icon>screen_share</mat-icon>
+          <!-- Bildschirm teilen -->
+        </button>
+        <button
+          mat-fab
+          color="warn"
+          class="m-3"
+          (click)="stopScreenShare()"
+          [hidden]="!isCallStarted"
+          *ngIf="isScreenShare"
+        >
+          <mat-icon>stop_screen_share</mat-icon>
+          <!-- Bildschirmfreigabe beenden -->
+        </button>
+        <button
+          mat-fab
+          color="primary"
+          (click)="videoStatus()"
+          class="m-3"
+          [hidden]="!isCallStarted"
+          *ngIf="isVideo"
+        >
+          <mat-icon>videocam</mat-icon>
+          <!-- Video aktivieren/deaktivieren -->
+        </button>
+        <button
+          mat-fab
+          color="warn"
+          (click)="videoStatus()"
+          class="m-3"
+          [hidden]="!isCallStarted"
+          *ngIf="!isVideo"
+        >
+          <mat-icon>videocam_off</mat-icon>
+          <!-- Video aktivieren/deaktivieren -->
+        </button>
+        <button
+          mat-fab
+          color="primary"
+          (click)="audioStatus()"
+          class="m-3"
+          [hidden]="!isCallStarted"
+          *ngIf="isAudio"
+        >
+          <mat-icon>mic</mat-icon>
+          <!-- Audio aktivieren/deaktivieren -->
+        </button>
+        <button
+          mat-fab
+          color="warn"
+          (click)="audioStatus()"
+          class="m-3"
+          [hidden]="!isCallStarted"
+          *ngIf="!isAudio"
+        >
+          <mat-icon>mic_off</mat-icon>
+          <!-- Audio aktivieren/deaktivieren -->
+        </button>
+        <button
+          mat-fab
+          color="primary"
+          class="m-3"
+          (click)="onChatClick()"
+          [hidden]="!isCallStarted"
+          *ngIf="!isChatActive"
+        >
+          <mat-icon>chat</mat-icon>
+          <!-- Plaudern -->
+        </button>
+        <button
+          mat-fab
+          color="warn"
+          class="m-3"
+          (click)="onChatClick()"
+          [hidden]="!isCallStarted"
+          *ngIf="isChatActive"
+        >
+          <mat-icon>speaker_notes_off</mat-icon>
+          <!-- Plaudern -->
+        </button>
+      </div>
+      <button
+        mat-mini-fab
+        color="primary"
+        class="m-3 position-absolute bottom-0 end-0"
+        (click)="infoMode = !infoMode"
+        style="z-index: 10"
+        [hidden]="!isCallStarted"
+        *ngIf="modalView == 'maximized'"
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+      <div
+        id="video-wrapper"
+        class="
+          d-flex
+          flex-row
+          justify-content-center
+          align-items-center
+          flex-wrap
+        "
+        [ngStyle]="{
+          'min-height': modalView == 'maximized' ? '100%' : '250px'
+        }"
+        cdkDrag
+      >
+        <video
+          *ngFor="let video of videos"
+          id="remote-video"
+          autoplay
+          playsinline
+          [srcObject]="video.srcObject"
+          (loadedmetadata)="onLoadedMetadata($event)"
+          [muted]="video.muted"
+          style="
+            margin: 20px;
+            max-height: 100%;
+            max-width: 100%;
+            display: inline-flex;
+          "
+          controls
+        ></video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="col-3 chat-box p-0 position-absolute end-0" *ngIf="isChatActive">
+        <div class="overflow-auto" style="height: 420px">
+          <div
+            *ngFor="let message of messagelist"
+            style="margin-bottom: 5px"
+            [className]="
+              currentUser == message.mid
+                ? 'd-flex flex-row justify-content-end mr-1'
+                : 'd-flex flex-row justify-content-start ml-1'
+            "
+          >
+            <div
+              [ngClass]="
+                currentUser == message.mid
+                  ? 'message-div-right'
+                  : 'message-div-left'
+              "
+            >
+              <p class="m-0">{{ message.message }}</p>
+              <p class="text-right small m-0 font-weight-light font-italic">
+                <ng-container
+                  *ngIf="
+                    message.userinfo &&
+                    message.userinfo.length > 0 &&
+                    message.userinfo[0].firstname
+                  "
+                >
+                  {{ message.userinfo[0].firstname }}
+                  {{ message.userinfo[0].lastname }}
+                </ng-container>
+                {{ message.createdAt | date : "dd-MM-yyyy H:mm" }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mt-2">
+          <div
+            class="w-100 d-flex flex-row justify-content-center align-items-center"
+          >
+            <mat-form-field
+              appearance="outline"
+              class="w-100 ml-1 mr-1 remove_bottom_margin"
+            >
+              <mat-label>Nachricht schreiben</mat-label>
+              <input
+                id="inputmessage1"
+                type="text"
+                matInput
+                placeholder="Nachricht schreiben..."
+              />
+            </mat-form-field>
+            <button
+              [ngStyle]="{
+                'background-color': checkmessage() ? 'gray' : '#19449b'
+              }"
+              class="fa fa-paper-plane p-3 send-icon"
+              [disabled]="checkmessage()"
+              (click)="sendmessage()"
+            ></button>
+          </div>
+        </div>
+      </div> -->
+
+<!-- <div class="row" *ngIf="modalView == 'maximized'"> -->
+<!-- <div
+        class="d-flex flex-row justify-content-center align-items-center flex-wrap col-12"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          class="m-3"
+          (click)="startCall()"
+          [hidden]="isCallStarted"
+        >
+          <mat-icon>video_call</mat-icon>
+          Anruf starten
+        </button>
+        <button
+          mat-raised-button
+          class="m-3"
+          (click)="showModal(true)"
+          [hidden]="isCallStarted"
+        >
+          <mat-icon>missed_video_call</mat-icon>
+          Anruf beitreten
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="m-3"
+          (click)="destroyPeer()"
+          [hidden]="!isCallStarted"
+        >
+          <mat-icon>call_end</mat-icon>
+          Anruf beenden
+        </button>
+        <button
+          mat-raised-button
+          color="success"
+          class="m-3"
+          (click)="startScreenShare()"
+          [hidden]="!isCallStarted"
+        >
+          <mat-icon>screen_share</mat-icon>
+          Bildschirm teilen
+        </button>
+        <button
+          mat-raised-button
+          color="danger"
+          class="m-3"
+          (click)="stopScreenShare()"
+          [hidden]="!isCallStarted"
+        >
+          <mat-icon>stop_screen_share</mat-icon>
+          Bildschirmfreigabe beenden
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="videoStatus()"
+          class="m-3"
+          [hidden]="!isCallStarted"
+        >
+          <mat-icon>videocam_off</mat-icon>
+          Video aktivieren/deaktivieren
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="audioStatus()"
+          class="m-3"
+          [hidden]="!isCallStarted"
+        >
+          <mat-icon>mic_off</mat-icon>
+          Audio aktivieren/deaktivieren
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="m-3"
+          (click)="onChatClick()"
+        >
+          <mat-icon>chat</mat-icon>
+          chat
+        </button>
+      </div> -->
+<!-- <div
+        class="col-3 d-flex flex-column justify-content-center align-items-center"
+      >
+        <div>
+          <h4>Video Eingang</h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Wähle eine Option</mat-label>
+            <mat-select (change)="videoInputChange($event)">
+              <mat-option
+                *ngFor="let device of videoInput"
+                [value]="device.value"
+                >{{ device.label }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <h4>Audio Eingang</h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Wähle eine Option</mat-label>
+            <mat-select (change)="audioInputChange($event)">
+              <mat-option
+                *ngFor="let device of audioInput"
+                [value]="device.value"
+                >{{ device.label }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div> -->
+<!-- </div> -->

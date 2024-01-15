@@ -1,0 +1,557 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '../node_modules/@angular/material' as mat;
+// @import url(~fullpage.js/dist/fullpage.min.css);
+
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Frontend-primary: mat.define-palette(mat.$blue-palette, 900);
+$Frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$Frontend-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$Frontend-theme: mat.define-light-theme((color:(primary:$Frontend-primary,
+        accent:$Frontend-accent,
+        warn:$Frontend-warn )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include  mat.all-component-themes($Frontend-theme);
+// @include mat.core-theme($Frontend-theme);
+
+@media only screen and (max-width:540px) {
+  .cdk-overlay-pane {
+    overflow-y: scroll;
+  }
+}
+
+#formdiv .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #fff !important;
+}
+
+#formdiv .mat-radio-inner-circle {
+  background: white !important;
+}
+
+#formdiv .mat-radio-outer-circle {
+  border-color: #fff !important;
+}
+
+#formdiv .showredborder .mat-radio-outer-circle {
+  border-color: red !important;
+}
+
+#formdiv .showwhiteborder .mat-radio-outer-circle {
+  border-color: #fff !important;
+}
+
+#familyForm .showredborder .mat-radio-outer-circle {
+  border-color: red !important;
+}
+
+#familyForm .showwhiteborder .mat-radio-outer-circle {
+  border-color: black !important;
+}
+
+#formdiv .mat-radio-label-content {
+  color: white;
+}
+
+#formdiv .mat-radio-label-content {
+  color: white;
+}
+
+
+#formdiv .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #fff;
+}
+
+#formdiv label {
+  color: white;
+}
+
+#formdiv input {
+  color: #fff;
+  background: unset !important;
+  font-weight: 500;
+}
+
+#formdiv .mat-step-header .mat-step-icon {
+  background-color: #7a9dcc;
+  color: #000;
+}
+
+#formdiv .mat-step-header .mat-step-icon-state-edit {
+  background-color: green;
+  color: #000;
+}
+
+#formdiv .mat-stepper-horizontal-line.ng-tns-c5-0.ng-star-inserted {
+  border-top-color: #fff;
+}
+
+#formdiv .loginform mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color {
+  color: white;
+}
+
+#formdiv .mat-stepper-horizontal-line {
+  border-top-color: #fff;
+}
+
+#formdiv .mat-step-header .mat-step-label.mat-step-label-active {
+  color: #fff;
+}
+
+#formdiv .mat-step-header[aria-selected="true"] {
+  background-color: #365aa3;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+#formdiv .mat-step-header .mat-step-label,
+.mat-step-header .mat-step-optional {
+  color: #ffffff75;
+}
+
+
+
+#formdiv ::placeholder {
+  color: #ffffff75 !important;
+  opacity: 1;
+  /* Firefox */
+}
+
+#formdiv :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #ffffff75 !important;
+}
+
+#formdiv ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #ffffff75 !important;
+}
+
+#formdiv .mat-input-element {
+  caret-color: white;
+}
+
+
+#fp-nav {
+  z-index: 0 !important;
+}
+
+#footersectionnew .fp-tableCell {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+
+
+
+
+
+/* howitwork */
+
+
+.imgsized img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+}
+
+.howit .owl-theme .owl-dots .owl-dot {
+  margin: 17px 0px 36px;
+}
+
+.howit .owl-theme .owl-dots .owl-dot span {
+  width: 102px;
+  height: 0;
+  margin: 5px 0px;
+  background: unset;
+  display: block;
+  // -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+  transition: all 0.2s ease !important;
+  border-radius: 0;
+  text-align: center;
+  line-height: 0;
+  font-size: 13px;
+  padding: 15px 0px 20px;
+  border-bottom: 2px solid #bdbdbd;
+}
+
+// .howit .owl-theme .owl-dots .owl-dot.active span,
+// .howit .owl-theme .owl-dots .owl-dot:hover span {
+//   background: #869791;
+// }
+
+
+
+
+.howit .owl-carousel .owl-nav div.owl-prev,
+.howit .owl-carousel .owl-nav div.owl-next {
+  outline: 0;
+  background: unset;
+  color: black;
+}
+
+
+.howit .owl-carousel .owl-nav div.owl-prev img,
+.howit .owl-carousel .owl-nav div.owl-next img {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.howit .owl-carousel .owl-nav div.owl-prev i,
+.howit .owl-carousel .owl-nav div.owl-next i {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.howit .owl-theme .owl-nav [class*=owl-] {
+  color: #FFF;
+  font-size: unset;
+  margin: 5px;
+  padding: 0;
+  background: unset;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 0px;
+}
+
+.howit .owl-theme .owl-nav [class*='owl-']:hover {
+  background: #060606;
+  color: #FFF;
+  text-decoration: none;
+  border-radius: 50%;
+  padding: 0;
+
+
+}
+
+.howit .owl-theme .owl-nav {
+
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+  position: absolute;
+  right: 0;
+  margin-top: 63px;
+}
+
+
+/*-----------------*/
+
+
+
+
+
+
+.howit .owl-theme .owl-dots,
+.owl-theme .owl-nav {
+  text-align: left;
+}
+
+.howit .textstyle {
+  position: absolute;
+  margin: 75px 0px 0px 8px;
+}
+
+
+.howit .owl-theme .owl-item.active .item .textstyle h3 {
+  /* animation: 1s .1s fadeInUp both;*/
+
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: fadeInUp;
+  animation-delay: 2s;
+
+}
+
+.howit {
+  overflow: hidden;
+  margin-bottom: 3px;
+  padding-bottom: 30px;
+}
+
+.howit .owl-carousel .owl-stage-outer {
+  overflow: visible;
+}
+
+
+
+
+
+.howit .owl-theme .owl-dots .owl-dot.active span {
+  outline: none;
+  border-bottom: 2px solid #464646;
+  transition: all ease-in-out .2s;
+}
+
+.howit .owl-theme .owl-item.active .textstyle h3 {
+  /* animation: 1s .1s fadeInUp both; */
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: fadeInUp;
+  animation-delay: 2s;
+}
+
+
+
+/*end howitwork */
+.disablesidebutton {
+  background-color: #888 !important;
+  color: white;
+  border-radius: 20px;
+  text-align: center;
+  margin: 10px;
+  transform: scale(0.9);
+}
+
+
+#secondtabnew .nav.nav-tabs {
+  margin-top: 8px !important;
+}
+
+
+.pac-container {
+  z-index: 1060 !important;
+
+}
+
+#familymenber .mat-radio-button {
+  margin-right: 10px;
+}
+
+#familymenber1 .mat-radio-button {
+  margin-right: 10px;
+}
+
+.radiobuttonClass .mat-radio-button {
+  margin-right: 10px;
+}
+
+// ::ng-deep .mat-step-header[aria-selected="true"]  {
+//   background-color: #00A9CE;;
+//   border-radius: 32px;
+//   width: 100%;
+//   font-weight: 10px;
+
+//   & div.mat-step-label.mat-step-label-active.mat-step-label-selected {
+//       color: #FFF;
+//   }
+// }
+#customerdashboard .mat-step-header .mat-step-icon-state-edit {
+  background-color: green;
+  color: white;
+}
+
+#customerdashboard .mat-step-header[aria-selected="true"] {
+  background-color: #b7b7b7;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+#customerregisteration .mat-step-header .mat-step-icon-state-edit {
+  background-color: #d1ecfe;
+  border: 1px solid;
+  border-color: #b0daf9;
+  color: #049FE5;
+}
+
+// #customerregisteration .mat-step-header .mat-step-icon-state-edit {
+//   background-color: #daf0ff;
+//   border: 1px solid;
+//   border-color: #b0daf9;
+//   color: #049FE5;
+// }  
+
+
+
+#updateprofilestepper .mat-step-header .mat-step-icon-state-edit {
+  background-color: transparent;
+  color: white;
+}
+
+#updateprofilestepper .mat-step-header[aria-selected="true"] {
+  background-image: linear-gradient(to right, #154FA3, #049FE5);
+  border-radius: 5px;
+  margin: 10px;
+}
+
+
+
+.iconmove {
+  transition: box-shadow 280ms;
+  position: relative;
+  top: 2px;
+  font-size: 19px;
+}
+
+.iconmove:hover {
+  transform: scale(1.2);
+}
+
+.iconmove1:hover {
+  transform: scale(1.2);
+}
+
+@mixin styleStepLine($index) {
+  .mat-horizontal-stepper-header {
+    &+.mat-stepper-horizontal-line:nth-child(#{$index}) {
+      height: 2px !important;
+      background-image: linear-gradient(to right, #154FA3, #049FE5) !important;
+      content: "\f105" !important;
+      font: normal bolder normal 22px/1 FontAwesome !important;
+
+      &:before {
+        position: relative !important;
+        left: 98% !important;
+        top: -11px;
+        color: #049FE5 !important;
+        font-weight: bolder !important;
+      }
+
+      // position: relative !important;
+      // color: #049FE5 !important;
+      border: none !important;
+    }
+  }
+}
+
+
+@mixin styleEditedStepIcon($index) {
+  .mat-horizontal-stepper-header:nth-child(#{$index}) {
+    .mat-step-icon:not(.mat-step-icon-selected) {
+      background-color: red;
+    }
+  }
+}
+
+@mixin styleUnEditedStepIcon($index) {
+  .mat-horizontal-stepper-header:nth-child(#{$index}) {
+    .mat-step-icon:not(.mat-step-icon-selected) {
+      background-color: #e8e8e8;
+    }
+  }
+}
+
+.last-edited-step-1 {
+  @include styleStepLine(2);
+}
+
+.last-edited-step-2 {
+  @include styleStepLine(2);
+  @include styleStepLine(4);
+}
+
+.last-edited-step-3 {
+  @include styleStepLine(2);
+  @include styleStepLine(4);
+  @include styleStepLine(6);
+}
+
+.last-edited-step-4 {
+  @include styleStepLine(2);
+  @include styleStepLine(4);
+  @include styleStepLine(6);
+  @include styleStepLine(8);
+}
+
+.last-edited-step-5 {
+  @include styleStepLine(2);
+  @include styleStepLine(4);
+  @include styleStepLine(6);
+  @include styleStepLine(8);
+  @include styleStepLine(10);
+}
+
+
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::before,
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::after,
+[dir=rtl] .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::after,
+[dir=rtl] .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::before {
+  width: 0 !important;
+}
+
+.mat-step-header .mat-step-header-ripple {
+  display: none;
+}
+
+#customerregisteration .mat-step-header.cdk-keyboard-focused,
+.mat-step-header.cdk-program-focused,
+.mat-step-header:hover {
+  background-color: #fff;
+}
+
+#customerregisteration .mat-stepper-label-position-bottom .mat-horizontal-stepper-header {
+  padding: 8px 0 8px 0 !important;
+  width: 35px !important;
+}
+
+#customerregisteration .mat-stepper-label-position-bottom .mat-stepper-horizontal-line {
+  top: 20px !important;
+}
+
+
+#customerregisteration .mat-horizontal-stepper-header .mat-step-icon-selected {
+  background: linear-gradient(to right, #154FA3, #049FE5) !important;
+  border: none !important;
+}
+
+
+#customerregisteration .mat-horizontal-stepper-header :not(.mat-step-icon-selected).mat-step-icon {
+  background: transparent;
+  color: #a2a2a2;
+  border: 1px solid #a2a2a2;
+}
+
+
+#customerregisteration .mat-step-header .mat-step-label:not(.mat-step-label-active) {
+  display: none;
+}
+
+
+#QAStepper .mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background: #d1ecfe !important;
+  border: 1px solid !important;
+  border-color: #b0daf9 !important;
+  color: #049FE5 !important;
+}
+
+#QAStepper .mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-horizontal-stepper-header .mat-step-icon-selected {
+  background: linear-gradient(to right, #154FA3, #049FE5) !important;
+  border: none !important;
+}
+
+.removewrapper.mat-mdc-form-field-subscript-wrapper {
+  height: 0px !important;
+  display: none !important;
+}

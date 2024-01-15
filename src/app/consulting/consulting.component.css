@@ -1,0 +1,379 @@
+.nextBtn {
+    background-color: #184397 !important;
+  }
+  
+  #triangle {
+    background: #228c22;
+    /* width: 0px; */
+    /* height: 25px; */
+    border-left: 30px solid #355e3b;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-top: 31px solid transparent;
+  }
+  
+  #triangle1 {
+    /* width: 0px; */
+    /* height: 25px; */
+    border-left: 30px solid #228c22;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-top: 31px solid transparent;
+  }
+  
+  #triangle2 {
+    background: transparent;
+    /* width: 0px; */
+    /* height: 25px; */
+    border-left: 30px solid #32cd32;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-top: 31px solid transparent;
+  }
+  
+  .gradient {
+    background: linear-gradient(#17459b, #02a9ed);
+    box-shadow: 0 8px 6px -6px #888888;
+    /* background: linear-gradient(90deg, #17459b 0%, #02a9ed 98.37%) !important; */
+  }
+  
+  /* ::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled,
+    ::ng-deep .mat-form-field-outline {
+      opacity: 0;
+    } */
+  
+  
+  :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    /* color: #17459b !important; */
+    color: transparent !important;
+  }
+
+  .hover-grow:hover {
+    transform: scale(1.1);
+  }
+  
+  
+  :host ::ng-deep.mat-mdc-form-field-subscript-wrapper {
+    height: 0px;
+    display: none !important;
+  }
+  
+  :host ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    /* color: #17459b !important; */
+    color: transparent !important;
+  }
+  
+  /* ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+      color: transparent !important;
+    } */
+  
+  /* .input-border-gradient .mat-form-field-appearance-outline { */
+  /* border: 20px solid; */
+  /* border-radius: 10px; */
+  /* border-image-slice: 1; */
+  /* border-style: solid; */
+  /* border-width: 5px; */
+  /* border-image-source: linear-gradient(#17459b, #02a9ed); */
+  /* border: none;
+      outline: none;
+      border-image-source: none; */
+  /* } */
+  
+  .primary-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 15px 8px 15px;
+  }
+  
+  .mat-option:hover {
+    background: linear-gradient(#17459b, #02a9ed);
+    color: white;
+  }
+  
+  .mat-option.mat-selected:hover {
+    background: linear-gradient(#17459b, #02a9ed);
+    color: white;
+  }
+  
+  .list-box {
+    background-color: rgba(60, 158, 214, 0.2);
+    border-radius: 0 0 6px 6px;
+    position: relative;
+    top: -6px;
+  }
+  
+  /* ::ng-deep .mat-step-header .mat-step-icon-selected {
+      background: linear-gradient(#17459b, #02a9ed) !important;
+      background-color: #32cd32 !important;
+    } */
+  
+  /* ::ng-deep .mat-step-icon-state-edit.mat-step-icon {
+      background: linear-gradient(#17459b, #02a9ed) !important;
+      background-color: green !important;
+    }  */
+  
+  .gray-col {
+    color: #ffffffb0 !important;
+  }
+  
+  .glass {
+    background: #ffffff38 !important;
+  }
+  
+  /* 
+    ::ng-deep .mat-horizontal-stepper-header {
+      pointer-events: none !important;
+    } */
+  
+  /* .gradient-background {
+      background: linear-gradient(#17459b, #02a9ed);
+    } */
+  .mat-expansion-panel:not([class*="mat-elevation-z"]) {
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
+      0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+    background: #ffffff00;
+  }
+  
+  .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+    background: rgb(0 0 0 / 0%);
+  }
+  
+  .mat-expansion-panel-header-title {
+    color: #fff;
+  }
+  
+  .mat-expansion-indicator::after {
+    border-style: solid;
+    border-width: 0 3px 3px 0 !important;
+    content: "";
+    display: inline-block;
+    /* padding: 3px; */
+    transform: rotate(45deg);
+    vertical-align: middle;
+    color: white !important;
+  }
+  
+  .mat-expansion-panel-header-description,
+  .mat-expansion-indicator::after {
+    color: #fff;
+  }
+  
+  .back-accounding {
+    background: #ffffff38;
+    border-radius: 10px;
+  }
+  
+  .mat-expansion-panel-body {
+    padding-bottom: 0px !important;
+  }
+  
+  .circle {
+    background-color: none;
+    color: #ffffffb0 !important;
+    border: 1px solid white;
+    width: 25px;
+    padding: 0px;
+    text-align: center;
+  }
+  
+  .active-circle {
+    background-color: none;
+    color: white;
+    border: 1px solid white;
+    width: 35px;
+    padding: 3px;
+    text-align: center;
+  }
+  
+  .answered-circle {
+    background-color: white;
+    color: black !important;
+    border: 1px solid white;
+    width: 25px;
+    padding: 0px;
+    text-align: center;
+  }
+  
+  .question {
+    font-size: 15px;
+    color: #ffffffb0 !important;
+  }
+  
+  .active-question {
+    font-size: 20px;
+    color: white;
+  }
+  
+  .answered-question {
+    font-size: 15px;
+    color: white !important;
+  }
+  
+  /* :host ::ng-deep .mat-horizontal-stepper-header-container {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      position: absolute !important;
+      width: 95% !important;
+      bottom: 440px !important;
+    } */
+  
+  /* :host ::ng-deep .mat-step-text-label {
+      padding: 5px;
+      border: 0.2px solid #0c7bc7;
+      border-radius: 10px;
+      color: #0b7dc9;
+      font-weight: 300;
+      background: #3c9ed617;
+    } */
+  
+  :host ::ng-deep .mat-horizontal-stepper-header .mat-step-icon-selected {
+    background-image: linear-gradient(to right, #154FA3, #049FE5) !important;
+    border: none !important;
+  }
+  
+  :host ::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #d1ecfe;
+    border: 1px solid;
+    border-color: #b0daf9;
+    color: #049FE5;
+  }
+  
+  
+  
+  /* .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit{
+      background-color: #d1ecfe;
+      border: 1px solid;
+      border-color: #b0daf9;
+      color: #049FE5;
+    } */
+  
+  #QAStepper .mat-step-header .mat-step-icon-selected,
+  .mat-step-header .mat-step-icon-state-done,
+  .mat-step-header .mat-step-icon-state-edit {
+    background-image: linear-gradient(to right, #154FA3, #049FE5);
+    border: none !important;
+  }
+  
+  :host ::ng-deep .mat-horizontal-stepper-header .mat-step-icon-selected #QAStepper :host ::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #d1ecfe !important;
+    border: 1px solid !important;
+    border-color: #b0daf9 !important;
+    color: #049FE5 !important;
+  }
+  
+  .disabled-btn {
+    border: 1px solid #0986d0 !important;
+    background: #0c79c61f !important;
+    color: #0c78c5 !important;
+    font-weight: 600 !important;
+  }
+  
+  ::ng-deep .mat-expansion-indicator::after {
+    color: white;
+  }
+  
+  /* ::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header {
+      align-items: flex-start !important;
+    }
+    
+    ::ng-deep
+      .mat-stepper-label-position-bottom
+      .mat-horizontal-stepper-header:not(:last-child)::after {
+      right: 60px !important;
+    }
+    
+    ::ng-deep .mat-stepper-horizontal-line {
+      left: 60px !important;
+    } */
+  
+  .stepper-pill {
+    border: 0.2px solid #0c7bc7;
+    border-radius: 6px;
+    color: #0b7dc9;
+    font-weight: 400;
+    background: #3c9ed617;
+    font-size: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .upload-button {
+    border: 1px solid #0000006b;
+    color: #454c58;
+    font-weight: 600;
+    background: #000000;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background: linear-gradient(180deg, #f6f7f8 0%, #e6e6e6 100%);
+  }
+  
+  /* :host::ng-deep .mat-horizontal-stepper-header-container {
+      position: relative;
+      bottom: -300px;
+    } */
+  
+  /* :host::ng-deep .mat-horizontal-content-container {
+      position: relative;
+      top: -120px;
+    } */
+  
+  :host::ng-deep .cdk-overlay-backdrop {
+    /* opacity: 0.1; */
+    background: linear-gradient(#17459b, #02a9ed);
+  }
+  
+  :host::ng-deep .cdk-overlay-backdrop-showing {
+    /* opacity: 0.1; */
+    background: linear-gradient(#17459b, #02a9ed);
+  }
+  
+  /* .backdropBackground {
+      your css needs 
+      background: linear-gradient(#17459b, #02a9ed);
+       opacity: 0 !important;
+    } */
+  
+  .underKundenHead {
+    font-family: Open Sans;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #0094d8;
+    background-color: #dcecf8;
+    padding-left: 2px;
+  }
+  
+  
+  .custom-heading {
+    font-family: Open Sans !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 33px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  
+  .button-primary {
+    /* background: linear-gradient(310.12deg, #33a4df -11.74%, #587dba 66.6%); */
+    background: linear-gradient(#17459b, #02a9ed);
+    color: #fff !important;
+    border-radius: 5px;
+    transition: 0.3s;
+    border: none;
+}
+
+
+  .links1 {
+    padding: 35px;
+    width: 250px;
+    height: 200px;
+    background-color: white;
+    border: 1px solid #02a8ec;
+    cursor: pointer;
+    margin: 10px 10px 30px 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }

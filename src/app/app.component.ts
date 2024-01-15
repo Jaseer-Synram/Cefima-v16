@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterEvent } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,20 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Cefima';
+
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+  }
+
+  constructor(router: Router) {
+    router.events.subscribe(
+      (event): void => {
+        if (event instanceof RouteConfigLoadStart) {
+          $("#loaderouterid").css("display", "block");
+        } else if (event instanceof RouteConfigLoadEnd) {
+          $("#loaderouterid").css("display", "none");
+        }
+      }
+    );
+  }
 }

@@ -1,0 +1,615 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="gradient p-0">
+    <div class="p-0 d-flex col-md-12 justify-content-between ">
+        <div class="col-sm-12 col-md-12 head-rectangle d-flex justify-content-start align-items-center ">
+            <div class=" inner-div pl-5 col-sm-12 col-md-6 d-flex flex-column text-white ">
+                <span class=""
+                    style="font-family:Verdana, Geneva, Tahoma, sans-serif  ;font-weight: 900;font-size: 45px;letter-spacing: -1px;">PRODUKTWELT</span>
+                <span class="my-2"
+                    style="font-family:Verdana, Geneva, Tahoma, sans-serif  ;font-weight: 600;font-size: 25px;">CEFIMA
+                    verknüpft starke Produkte mit smarter
+                    Technologie. Ganz nach dem Motto "Gemeinsam
+                    sind wir Stark"</span>
+                <span class=""
+                    style="font-family:Verdana, Geneva, Tahoma, sans-serif  ;font-weight: normal ;font-size: 13px;letter-spacing: 0;">Mit
+                    unseren Produktpartnern das passende Produkt finden. Auf CEFIMA gibt es in den Sparten
+                    Versicherungen, Baufinanzierung, Anschlussfinanzierung, Ratenkredit und Geldanlagen ein umfassendes
+                    Produktangebot. Für nahezu jeden Bedarf bieten wir Ihnen das geeignete Produkt - sorgfältig
+                    ausgewählt. Dazu arbeiten wir mit einer Vielzahl an Produktpartnern zusammen und können Ihnen so
+                    maßgeschneiderte Dienstleistungen im jeweiligen Segment anbieten.</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 p-3 ">
+        <div class=" inner-one text-white  ">
+            <div class=" inner-text col-md-12 d-flex flex-column justify-content-center align-items-center "
+                style="font-family:Verdana, Geneva, Tahoma, sans-serif  ;">
+                <span style="font-size: 35px;font-weight: 700;text-align: center;">Registrierung als
+                    Produktpartner</span>
+                <span style="font-weight: normal ;font-size: 16px;text-align: center;">Sie arbeiten für einen
+                    Produktanbieter und möchten mit uns zusammenarbeiten? Gerne können Sie den Anbindungsprozess hier
+                    in wenigen Schritten anstoßen.</span>
+            </div>
+            <div class="col-md-12 d-flex flex-raw justify-content-around align-items-center mt-3 pb-5 flex-wrap ">
+                <div class=" glass  p-3 ">
+                    <!-- <div > -->
+                    <div class="col-md-12 " style="border: 1px #3D3C3C;">
+                        <div class="col-md-12 pl-0 pr-0 pb-1  ">
+                            <span class="heads" style="color: #ffffff;"><!--<i class="fa fa-house-damage"></i>-->
+                                Versicherungsgesellschaften </span>
+                        </div>
+                        <div class="col-md-12 pl-0 pr-0 partners-list">
+                            <div class="buttons-grp d-flex flex-wrap   ">
+                                <div class="col-md-3 " style="padding: 3px;">
+                                    <span class="sparte_span text-produktwalt" id="Sach"
+                                        (click)="show_spartewise_partners('Sach','partners1','Sach')"
+                                        style="cursor:pointer;background: rgb(255, 255, 255);color: #3D3C3C;font-weight: 400px;">Sach</span>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0" style="padding: 3px;">
+                                    <span class="sparte_span" id="Renten"
+                                        (click)="show_spartewise_partners('Renten/Leben','partners1','Renten')"
+                                        style="cursor:pointer;">Renten/Leben</span>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0" style="padding: 3px;">
+                                    <span class="sparte_span" id="Kranken"
+                                        (click)="show_spartewise_partners('Kranken','partners1','Kranken')"
+                                        style="cursor:pointer;">Kranken</span>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0" style="padding: 3px;">
+                                    <span class="sparte_span" id="Gewerbesach"
+                                        (click)="show_spartewise_partners('Gewerbesach','partners1','Gewerbesach')"
+                                        style="cursor:pointer;width: 98%;">Gewerbesach</span>
+                                </div>
+                            </div>
+                            <div class=" col-md-12" *ngIf="partners1.length>0">
+                                <carousel class=" col-md-12">
+                                    <slide class=" col-md-12 text-center "
+                                        *ngFor="let item of partners1; let i = index">
+                                        <div class="col-md-12 slide ">
+                                            <img class="d-flex align-items-center product-partner-images  "
+                                                src="{{item.logo}}" [alt]="item.name" style="display: block;">
+                                            <div class="  ms-1  d-none d-md-block ">
+                                                <span
+                                                    [ngStyle]="{'color': 'white', 'font-size': item.length < 10 ? '35px' : '25px'}">
+                                                    {{item.length}} {{ item.name }}</span>
+                                            </div>
+                                        </div>
+
+                                    </slide>
+                                </carousel>
+                            </div>
+                            <div class="col-md-12 h-75 d-flex justify-content-center align-items-center" *ngIf="partners1.length<=0">
+                                <div class="col-md-12 d-flex justify-content-center align-items-center text-center" style="color:white;font-size: 30px;">
+                                    Kein Produkt-Partner gefunden
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12 ">
+                        <div class="col-md-12 pl-0 pr-0 pb-1 ">
+                            <span class="heads" style="color: #ffffff;"><!--<i class="fa fa-hand-holding-usd"></i>-->
+                                Geldanlagen</span>
+                        </div>
+                        <div class="col-md-12 pl-0 pr-0 partners-list">
+                            <div class="buttons-grp d-flex flex-wrap justify-content-around  ">
+                                <div class="col-md-6 " style="padding: 3px;">
+                                    <span class="sparte_span2" id="Investment"
+                                        (click)="show_spartewise_partners('Investment','partners2','Investment')"
+                                        style="cursor:pointer;background: rgb(255, 255, 255);color: #3D3C3C;font-weight: 400px;">Investment</span>
+                                </div>
+                                <div class="col-md-6 pl-0 pr-0" style="padding: 3px;">
+                                    <span class="sparte_span2" id="Sachwerte"
+                                        (click)="show_spartewise_partners('Sachwerte','partners2','Sachwerte')"
+                                        style="cursor:pointer;">Sachwerte</span>
+                                </div>
+                            </div>
+                            <div class="" *ngIf="partners2.length>0">
+
+                                <carousel class=" col-md-12">
+                                    <slide class=" col-md-12 text-center "
+                                        *ngFor="let item of partners2; let i = index">
+                                        <div class="col-md-12 slide p-0">
+                                            <img class="d-flex align-items-center product-partner-images  "
+                                                src="{{item.logo}}" [alt]="item.name" style="display: block;">
+                                            <div class="  ms-1  d-none d-md-block ">
+
+                                                <span style="color:white;font-size: 35px;">{{ item.name }}</span>
+                                            </div>
+                                        </div>
+                                    </slide>
+                                </carousel>
+
+
+                            </div>
+
+                            <div class="col-md-12 h-75 d-flex justify-content-center align-items-center" *ngIf="partners2.length<=0">
+                                <div class="col-md-12 d-flex justify-content-center align-items-center text-center" style="color:white;font-size: 30px">
+                                    Kein Produkt-Partner gefunden
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 ">
+                        <div class="col-md-12 pl-0 pr-0 pb-1 ">
+                            <span class="heads" style="color: #ffffff"><!--<i class="fa fa-university"></i>-->
+                                Banken
+                            </span>
+                        </div>
+                        <div class="col-md-12 pl-0 pr-0 partners-list ">
+                            <div class="buttons-grp d-flex flex-wrap ">
+                                <div class="col-md-3  pr-0 " style="padding:3px;">
+                                    <span class="sparte_span3" id="Immobilienfinanzierung"
+                                        (click)="show_spartewise_partners('Immobilienfinanzierung','partners3', 'Immobilienfinanzierung')"
+                                        style="cursor:pointer;background: rgb(255, 255, 255);color: #3D3C3C;font-weight: 400px;">Immobilienfinanzierung</span>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0" style="padding: 3px;">
+                                    <span class="sparte_span3" id="Verbraucherkredite"
+                                        (click)="show_spartewise_partners('Verbraucherkredite','partners3', 'Verbraucherkredite')"
+                                        style="cursor:pointer;">Verbraucherkredite</span>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0" style="padding: 3px;">
+                                    <span class="sparte_span3" id="Unternehmensfinanzierung"
+                                        (click)="show_spartewise_partners('Unternehmensfinanzierung','partners3', 'Unternehmensfinanzierung')"
+                                        style="cursor:pointer;">Unternehmensfinanzierung</span>
+                                </div>
+                                <div class="col-md-3 pl-0 " style="padding: 3px;">
+                                    <span class="sparte_span3" id="KFZ"
+                                        (click)="show_spartewise_partners('KFZ Kredite','partners3', 'KFZ')"
+                                        style="cursor:pointer;width: 100% !important;">KFZ Kredite</span>
+                                </div>
+                            </div>
+                            <div class="" *ngIf="partners3.length>0">
+
+                                <carousel class=" col-md-12">
+                                    <slide class=" col-md-12 text-center "
+                                        *ngFor="let item of partners3; let i = index">
+                                        <div class="col-md-12 slide p-0">
+                                            <img class="d-flex align-items-center product-partner-images  "
+                                                src="{{item.logo}}" [alt]="item.name" style="display: block;">
+                                            <div class=" ms-1  d-none d-md-block ">
+                                                <span style="color:white;font-size: 35px;">{{item.name}}</span>
+                                            </div>
+                                        </div>
+                                    </slide>
+                                </carousel>
+
+
+                            </div>
+
+
+                            <div class="col-md-12 h-75 d-flex justify-content-center align-items-center" *ngIf="partners3.length<=0">
+                                <div class="col-md-12 d-flex justify-content-center align-items-center text-center " style="color:white;font-size: 30px">
+                                    Kein Produkt-Partner gefunden
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
+
+                <div class=" glass-second p-3 ">
+                    <mat-horizontal-stepper linear #addProduct
+                        style=" background-color: transparent !important;width: 100% !important; overflow: auto !important"
+                        class="stepnewclass ">
+                        <ng-template matStepperIcon="edit">
+                            <mat-icon>check</mat-icon>
+                        </ng-template>
+                        <mat-step>
+                            <div class="mainForm">
+                                <ng-template matStepLabel>Anforderungen</ng-template>
+                                <div>
+                                    <form class="Official-residence-form step2Form d-flex flex-column justify-content-between align-items-stretch">
+                                        <div class="" style="width: 100%; margin: 0px">
+                                            <div class="col-md-12"><br /></div>
+                                            <div class="col-md-12 p-0">
+
+
+                                                <div class="col-md-12 p-2">
+                                                    <!-- <div style="text-align: center"> -->
+                                                    <div style="padding:0px;">
+                                                        <p class="color-font">
+                                                            Für eine Zusammenarbeit müssen folgende Punkte auf Sie als
+                                                            Produktpartner zutreffen. Bitte bestätigen Sie die
+                                                            jeweiligen Punkte.
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3 pl-0">
+                                                        <div style="border-radius: 4px;">
+                                                            <!-- <mat-radio-group aria-label="Select an option">
+                                                <mat-radio-button  value="Yes" class="radioclass" (click)="radioValueCheck('q1yes')" style="color: #fff;"><span >Yes</span>
+                                                </mat-radio-button>
+                                                <mat-radio-button  value="No" class="radioclass" (click)="radioValueCheck('q1no')" style="color: #fff;"><span >No</span>
+                                                </mat-radio-button>
+                                              </mat-radio-group> -->
+
+                                                            <div class=" d-flex justify-content-start pl-0 ">
+                                                                <div class="col-md-1 p-0 ">
+                                                                    <mat-checkbox class="checkboxStyle checkboxStyle2"
+                                                                        color='primary'
+                                                                        (change)="radioValueCheck($event)"
+                                                                        value="Ihr Unternehmen bietet Produkte aus mindestens einer der Sparten Versicherungen, Geldanlagen oder Bankprodukte an."
+                                                                        name="checkbox"></mat-checkbox>
+                                                                </div>
+                                                                <div class="col-md-10 p-0" style="color:white;">
+                                                                    1. Ihr Unternehmen bietet Produkte aus mindestens
+                                                                    einer der Sparten Versicherungen, Geldanlagen oder
+                                                                    Bankprodukte an.
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mt-3 d-flex justify-content-start pl-0">
+                                                                <div class="col-md-1 p-0 ">
+                                                                    <mat-checkbox class="checkboxStyle checkboxStyle2"
+                                                                        color='primary'
+                                                                        (change)="radioValueCheck($event)"
+                                                                        value="Sie sind Zeichnungsberechtigt oder durch eine vertretungsberechtigte Person beauftragt eine Zusammenarbeit mit uns zu beginnen."
+                                                                        name="checkbox"></mat-checkbox>
+                                                                </div>
+                                                                <div class="col-md-10 p-0" style="color:white;">
+                                                                    2. Sie sind vertretungsberechtigt oder durch eine
+                                                                    vertretungsberechtigte Person beauftragt eine
+                                                                    Zusammenarbeit mit uns zu beginnen.
+                                                                </div>
+
+                                                            </div>
+
+                                                            <!-- <mat-checkbox class="checkboxStyle checkboxStyle2" color='primary' (change)="radioValueCheck($event)" value="Ihr Unternehmen bietet Produkte aus mindestens einer der Sparten Versicherungen, Geldanlagen oder Bankprodukte an." name="checkbox">Ihr Unternehmen bietet Produkte aus mindestens einer der Sparten Versicherungen, Geldanlagen oder Bankprodukte an.</mat-checkbox>
+          
+                                              <mat-checkbox class="checkboxStyle checkboxStyle2" color='primary' (change)="radioValueCheck($event)" value="Sie sind Zeichnungsberechtigt oder durch eine vertretungsberechtigte Person beauftragt eine Zusammenarbeit mit uns zu beginnen." name="checkbox">Sie sind Zeichnungsberechtigt oder durch eine vertretungsberechtigte Person beauftragt eine Zusammenarbeit mit uns zu beginnen.</mat-checkbox> -->
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- button-primary-two -->
+                                        <div class="col-md-12 d-flex justify-content-end align-items-end p-0 " >
+                                            <button id="btn" class="button-primary  transitionanimation"
+                                                mat-raised-button matStepperNext [disabled]="!buttonCondition">
+                                                Produktpartner Registrierung starten <i class="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <mat-step>
+                            <div>
+                                <ng-template matStepLabel>Produktportfolio</ng-template>
+                                <form [formGroup]="artsparteFormGroup" #artsparte="ngForm" novalidate=""
+                                    class="Official-residence-form step2Form  d-flex flex-column justify-content-between align-items-stretch ">
+                                    <div class="  " style="width: 100%; margin: 0px">
+                                        <div class="col-md-12"><br /></div>
+                                        <div class="col-md-12 pl-0">
+                                            <div class="col-md-12 p-0 ">
+                                                <p class="color-font pt-2">
+                                                    Bitte legen Sie die Art des zu registrierenden Unternehmen mit den
+                                                    jeweiligen Produktsparten fest.
+                                                </p>
+                                            </div>
+                                            <!-- <div class="col-md-3" style="display: inline-block"></div> -->
+                                            <div class="col-md-6 p-0" style="display: inline-block">
+                                                <mat-form-field class=" mat-form-field-remove-margin"
+                                                    appearance="outline" style="width: 100%">
+                                                    <mat-label style="color: #fff">Art</mat-label>
+                                                    <mat-select placeholder="Art" class="" matNativeControl
+                                                        formControlName="art" (selectionChange)="patchsparte()">
+                                                        <mat-option
+                                                            value="Versicherungsgesellschaft">Versicherungsgesellschaft</mat-option>
+                                                        <mat-option value="Geldanlagen">Geldanlagen</mat-option>
+                                                        <mat-option value="Bank">Bank</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <div class="col-md-3" style="display: inline-block"></div>
+
+                                            <!-- <div class="col-md-3" style="display: inline-block"></div>
+                                  <div class="col-md-6" style="display: inline-block">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                      <mat-label style="color: #fff">Sparte</mat-label>
+                                      <input type="text" formControlName="sparte" placeholder="Sparte" matInput [matAutocomplete]="auto" (keyup)="getsparte($event)"/>
+                                      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addsparte()">
+                                          <mat-option *ngFor="let sparte of spartes" [value]="sparte">
+                                              {{sparte}}
+                                          </mat-option>
+                                      </mat-autocomplete>
+                                  </mat-form-field>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline-block"></div> -->
+
+
+                                            <div class="">
+                                                <div class="col-md-12 p-0" >
+                                                    <span class="col-md-12 p-0 " style="color:white;">Bitte wählen Sie
+                                                        die zutreffenden Sparten
+                                                        aus:</span>
+
+                                                    <ng-container *ngFor="let sparte of spartes;let i = index">
+                                                        <!-- <i  click function was in button 
+                                                            class="fa fa-square sparte-square {{sparte.replaceAll(' ','_')}}-square"></i><i
+                                                            class="fa fa-check-square sparte-square-check {{sparte.replaceAll(' ','_')}}-square-check"
+                                                            style="display:none;"></i> -->
+                                                        <button *ngIf="i==0"
+                                                            (click)="choose_sparte(sparte.replaceAll(' ','_'))"
+                                                            class="btn btn-step2 {{sparte.replaceAll(' ','_')}}1 sparte-btnclass1 mr-2 mt-2"
+                                                            style="box-shadow: 1px 1px 1px 0px black;">
+                                                            {{sparte}}
+                                                        </button>
+                                                        <!-- <i click function was in button 
+                                                            class="fa fa-square sparte-square {{sparte.replaceAll(' ','_')}}-square"></i><i
+                                                            class="fa fa-check-square sparte-square-check {{sparte.replaceAll(' ','_')}}-square-check"
+                                                            style="display:none;"></i> -->
+                                                        <button *ngIf="i!=0 && sparte != 'Renten/Leben'"
+                                                            (click)="choose_sparte(sparte.replaceAll(' ','_'))"
+                                                            class="btn btn-step2 {{sparte.replaceAll(' ','_')}}1 sparte-btnclass1 mr-2 mt-2"
+                                                            style="box-shadow: 1px 1px 1px 0px black;">{{sparte}}</button>
+                                                        <!-- <i 
+                                                                class="fa fa-square sparte-square renten-square"></i><i
+                                                                class="fa fa-check-square sparte-square-check renten-square-check"
+                                                                style="display:none;"></i> -->
+                                                        <button *ngIf="sparte == 'Renten/Leben'"
+                                                            (click)="choose_sparte('renten')"
+                                                            class="btn btn-step2 renten1 sparte-btnclass1 mr-2 mt-2"
+                                                            style="box-shadow: 1px 1px 1px 0px black;">
+                                                            {{sparte}}</button>
+                                                    </ng-container>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 p-0 ">
+                                        <div class="text-right">
+                                            <div class="col-md-12 d-flex justify-content-end align-items-end p-0 ">
+                                                <button type="button" class="button-primary transitionanimation"
+                                                    mat-raised-button matStepperPrevious style="margin-right: 10px"> <i
+                                                        class="fas fa-arrow-left"></i>Zurück</button>
+                                                <button id="btn" type="button"
+                                                    class="button-primary transitionanimation"
+                                                    [disabled]="!artsparte.form.valid || !(addedsparte.length > 0)"
+                                                    mat-raised-button matStepperNext>Weiter <i
+                                                        class="fas fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </mat-step>
+
+                        <!-- <mat-step>
+                          <div>
+                            <ng-template matStepLabel>Third</ng-template>
+                            <form  class="Official-residence-form">
+                              <div class="row" style="width: 100%; margin: 0px">
+                                <div class="col-md-12"><br /></div>
+                                <div class="col-md-12">
+                                  <div style="text-align: center">
+                                    <p class="color-font" style="text-align: center">
+                                      which Art and Sparte you offer?
+                                    </p>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline-block"></div>
+                                  <div class="col-md-6" style="display: inline-block">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                      <mat-label style="color: #fff">Art</mat-label>
+                                      <mat-select  matNativeControl>
+                                        <mat-option>Versicherungsgesellschaft</mat-option>
+                                        <mat-option >Geldanlagen</mat-option>
+                                        <mat-option >Bank</mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                    
+                                  </div>
+                                  <div class="col-md-3" style="display: inline-block"></div>
+          
+                                  <div class="col-md-3" style="display: inline-block"></div>
+                                  <div class="col-md-6" style="display: inline-block">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                      <mat-label style="color: #fff">Sparte</mat-label>
+                                      <input
+                                        matInput
+                                        
+                                        placeholder="Sparte"
+                                      />
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline-block"></div>
+                                </div>
+                              </div>
+                             
+                
+                
+                             <div class="row">
+                               <div class="text-right">
+                                <div class=" d-flex jusify-content-end ">
+                                  <button class="button-primary transitionanimation" mat-button matStepperPrevious style="margin-right: 10px">
+                        Zurück
+                      </button>
+                                <button
+                                        id="btn"
+                                        class="button-primary transitionanimation"
+                                        mat-raised-button
+                                        matStepperNext
+                                        
+                                      >
+                                      Weiter <i class="fas fa-arrow-right"></i>
+                                      </button>
+                               </div>
+                             </div>
+                             </div>
+                
+                
+                            </form>
+                          </div>
+                        </mat-step> -->
+
+
+
+                        <!-- Forth -->
+                        <mat-step>
+                            <div>
+                                <ng-template matStepLabel>Partnerinformationen</ng-template>
+                                <form [formGroup]="personalInfoFormGroup" #fsp="ngForm" id="forSwal" style="position: relative;"
+                                    class="Official-residence-form">
+
+                                    <div class="" style="width: 100%; margin-top: 5vh">
+                                        <div class="col-md-12 p-0">
+                                            <div class="">
+                                                <div class="col-md-12 p-0">
+                                                    <div class="col-md-6" style="display: inline-block">
+                                                        <mat-form-field appearance="outline" style="width: 100%">
+                                                            <mat-label style="color: #fff">Unternehmensname</mat-label>
+                                                            <input matInput placeholder="Unternehmensname"
+                                                                formControlName="company_name" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6" style="display: inline-block">
+                                                        <mat-form-field appearance="outline" style="width: 100%">
+                                                            <mat-label style="color: #fff">Straße</mat-label>
+                                                            <input matInput formControlName="street"
+                                                                placeholder="Straße" ngx-google-places-autocomplete
+                                                                #placesRef="ngx-places"
+                                                                (onAddressChange)="handleAllFields($event)" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 p-0">
+                                                    <div class="col-md-6" style="display: inline-block">
+                                                        <mat-form-field appearance="outline" style="width: 100%">
+                                                            <mat-label style="color: #fff">Nr.</mat-label>
+                                                            <input matInput placeholder="Nr."
+                                                                formControlName="streetNumber" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6" style="display: inline-block">
+                                                        <mat-form-field appearance="outline" style="width: 100%">
+                                                            <mat-label style="color: #fff">PLZ</mat-label>
+                                                            <input matInput placeholder="PLZ"
+                                                                formControlName="postCode" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 p-0">
+                                                    <div class="col-md-6" style="display: inline-block">
+                                                        <mat-form-field appearance="outline" style="width: 100%">
+                                                            <mat-label style="color: #fff">Stadt</mat-label>
+                                                            <input matInput placeholder="Stadt"
+                                                                formControlName="city" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6" style="display: inline-block">
+                                                        <mat-form-field appearance="outline" style="width: 100%">
+                                                            <mat-label style="color: #fff">Land</mat-label>
+                                                            <input matInput placeholder="Land"
+                                                                formControlName="countryOfResidence"
+                                                                ngx-google-places-autocomplete #placesRef="ngx-places"
+                                                                (onAddressChange)="handleAddressChangeland($event)" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 p-0">
+
+                                                    <div class="row" style="width: 100%;margin-left: 0px;">
+
+                                                        <div class="col-md-6" style="display: inline-block">
+                                                            <mat-form-field appearance="outline" style="width: 100%">
+                                                                <mat-label style="color: #fff">E-Mail</mat-label>
+                                                                <input matInput formControlName="partnerOfEmail"
+                                                                    placeholder="E-Mail" (keyup)="checkemailnew()" />
+                                                            </mat-form-field>
+                                                            <p style="display:block;width: 100%;margin: auto;  color: red; border-radius: 5px; margin-bottom: 16px;"
+                                                                id="checkemailerror1"></p>
+                                                        </div>
+
+                                                        <div class="col-md-6" style="display: inline-block">
+                                                            <mat-form-field appearance="outline" style="width: 100%">
+                                                                <mat-label style="margin-left: 40px;color: #fff">Telefon</mat-label>
+                                                                <input type="tel" matInput placeholder="Telefon"
+                                                                    formControlName="partnerOfNumber" [maxlength]="20"
+                                                                    name="partnerOfNumber" class="test" value="+49"
+                                                                    id="brokeradvisor_telefonn"
+                                                                    oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="col-md-12  p-0" style="margin-top: -15px;">
+                                                    <div class="col-md-6" style="display: inline-block"></div>
+                                                    <div class="col-md-6 text-right" style="display: inline-block">
+                                                        <!-- <div id="recaptcha1"> -->
+                                                        <re-captcha class="g-recaptchanew1"
+                                                            (resolved)="resolvedcefima12($event)"
+                                                            siteKey="6Ld7cTcaAAAAAHxx6whHNgf2OP4C8SYKqC4dRFy1"
+                                                            required></re-captcha>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 p-0" >
+                                        <div class=" text-right">
+                                            <div class="col-md-12 d-flex justify-content-end align-items-end p-0 ">
+                                                <button class="button-primary transitionanimation" mat-raised-button
+                                                    matStepperPrevious style="margin-right: 10px">Zurück</button>
+                                                <button id="btn1"
+                                                    [disabled]="!fsp.form.valid || !captcha_resolve || !validemail"
+                                                    class="button-primary transitionanimation" mat-raised-button
+                                                    (click)="add_product_partner()">Registrieren</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </form>
+                            </div>
+                        </mat-step>
+                        <!-- third -->
+                    </mat-horizontal-stepper>
+
+                </div>
+            </div>
+            <div class=" bg-img ">
+                <img width="100%" style="opacity: 0.2;" src="../../assets/produktwelt/img-bg-on-two.png" alt="">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<app-front-footer></app-front-footer>

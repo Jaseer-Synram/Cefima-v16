@@ -1,0 +1,1417 @@
+<div class="table-min-height">
+    <div class="full-tabs">
+        <mat-tab-group class="tabs" [selectedIndex]="0" (selectedTabChange)="tab_changed($event)">
+            <mat-tab class="new-item" label="Stammdaten">
+                <div class="w-100">
+                    <form [formGroup]="customerFormGroup" #f="ngForm" novalidate="">
+                        <div role="button" class="Persönliche-Informationen mb-2"
+                            (click)="opened_tab.personal_data = ! opened_tab.personal_data">
+                            <span><img src="assets/PERSONLICHE.svg"></span>
+                            <h2>Persönliche Daten</h2>
+                            <p>
+                                <img src="assets/dwon.png" class="opened-arrow" *ngIf="opened_tab.personal_data">
+                                <img src="assets/dwon.png" class="closed-arrow" *ngIf="!opened_tab.personal_data">
+                            </p>
+                        </div>
+                        <div [ngClass]="opened_tab.personal_data ? '' : 'd-none'">
+                            <div class="row pt-4">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Anrede</mat-label>
+                                        <mat-select matNativeControl formControlName="title" class="w-100"
+                                            (selectionChange)="titleChange($event)">
+                                            <mat-option value="Herr">Herr</mat-option>
+                                            <mat-option value="Frau">Frau</mat-option>
+                                            <mat-option value="Firma">Firma</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4" *ngIf="companyTitleShow">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Firmenname</mat-label>
+                                        <input matInput formControlName="companyName" placeholder="Firmenname"
+                                            readonly />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Vorname</mat-label>
+                                        <input matInput formControlName="firstName" placeholder="Vorname" />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class=" col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Nachname</mat-label>
+                                        <input matInput formControlName="lastName" placeholder="Nachname" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Geburtsdatum</mat-label>
+                                        <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                            placeholder="Geburtsdatum" formControlName="dob" />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Geburtsort</mat-label>
+                                        <input matInput placeholder="Geburtsort" formControlName="birthPlace"
+                                            ngx-google-places-autocomplete [options]="options"
+                                            #placesRef="ngx-places" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width" appearance="outline" class="w-100">
+                                        <mat-label>Nationalität</mat-label>
+                                        <input type="text" placeholder="Nationalität" aria-label="Number" matInput
+                                            [matAutocomplete]="auto" formControlName="nationality" />
+
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let employee of filteredOptions | async"
+                                                [value]="employee">
+                                                {{ employee }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="button" class="Persönliche-Informationen mb-2"
+                            (click)="opened_tab.official_residence = ! opened_tab.official_residence">
+                            <span><img src="assets/PERSONLICHE.svg"></span>
+                            <h2>Wohnsitz</h2>
+                            <p>
+                                <img src="assets/dwon.png" class="opened-arrow" *ngIf="opened_tab.official_residence">
+                                <img src="assets/dwon.png" class="closed-arrow" *ngIf="!opened_tab.official_residence">
+                            </p>
+                        </div>
+
+                        <div [ngClass]="opened_tab.official_residence ? '' : 'd-none'">
+                            <div class="row pt-4">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Straße</mat-label>
+                                        <input matInput placeholder="Straße" formControlName="street"
+                                            ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                                            (onAddressChange)="handleAllFields($event)" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Nr.</mat-label>
+                                        <input matInput placeholder="Nr." formControlName="streetNumber" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>PLZ</mat-label>
+                                        <input matInput placeholder="PLZ" formControlName="postCode" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Stadt</mat-label>
+                                        <input matInput placeholder="Stadt" formControlName="city" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                                        <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                                            formControlName="additionalReference" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                                        <mat-label>Land des Wohnsitzes</mat-label>
+                                        <input matInput placeholder="Land des Wohnsitzes"
+                                            formControlName="countryOfResidence" ngx-google-places-autocomplete
+                                            [options]="options" #placesRef="ngx-places" (onAddressChange)="
+                                        handleAddressChangeland($event)" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="button" class="Persönliche-Informationen mb-2"
+                            (click)="opened_tab.more_info = ! opened_tab.more_info">
+                            <span><img src="assets/PERSONLICHE.svg"></span>
+                            <h2>Kommunikation / Verknüpfung</h2>
+                            <p>
+                                <img src="assets/dwon.png" class="opened-arrow" *ngIf="opened_tab.more_info">
+                                <img src="assets/dwon.png" class="closed-arrow" *ngIf="!opened_tab.more_info">
+                            </p>
+                        </div>
+
+                        <div [ngClass]="opened_tab.more_info ? '' : 'd-none'">
+                            <div class="row pt-4">
+
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>E-Mail</mat-label>
+                                        <input type="email" matInput placeholder="E-Mail" formControlName="email"
+                                            readonly />
+                                    </mat-form-field>
+                                    <img src="./assets/email_120x120.png" class="mr-2 editEmailVLogo"
+                                        *ngIf="currentUser.email_verify" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Telefonnummer eingeben</mat-label>
+                                        <input matInput id="phone" name="phone_number" formControlName="phone_number"
+                                            class="test" placeholder="Telefonnummer eingeben" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
+                                    </mat-form-field>
+                                    <img src="./assets/phone_verified_120x120.png" class="mr-2 ml-2 editPhoneVLogo"
+                                        *ngIf="currentUser.mobile_verify" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Benutzer Nr.</mat-label>
+                                        <input type="text" name="customerno" formControlName="customerno" matInput
+                                            placeholder="CustomerNo" value="" readonly="readonly"
+                                            style="height: 19px" />
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <div class="justify-content-end">
+                                    <button class="btn button-primary botton-hover" type="button" (click)="save()"
+                                        [disabled]="!isFormDirty || !customerFormGroup.valid">
+                                        <i class="ft-x"></i> Änderungen Speichern
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </mat-tab>
+            <mat-tab class="new-item" label="Zugriff/Rechte">
+                <mat-tab-group class="button-arrow">
+                    <mat-tab label="Zugriff">
+                        <div class="w-100" *ngIf="false">
+                            <div class="row m-0">
+                                <div class="col-sm-12">
+                                    <ng-container *ngFor="let company of company_rights;">
+                                        <div class="w-100 p-2 border-radius mt-3" style="background:#eaeaea;"
+                                            role="button"
+                                            [ngClass]="company.show_brands?'opened sepratesection' : 'closed'"
+                                            (click)="company.show_brands = !company.show_brands">
+                                            <h4 class="w-50 d-inline-block m-0"><img
+                                                    src="../../assets/company_icon_active.png" style="width: 20px;">
+                                                {{company.name}} </h4>
+                                            <i class="fa fa-angle-right h3 m-0 w-50 d-inline-block text-right"
+                                                *ngIf="!company.show_brands"></i>
+                                            <i class="fa fa-angle-down h3 m-0 w-50 d-inline-block text-right"
+                                                *ngIf="company.show_brands"></i>
+                                        </div>
+
+                                        <div class="row m-0" *ngIf="company.show_brands">
+                                            <div class="col-sm-12 p-0">
+                                                <h6 class="my-3" *ngIf="company.functionalities">Unternehmen
+                                                    Rechteverwaltung:</h6>
+                                                <ul class="parent-list pl-0 mb-0" *ngIf="company.functionalities">
+                                                    <li *ngFor="let buttons of company.functionalities">
+                                                        <i role="button"
+                                                            [ngClass]="buttons.opened ? 'fa fa-minus' : 'fa fa-plus'"
+                                                            *ngIf="buttons.inside_functionality.length > 0"
+                                                            (click)="buttons.opened = !buttons.opened"
+                                                            aria-hidden="true"></i>&nbsp;&nbsp;
+                                                        <span
+                                                            [ngStyle]="{'color': buttons.inside_functionality.length > 0 ? '#000' : '#3C9ED6' }">{{buttons.name}}</span>
+                                                        <ul *ngIf="buttons.opened" class="child-list pl-2 pt-3">
+                                                            <li *ngFor="let button of buttons.inside_functionality">
+                                                                <i role="button"
+                                                                    [ngClass]="button.opened ? 'fa fa-minus' : 'fa fa-plus'"
+                                                                    *ngIf="button.inside_functionality && button.inside_functionality.length > 0"
+                                                                    (click)="button.opened = !button.opened"
+                                                                    aria-hidden="true"></i>&nbsp;&nbsp;
+                                                                <span
+                                                                    [ngStyle]="{'color': button.inside_functionality && button.inside_functionality.length > 0 ? '#000' : '#3C9ED6' }">{{button.name}}</span>
+                                                                <ul *ngIf="button.opened" class="child-list pl-2 pt-3">
+                                                                    <li
+                                                                        *ngFor="let btn1 of button.inside_functionality">
+                                                                        <span
+                                                                            style="color:#3C9ED6;">{{btn1.name}}</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                <ng-container *ngIf="company.brands && company.brands.length > 0">
+                                                    <h6 class="my-3">Marke Rechteverwaltung:</h6>
+                                                    <div class="row m-0" *ngFor="let brand of company.brands;">
+                                                        <div class="col-sm-12 p-0">
+                                                            <!-- <h6>{{brand.name}}</h6> -->
+                                                            <img src="{{brand.logo_url}}" style="width: 130px;">
+                                                        </div>
+                                                        <div class="col-sm-12 p-0">
+                                                            <hr class="mt-0 border">
+                                                        </div>
+                                                        <ul class="parent-list pl-0 mb-0">
+                                                            <li *ngFor="let buttons of brand.functionalities">
+                                                                <i role="button"
+                                                                    [ngClass]="buttons.opened ? 'fa fa-minus' : 'fa fa-plus'"
+                                                                    *ngIf="buttons.inside_functionality.length > 0"
+                                                                    (click)="buttons.opened = !buttons.opened"
+                                                                    aria-hidden="true"></i>&nbsp;&nbsp;
+                                                                <span
+                                                                    [ngStyle]="{'color': buttons.inside_functionality.length > 0 ? '#000' : '#3C9ED6' }">{{buttons.name}}</span>
+                                                                <ul *ngIf="buttons.opened" class="child-list pl-2 pt-3">
+                                                                    <li
+                                                                        *ngFor="let button of buttons.inside_functionality">
+                                                                        <i role="button"
+                                                                            [ngClass]="button.opened ? 'fa fa-minus' : 'fa fa-plus'"
+                                                                            *ngIf="button.inside_functionality && button.inside_functionality.length > 0"
+                                                                            (click)="button.opened = !button.opened"
+                                                                            aria-hidden="true"></i>&nbsp;&nbsp;
+                                                                        <span
+                                                                            [ngStyle]="{'color': button.inside_functionality && button.inside_functionality.length > 0 ? '#000' : '#3C9ED6' }">{{button.name}}</span>
+                                                                        <ul *ngIf="button.opened"
+                                                                            class="child-list pl-2 pt-3">
+                                                                            <li
+                                                                                *ngFor="let btn1 of button.inside_functionality">
+                                                                                <span
+                                                                                    style="color:#3C9ED6;">{{btn1.name}}</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Startseite">
+                        <div class="row mx-0 my-2">
+                            <div class="col-sm-12 my-3">
+                                <h6>Bitte wählen Sie ein beliebiges Menü oder Untermenü eines Unternehmens/einer Marke
+                                    aus, um es nach dem Login zu Ihrer Startseite zu machen:</h6>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <div style="width:5%;float: left;">
+                                    <img src="assets/cefima.svg" style="width: 50px;">
+                                </div>
+                                <div style="width: 95%;float: left;padding: 12px 0px 0px;">
+                                    <h6 role="button" (click)="chosen_dashboard_functionality_url = ''">
+                                        <b>Cefima Willkommen Seite</b>&nbsp;
+                                        <i class="fas" role="button"
+                                            [ngClass]="chosen_dashboard_functionality_url == '' ? 'fa-check-circle text-success' : 'fa-circle-thin'"
+                                            style="font-size: 1.25rem;"></i>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="my-3" *ngIf="functionalities">Menü und Untermenü des Unternehmens:</h6>
+                                <hr class="border mt-0" *ngIf="functionalities">
+                                <ul class="parent-list pl-0 mb-0" *ngIf="functionalities">
+                                    <li *ngFor="let buttons of functionalities"
+                                        (click)="buttons?.inside_functionality.length <= 0 ? chosen_dashboard_functionality_url = buttons.url:''"
+                                        role="button">
+                                        <i role="button" [ngClass]="buttons.opened ? 'fa fa-minus' : 'fa fa-plus'"
+                                            *ngIf="buttons.inside_functionality.length > 0"
+                                            (click)="buttons.opened = !buttons.opened"
+                                            aria-hidden="true"></i>&nbsp;&nbsp;
+                                        <span
+                                            [ngStyle]="{'color': buttons.inside_functionality.length > 0 ? '#000' : '#3C9ED6' }"><i
+                                                class="fa fa-desktop h6" role="button" matTooltip="Dashboard"
+                                                matTooltipPosition="above"
+                                                *ngIf="buttons?.inside_functionality.length <= 0 && buttons.type == 1"></i>&nbsp;{{buttons.name}}</span>&nbsp;<i
+                                            class="fas" role="button"
+                                            [ngClass]="chosen_dashboard_functionality_url == buttons.url ? 'fa-check-circle text-success' : 'fa-circle-thin'"
+                                            *ngIf="buttons?.inside_functionality.length <= 0"
+                                            (click)="chosen_dashboard_functionality_url = buttons.url;chosen_dashboard_functionality_type = 1;"></i>
+                                        <ul *ngIf="buttons.opened" class="child-list pl-2 pt-3">
+                                            <li *ngFor="let button of buttons.inside_functionality">
+                                                <i role="button"
+                                                    [ngClass]="button.opened ? 'fa fa-minus' : 'fa fa-plus'"
+                                                    *ngIf="button.inside_functionality && button.inside_functionality.length > 0"
+                                                    (click)="button.opened = !button.opened"
+                                                    aria-hidden="true"></i>&nbsp;&nbsp;
+                                                <span
+                                                    [ngStyle]="{'color': button.inside_functionality && button.inside_functionality.length > 0 ? '#000' : '#3C9ED6' }">{{button.name}}</span>&nbsp;<i
+                                                    class="fa h6" role="button"
+                                                    [ngClass]="chosen_dashboard_functionality_url == button.url ? 'fa-check-circle text-success' : 'fa-circle-thin'"
+                                                    *ngIf="!button.inside_functionality || button.inside_functionality.length <= 0"
+                                                    (click)="chosen_dashboard_functionality_url = button.url;chosen_dashboard_functionality_type = 1;"></i>
+                                                <ul *ngIf="button.opened" class="child-list pl-2 pt-3">
+                                                    <li *ngFor="let btn1 of button.inside_functionality">
+                                                        <span style="color:#3C9ED6;">{{btn1.name}}</span>&nbsp;<i
+                                                            class="fa h6" role="button"
+                                                            [ngClass]="chosen_dashboard_functionality_url == btn1.url ? 'fa-check-circle text-success' : 'fa-circle-thin'"
+                                                            (click)="chosen_dashboard_functionality_url = btn1.url;chosen_dashboard_functionality_type = 1;"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-sm-12 mt-3 text-right">
+                                <button class="btn button-primary botton-hover"
+                                    [disabled]="(userData?.user_home_page && userData.user_home_page?.url == chosen_dashboard_functionality_url) || (!userData?.user_home_page && chosen_dashboard_functionality_url == '')"
+                                    (click)="update_homepage();">Änderungen Speichern</button>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="E-Mail Konfiguration">
+                        <form [formGroup]="emailConfigurationFormGroup">
+                            <div class="row mx-0 my-3">
+                                <div style="width:5%;" class="d-inline-block float-left text-right">
+                                    <img src="assets/infoIcon.svg" class="w-75">
+                                </div>
+                                <div style="width:95%;padding-top: 12px;" class="d-inline-block float-left">
+                                    <h6 class="mb-0">&nbsp;Bitte stellen Sie sicher, dass die von Ihnen angegebene
+                                        E-Mail zum Versenden von E-Mails über Drittanbieter-Apps berechtigt ist.</h6>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 px-0 border border-radius border-secondary">
+                                    <h5 style="color:#359bd5;" class="border-bottom border-secondary mb-0 p-2">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        Konfiguration zum Senden und Empfangen von E-Mails
+                                        <button type="button" class="btn btn-sm button-primary botton-hover float-right"
+                                            (click)="addEmail('manual')"
+                                            [disabled]="!emails.controls[emails.controls.length-1].valid">Mehr
+                                            Hinzufügen</button>
+                                    </h5>
+                                    <div class="row m-0">
+                                        <ng-container formArrayName="emails">
+                                            <div class="col-md-6"
+                                                *ngFor="let email of emails.controls;let email_index = index;">
+                                                <div [formGroupName]="email_index" class="row mx-0 my-2">
+                                                    <div class="col-md-12 mt-2 p-0">
+                                                        <div class="w-100 neoloop-div-bg border-radius text-white p-2"
+                                                            role="button"
+                                                            (click)="opened_emails[email_index] = !opened_emails[email_index]">
+                                                            <h6 class="mb-0">
+                                                                {{email_index+1}}.
+                                                                <ng-container
+                                                                    *ngIf="$any(emails).controls[email_index].controls.email.value">{{$any(emails).controls[email_index].controls.email.value}}</ng-container>
+                                                                <ng-container
+                                                                    *ngIf="!$any(emails).controls[email_index].controls.email.value">E-Mail-Adresse</ng-container>
+                                                                <i class="fa float-right mb-0"
+                                                                    [ngClass]="opened_emails[email_index] ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border border-radius border-secondary mx-0 mt-2"
+                                                        *ngIf="opened_emails[email_index]">
+                                                        <div class="col-md-12 mt-2">
+                                                            <h6 style="font-size: 14.5px;">
+                                                                Bitte geben Sie ihre E-Mail-Adresse ein:
+                                                                <i *ngIf="email_index > 0" role="button"
+                                                                    style="padding: 5px 6px;margin-top: -5px;margin-right: -10px;"
+                                                                    class="fa fa-times neoloop-div-bg rounded-circle float-right text-white links"
+                                                                    (click)="opened_emails.splice(email_index,1);emails.removeAt(email_index);"></i>
+                                                            </h6>
+                                                            <mat-form-field appearance="outline" class="w-100">
+                                                                <mat-label>E-Mail</mat-label>
+                                                                <input type="text" placeholder="E-Mail" matInput
+                                                                    formControlName="email">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <h6 style="font-size: 14.5px;">Bitte geben Sie das Passwort
+                                                                Ihrer E-Mail-Adresse ein:</h6>
+                                                            <mat-form-field appearance="outline" class="w-100">
+                                                                <mat-label>Passwort</mat-label>
+                                                                <input [type]="hide ? 'password' : 'text'"
+                                                                    placeholder="Passwort" matInput
+                                                                    formControlName="email_password" style="width:94%;">
+                                                                <i class="fa" style="color:#359bd5;"
+                                                                    [ngClass]="hide ? 'fa-eye' : 'fa-eye-slash'"
+                                                                    role="button" (click)="hide = !hide"></i>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <h6 style="font-size: 14.5px;">Zweck dieser E-Mail:</h6>
+                                                            <mat-radio-group formControlName="type"
+                                                                (change)="change_email_type($event,email_index)">
+                                                                <mat-radio-button value="0">Für
+                                                                    beide</mat-radio-button>&nbsp;&nbsp;
+                                                                <mat-radio-button
+                                                                    value="1">Postausgang</mat-radio-button>&nbsp;&nbsp;
+                                                                <mat-radio-button
+                                                                    value="2">Posteingang</mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                        <div class="mt-2"
+                                                            *ngIf="$any(emails).controls[email_index].controls.type.value != 2"
+                                                            [ngClass]="$any(emails).controls[email_index].controls.type.value == 0 ? 'col-md-6 border-right' : 'col-md-12'">
+                                                            <h6>Postausgang:</h6>
+                                                            <mat-form-field appearance="outline" class="w-100">
+                                                                <mat-label>E-Mail Host (SMTP)</mat-label>
+                                                                <!-- (keyup)="search_host($event,'smtp')" -->
+                                                                <input type="text" placeholder="E-Mail Host (SMTP)"
+                                                                    autocomplete="off" matInput
+                                                                    formControlName="smtp_email_host"
+                                                                    [matAutocomplete]="email_auto_smtp"
+                                                                    >
+                                                                <mat-autocomplete #email_auto_smtp="matAutocomplete">
+                                                                    <mat-option
+                                                                        *ngFor="let option of searched_host_options"
+                                                                        [value]="option.host"> {{option.host}}
+                                                                        ({{option.name}}) </mat-option>
+                                                                </mat-autocomplete>
+                                                            </mat-form-field>
+                                                            <mat-form-field appearance="outline" class="w-100">
+                                                                <mat-label>SMTP Port</mat-label>
+                                                                <input type="number" placeholder="SMTP Port" matInput
+                                                                    formControlName="smtp_port">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="mt-2"
+                                                            *ngIf="$any(emails).controls[email_index].controls.type.value != 1"
+                                                            [ngClass]="$any(emails).controls[email_index].controls.type.value == 0 ? 'col-md-6' : 'col-md-12'">
+                                                            <h6>Posteingang :
+                                                                <span class="float-right">
+                                                                    (click)="select_default_receiving_email(email_index)"
+                                                                    <i class="fa h6" role="button"
+                                                                        
+                                                                        [ngClass]="$any(emails).controls[email_index].controls.main_receiver.value == '1' ? 'fa-check-square' : 'fa-square-o'"
+                                                                        [ngStyle]="$any(emails).controls[email_index].controls.main_receiver.value == '1' ? {'color': '#309ad1'} : {'color': 'black'}"></i>
+                                                                    Standard
+                                                                    <i class="fa fa-info-circle h5 mb-0" role="button"
+                                                                        matTooltip="Dies ist die ausgewählte E-Mail zum Empfang von E-Mails in der Kommunikation."
+                                                                        matTooltipPosition="above"
+                                                                        style="color: #309ad1"
+                                                                        *ngIf="$any(emails).controls[email_index].controls.main_receiver.value == '1'"></i>
+                                                                    <i class="fa fa-info-circle h5 mb-0" role="button"
+                                                                        matTooltip="Sie können diese E-Mail als Standard für den Empfang von E-Mails in der Kommunikation auswählen."
+                                                                        matTooltipPosition="above"
+                                                                        style="color: #309ad1"
+                                                                        *ngIf="$any(emails).controls[email_index].controls.main_receiver.value == '0'"></i>
+                                                                </span>
+                                                            </h6>
+                                                            <mat-form-field appearance="outline" class="w-100">
+                                                                <mat-label>E-Mail Host (IMAP)</mat-label>
+                                                                <!-- (keyup)="search_host($event,'imap')" -->
+                                                                <input type="text" placeholder="E-Mail Host(IMAP)"
+                                                                    autocomplete="off" matInput
+                                                                    formControlName="imap_email_host"
+                                                                    [matAutocomplete]="email_auto_imap"
+                                                                    >
+                                                                <mat-autocomplete #email_auto_imap="matAutocomplete">
+                                                                    <mat-option
+                                                                        *ngFor="let option of searched_imap_host_options"
+                                                                        [value]="option.host"> {{option.host}}
+                                                                        ({{option.name}}) </mat-option>
+                                                                </mat-autocomplete>
+                                                            </mat-form-field>
+
+                                                            <mat-form-field appearance="outline" class="w-100">
+                                                                <mat-label>IMAP Port</mat-label>
+                                                                <input type="number" placeholder="IMAP Port" matInput
+                                                                    formControlName="imap_port">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-12 text-right my-2">
+                                                            <button class="btn button-primary botton-hover"
+                                                                *ngIf="$any(emails).controls[email_index].controls.connection_tested.value==''"
+                                                                (click)="check_email_connections(email_index)">Verbindung
+                                                                prüfen</button>
+                                                            <button class="btn btn-success"
+                                                                *ngIf="$any(emails).controls[email_index].controls.connection_tested.value=='1'"
+                                                                type="button"><i class="fa fa-check"></i>
+                                                                Verifiziert</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right my-3 p-0">
+                                    <button class="btn button-primary botton-hover"
+                                        [disabled]="!check_form_changed() || !emailConfigurationFormGroup.valid || !isConfigurationFormDirty"
+                                        (click)="save_email_configuration()">Speichern</button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-tab>
+            <mat-tab class="new-item" label="Sicherheit"></mat-tab>
+            <mat-tab class="new-item" label="Kalender">
+                <div class="w-100">
+                    <div class="row text-center">
+                        <div class="col-md-4 text-left">
+                            <button data-toggle="modal"
+                                (click)="open_modal('createEventModal');addEventFormGroup.reset();"
+                                data-target="#createEventModal" class="btn button-primary botton-hover mr-2 w-50">
+                                <img src="../assets/Ereignis_hinzufugen.svg" class="menu-image w-50">
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>{{viewDate | calendarDate:(view + 'ViewTitle'):'de'}}</h3>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <div class="btn-group">
+                                <div class="btn button-primary botton-hover" mwlCalendarPreviousView [view]="view"
+                                    [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                </div>
+                                <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+                                    Aktuell
+                                </div>
+                                <div class="btn button-primary botton-hover" mwlCalendarNextView [view]="view"
+                                    [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="btn-group mt-3">
+                                <div class="btn"
+                                    [ngClass]="view == CalendarView.Month ? 'bg-white text-dark border border-secondary' : 'button-primary botton-hover'"
+                                    (click)="view = CalendarView.Month">
+                                    Monat
+                                </div>
+                                <div class="btn" (click)="view = CalendarView.Week"
+                                    [ngClass]="view == CalendarView.Week ? 'bg-white text-dark border border-secondary' : 'button-primary botton-hover'">
+                                    Woche
+                                </div>
+                                <div class="btn" (click)="view = CalendarView.Day"
+                                    [ngClass]="view == CalendarView.Day ? 'bg-white text-dark border border-secondary' : 'button-primary botton-hover'">
+                                    Tag
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <ng-template #eventTemplate let-weekEvent="weekEvent">
+                        <div *ngIf="weekEvent.event.meta.type === 'calendarEvent'" class="built-in-event">
+                            <ul>
+                                <li><span>{{ weekEvent.event.title }}</span></li>
+                            </ul>
+                        </div>
+                        <div *ngIf="weekEvent.event.meta.type !== 'calendarEvent'"
+                            [ngStyle]="{ 'background-color': weekEvent.event.color }" class="week-view-event">
+                            <div class="employee-calendar-display-name">
+                                <span>{{ weekEvent.event.title }}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <div [ngSwitch]="view">
+                        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+                            [events]="events" [locale]="locale" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                            (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-month-view>
+                        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate"
+                            [events]="events" [locale]="locale" [refresh]="refresh" [eventTemplate]="eventTemplate"
+                            (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-week-view>
+                        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+                            [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-day-view>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab class="new-item" label="Kommunikation">
+                <div class="row m-0">
+                    <div class="col-sm-4 p-1 border border-radius border-secondary">
+                        <div class="row m-0">
+                            <div class="col-sm-12 neoloop-div-bg text-white border-radius"
+                                [ngClass]="show_case_searchbar ? 'py-1 px-1' : 'py-4'">
+                                <h6 class="text-center mb-1" *ngIf="!show_case_searchbar">
+                                    Alle Gespräche
+                                    <i class="fa fa-search float-right text-dark rounded-circle bg-white p-2 links"
+                                        aria-hidden="true" style="margin-top: -8px;" role="button"
+                                        (click)="show_case_searchbar = !show_case_searchbar"></i>
+                                </h6>
+                                <div class="row m-0 bg-white border-radius" *ngIf="show_case_searchbar">
+                                    <div class="col-sm-11 px-1">
+                                        <mat-form-field appearance="outline"
+                                            class="w-100 mat-form-field-remove-padding-bottom text-dark">
+                                            <mat-label>z.b Vorgangs art, Vorgangs Nr.</mat-label>
+                                            <input matInput placeholder="z.b Vorgangs art, Vorgangs Nr."
+                                                (keyup)="searchCase($event)">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-1 p-1">
+                                        <i role="button"
+                                            class="fa fa-times links float-right text-white rounded-circle neoloop-div-bg"
+                                            style="padding: 5px 6px;" aria-hidden="true"
+                                            (click)="show_case_searchbar = !show_case_searchbar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 mt-2" style="height:520px;overflow-y: auto; direction:rtl;">
+                            <div class="p-1 border-radius mt-2"
+                                *ngFor="let case of temp_chat_cases; let case_index = index;"
+                                style="width:98%;background: linear-gradient(283deg, #02a9ed -11.74%, #16499e 110.6%);direction: ltr;">
+                                <div class="row m-0" role="button" (click)="fetch_case_details(case);"
+                                    [ngStyle]="opened_case_details?.Activity_No == case.Activity_No ? {'background': 'linear-gradient(283deg, #02a9ed -11.74%, #16499e 110.6%)','color':'white'} : {'background':'white', 'color': 'black'}">
+                                    <div class="col-sm-1 pl-1 pr-0">
+                                        <span style="font-weight: bold;">{{case_index+1}}.</span>
+                                    </div>
+                                    <div class="col-sm-11 py-1 pr-0">
+                                        <h6 class="mb-0">{{case.companyname.split(" ").splice(1).join("
+                                            ")}}&nbsp;({{case.companyname.split(" ")[0]}})</h6>
+                                        <p class="mb-0">{{case.Transaction_Type}} ({{case.Activity_No}})</p>
+                                        <p class="mb-0 limitword">
+                                            <img src="assets/infoIcon.svg" class="links mr-1 float-left"
+                                                data-toggle="modal" data-target="#viewChatUsersModal"
+                                                (click)="open_modal('viewChatUsersModal')"
+                                                [ngStyle]="opened_case_details?.Activity_No == case.Activity_No ? {'filter': 'brightness(200)'} : {'filter':'none'}">
+                                            <span *ngFor="let user of case.case_users;let user_index = index;">
+                                                <ng-container *ngIf="user.companyname"><i class="fa fa-building"></i>
+                                                    {{user.companyname}}</ng-container>
+                                                <ng-container *ngIf="!user.companyname"><i class="fa fa-user"></i>
+                                                    {{user.firstname}} {{user.lastname}}</ng-container>
+                                                <ng-container *ngIf="case.case_users[user_index+1]">, </ng-container>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 chat-box bg-white">
+                        <div class="w-100 border border-secondary border-radius">
+                            <div class="row m-1 neoloop-div-bg text-white p-2 border-radius">
+                                <div class="col-sm-10 pl-2">
+                                    <p class="mb-0"><b>Vorgangs Nr.: </b>{{opened_case_details?.Activity_No}}</p>
+                                    <p class="mb-0">
+                                        <label class="limitword">
+                                            <b>Teilnehmerliste: </b>
+                                            <ng-container
+                                                *ngFor="let user of opened_case_details.userinfo;let usr_i = index;">
+                                                {{user.firstname}} {{user.lastname}}<span
+                                                    *ngIf="opened_case_details.userinfo[usr_i+1]">,</span>
+                                            </ng-container>
+                                        </label>
+                                    </p>
+                                </div>
+                                <div class="col-sm-1 px-0 pt-1">
+                                    <button *ngIf="opened_case_details?._id" matTooltip="E-Mail"
+                                        matTooltipPosition="above" style="padding: 10px 15px 12px;"
+                                        class="btn btn-light" data-toggle="modal" data-target="#emailModal"
+                                        (click)="open_modal('emailModal');"><i class="fa fa-envelope"></i></button>
+                                </div>
+                                <!-- <div class="col-sm-1 px-0 pt-1">
+                                    <button *ngIf="opened_case_details?._id" matTooltip="Video-Chat" matTooltipPosition="above" style="padding: 10px 10px 5px 10px;" class="btn btn-light" (click)="openDialog()"><mat-icon>video_call</mat-icon></button>
+                                </div> -->
+                            </div>
+                            <div class="w-100 p-2">
+                                <div class="overflow-auto" style="height: 435px" #scrollMe
+                                    [scrollTop]="scrollMe.scrollHeight">
+                                    <ng-container *ngFor="let message of chat_messages;let msg_i = index;">
+                                        <div style="margin-bottom: 5px" *ngIf="message.mid"
+                                            [ngClass]="message.mid == currentUser._id ? 'd-flex flex-row justify-content-end mr-1' : 'd-flex flex-row justify-content-start ml-1'">
+                                            <div style="max-width:60%;"
+                                                [ngClass]="message.mid == currentUser._id ? 'message-div-right' : 'message-div-left'">
+                                                <p class="m-0">{{message.message}}</p>
+                                                <ng-container *ngIf="message.documents && message.documents.length > 0">
+                                                    <div role="button" (click)="preview_chat_doc(doc);"
+                                                        class="links1 row mx-0 my-2 border border-radius border-secondary"
+                                                        *ngFor="let doc of message.documents;let doc_i = index;">
+                                                        <div class="col-sm-1 p-1">
+                                                            <i class="fa fa-file h3" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="col-sm-11" style="font-size:12px;">
+                                                            <p class="m-0 limitword"><b>Dokumentenname:
+                                                                </b>{{doc.document_unique_id}}</p>
+                                                            <p class="m-0 limitword"><b>Dateityp:
+                                                                </b>{{doc.tags[0].split(",")[1]}}</p>
+                                                            <p class="m-0 limitword"><b>Dateigröße:
+                                                                </b>{{doc.tags[0].split(",")[0]}}</p>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <p class="text-right small m-0 font-weight-light font-italic">
+                                                    {{message.userinfo[0].firstname}} {{message.userinfo[0].lastname}}
+                                                    {{message.createdAt | date: 'dd.MM.yyyy HH:mm:ss'}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div style="margin-bottom: 5px" *ngIf="!message.mid"
+                                            [ngClass]="match_my_email(message.from?.value[0]?.address) ? 'd-flex flex-row justify-content-end mr-1' : 'd-flex flex-row justify-content-start ml-1'">
+                                            <div style="max-width:60%;"
+                                                [ngClass]="match_my_email(message.from?.value[0]?.address) ? 'message-div-right' : 'message-div-left'">
+                                                <p [ngClass]="match_my_email(message.from?.value[0]?.address) ? 'neoloop-div-bg text-white' : 'bg-white text-dark'"
+                                                    class=" px-2 py-1 border-radius">
+                                                    <b>E-Mail</b><br>
+                                                    Gesendet von: {{message.from?.value[0]?.address}}<br>
+                                                    Gesendet an: <span
+                                                        *ngFor="let recepient of message.to?.value;let recepient_i = index">{{recepient.address}}<br
+                                                            *ngIf="message.to?.value[recepient_i+1]"></span>
+                                                </p>
+                                                <p>Betreff: {{message.subject}}</p>
+                                                <p class="m-0"><span [innerHtml]="message.textAsHtml"></span></p>
+                                                <ng-container
+                                                    *ngIf="message.attachments && message.attachments.length > 0">
+                                                    <div role="button"
+                                                        class="links1 row mx-0 my-2 border border-radius border-secondary"
+                                                        *ngFor="let doc of message.attachments;let doc_i = index;">
+                                                        <div class="col-sm-1 p-1">
+                                                            <i class="fa fa-file h3" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="col-sm-11" style="font-size:12px;">
+                                                            <p class="m-0 limitword"><b>Dokumentenname:
+                                                                </b>{{doc.filename}}</p>
+                                                            <p class="m-0 limitword"><b>Dateityp:
+                                                                </b>{{doc.contentType}}</p>
+                                                            <p class="m-0 limitword"><b>Dateigröße:
+                                                                </b>{{dataconvert(doc.size)}}</p>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <p class="text-right small m-0 font-weight-light font-italic">
+                                                    <ng-container
+                                                        *ngIf="message.from?.value[0]?.name">{{message.from?.value[0]?.name}}</ng-container>
+                                                    <ng-container
+                                                        *ngIf="!message.from?.value[0]?.name">{{message.from?.value[0]?.address}}</ng-container>
+                                                    {{message.date | date: 'dd.MM.yyyy HH:mm:ss'}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="w-100 mt-2">
+                                    <div class="row">
+                                        <div class="col-sm-12 pr-0">
+                                            <mat-form-field appearance="outline"
+                                                class="ml-1 mr-1 mat-form-field-remove-padding-bottom"
+                                                style="width:98%;">
+                                                <mat-label>Nachricht schreiben</mat-label>
+                                                <input id="inputmessage1" class="w-75" type="text" matInput
+                                                    placeholder="Nachricht schreiben..."
+                                                    (keyup.enter)="send_message()" />
+                                                <button class="btn btn button-primary botton-hover position-absolute "
+                                                    style="top:-5px;right: 100px;padding: 11.5px 16px;"
+                                                    data-toggle="modal" (click)="open_modal('createLetter')"
+                                                    data-target="#createLetter"
+                                                    [disabled]="!opened_case_details?.Activity_No">
+                                                    <i class="fa fa-file-text"></i>
+                                                </button>
+                                                <div class="d-inline-block">
+                                                    <input type="file" id="upload" hidden #divone
+                                                        (click)="divone.value = '' " multiple
+                                                        (change)="handleImageChange($event,'result1')"
+                                                        accept=".png,.jpg,.gif,.doc,.docx,application/pdf,video/*"
+                                                        [disabled]="!opened_case_details?.Activity_No" />
+                                                    <label for="upload" style="top: -5px; right: 50px;"
+                                                        class="upload-section mb-0 position-absolute" role="button"
+                                                        [ngClass]="!opened_case_details?.Activity_No?'btn-secondary text-white':'button-primary botton-hover'">
+                                                        <i class="fa fa-upload"></i>
+                                                    </label>
+                                                </div>
+                                                <button style="padding: 12px 16px;top: -5px;right: 0px;"
+                                                    class="btn send-icon button-primary botton-hover position-absolute border-0"
+                                                    (click)="send_message()"
+                                                    [disabled]="checkmessage() && (documents.length <= 0 || !all_uploaded)">
+                                                    <i class="fa fa-paper-plane"></i>
+                                                </button>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="files-view w-100">
+                                    <div class="row m-0">
+                                        <div id="result1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+
+<ng-template #modalContent let-close="close">
+    <div class="modal-header">
+        <h5 class="modal-title">Sicht Ereignis</h5>
+        <button type="button" class="close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><b>Startet um: </b>{{modalData.event.start | date: "dd.MM.yyyy HH:mm"}}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><b>Endet am: </b>{{modalData.event.end | date: "dd.MM.yyyy HH:mm"}}</p>
+                </div>
+                <div class="col-md-12">
+                    <p><b>Ereignis Titel: </b>{{modalData.event.title}}</p>
+                </div>
+                <div class="col-md-12">
+                    <p><b>Ereignis Beschreibung: </b>{{modalData.event.desc}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn button-primary botton-hover" (click)="close()">Schließen</button>
+    </div>
+</ng-template>
+
+<div class="modal fade" id="createEventModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalpreviewTitle" aria-hidden="true">
+    <div style="max-width: 60%;max-height: 800px;" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="font-size:15px;">Ereignis Hinzufügen</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_createEventModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <form [formGroup]="addEventFormGroup" #f="ngForm" novalidate="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Startet um</mat-label>
+                                    <input matInput [ngxMatDatetimePicker]="add_start_picker" placeholder="Startet um"
+                                        formControlName="start_datetime">
+                                    <mat-datepicker-toggle matSuffix
+                                        [for]="$any(add_start_picker)"></mat-datepicker-toggle>
+                                    <ngx-mat-datetime-picker #add_start_picker></ngx-mat-datetime-picker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Endet am</mat-label>
+                                    <input matInput [ngxMatDatetimePicker]="add_end_picker" placeholder="Endet am"
+                                        formControlName="end_datetime">
+                                    <mat-datepicker-toggle matSuffix
+                                        [for]="$any(add_end_picker)"></mat-datepicker-toggle>
+                                    <ngx-mat-datetime-picker #add_end_picker></ngx-mat-datetime-picker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Ereignis Titel</mat-label>
+                                    <input matInput formControlName="event_title" placeholder="Ereignis Titel">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Ereignis Beschreibung</mat-label>
+                                    <textarea matInput formControlName="event_desc" rows="4"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-right">
+                    <button class="button-primary botton-hover btn" [disabled]="!addEventFormGroup.valid"
+                        (click)="add_event()">Hinzufügen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button data-toggle="modal" data-target="#editEventModal" style="display:none" id="open_editEventModal"></button>
+<div class="modal fade" id="editEventModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div style="max-width: 60%;max-height: 800px;" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="font-size:15px;">Ereignis Aktualisieren</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_editEventModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <form [formGroup]="editEventFormGroup">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Startet um</mat-label>
+                                    <input matInput [ngxMatDatetimePicker]="edit_start_picker" placeholder="Startet um"
+                                        formControlName="start_datetime">
+                                    <mat-datepicker-toggle matSuffix
+                                        [for]="$any(edit_start_picker)"></mat-datepicker-toggle>
+                                    <ngx-mat-datetime-picker #edit_start_picker></ngx-mat-datetime-picker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Endet am</mat-label>
+                                    <input matInput [ngxMatDatetimePicker]="edit_end_picker" placeholder="Endet am"
+                                        formControlName="end_datetime">
+                                    <mat-datepicker-toggle matSuffix
+                                        [for]="$any(edit_end_picker)"></mat-datepicker-toggle>
+                                    <ngx-mat-datetime-picker #edit_end_picker></ngx-mat-datetime-picker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Ereignis Titel</mat-label>
+                                    <input matInput formControlName="event_title" placeholder="Ereignis Titel">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Ereignis Beschreibung</mat-label>
+                                    <textarea matInput formControlName="event_desc" rows="4"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-right">
+                    <button class="button-primary botton-hover btn"
+                        [disabled]="!editEventFormGroup.valid || !check_edit_data_changed()"
+                        (click)="update_event()">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="openpreviewmodel" type="button" data-toggle="modal" style="display: none"
+    data-target="#exampleModalpreview1">
+    ddd
+</button>
+<div id="exampleModalpreview1_parent">
+    <div class="modal fade" id="exampleModalpreview1" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalpreviewTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div style="max-width: 1000px;max-height: 800px;" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="showpreviewtitle" style="font-size:15px;"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="close_modal('exampleModalpreview1','exampleModalpreview1_parent')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <embed id="showpreviewpdf" style="width:100%;height:600px;display:none;" src="">
+                    <img id="showpreviewimg" style="width:100%;height:100%;display:none;" src="">
+                    <div class="col-md-12" style="text-align:end;margin-top:5px;">
+                        <a href="" id="showpreviewdownload" target="_blank" style="color:#3a8ec5;margin-right: -20px;"
+                            class="btn" download>
+                            <!-- <i class="fa fa-download" aria-hidden="true" style="font-size:20px;"></i>  -->
+                            <span class="side-icons"><i class="fa fa-download links"
+                                    style="position:relative;float:right;padding: 7px 0px 0px 9px;margin: 2px 0px 8px 2px;"
+                                    aria-hidden="true"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Email Modal -->
+<div id="emailModal_parent">
+    <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
+        data-bs-keyboard="false">
+        <div style="max-width: 80%;max-height: 800px;" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-size:15px;font-weight:500;">E-Mail senden</span>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="close_email_modal"
+                        (click)="close_modal('emailModal','emailModal_parent');custom_emails = [];"></button> -->
+                    <button type="button" class="close" id="close_email_modal" data-dismiss="modal" aria-label="Close"
+                        (click)="close_modal('emailModal','emailModal_parent')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-0">
+                    <form [formGroup]="sendEmailFormGroup" *ngIf="opened_case_details?._id">
+                        <div class="row m-0">
+                            <div class="col-md-4">
+                                <h6>Absender:</h6>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-select formControlName="from_email">
+                                        <ng-container *ngFor="let email of initial_emails_data.emails;">
+                                            <mat-option *ngIf="email.type != 2"
+                                                [value]="email">{{email.email}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <h6>Empfänger:</h6>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>E-Mail</mat-label>
+                                    <input type="text" placeholder="E-Mail" matInput
+                                        (keyup.enter)="custom_emails.push($any($event).target.value);$any($event).target.value = '';">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6>Hinzugefügte Empfänger</h6>
+                                <div class="selected-email-div">
+                                    <ng-container *ngFor="let user of opened_case_details?.userinfo;">
+                                        <label class="neoloop-div-bg py-1 px-2 border-radius text-white mb-1 mr-1"
+                                            *ngIf="user._id != userService.LoggedInUser._id">{{user.email}}</label>
+                                    </ng-container>
+                                    <ng-container *ngFor="let email of custom_emails;let custom_i = index;">
+                                        <label
+                                            class="neoloop-div-bg py-1 px-2 border-radius mb-1 text-white mr-1">{{email}}
+                                            <i class="fa fa-times links" role="button"
+                                                (click)="custom_emails.splice(custom_i,1);"></i></label>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <h6>Bitte geben Sie den E-Mail Betreff ein:</h6>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Vorgangsnummer</mat-label>
+                                            <input type="text" placeholder="Vorgangsnummer" matInput
+                                                value="{{opened_case_details?.Activity_No}}" readonly>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>E-Mail Betreff</mat-label>
+                                            <input type="text" placeholder="E-Mail Betreff" matInput
+                                                formControlName="subject">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <h6>Bitte geben Sie den E-Mail Text ein:</h6>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>E-Mail Text</mat-label>
+                                    <textarea placeholder="E-Mail Text" matInput formControlName="text"
+                                        rows="8"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="button" class="btn button-primary botton-hover"
+                                    [disabled]="!sendEmailFormGroup.valid" (click)="send_email();"><i
+                                        class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Senden</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="esignmodel_parent">
+    <div class="modal fade" id="esignmodel" tabindex="-1" role="dialog" data-bs-backdrop="static"
+        data-bs-keyboard="false" aria-hidden="true">
+        <div style="max-width: 800px" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="../assets/infoIcon.svg" style="object-fit: contain;width: 80px;">
+                    <span class="ml-3">Zum signieren halten Sie einfach den linken Mauscursor im weißen Feld gedrückt
+                        und zeichnen
+                        so Ihre Unterschrift. Wenn Ihr Gerät Touch fähig ist können Sie auch mit Ihrem Finger die
+                        Signatur
+                        zeichnen.</span>
+                    <button type="button" class="btn-close transitionanimation" data-bs-dismiss="modal"
+                        aria-label="Close" id="close_esign_modal"
+                        (click)="clear();close_modal('esignmodel','esignmodel_parent');add_class();"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="border: 1px solid" id="signdiv">
+                        <div style="float: right;padding: 8px 22px 0px 0px;position: absolute;right: 0;">
+                            <a (click)="clear()" class="btn btn-primary deleteicon"
+                                style="background:linear-gradient(90.39deg, #56ACEA -7.72%, #C00EF8 107.44%);border-radius:42px;width:50px;height:50px;border:transparent;">
+                                <mat-icon style="margin: 5px 1px">delete_forever</mat-icon>
+                            </a>
+                        </div>
+                        <canvas #canvas width="700" height="250"></canvas>
+                        <!-- <signature-pad [options]="signaturePadOptions" (onEndEvent)="drawComplete1()"></signature-pad> -->
+                        <div class="col-md-12"
+                            (click)="close_modal('esignmodel','esignmodel_parent');add_class();drawComplete1();"
+                            data-bs-dismiss="modal" aria-label="Close transitionanimation"
+                            style="display: block;background:linear-gradient(90.39deg, #56ACEA -7.72%, #C00EF8 107.44%);height: 50px;text-align: center;border: transparent;color: white;font-size: 25px;line-height: 49px;cursor: pointer;">
+                            Jetzt Unterschreiben
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Letter Modal And E-Sign -->
+<div id="createLetter_parent">
+    <div class="modal fade" id="createLetter" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div style="max-width:75%;" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6>Brief erstellen</h6>
+                    <button type="button" class="close" id="close_createLetter" data-dismiss="modal" aria-label="Close"
+                        (click)="close_modal('createLetter','createLetter_parent')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" *ngIf="opened_case_details._id">
+                    <div class="row m-0">
+                        <div class="col-sm-5" [formGroup]="createLetterFormGroup">
+                            <div class="row m-0">
+                                <div class="col-sm-12 p-0">
+                                    <h6>Bitte geben Sie den Briefname ein:</h6>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Briefname</mat-label>
+                                        <input matInput placeholder="Briefname" formControlName="letter_name" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <ng-container formArrayName="letter_sections">
+                                <ng-container
+                                    *ngFor="let section of letter_sections.controls; let section_index = index">
+                                    <div class="row m-0" [formGroupName]="section_index">
+                                        <div class="w-100 border-radius neoloop-div-bg p-2 mb-3" style="cursor:pointer;"
+                                            (click)="opened.section[section_index] = !opened.section[section_index]">
+                                            <h5 class="text-white mb-0">
+                                                §{{section_index+1}}.&nbsp;&nbsp;
+                                                <ng-container
+                                                    *ngIf="$any(letter_sections).controls[section_index].controls.heading.value == ''">"Überschrift"</ng-container>
+                                                <ng-container
+                                                    *ngIf="$any(letter_sections).controls[section_index].controls.heading.value != ''">{{$any(letter_sections).controls[section_index].controls.heading.value}}</ng-container>
+                                                <i class="fa fa-angle-down float-right font-weight-bold h5 mb-0"
+                                                    *ngIf="opened.section[section_index] == true"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-angle-right float-right font-weight-bold h5 mb-0"
+                                                    *ngIf="!opened.section[section_index] || opened.section[section_index] == false"
+                                                    aria-hidden="true"></i>
+                                            </h5>
+                                        </div>
+                                        <ng-container *ngIf="opened.section[section_index] == true">
+                                            <div class="col-sm-12 p-0">
+                                                <mat-form-field appearance="outline" style="width: 100%">
+                                                    <mat-label>Überschrift</mat-label>
+                                                    <input matInput placeholder="Überschrift"
+                                                        formControlName="heading" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-12 p-0">
+                                                <mat-form-field appearance="outline" style="width: 100%">
+                                                    <mat-label>Inhalt</mat-label>
+                                                    <textarea matInput placeholder="Inhalt" rows="5"
+                                                        formControlName="content"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                            <div class="row m-0">
+                                <div class="col-sm-12 p-0">
+                                    <button
+                                        [disabled]="!letter_sections.controls[letter_sections.controls.length-1].valid"
+                                        class="btn button-primary botton-hover" (click)="add_letter_section()">Abschnitt
+                                        hinzufügen <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row m-0 border border-secondary border-radius"
+                                style="max-height: 755px;overflow-y: auto;">
+                                <div class="col-sm-12 text-center mt-2">
+                                    <img src="{{opened_case_details?.case_brand_details?.logo_url}}" style="width:40%;">
+                                </div>
+
+                                <div class="col-sm-8 my-3">
+                                    <h6>Absender</h6>
+                                    {{currentUser.title}} {{currentUser.firstname}} {{currentUser.lastname}}<br>
+                                    {{currentUser.strassa}}, {{currentUser.strno}},<br>
+                                    {{currentUser.plz}}, {{currentUser.city}}, <br>
+                                    {{currentUser.current_country}}
+                                </div>
+                                <div class="col-sm-4 my-3">
+                                    <h6>Empfänger</h6>
+                                    Alle am Vorgang beteiligten Benutzer mit der Vorgangsnummer:
+                                    {{opened_case_details.Activity_No}}
+                                </div>
+
+                                <div class="col-sm-12 my-2">
+                                    <h5 class="mt-2 text-center">{{createLetterFormGroup.controls['letter_name'].value}}
+                                    </h5>
+                                </div>
+
+                                <form [formGroup]="createLetterFormGroup" style="min-height:300px;">
+                                    <ng-container formArrayName="letter_sections">
+                                        <div class="col-sm-12 mt-2"
+                                            *ngFor="let section of letter_sections.controls; let section_index = index;">
+                                            <div class="row m-0" [formGroupName]="section_index">
+                                                <div class="col-sm-12 p-0">
+                                                    <b>§{{section_index+1}}.&nbsp;{{$any(letter_sections).controls[section_index].controls.heading.value}}</b><br>
+                                                    <p>{{$any(letter_sections).controls[section_index].controls.content.value}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </form>
+
+                                <div class="col-sm-12 my-3">
+                                    <div class="row m-0">
+                                        <div class="col-sm-7 p-0">
+
+                                        </div>
+                                        <div class="col-sm-5 p-0">
+                                            <button *ngIf="drawingnew == 0"
+                                                class="mb-2 btn button-primary botton-hover btn-sm mb"
+                                                (click)="signaturePad.clear();open_modal('esignmodel');"
+                                                data-toggle="modal" data-target="#esignmodel">E-Signatur <i
+                                                    class="fa fa-pencil" aria-hidden="true"></i></button>
+                                            <img class="imageidnew w-100"
+                                                [ngStyle]="drawingnew == 1 ? {'display':''} : {'display':'none'}" />
+                                            <button *ngIf="drawingnew == 1"
+                                                class="fa fa-edit button-primary botton-hover btn btn-sm position-absolute"
+                                                style="right: 0;" (click)="open_modal('esignmodel');"
+                                                data-toggle="modal" data-target="#esignmodel"></button>
+                                            <hr class="border-secondary mt-0 mb-2">
+                                            <!-- {{opened_case_details.brand}}<br> -->
+                                            {{opened_case_details?.case_brand_details?.company_info[0].name}}<br>
+                                            {{currentActiveRoleView}}<br>
+                                            {{currentUser.firstname}} {{currentUser.lastname}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn button-primary botton-hover"
+                        [disabled]="!createLetterFormGroup.valid || drawingnew == 0"
+                        (click)="send_letter()">Schicken</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="esignmodel_parent">
+    <div class="modal fade" id="esignmodel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+        aria-hidden="true">
+        <div style="max-width: 800px" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="../assets/infoIcon.svg" style="object-fit: contain;width: 80px;">
+                    <span class="ml-3">Zum signieren halten Sie einfach den linken Mauscursor im weißen Feld gedrückt
+                        und zeichnen so Ihre Unterschrift. Wenn Ihr Gerät Touch fähig ist können Sie auch mit Ihrem
+                        Finger die Signatur zeichnen.</span>
+                    <button type="button" class="close transitionanimation"
+                        (click)="clear();close_modal('esignmodel','esignmodel_parent');add_class();"
+                        id="close_esign_modal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="border: 1px solid" id="signdiv">
+                        <div style="float: right;padding: 8px 22px 0px 0px;position: absolute;right: 0;">
+                            <a (click)="clear()" class="btn btn-primary deleteicon"
+                                style="background-color: #3e99d4;border-radius:42px;width:50px;height:50px;border:transparent;">
+                                <mat-icon style="margin: 5px 1px">delete_forever</mat-icon>
+                            </a>
+                        </div>
+                        <canvas #canvastwo width="750" height="300" (onEndEvent)="drawComplete1()"></canvas>
+                        <!-- <signature-pad [options]="signaturePadOptions" (onEndEvent)="drawComplete1()"></signature-pad> -->
+                        <div class="col-md-12" (click)="close_modal('esignmodel','esignmodel_parent');add_class();"
+                            data-dismiss="modal" aria-label="Close transitionanimation"
+                            style="display: block;background-color: #3e99d4;height: 50px;text-align: center;border: transparent;color: white;font-size: 25px;line-height: 49px;cursor: pointer;">
+                            Jetzt Unterschreiben
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---------------------------------This Letter div will be converted to pdf and uploaded to the server------------------------------>
+<div style="width:600px;font-size: 9px;display:none;" id="letter_pdf" *ngIf="opened_case_details._id">
+    <div class="row" style="padding-left:10px;padding-right:10px;">
+        <div class="col-sm-12 text-center mt-2">
+            <img style="width:30%;"
+                src="{{api_url}}document/downloaddocument/{{opened_case_details?.case_brand_details?.logo}}"><br>
+        </div>
+        <div class="col-sm-8 my-3">
+            <h6>Absender</h6>
+            {{currentUser.title}} {{currentUser.firstname}} {{currentUser.lastname}}<br>
+            {{currentUser.strassa}}, {{currentUser.strno}},<br>
+            {{currentUser.plz}}, {{currentUser.city}}, <br>
+            {{currentUser.current_country}}
+        </div>
+        <div class="col-sm-4 my-3">
+            <h6>Empfänger</h6>
+            Alle am Vorgang beteiligten Benutzer mit der Vorgangsnummer: {{opened_case_details.Activity_No}}
+        </div>
+
+        <div class="col-sm-12 my-2">
+            <h5 class="mt-2 text-center">{{createLetterFormGroup.controls['letter_name'].value}}</h5>
+        </div>
+
+        <div class="col-md-12">
+            <p class="m-0">Datum: {{today_date | date: 'dd.MM.yyyy'}}</p>
+        </div>
+
+        <div class="col-sm-12 p-0 mt-2">
+            <form [formGroup]="createLetterFormGroup">
+                <ng-container formArrayName="letter_sections">
+                    <div class="col-sm-12 mt-2"
+                        *ngFor="let section of letter_sections.controls; let section_index = index;">
+                        <div class="row m-0" [formGroupName]="section_index">
+                            <div class="col-sm-12 p-0">
+                                <p style="font-size:14px;" class="mb-1">
+                                    <b>§{{section_index+1}}.&nbsp;{{$any(letter_sections).controls[section_index].controls.heading.value}}</b>
+                                </p>
+                                <p>{{$any(letter_sections).controls[section_index].controls.content.value}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </form>
+        </div>
+
+        <div class="col-sm-8 mt-3"></div>
+        <div class="col-sm-4 mt-3">
+            <img class="imageidnew w-100" />
+            <hr class="border-secondary mt-0 mb-2">
+            <!-- {{opened_case_details.brand}}<br> -->
+            {{opened_case_details?.case_brand_details?.company_info[0].name}}<br>
+            {{ currentActiveRoleView }}<br>
+            {{currentUser.firstname}} {{currentUser.lastname}}
+        </div>
+    </div>
+</div>
+<!-- Letter Modal And E-Sign -->

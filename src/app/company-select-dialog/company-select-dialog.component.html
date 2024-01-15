@@ -1,0 +1,50 @@
+<h3 style="padding-bottom: 10px;" mat-dialog-title></h3>
+<div class="d-flex justify-content-between mb-1">
+    <div class="pr-2 font-18 pb-2">
+        <div class="header-item">
+            Wählen Sie Unternehmen für {{roleName}}
+            <i class="ft-x font-18 "></i>
+        </div>
+    </div>
+    <div class="dialog-close-button ">
+        <button mat-icon-button (click)="close(true)">
+            <span class="material-icons">
+                cancel
+            </span>
+        </button>
+    </div>
+</div>
+<div mat-dialog-content style="height: auto;">
+    <div *ngFor="let item of allCompaniesArray">
+        <div
+            class="d-flex flex-row justify-content-start align-items-start flex-wrap gap-2">
+            <!-- <p>{{company.name}} {{allCompanies[company.name]}} </p> -->
+            <ng-container *ngFor="let company of item">
+                <ng-container *ngIf="(roleName=='Benutzer' && company.name == 'checkntrack') || roleName!='Benutzer'">
+                    <mat-card
+                        [ngStyle]="{'background': allCompanies[company.name]? allCompanies[company.name] == 2 ? 'rgb(117 226 191 / 50%)' : 'rgba(45, 45, 45, 0.5)':'bottom'}"
+                        (click)="selectCompany(company.name)" class="role-card" class="company card-style"
+                        style="background: bottom;margin-bottom: 15px!important;">
+                        <mat-card-content>
+                            <img mat-card-image src="{{company.image}}">
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-checkbox class="company checkboxStyle checkboxStyle2" [(ngModel)]="allCompanies[company.name]"
+                        color='primary' (change)="onCompanyChange($event)" value="{{company.name}}"
+                        [ngModelOptions]="{standalone: true}" name="checkbox">
+                    </mat-checkbox>
+                </ng-container>
+            </ng-container>
+
+
+
+        </div>
+    </div>
+
+</div>
+<div mat-dialog-actions>
+    <div class="col-md-12 d-flex jusify-content-end p-0">
+        <button mat-raised-button (click)="close()" [disabled]="isSubmitDisabled"
+            class="stepper-btn">Bestätigen</button>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+:host ::ng-deep .height-80vh {
+    height: 80vh !important;
+  }
+  

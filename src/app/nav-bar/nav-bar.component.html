@@ -1,0 +1,238 @@
+<app-cefima-login [ppid]="ppid"></app-cefima-login>
+<div class="col-md-12 " style="background: linear-gradient(#17459b, #02a9ed)">
+    <nav class="navbar navbar-expand-lg navbar-light side-bar-background">
+        <div class="navbar-brand logo ml-3">
+          <img
+            (click)="gotosessiondashboard()"
+            style="cursor: pointer"
+            src="../../assets/produktwelt/nav-icon.svg"
+          />
+        </div>
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#main-navigation"
+        >
+          <span class="navbar-toggler-icon">
+            <span class="one"></span>
+            <span class="two"></span>
+            <span class="three"></span>
+          </span>
+        </button>
+        <div class="collapse navbar-collapse navid" id="main-navigation">
+          <ul id="menu" class="navbar-nav m-auto topnav">
+            <!-- <li class="nav-item homemenu">
+              <a
+                id="Finanzvermittlernew"
+                href="#finanzvermittler"
+                class="nav-link header-text cool-link tabactive"
+                >Finanzvermittler</a
+              >
+            </li>
+            <li class="nav-item homemenu">
+              <a
+                id="Gewerbekunden"
+                href="#Angebot_bekommen"
+                class="nav-link header-text cool-link tabactive"
+                >Gewerbekunden</a
+              >
+            </li>
+            <li class="nav-item homemenu">
+              <a
+                id="Privatkunden"
+                href="#private_Kunden"
+                class="nav-link header-text cool-link tabactive"
+                >Privatkunden</a
+              >
+            </li>
+            <li class="nav-item homemenu">
+              <a
+                id="MEHR"
+                href="#Über_uns"
+                class="nav-link header-text cool-link tabactive"
+                >MEHR</a
+              >
+            </li> -->
+            
+            <li class="nav-item homemenu d-flex col-md-12  justify-content-center align-items-center startseite" >
+              <!-- href="#" -->
+              <a style="color: white !important;font-weight: bold;" class="nav-link text-white p-0 header-text cool-link tabactive">Startseite</a>
+            </li>
+            
+            <li class="nav-item homemenu d-block d-lg-none">
+              <a
+                [routerLink]="['/uber-uns']"
+                class="nav-link header-text cool-link tabactive"
+                >Über uns</a
+              >
+            </li>
+            <li class="nav-item homemenu d-block d-lg-none">
+              <!-- href="#" -->
+              <a  class="nav-link header-text cool-link tabactive"
+                >Produktwelt</a
+              >
+            </li>
+            <li class="nav-item homemenu d-block d-lg-none">
+              <!-- href="#" -->
+              <a
+                [routerLink]="['/karriere']"
+                class="nav-link header-text cool-link tabactive"
+                >Karriere</a
+              >
+            </li>
+            <li class="nav-item homemenu d-block d-lg-none">
+              <!--  href="#" -->
+              <a
+                [routerLink]="['/news-section']"
+                class="nav-link header-text cool-link tabactive"
+                >Neuigkeiten</a
+              >
+            </li>
+          </ul>
+          <div
+            *ngIf="tokensession"
+            class="Logout d-none d-md-block dropdwonbts"
+            style="margin-right: 0px"
+          >
+            <div style="right: 0 !important; top: 6px" class="dropdown">
+              <button class="dropbtn">
+                <img style="height: 30px" src="../../assets/user-02.png" />
+                <div>
+                  <span
+                    style="
+                      color: #153a85;
+                      font-weight: 600;
+                      text-transform: uppercase;
+                      padding: 4px;
+                    "
+                    >{{ localdata.title }}</span
+                  >
+                  <span
+                    style="color: #153a85;font-weight: 600;
+                      text-transform: uppercase;"
+                    >{{ localdata.lastname }}</span
+                  >
+                </div>
+              </button>
+              <div
+                style="border-radius: 5px; margin-left: -20px; margin-right: 26px"
+                class="dropdown-content"
+              >
+                <a
+                  (click)="gotosessiondashboard()"
+                  style="
+                    cursor: pointer;
+                    font-size: 0.875rem;
+                    text-decoration: none;
+                  "
+                  >Dashboard</a
+                >
+                <a
+                  (click)="gotosessionmaindata()"
+                  style="cursor: pointer; font-size: 0.875rem"
+                  >Meine Daten</a
+                >
+                <!-- <app-router-select></app-router-select> -->
+                <a style="cursor: pointer" (click)="logout()">Logout</a>
+              </div>
+            </div>
+          </div>
+          <form *ngIf="!tokensession" class="form-inline my-lg-0">
+            <button
+            mat-raised-button
+              type="button"
+              class=" btn-login login-btn"
+              data-toggle="modal"
+              id="loginbtn"
+              data-target="#exampleModalCenter"
+            >
+              Log in
+            </button>
+          </form>
+          <div
+            class="pure-container d-none d-lg-block"
+            data-effect="pure-effect-slide"
+          >
+            <input
+              type="checkbox"
+              id="pure-toggle-left"
+              class="pure-toggle"
+              data-toggle="right"
+            />
+    
+            <label
+              *ngIf="!tokensession"
+              class="pure-toggle-label mr-4 d-none d-lg-block"
+              for="pure-toggle-left"
+              data-toggle-label="right"
+              style="top: 3px !important"
+              ><span class="pure-toggle-icon"></span
+            ></label>
+    
+            <label
+              *ngIf="tokensession"
+              class="pure-toggle-label mr-4 d-none d-lg-block"
+              for="pure-toggle-left"
+              data-toggle-label="right"
+              ><span class="pure-toggle-icon"></span
+            ></label>
+            <!-- <label class="pure-toggle-label mr-4 d-none d-lg-block" for="pure-toggle-left" data-toggle-label="right"><span
+            class="pure-toggle-icon"></span></label> -->
+    
+            <nav class="pure-drawer" data-position="right">
+              <div style="height: 37px"></div>
+              <div>
+                <div style="padding: 5px; height: 90px; width: 100%">
+                  <img
+                    src="./assets/login/latest-logo/Mek_Finanz.svg"
+                    style="width: 90%; display: block; margin: auto"
+                  />
+                </div>
+                <ul style="list-style-type: none">
+                  <li id="side_li">
+                    <a
+                      style="cursor: pointer"
+                      id="sidenav"
+                      (click)="router.navigate(['/uber-uns'])"
+                      >Über uns</a
+                    >
+                  </li>
+                  <li id="side_li" style="cursor:pointer;"><a id="sidenav">Produktwelt</a></li>
+                  <li id="side_li">
+                    <a [routerLink]="['/karriere']" id="sidenav">Karriere</a>
+                  </li>
+                  <li id="side_li">
+                    <a [routerLink]="['/news-section']" id="sidenav">Neuigkeiten</a>
+                  </li>
+                </ul>
+              </div>
+              <div
+                style="display: block; margin: auto; text-align: center"
+                class="social-links sidea"
+              >
+              <!--  href="https://www.instagram.com/cefima__" -->
+                <a
+                  style="padding: 10px"
+                  target="_blank"
+                 
+                  ><i class="fab fa-instagram fa-2x"></i
+                ></a>
+                <!--  href="https://www.youtube.com/channel/UCXLhYG3bTh0heXWl5Xq9SSA" -->
+                <a
+                  target="_blank"
+                  style="padding: 10px"
+                 
+                  ><i class="fab fa-youtube fa-2x"></i
+                ></a>
+              </div>
+            </nav>
+            <label
+              class="pure-overlay"
+              for="pure-toggle-left"
+              data-overlay="right"
+            ></label>
+          </div>
+        </div>
+      </nav>
+</div>

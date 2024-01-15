@@ -1,0 +1,71 @@
+<div class="header">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="header-content">
+					<h3>
+						Willkommen
+						<ng-container *ngIf="userData.usertitle">{{ getUserData('usertitle') }}</ng-container>
+						<ng-container *ngIf="!userData.usertitle">{{ getUserData('title') }}</ng-container>
+						{{ getUserData('lastname') }}
+					</h3>
+					<ul>
+						<li class="links">
+							<a class="text-decoration-none" role="button" routerLink="/cefima">Dashboard
+							</a>
+						</li>
+						<li *ngIf="opened_page_title != 'Neoloop'">/</li>
+						<li *ngIf="opened_page_title != 'Neoloop'">
+							{{ opened_page_title }}
+						</li>
+					</ul>
+					<!-- <h3>Willkommen <ng-container *ngIf="userData.usertitle">{{userData.usertitle}}</ng-container> <ng-container *ngIf="!userData.usertitle">{{userData.title}}</ng-container> {{userData.lastname}} zu {{opened_page_title}}</h3> -->
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="logout-section">
+					<div class="mean-socit pl-2 hover-gray border-radius">
+						<div class="dropdown">
+							<div class="images-login"><img src="assets/fio.png" /></div>
+							<button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<p>
+									<ng-container *ngIf="userData.usertitle">{{ getUserData('usertitle') }}</ng-container>
+									<ng-container *ngIf="!userData.usertitle">{{ getUserData('title') }}</ng-container>
+									{{ getUserData('lastname') }}
+									<span>
+										<ng-container *ngIf="role == 'superadmin'">Superadmin</ng-container>
+										<ng-container *ngIf="role == 'admin'">Admin</ng-container>
+										<ng-container *ngIf="role == 'b2b'">B2B</ng-container>
+										<ng-container *ngIf="role == 'customer'">Kunde</ng-container>
+										<ng-container *ngIf="role == 'user'">Benutzer</ng-container>
+									</span>
+								</p>
+								<!-- <i class="fa fa-heart"></i> -->
+								<img src="assets/Gradient_arrow.png" class="pt-3"
+									style="transform: rotate(90deg); width: 22px" />
+							</button>
+
+							<div class="dropdown-menu border-radius" aria-labelledby="dropdownMenuButton">
+								<a role="button" [ngClass]="router.url == '/cefima/meine-daten' ? 'active dropdown-item border-radius' : 'dropdown-item border-radius' " (click)="router.navigate(['cefima/meine-daten'])" style="text-decoration: none;">Meine Daten</a>
+								<a class="dropdown-item text-danger border-radius mt-2" role="button"
+									(click)="logout()">Logout</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="list-icon mt-3">
+					<ul>
+						<li>
+							<a><img src="assets/mess.png" style="filter: brightness(1.2)" /></a>
+						</li>
+						<li>
+							<a><img src="assets/well.png" style="filter: brightness(1.2)" /></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Anrufinfo</h1>
+<div mat-dialog-content>
+  <mat-form-field [cdkCopyToClipboard]="data.peerId" style="width: 340px">
+    <mat-label>{{
+      data.joinCall ? "Remote-ID einfügen" : "Bitte kopieren Sie Ihre ID"
+    }}</mat-label>
+    <input [disabled]="!data.joinCall" matInput [(ngModel)]="data.peerId" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    [mat-dialog-close]="data.peerId"
+    [disabled]="!data.peerId"
+  >
+    Ok
+  </button>
+</div>

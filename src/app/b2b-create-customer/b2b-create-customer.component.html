@@ -1,0 +1,1446 @@
+<div class="app-background col-md-12 ">
+
+    <div id="customerregisteration" class="table-section table-min-height">
+      <div class="card border-0  m-1" style="background-color: #F2F2F2;">
+        <div class="card-body p-3">
+          <span class="card-text">Willkommen {{localdata.title}} {{localdata.lastname}} bitte füllen Sie alle Felder aus,
+            um einen neuen Benutzer hinzuzufügen</span>
+        </div>
+      </div>
+  
+      <mat-horizontal-stepper linear #stepper (selectionChange)="onStepChange($event)" style="background: bottom" class="stepnewclass "
+        ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}" >
+  
+        <ng-template matStepperIcon="edit">
+          <mat-icon>check</mat-icon>
+        </ng-template>
+        <mat-step [stepControl]="askquestion">
+  
+          <ng-template matStepLabel>
+            <span>Kundentyp</span>
+            <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderKundenType}}</div>
+          </ng-template>
+  
+  
+          <div class="container" style="margin-top: 60px;">
+            <div class="col-md-12" style="text-align: left;">
+              <div style="text-align: left;width: fit-content;margin: 0 auto; font-weight: bold;">
+                <p>Welche Art von Kunden möchten Sie hinzufügen?</p>
+  
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="centered-btn-group" style="width: 60%; margin: 20px auto;">
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-card class="links1" (click)="setKeyval('company')" (mouseover)="isHoverUnternahman = true"
+                      (mouseleave)="isHoverUnternahman = false">
+                      <mat-card-title class="  d-flex flex-column align-items-center">
+                        <img *ngIf="!isHoverUnternahman else hoverUnternehmen" mat-card-image
+                          class="flex-item custom-margin" style="width: 40%;" src="../assets/icons/icon1.svg" />
+                        <ng-template #hoverUnternehmen>
+                          <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                            src="../assets/icons/Unternehmen(white).svg" />
+                        </ng-template>
+                        <span class="custom-heading flex-item">UNTERNEHMEN</span>
+                      </mat-card-title>
+                    </mat-card>
+                  </div>
+  
+                  <div class="col-md-6">
+                    <mat-card class="links1" (click)="setKeyval('familymember')" (mouseover)="isHoverHaushalt = true"
+                      (mouseleave)="isHoverHaushalt = false">
+                      <mat-card-title class="d-flex flex-column align-items-center">
+                        <img *ngIf="!isHoverHaushalt else hoverHaushalt" mat-card-image class="flex-item custom-margin"
+                          style="width: 40%;" src="../assets/icons/icon2.svg" />
+                        <ng-template #hoverHaushalt>
+                          <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                            src="../assets/icons/haushalt(white).svg" />
+                        </ng-template>
+                        <span class=" custom-heading flex-item">HAUSHALT</span>
+                      </mat-card-title>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <ng-template #showcard>
+                <mat-card class="links" style="background-color: rgba(45, 45, 45, 0.5);">
+                  <mat-card-title style="margin: inherit !important; width: auto;">
+                    <img mat-card-image src="../assets/Haushalt hinzufügen -button.svg" />
+                  </mat-card-title>
+                </mat-card>
+              </ng-template>
+            </div>
+  
+          </div>
+  
+  
+  
+  
+          <div class=" col-md-12 d-flex justify-content-end ">
+  
+            <button style="display: none;" matStepperNext id="movetonextstep">
+              Weiter &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+  
+        </mat-step>
+        <mat-step [stepControl]="companyNewFormGroup" *ngIf="companyTitle; else noCompany">
+  
+          <form [formGroup]="companyNewFormGroup" #fsp2="ngForm" novalidate="" class="personal-data-form">
+            <ng-template matStepLabel>Offizielle Unternehmensdaten</ng-template>
+  
+            <div class="container">
+              <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+  
+                <div class="col-md-4 m-0 p-0 " style="padding: 0px;text-align: start;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select matNativeControl formControlName="status" (selectionChange)="changestatus($event)">
+                      <mat-option value="Kunde (Interessent)">Kunde (Interessent)</mat-option>
+                      <mat-option value="Kunde">Kunde</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 m-0 p-0" style="padding: 0px;text-align: center;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Firmenname</mat-label>
+                    <input matInput formControlName="companyName" placeholder="Firmenname" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4 m-0 p-0" style="padding: 0px;text-align: end;">
+                  <mat-form-field class="form-width firmacustomer" appearance="outline"
+                    style="padding-bottom: 0 !important;">
+  
+                    <mat-label>Unternehmensform</mat-label>
+                    <input type="text" aria-label="Number" matInput [formControl]="ThirdTypeDoc"
+                      (keyup.enter)="ThirdTypeDocValue()" (ngModelChange)="ThirdTypeDocValue()"
+                      [matAutocomplete]="auto1" />
+                    <mat-autocomplete #auto1="matAutocomplete">
+                      <mat-option *ngFor="let employee of ThirdTypeDocOptions | async" [value]="employee">
+                        {{ employee }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+  
+  
+  
+                <div class="col-md-4 m-0 p-0" style="padding: 0px;text-align: start;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Gründungsdatum</mat-label>
+                    <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate" placeholder="Gründungsdatum"
+                      formControlName="founding_date" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 " style="padding: 0px;text-align: center;"
+                  *ngIf="companytypenew != '' && companytypenew != 'Einzelunternehmen' && companytypenew != 'Eingetragener Kaufmann (e.K.)'">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Registernummer</mat-label>
+                    <input matInput placeholder="Registernummer" formControlName="registration_num" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align: end;"
+                  *ngIf="companytypenew != '' && companytypenew != 'Einzelunternehmen' && companytypenew != 'Eingetragener Kaufmann (e.K.)'">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Registerort</mat-label>
+                    <input matInput placeholder="Registerort" formControlName="register_location"
+                      ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChangeCompany($event)" />
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-md-4" style="padding: 0px;">
+                    <mat-form-field [hidden]="true">
+                      <input matInput type="text" placeholder="An Input" formControlName="nationality" />
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" appearance="outline" >
+                      <mat-label>Nationalität</mat-label>
+                      <input type="text" placeholder="Nationalität" matInput [formControl]="myControlCompany"
+                        [matAutocomplete]="auto" (ngModelChange)="setnationalityCompany()" />
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let employee of filteredOptionsCompany | async" [value]="employee">
+                          {{ employee }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>  -->
+                <div class="col-md-12 p-0 m-0 d-flex justify-content-between " >
+                  <button class="stepper-btn transitionanimation " mat-raised-button matStepperPrevious> Zurück
+                  </button>
+                  <button class="stepper-btn transitionanimation" mat-raised-button matStepperNext
+                    (click)="patchCEOvalues()"
+                    [disabled]="(ThirdTypeDoc.value!='' && ThirdTypeDoc.value!=' ' && ThirdTypeDoc.value!=null && companytypevalue && fsp2.form.valid) ? false : true">
+                    Weiter
+                  </button>
+                </div>
+              </div>
+  
+  
+  
+            </div>
+  
+  
+          </form>
+        </mat-step>
+        <ng-template #noCompany>
+          <mat-step [stepControl]="personalInfoFormGroup">
+            <form [formGroup]="personalInfoFormGroup" #fsp="ngForm" novalidate="" class="personal-data-form">
+              <ng-template matStepLabel>Persönliche Daten</ng-template>
+              <div class="col-md-12">
+                <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+  
+                  <div class="col-md-4" style="padding: 0px">
+                    <mat-form-field class="form-width" appearance="outline">
+                      <mat-label>Status</mat-label>
+                      <mat-select matNativeControl formControlName="status" (selectionChange)="changestatus($event)">
+                        <mat-option value="Kunde (Interessent)">Kunde (Interessent)</mat-option>
+                        <mat-option value="Kunde">Kunde</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+  
+                  </div>
+                  <div class="col-md-4 p-0 m-0" style="text-align:center">
+                    <mat-form-field class="form-width p-0 m-0" appearance="outline">
+                      <mat-label>Anrede</mat-label>
+                      <mat-select matNativeControl formControlName="usertitle">
+                        <mat-option value="Frau">Frau</mat-option>
+                        <mat-option value="Herr">Herr</mat-option>
+                        <mat-option value="Divers">Divers</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+  
+                  <div class="col-md-4" style="padding: 0px;text-align:end">
+                    <mat-form-field class="form-width" appearance="outline">
+                      <mat-label>Vorname</mat-label>
+                      <input matInput formControlName="firstName" placeholder="Vorname" />
+                    </mat-form-field>
+                  </div>
+  
+                  <div class="col-md-4" style="padding: 0px">
+                    <mat-form-field class="form-width" appearance="outline">
+                      <mat-label>Nachname</mat-label>
+                      <input matInput formControlName="lastName" placeholder="Nachname" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4" style="padding: 0px;text-align:center">
+                    <mat-form-field class="form-width" appearance="outline">
+                      <mat-label>Geburtsdatum</mat-label>
+                      <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate" placeholder="Geburtsdatum"
+                        formControlName="dob" />
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+  
+                  <div class="col-md-4" style="padding: 0px;text-align:end">
+                    <mat-form-field class="form-width" appearance="outline">
+                      <mat-label>Geburtsort</mat-label>
+                      <!-- <input matInput placeholder="Geburtsort" formControlName="birthPlace" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/> -->
+                      <input matInput placeholder="Geburtsort" formControlName="birthPlace" ngx-google-places-autocomplete
+                        [options]="options" #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" />
+                    </mat-form-field>
+                  </div>
+  
+  
+                  <div class="col-md-4" style="padding: 0px">
+                    <mat-form-field class="form-width" [hidden]="true">
+                      <input matInput type="text" placeholder="An Input" formControlName="nationality" />
+                    </mat-form-field>
+                    <mat-form-field class="form-width" appearance="outline">
+                      <mat-label>Nationalität</mat-label>
+                      <input type="text" placeholder="Nationalität" matInput [formControl]="myControl"
+                        [matAutocomplete]="auto" (ngModelChange)="setnationality()" />
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let employee of filteredOptions | async" [value]="employee">
+                          {{ employee }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 p-0 m-0  d-flex justify-content-between " >
+                    <button class="stepper-btn transitionanimation " mat-raised-button matStepperPrevious> Zurück
+                    </button>
+                    <button class="stepper-btn transitionanimation" mat-raised-button matStepperNext
+                      [disabled]="(fsp.form.valid) ? false : true">
+                      Weiter &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+  
+  
+                <!-- <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+                        <div  class="col-md-4" style="padding: 0px" ></div>
+                        <div  class="col-md-4" style="padding: 0px" ></div>
+                        <div  class="col-md-4" style="padding: 0px" >
+                        <button class="stepper-btn transitionanimation" mat-button matStepperPrevious style="margin-right: 10px">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp; Zurück
+                        </button>
+                        <button class="stepper-btn transitionanimation" mat-raised-button matStepperNext
+                          [disabled]="(fsp.form.valid) ? false : true">
+                          Weiter &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                        </div>
+                      </div> -->
+  
+              </div>
+  
+  
+            </form>
+          </mat-step>
+        </ng-template>
+        <mat-step *ngIf="companytypenew =='' " [stepControl]="addressFormGroup">
+          <form [formGroup]="addressFormGroup" #fso="ngForm" class="Official-residence-form">
+            <ng-template matStepLabel>Offizieller Wohnsitz</ng-template>
+            <div class="col-md-12">
+              <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+                <p style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
+                  Bitte geben Sie hier Ihre persönliche Meldeadresse an.
+                </p>
+                <div class="col-md-4" style="padding: 0px">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Straße</mat-label>
+                    <input matInput placeholder="Straße" formControlName="street" ngx-google-places-autocomplete
+                      [options]="options" #placesRef="ngx-places" (onAddressChange)="handleAllFields($event)" />
+                  </mat-form-field>
+  
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align: center;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Nr.</mat-label>
+                    <input matInput placeholder="Nr." formControlName="streetNumber" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+  
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>PLZ</mat-label>
+                    <input matInput placeholder="PLZ" formControlName="postCode" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:start">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Stadt</mat-label>
+                    <input matInput placeholder="Stadt" formControlName="city" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:center">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                    <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                      formControlName="additionalReference" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Land des Wohnsitzes</mat-label>
+                    <input matInput placeholder="Land des Wohnsitzes" formControlName="countryOfResidence"
+                      ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChangeland($event)" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12 p-0 m-0  d-flex justify-content-between " >
+                  <button class="stepper-btn transitionanimation " mat-raised-button matStepperPrevious> Zurück
+                  </button>
+                  <button class="stepper-btn transitionanimation" mat-raised-button matStepperNext
+                    [disabled]="!fso.form.valid">
+                    Weiter
+                  </button>
+                </div>
+              </div>
+  
+  
+  
+  
+            </div>
+  
+  
+          </form>
+        </mat-step>
+        <mat-step *ngIf="companytypenew !=''" [stepControl]="addressFormGroup">
+          <form [formGroup]="addressFormGroup" #fso="ngForm" class="Official-residence-form">
+            <ng-template matStepLabel>offizielle Geschäftsadresse</ng-template>
+            <div class="col-md-12">
+              <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+                <p style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
+                  Bitte geben Sie hier die offizielle Geschäftsadresse an.
+                </p>
+  
+                <div class="col-md-4" style="padding: 0px;text-align: start;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Straße</mat-label>
+                    <input matInput placeholder="Straße" formControlName="street" ngx-google-places-autocomplete
+                      [options]="options" #placesRef="ngx-places" (onAddressChange)="handleAllFields($event)" />
+                  </mat-form-field>
+  
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:center">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Nr.</mat-label>
+                    <input matInput placeholder="Nr." formControlName="streetNumber" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+  
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>PLZ</mat-label>
+                    <input matInput placeholder="PLZ" formControlName="postCode" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Stadt</mat-label>
+                    <input matInput placeholder="Stadt" formControlName="city" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:center">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                    <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                      formControlName="additionalReference" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Land des Wohnsitzes</mat-label>
+                    <input matInput placeholder="Land des Wohnsitzes" formControlName="countryOfResidence"
+                      ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChangeland($event)" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12 p-0 m-0 d-flex justify-content-between " >
+                  <button class="stepper-btn transitionanimation " mat-raised-button matStepperPrevious> Zurück
+                  </button>
+                  <button class="stepper-btn transitionanimation" mat-raised-button matStepperNext
+                    [disabled]="!fso.form.valid">
+                    Weiter
+                  </button>
+                </div>
+              </div>
+  
+  
+  
+  
+            </div>
+  
+  
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="livingaddressFormGroup" *ngIf="companytypenew == 'Einzelunternehmen' || companytypenew == 'Eingetragener Kaufmann (e.K.)'
+      ">
+  
+          <form [formGroup]="livingaddressFormGroup" #livingfso1="ngForm" class="personal-data-form">
+            <ng-template matStepLabel>Gesetzlicher Vertreter</ng-template>
+            <div class="col-md-12">
+              <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+                <p style="text-align: left; margin-bottom: 15px ; font-size: 12px;">
+                  Tragen Sie hier die persönlichen Daten des Inhabers und gesetzlichen Vertreters ein.
+                </p>
+                <div class="col-md-4 p-0 m-0">
+                  <!-- <label style=" display: block; width: 100%; float: left; ">Anrede</label> -->
+                  <!-- <mat-radio-group class="form-width" aria-label="Select an option" formControlName="title">
+                    <mat-radio-button value="Frau" class="radioclass3">Frau
+                    </mat-radio-button>
+                    <mat-radio-button value="Herr" class="radioclass3">Herr
+                    </mat-radio-button>
+                    <mat-radio-button value="Divers" class="radioclass3">Divers</mat-radio-button>
+                  </mat-radio-group> -->
+                  <mat-form-field class="form-width" appearance="outline" style="text-align: start;">
+                    <mat-label>Anrede</mat-label>
+                    <mat-select matNativeControl formControlName="title">
+                      <mat-option value="Frau">Frau</mat-option>
+                      <mat-option value="Herr">Herr</mat-option>
+                      <mat-option value="Divers">Divers</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align: center;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Vorname</mat-label>
+                    <input matInput formControlName="firstname" />
+                  </mat-form-field>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+  
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Nachname</mat-label>
+                    <input matInput formControlName="lastname" />
+                  </mat-form-field>
+                </div>
+  
+  
+                <div class="col-md-4" style="padding: 0px;text-align: start;">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Geburtsdatum</mat-label>
+                    <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate" placeholder="Geburtsdatum"
+                      formControlName="dob" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:center">
+  
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Geburtsort</mat-label>
+                    <input matInput placeholder="Geburtsort" formControlName="birthPlace" ngx-google-places-autocomplete
+                      [options]="options" #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" />
+                  </mat-form-field>
+                </div>
+  
+                <p style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
+                  Tragen Sie hier die persönliche Meldeadresse des Inhabers und gesetzlichen Vertreters ein.
+                </p>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:start">
+  
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Straße</mat-label>
+                    <input matInput placeholder="Straße" formControlName="street" ngx-google-places-autocomplete
+                      [options]="options" #placesRef="ngx-places" (onAddressChange)="handleAllFieldsliving($event)" />
+                  </mat-form-field>
+  
+  
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px;text-align:start">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Nr.</mat-label>
+                    <input matInput placeholder="Nr." formControlName="streetNumber" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+  
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>PLZ</mat-label>
+                    <input matInput placeholder="PLZ" formControlName="postCode" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:start">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>Stadt</mat-label>
+                    <input matInput placeholder="Stadt" formControlName="city" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:center">
+                  <mat-form-field class="form-width" appearance="outline">
+                    <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                    <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                      formControlName="additionalReference" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding: 0px;text-align:end">
+                  <mat-form-field class="form-width" appearance="outline">
+  
+                    <mat-label>Land des Wohnsitzes</mat-label>
+                    <input matInput placeholder="Land des Wohnsitzes" formControlName="countryOfResidence"
+                      ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChangeland($event)" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12 p-0 m-0  d-flex justify-content-between " >
+  
+                  <button class="stepper-btn " mat-raised-button matStepperPrevious>
+                    Zurück
+                  </button>
+  
+                  <button class="stepper-btn transitionanimation" matStepperNext mat-raised-button
+                    [disabled]="!livingfso1.form.valid">
+                    Weiter
+                  </button>
+                </div>
+              </div>
+  
+  
+  
+            </div>
+  
+  
+          </form>
+  
+        </mat-step>
+        <mat-step [stepControl]="secondcompanyaddressFormGroup" *ngIf="companytypenew == 'Unternehmergesellschaft (haftungsbeschränkt)' || 
+      companytypenew == 'Gesellschaft mit beschränkter Haftung (GmbH)' ||
+      companytypenew == 'Aktiengesellschaft (AG)' || 
+      companytypenew == 'Kommanditgesellschaft (KG)' ||
+      companytypenew == 'GmbH & Co KG' ||  
+      companytypenew == 'Kommanditgesellschaft auf Aktien (KGaA)'||
+      companytypenew == 'UG & Co. KG' || 
+      companytypenew == 'Gesellschaft bürgerlichen Rechts (GbR)' ||  
+      companytypenew == 'Offene Handelsgesellschaft (OHG)' ||
+      companytypenew == 'eingetragene Genossenschaft (eG)'">
+          <div class="row updateprofile gap-3">
+            <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw ">
+              <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
+                <form [formGroup]="secondcompanyaddressFormGroup" #secondcompanyfso="ngForm" novalidate=""
+                  class="Official-residence-form col-md-12 p-0 m-0 ">
+  
+                  <ng-template matStepLabel>Gesetzliche Vertreter </ng-template>
+  
+                  <h5
+                    *ngIf=" companytypenew == 'Gesellschaft bürgerlichen Rechts (GbR)' || companytypenew == 'Gesellschaft mit beschränkter Haftung (GmbH)' || companytypenew == 'Unternehmergesellschaft (haftungsbeschränkt)'"
+                    class="col-md-12 d-flex py-2 rounded-lg  "
+                    style="text-align: left; background-color: #F2F2F2;display: inline-block">
+                    Geschäftsführer
+                  </h5>
+                  <h5
+                    *ngIf="companytypenew == 'eingetragene Genossenschaft (eG)' || companytypenew == 'Aktiengesellschaft (AG)'"
+                    class="col-md-12 d-flex py-2 rounded-lg  "
+                    style="text-align: left; background-color:  #F2F2F2;display: inline-block">>
+                    Vorstandsmitglieder
+                  </h5>
+                  <h5 *ngIf="companytypenew == 'Offene Handelsgesellschaft (OHG)' || companytypenew == 'Kommanditgesellschaft (KG)' ||
+            companytypenew == 'GmbH & Co KG' ||  companytypenew == 'Kommanditgesellschaft auf Aktien (KGaA)'||
+            companytypenew == 'UG & Co. KG'" class="col-md-12 d-flex py-2 rounded-lg  "
+                    style="text-align: left; background-color:  #F2F2F2;display: inline-block">>
+                    Vertretungsberechtigte Person
+                  </h5>
+                  <div id="companyFirstForm" *ngFor="let addedperson1 of addedpersonsFirst; let i =index;"
+                    (click)="showhiddenfieldsFirst(i)"
+                    class="col-md-12 d-flex flex-raw  gmbhpersons button-primary px-2 py-1  my-2 mx-0 ">
+  
+                    <div class="p-0 m-0" style="text-align: start;">{{i+1}}.</div>
+                    <div class="py-0 px-1 m-0" style="text-align: center;"><i class="fas fa-check-square"
+                        style="color: #fff;"></i></div>
+                    <div class="col-md-11  " style="text-align: start;">{{addedperson1}}</div>
+                    <div class="col-md-1 p-0 m-0" style="text-align: center;">
+  
+                      <div class="arrowsetting">
+                        <i id="arrowsettingheaderFirst{{i}}" style="cursor:pointer" class="fas fa-angle-right"></i>
+                      </div>
+                    </div>
+  
+                  </div>
+  
+                  <div class="container p-0 m-0 " formArrayName="legalrepresentativeform">
+                    <div *ngFor="
+                  let legalrepresentativeform11 of legalrepresentativeform()
+                    .controls;
+                  let i = index
+                " [formGroupName]="i" id="formidFirst{{i}}">
+                      <div class="col-md-12 d-flex flex-raw flex-wrap p-0 m-0   ">
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important">
+                          <!-- <label style=" display: block; ">Anrede</label>
+                        <mat-radio-group aria-label="Select an option" formControlName="title">
+                          <mat-radio-button value="Frau" class="radioclass">Frau
+                          </mat-radio-button>
+                          <mat-radio-button value="Herr" class="radioclass">Herr
+                          </mat-radio-button>
+                          <mat-radio-button value="Divers">Divers</mat-radio-button>
+                        </mat-radio-group> -->
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Anrede</mat-label>
+                            <mat-select matNativeControl formControlName="title">
+                              <mat-option value="Frau">Frau</mat-option>
+                              <mat-option value="Herr">Herr</mat-option>
+                              <mat-option value="Divers">Divers</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important;text-align:center">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Vorname </mat-label>
+                            <input matInput placeholder="Vorname " formControlName="firstname" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important;text-align:end">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Nachname </mat-label>
+                            <input matInput placeholder="Nachname " formControlName="lastname" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Geburtsdatum</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                              placeholder="Geburtsdatum" formControlName="dateofbirth" />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <p class=" col-md-12 " style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
+                          Bitte geben Sie hier Ihre persönliche Meldeadresse an.
+                        </p>
+  
+                        <div class="col-md-4" style="padding: 0px">
+                          <mat-form-field appearance="outline" style="width: 98%; background-color: white !important;">
+                            <mat-label>Straße</mat-label>
+                            <input matInput placeholder="Straße" formControlName="streetfirst"
+                              ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                              (onAddressChange)="handleAllFieldsfirst($event,i)" />
+                          </mat-form-field>
+                        </div>
+                        <!-- <div class="row" >
+                    </div> -->
+  
+                        <p class="col-md-4 d-flex m-0 py-4 " (click)="showaddressfields1($event,i)" style="
+                        color: black;
+                        cursor: pointer;
+                        z-index: 1;
+                      ">
+                          <a id="message3{{i}}" style="font-size: 12px">Mehr Felder anzeigen</a>
+                          <!-- <i id="arrowsetting3{{i}}" class="arrow down rightarrow"></i> -->
+                        </p>
+  
+                        <div *ngIf="showmore[i]" class="col-md-12 d-flex flex-raw  justify-content-between p-0 m-0 ">
+                          <div class="col-md-6 p-0 m-0 d-flex justify-content-start ">
+                            <mat-form-field class="form-width" appearance="outline">
+                              <mat-label>Nr.</mat-label>
+                              <input matInput placeholder="Nr." formControlName="streetNumberfirst" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-6 p-0 m-0 d-flex justify-content-end ">
+                            <mat-form-field class="form-width" appearance="outline">
+                              <mat-label>PLZ</mat-label>
+                              <input matInput placeholder="PLZ" formControlName="postCodefirst" />
+                            </mat-form-field>
+                          </div>
+                        </div>
+  
+                        <div *ngIf="showmore[i]" class="col-md-4" style="padding: 0px; text-align: start;">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Stadt</mat-label>
+                            <input matInput placeholder="Stadt" formControlName="cityfirst" />
+                          </mat-form-field>
+                        </div>
+  
+                        <div *ngIf="showmore[i]" class="col-md-4" style="padding: 0px;text-align: center;">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                            <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                              formControlName="additionalReferencefirst" />
+                          </mat-form-field>
+                        </div>
+  
+                        <div *ngIf="showmore[i]" class="col-md-4" style="padding: 0px;text-align: end;">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Land des Wohnsitzes</mat-label>
+                            <input matInput placeholder="Land des Wohnsitzes" formControlName="countryOfResidencefirst"
+                              ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                              (onAddressChange)="handleAddressChangelandfirst($event,i)" />
+                          </mat-form-field>
+                        </div>
+  
+  
+                        <!-- <div class="col-md-12 d-flex justify-content-start  " style="padding: 0px;"> -->
+                        <div *ngIf="i > 0" class="col-md-6 d-flex justify-content-start  m-0 p-0   "
+                          style="text-align: start;">
+                          <button class="btn btn-danger transitionanimation" mat-raised-button
+                            (click)="removelegalrepresentativeform(i); removeaddedpersonFirst(i)" style="color: #fff;
+                        background-color: #bb2d3b;
+                        border-color: #b02a37;">
+                            entfernen
+                          </button>
+                        </div>
+                        <div *ngIf="i == 0">
+  
+                        </div>
+                        <div *ngIf="i > 0" class="col-md-6  m-0 p-0 d-flex flex-raw justify-content-end "
+                          style="text-align: end;">
+                          <button *ngIf="addedpersonsFirst.length == i; else openclose"
+                            class="stepper-btn ms-0 p-0 transitionanimation" mat-raised-button
+                            (click)="addlegalrepresentativeform('tick')" [disabled]="legalrepresentativeform11.invalid">
+                            <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                          </button>
+                          <ng-template #openclose>
+                            <button class="stepper-btn transitionanimation  ms-0 p-0 " mat-raised-button
+                              (click)="showhiddenfieldsFirst(i)" [disabled]="legalrepresentativeform11.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                        </div>
+                        <div *ngIf="i <= 0" class="col-md-12  m-0 p-0 d-flex flex-raw justify-content-end "
+                          style="text-align: end;">
+                          <button *ngIf="addedpersonsFirst.length == i; else openclose"
+                            class="stepper-btn ms-0 p-0 transitionanimation" mat-raised-button
+                            (click)="addlegalrepresentativeform('tick')" [disabled]="legalrepresentativeform11.invalid">
+                            <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                          </button>
+                          <ng-template #openclose>
+                            <button class="stepper-btn transitionanimation  ms-0 p-0 " mat-raised-button
+                              (click)="showhiddenfieldsFirst(i)" [disabled]="legalrepresentativeform11.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                        </div>
+  
+                        <!-- </div> -->
+                      </div>
+                    </div>
+                  </div>
+  
+  
+                </form>
+              </div>
+              <button
+                style="float: right;background-color: rgb(146, 146, 146);position: absolute;left: 85%;margin-top: 1px; "
+                class="stepper-btn transitionanimation " mat-raised-button (click)="addlegalrepresentativeform('addmore')"
+                [disabled]="!secondcompanyfso.form.valid">
+                <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
+  
+  
+            </div>
+  
+            <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw  ">
+              <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
+                <h5 class="col-md-12 d-flex py-2 rounded-lg  " style="text-align: left; background-color:  #F2F2F2;">
+                  Sonstige Bevollmächtigte/Prokuristen
+                </h5>
+                <form [formGroup]="secondcompanyaddressFormGroup1" #secondcompanyfso1="ngForm" novalidate=""
+                  class="Official-residence-form col-md-12 p-0 m-0 " style="width: 100%;">
+                  <div id="companySecondForm" *ngFor="let addedperson1 of addedpersonsSecond; let i =index;"
+                    (click)="showhiddenfieldsSecond(i)"
+                    class="col-md-12 d-flex flex-raw  gmbhpersons button-primary px-2 py-1   my-2 mx-0 ">
+  
+                    <div class="p-0 m-0">{{i+1}}.</div>
+                    <div class="py-0 px-1 m-0" style="text-align: center;"><i class="fas fa-check-square"
+                        style="color: #fff"></i></div>
+                    <div class="col-md-11 " style="text-align: start;">{{addedperson1}}</div>
+                    <div class="col-md-1 p-0 m-0" style="text-align: center;">
+  
+                      <div class="arrowsetting">
+                        <i id="arrowsettingheaderSecond{{i}}" style="cursor:pointer" class="fas fa-angle-right"></i>
+                      </div>
+                    </div>
+  
+  
+  
+  
+  
+                  </div>
+                  <div class="col-md-12" formArrayName="legalrepresentativeform1">
+                    <div *ngFor="
+                  let legalrepresentativeform111 of legalrepresentativeform1()
+                    .controls;
+                  let i = index
+                " [formGroupName]="i" id="formidSecond{{i}}">
+                      <div class="col-md-12 d-flex flex-raw flex-wrap p-0 ">
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important">
+                          <!-- <label style=" display: block; ">Anrede</label>
+                    <mat-radio-group aria-label="Select an option" formControlName="title">
+                      <mat-radio-button value="Frau" class="radioclass">Frau
+                      </mat-radio-button>
+                      <mat-radio-button value="Herr" class="radioclass">Herr
+                      </mat-radio-button>
+                      <mat-radio-button value="Divers">Divers</mat-radio-button>
+                    </mat-radio-group> -->
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Anrede</mat-label>
+                            <mat-select matNativeControl formControlName="title">
+                              <mat-option value="Frau">Frau</mat-option>
+                              <mat-option value="Herr">Herr</mat-option>
+                              <mat-option value="Divers">Divers</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important;text-align:center">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Vorname </mat-label>
+                            <input matInput placeholder="Vorname " formControlName="firstname" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important;text-align:end">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Nachname </mat-label>
+                            <input matInput placeholder="Nachname " formControlName="lastname" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px">
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Geburtsdatum</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                              placeholder="Geburtsdatum" formControlName="dateofbirth" />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+  
+                        <p class=" col-md-12 " style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
+                          Bitte geben Sie hier Ihre persönliche Meldeadresse an.
+                        </p>
+  
+                        <div class="col-md-4" style="padding: 0px">
+                          <mat-form-field style="padding: 0px;width: 98%;" appearance="outline">
+                            <mat-label>Straße</mat-label>
+                            <input matInput placeholder="Straße" formControlName="streetsecond"
+                              ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                              (onAddressChange)="handleAllFieldssecond($event,i)" />
+                          </mat-form-field>
+                        </div>
+                        <!-- <div class="row" >
+                    </div> -->
+                        <p class="col-md-3 d-flex align-items-center " (click)="showaddressfields($event,i)" style="
+                       color: black;
+                        text-align: left;
+                        cursor: pointer;
+                        z-index: 1;
+                      ">
+                          <a id="message2{{i}}" style="font-size: 12px">Mehr Felder anzeigen</a>
+                          <!-- <i id="arrowsetting2{{i}}" class="arrow down rightarrow"></i> -->
+                        </p>
+  
+  
+  
+  
+                        <div *ngIf="showmore1[i]" class="col-md-12 d-flex flex-raw  justify-content-between p-0 m-0 ">
+                          <div class="col-md-6 p-0 m-0 d-flex justify-content-start ">
+                            <mat-form-field class="form-width" appearance="outline">
+                              <mat-label>Nr.</mat-label>
+                              <input matInput placeholder="Nr." formControlName="streetNumbersecond" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-6 p-0 m-0 d-flex justify-content-end ">
+                            <mat-form-field appearance="outline" class="form-width">
+                              <mat-label>PLZ</mat-label>
+                              <input matInput placeholder="PLZ" formControlName="postCodesecond" />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div *ngIf="showmore1[i]" class="col-md-4" style="padding: 0px;text-align: start;">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>Stadt</mat-label>
+                            <input matInput placeholder="Stadt" formControlName="citysecond" />
+                          </mat-form-field>
+                        </div>
+  
+                        <div *ngIf="showmore1[i]" class="col-md-4" style="padding: 0px;text-align: center;">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                            <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                              formControlName="additionalReferencesecond" />
+                          </mat-form-field>
+                        </div>
+  
+                        <div *ngIf="showmore1[i]" class="col-md-4" style="padding: 0px;text-align: end;">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>Land des Wohnsitzes</mat-label>
+                            <input matInput placeholder="Land des Wohnsitzes" formControlName="countryOfResidencesecond"
+                              ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                              (onAddressChange)="handleAddressChangelandsecond($event,i)" />
+                          </mat-form-field>
+                        </div>
+  
+                        <div class=" col-md-12 d-flex flex-raw justify-content-between p-0 ">
+                          <div class="   " style="text-align: start;">
+                            <button class="btn btn-danger transitionanimation" mat-raised-button
+                              (click)="removelegalrepresentativeform1(i); removeaddedpersonSecond(i)" style="color: #fff;
+                        background-color: #bb2d3b;
+                        border-color: #b02a37;">
+                              entfernen
+                            </button>
+                          </div>
+  
+                          <div class="" style="text-align: end;">
+                            <button *ngIf="addedpersonsSecond.length == i; else openclose" style="margin-top: auto;"
+                              class="stepper-btn transitionanimation" mat-raised-button
+                              (click)="addlegalrepresentativeform1('tick')"
+                              [disabled]="legalrepresentativeform111.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                            <ng-template #openclose>
+                              <button class="stepper-btn transitionanimation" mat-raised-button style="margin-top: auto;"
+                                (click)="showhiddenfieldsSecond(i)" [disabled]="legalrepresentativeform111.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                          </div>
+  
+  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- <button style="margin-top: 20px  !important; float: right;background-color: rgb(146, 146, 146); " class="stepper-btn transitionanimation"
+                mat-raised-button (click)="addlegalrepresentativeform1('addmore')"
+                [disabled]="!secondcompanyfso1.form.valid">
+                <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down"
+                  aria-hidden="true"></i>
+              </button> -->
+  
+                </form>
+              </div>
+              <button
+                style="float: right;background-color: rgb(146, 146, 146);position: absolute;left: 85%;margin-top: 2px; "
+                class="stepper-btn transitionanimation " mat-raised-button
+                (click)="addlegalrepresentativeform1('addmore')" [disabled]="!secondcompanyfso1.form.valid">
+                <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
+            </div>
+  
+            <div class="col-md-12  d-flex align-items-start justify-content-between flex-raw ">
+              <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
+                <h5 class="col-md-12 d-flex py-2 rounded-lg  " style="text-align: left; background-color:  #F2F2F2;">
+                  Wirtschaftlich Berechtigte&nbsp;<i class="fa fa-info-circle iconmove"
+                    style="color: #184397;cursor: pointer;" data-toggle="modal" data-target="#myModal"
+                    aria-hidden="true"></i>
+                  <!-- <button type="button" class=" btn-info-icon" data-toggle="modal" data-target="#myModal">
+              ?
+              </button> -->
+  
+                </h5>
+                <!-- Button to Open the Modal -->
+  
+  
+                <!-- The Modal -->
+                <div class="modal fade" id="myModal">
+                  <div class="modal-dialog modal-dialog-centered" style="max-width: 460px !important;">
+                    <div class="modal-content">
+  
+                      <!-- Modal Header -->
+                      <div class="modal-header" style="border: unset;">
+                        <h5 class="modal-title" style="font-size: 21px !important">Wer ist der wirtschaftlich Berechtigte?
+                        </h5>
+                        <button type="button" class="close transitionanimation" style="margin-bottom: 28px;"
+                          data-dismiss="modal">&times;</button>
+                      </div>
+  
+                      <!-- Modal body -->
+                      <div class="modal-body" style="font-size: 14px;border: unset;    padding-top: unset;
+              padding-bottom: unset;">
+                        <ol style="padding-left: 1rem;">
+                          <li>Eine natürlicher Person, die direkt oder durch den Besitz von Anteilen am Mutterunternehmen
+                            mehr als 5% der Anteile des Unternehmens verfügt.</li><br>
+                          <li>Eine natürliche Person, die über mehr als 5% der Stimmrechte verfügt. </li><br>
+                          <li>Eine natürliche Person, welche die Kontrolle über einen Vorstand ausüben kann und wichtige
+                            Entscheidungen für ein Unternehmen trifft.</li>
+                        </ol>
+  
+  
+                      </div>
+  
+                      <!-- Modal footer -->
+                      <div class="modal-footer" style="align-items: left;border: unset;">
+                        <button type="button " class="btn stepper-btn transitionanimation"
+                          data-dismiss="modal">Verstanden</button>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+  
+                <form [formGroup]="secondcompanyaddressFormGroup2" #secondcompanyfso2="ngForm" novalidate=""
+                  class="Official-residence-form col-md-12 p-0 m-0 ">
+                  <div>
+                    <div id="companyThirdForm" *ngFor="let addedperson1 of addedpersons; let i =index;"
+                      (click)="showhiddenfields(i)"
+                      class="col-md-12 d-flex flex-raw  gmbhpersons button-primary px-2 py-1  my-2 mx-0 ">
+  
+                      <div class="p-0 m-0" style="text-align: start;">{{i+1}}.</div>
+                      <div class="py-0 px-1 m-0" style="text-align: center;"><i class="fas fa-check-square"
+                          style="color: #fff"></i></div>
+                      <div class="col-md-11 ">{{addedperson1}}</div>
+                      <div class="col-md-1 p-0 m-0" style="text-align: center;">
+  
+                        <div class="arrowsetting">
+                          <i id="arrowsettingheader{{i}}" style="cursor:pointer" class="fas fa-angle-right "></i>
+                        </div>
+                      </div>
+  
+  
+                    </div>
+                  </div>
+                  <div class="col-md-12 " formArrayName="legalrepresentativeform2">
+                    <div *ngFor="
+                  let legalrepresentativeform112 of legalrepresentativeform2()
+                    .controls;
+                  let i = index
+                " [formGroupName]="i" id="formid{{i}}">
+                      <div class="col-md-12 d-flex flex-raw flex-wrap p-0 ">
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important">
+                          <!-- <div  class="col-md-12 d-flex flex-raw flex-wrap"  style="width: 396px"> -->
+                          <!-- <label style="display: block; ">Anrede</label>
+                        <mat-radio-group aria-label="Select an option" formControlName="title">
+                          <mat-radio-button value="Frau" class="radioclass">Frau
+                          </mat-radio-button>
+                          <mat-radio-button value="Herr" class="radioclass">Herr
+                          </mat-radio-button>
+                          <mat-radio-button value="Divers">Divers</mat-radio-button>
+                        </mat-radio-group> -->
+                          <mat-form-field class="form-width" appearance="outline">
+                            <mat-label>Anrede</mat-label>
+                            <mat-select matNativeControl formControlName="title">
+                              <mat-option value="Frau">Frau</mat-option>
+                              <mat-option value="Herr">Herr</mat-option>
+                              <mat-option value="Divers">Divers</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <!-- </div> -->
+                        </div>
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important;text-align:center">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>Vorname </mat-label>
+                            <input matInput placeholder="Vorname" formControlName="firstname" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="padding: 0px;margin-top:10px !important;text-align:end">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>Nachname </mat-label>
+                            <input matInput placeholder="Nachname " formControlName="lastname" />
+                          </mat-form-field>
+                        </div>
+  
+                        <div class="col-md-4" style="padding: 0px">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>Geburtsdatum</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                              placeholder="Geburtsdatum" formControlName="dateofbirth" />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <p style="text-align: left;;font-size: 12px;position: relative;bottom: 19px;left: 2vh;">
+                          Bitte geben Sie den prozentualen Unternehmensanteil an.
+                        </p>
+  
+                        <div class="col-md-4" style="padding: 0px;position: relative;right: 36vh;">
+                          <mat-form-field appearance="outline" class="form-width">
+                            <mat-label>Unternehmensanteil in Prozent</mat-label>
+                            <input matInput (ngModelChange)="calculateShares(); checkTotalShares()" [maxlength]=100
+                              placeholder="Anteile" formControlName="shares" />
+                          </mat-form-field>
+                          <mat-error id="showerror{{i}}" style="margin-top: -23px;
+              font-size: 11px;
+              margin-bottom: 10px;">
+  
+                          </mat-error>
+                        </div>
+  
+                        <p class="col-md-12" style="text-align: left; margin-bottom: 5px ;font-size: 12px;">
+                          Bitte geben Sie hier Ihre persönliche Meldeadresse an.
+                        </p>
+                        <div class="col-md-4" style="padding: 0px">
+                          <mat-form-field appearance="outline" style="width: 98%">
+                            <mat-label>Straße</mat-label>
+                            <input matInput placeholder="Straße" formControlName="streetshare"
+                              ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                              (onAddressChange)="handleAllFieldsShare($event,i)" />
+                          </mat-form-field>
+                        </div>
+                        <!-- <div class="row" > -->
+  
+  
+                        <p class="col-md-3 d-flex align-items-center" (click)="showaddressfields2($event,i)" style="
+                      color: black;
+                        text-align: left;
+                        cursor: pointer;
+                        z-index: 1;
+                    ">
+                          <a id="message1{{i}}" style="font-size: 12px">Mehr Felder anzeigen</a>
+                          <!-- <i id="arrowsetting{{i}}" class="arrow down rightarrow"></i> -->
+                        </p>
+  
+                        <!-- </div> -->
+  
+                        <div *ngIf="showmore2[i]" class="col-md-12 d-flex flex-raw flex-wrap " style="padding: 0px">
+  
+                          <div class="col-md-12 d-flex flex-raw  justify-content-between p-0 m-0">
+                            <div class="col-md-6 p-0 m-0 d-flex justify-content-start ">
+                              <mat-form-field appearance="outline" class="form-width">
+                                <mat-label>Nr.</mat-label>
+                                <input matInput placeholder="Nr." formControlName="streetNumbershare" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6 p-0 m-0 d-flex justify-content-end ">
+                              <mat-form-field appearance="outline" class="form-width">
+                                <mat-label>PLZ</mat-label>
+                                <input matInput placeholder="PLZ" formControlName="postCodeshare" />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="col-md-4" style="padding: 0px;text-align: start;">
+                            <mat-form-field appearance="outline" class="form-width">
+                              <mat-label>Stadt</mat-label>
+                              <input matInput placeholder="Stadt" formControlName="cityshare" />
+                            </mat-form-field>
+                          </div>
+  
+                          <div class="col-md-4" style="padding: 0px;text-align: center;">
+                            <mat-form-field appearance="outline" class="form-width">
+                              <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                              <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
+                                formControlName="additionalReferenceshare" />
+                            </mat-form-field>
+                          </div>
+  
+                          <div class="col-md-4" style="padding: 0px;text-align: end;">
+                            <mat-form-field appearance="outline" class="form-width">
+                              <mat-label>Land des Wohnsitzes</mat-label>
+                              <input matInput placeholder="Land des Wohnsitzes" formControlName="countryOfResidenceshare"
+                                ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                                (onAddressChange)="handleAddressChangelandShare($event,i)" />
+                            </mat-form-field>
+                          </div>
+                        </div>
+  
+  
+                        <div class=" col-md-12 d-flex flex-raw justify-content-between p-0 ">
+                          <div class="   " style="text-align: start;" *ngIf="i > 0">
+                            <button class="btn btn-danger transitionanimation" mat-raised-button
+                              (click)="removelegalrepresentativeform2(i); removeaddedperson(i); updateShares(i)" style="color: #fff;
+                        background-color: #bb2d3b;
+                        border-color: #b02a37;">
+                              entfernen
+                            </button>
+                          </div>
+                          <div class="   " style="text-align: start;"
+                            *ngIf="i == 0 && legalrepresentativeform2().length == 1">
+                            <button class="btn btn-danger transitionanimation" mat-raised-button
+                              (click)="removelegalrepresentativeform2(i); removeaddedperson(i); updateShares(i)" style="color: #fff;
+                        background-color: #bb2d3b;
+                        border-color: #b02a37;">
+                              entfernen
+                            </button>
+                          </div>
+  
+                          <div class="" *ngIf="i == 0 && legalrepresentativeform2().length != 1">
+  
+                          </div>
+  
+                          <div class="col-md-6" style="text-align: end;">
+                            <button *ngIf="addedpersons.length == i; else openclose" style="margin-top: auto;"
+                              class="stepper-btn transitionanimation" mat-raised-button
+                              (click)="addlegalrepresentativeform2('tick')"
+                              [disabled]="legalrepresentativeform112.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                            <ng-template #openclose>
+                              <button class="stepper-btn transitionanimation" mat-raised-button style="margin-top: auto;"
+                                (click)="showhiddenfields(i)" [disabled]="legalrepresentativeform112.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                          </div>
+  
+  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                </form>
+              </div>
+              <button *ngIf="legalrepresentativeform2().length>0; else showAddbutton"
+                style="float: right;background-color: rgb(146, 146, 146);position: absolute;left: 85%;margin-top: 2px; "
+                class="stepper-btn transitionanimation" mat-raised-button (click)="addlegalrepresentativeform2('addmore')"
+                [disabled]="(secondcompanyfso2.form.valid && addmoredata) ? false : true">
+                <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down" aria-hidden="true"></i>
+              </button>
+              <ng-template #showAddbutton>
+                <button class="stepper-btn transitionanimation" mat-raised-button
+                  style="float: right;background-color: rgb(146, 146, 146);position: absolute;left: 85%;margin-top: 2px; "
+                  (click)="addlegalrepresentativeform21()" [disabled]="false">
+                  <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down"
+                    aria-hidden="true"></i>
+                </button>
+              </ng-template>
+  
+            </div>
+            <div class="col-md-12 p-0 m-0 d-flex justify-content-between " >
+  
+              <button class="stepper-btn transitionanimation" mat-raised-button matStepperPrevious>
+                Zurück
+              </button> &nbsp;
+  
+              <button *ngIf="legalrepresentativeform2().length>0; else noshareholder"
+                class="stepper-btn transitionanimation" mat-raised-button matStepperNext
+                [disabled]=" ((secondcompanyfso.form.valid==true && moveForward && secondcompanyfso2.form.valid==true)) ? false : true">
+                Weiter
+              </button>
+              <ng-template #noshareholder>
+                <button class="stepper-btn transitionanimation" (click)="calculateType3()" mat-raised-button
+                  matStepperNext [disabled]=" ((secondcompanyfso.form.valid==true)) ? false : true">
+                  Weiter
+                </button>
+              </ng-template>
+  
+  
+            </div>
+          </div>
+  
+  
+        </mat-step>
+        <mat-step [stepControl]="moreinfoFormGroup">
+          <form #fsl="ngForm" [formGroup]="moreinfoFormGroup" class="more-info-form">
+            <ng-template matStepLabel>Zugangsdaten</ng-template>
+            <div class="col-md-12">
+              <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+  
+  
+                <!-- <div class="col-md-4 d-flex justify-content-start align-items-stretch flex-column "
+                  style="padding: 0px;height: 20%;">
+                  <div>
+                    <span style="font-size: 13px;"> Bitte beachten Sie, das der Kunde diese Telefonnummer verifizieren
+                      muss.</span>
+                    <img src="../assets/icons/info-icon.svg" style="height: 12px;" aria-hidden="true">
+                  </div>
+                  
+                </div> -->
+  
+                <!-- <div class="col-md-4 d-flex justify-content-start align-items-stretch flex-column "
+                  style="padding: 0px;height: 20%;">
+                  <span>
+                    <span style="font-size: 13px;">Bitte beachten Sie, das der Kunde diese E-Mail verifizieren
+                      muss. </span><img style="height: 12px;" src="../assets/icons/info-icon.svg"></span>
+                  
+                </div> -->
+  
+                <div class="col-md-12 d-flex align-items-stretch flex-raw p-0 m-0 "
+                  style="height:  fit-content;">
+                  <div class="col-md-4 p-0 m-0">
+                    <span style="font-size: 13px;text-align: start;"> Bitte beachten Sie, das der Kunde diese Telefonnummer verifizieren
+                      muss.</span>
+                    <img src="../assets/icons/info-icon.svg" style="height: 12px;" aria-hidden="true">
+                  </div>
+                  <div class="col-md-4 p-0 m-0">
+                    <span style="font-size: 13px;text-align: center;">Bitte beachten Sie, das der Kunde diese E-Mail verifizieren
+                      muss. </span><img style="height:  12px;" src="../assets/icons/info-icon.svg">
+                  </div>
+                </div>
+  
+                <div class="col-md-12 d-flex justify-content-between align-items-stretch flex-raw "
+                  style="padding: 0px;height: fit-content;">
+                  <div class="col-md-4 m-0 p-0 ">
+                    <mat-form-field class="form-width " appearance="outline">
+                      <mat-label style="margin-left: 40px">Telefonnummer eingeben</mat-label>
+                      <input type="tel" matInput placeholder="Telefonnummer eingeben" formControlName="phone_number" [maxlength]="20" name="phone_number"   
+                        class="test"  value="+49" id="phone"
+                        oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4 m-0 p-0 ">
+                    <mat-form-field class="form-width  " appearance="outline">
+                      <mat-label>E-Mail</mat-label>
+                      <input type="email" matInput placeholder="E-Mail" formControlName="email"
+                        (blur)="checkemailnewcompany()" email="true" />
+                    </mat-form-field>
+                    <p style="color: red; border-radius: 5px;margin-top: -25px;" id="checkemailerrorcompany"></p>
+                  </div>
+                  <div class="col-md-4 p-0 m-0 " >
+                  <span><i class="" style="color: #184397;" aria-hidden="true"></i></span>
+                  <mat-form-field appearance="outline" class="form-width ">
+                    <mat-label>Benutzer Nr.</mat-label>
+                    <input type="text" name="customerno" formControlName="customerno" matInput placeholder="CustomerNo"
+                      value="{{ customerNo }}" readonly="readonly" />
+                  </mat-form-field>
+                </div>
+                </div>
+  
+                <div class="col-md-4" style="padding: 0px" style="display: none">
+                  <mat-form-field appearance="outline" class="pass" style="display: none">
+                    <mat-label>Passwort</mat-label>
+                    <span style="display: flex">
+                      <input type="password" matInput placeholder="Passwort" value="{{ password }}"
+                        formControlName="password" [type]="hide ? 'password' : 'text'" name="password" />
+                      <span style="display: flex">
+                        <button mat-icon-button matSuffix style="width: 30px">
+                          <span style="display: flex">
+                            <img mat-card-image src="../assets/RefreshKey50.png" style="
+                                    height: 24px;
+                                    width: 24px;
+                                    margin-top: 7px;
+                                    margin-left: 0px;
+                                  " (click)="autoPassword()" />
+                          </span>
+                        </button>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                          [attr.aria-pressed]="hide" style="width: 30px">
+                          <span style="display: flex">
+                            <mat-icon>{{
+                              hide ? "visibility_off" : "visibility"
+                              }}</mat-icon>
+                          </span>
+                        </button>
+                      </span>
+                    </span>
+                  </mat-form-field>
+                </div>
+  
+                
+              </div>
+  
+  
+  
+            </div>
+  
+  
+            <div class="row">
+              <div class="col-md-4">
+                <div class=" ">
+                  <button class="stepper-btn transitionanimation" mat-raised-button matStepperPrevious
+                    style="margin-right: 19px; width: 122px; margin-left: -7px"> Zurück
+                  </button>
+                  <!-- <button class="stepper-btn transitionanimation" mat-button (click)="stepper.reset()"
+                      style="width: 122px">
+                      Reset
+                    </button> -->
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div style="text-align: right">
+                  <div>
+                  </div>
+                  <div *ngIf="realcustomer" class="d-flex align-items-start justify-content-end flex-raw gap-2 ">
+                    <div class="d-flex align-items-start justify-content-star flex-raw gap-2 ">
+                      <button *ngIf="showDisabled" class="stepper-btn transitionanimation" mat-raised-button
+                        [disabled]="false">
+                        Ohne Verifizierungsmail anlegen
+                        <!-- &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+                      </button>
+                      <button *ngIf="!showDisabled" class="stepper-btn transitionanimation" mat-raised-button
+                        (click)="register('0')"
+                        [disabled]="(customervalidemail && fsl.form.valid && disable_button) ? false : true">
+                        Ohne Verifizierungsmail anlegen
+                        <!-- &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+                      </button>
+                    </div>
+  
+                    <button *ngIf="showDisabled" class="stepper-btn transitionanimation" mat-raised-button
+                      [disabled]="false" style="margin-right: 0px; padding: 0px 25px">
+                      Mit Verifizierungsmail anlegen
+                      <!-- &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+                    </button>
+  
+                    <button *ngIf="!showDisabled" class="stepper-btn transitionanimation" mat-raised-button
+                      (click)="register('1')"
+                      [disabled]="(customervalidemail && fsl.form.valid && disable_button) ? false : true"
+                      style="margin-right: 0px; padding: 0px 25px">
+                      Mit Verifizierungsmail anlegen
+                      <!-- &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+                    </button>
+                  </div>
+                  <div *ngIf="!realcustomer" class="d-flex align-items-start justify-content-end flex-raw gap-2 ">
+                    <button *ngIf="showDisabled" class="stepper-btn transitionanimation" mat-raised-button
+                      [disabled]="false" style="width: 265px">
+                      Registrieren
+                    </button>
+                    <button *ngIf="!showDisabled" class="stepper-btn transitionanimation" mat-raised-button
+                      (click)="register('0')"
+                      [disabled]="(customervalidemail && fsl.form.valid && disable_button) ? false : true"
+                      style="width: 265px">
+                      Registrieren
+                    </button>
+                  </div>
+                </div>
+  
+                <!-- <button class="stepper-btn" mat-raised-button (click)="register()" style="margin-right: 10px">Registrieren</button> -->
+              </div>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  
+  </div>
