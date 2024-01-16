@@ -23,6 +23,49 @@ body {
     width: 100%;
 }
 
+html {
+    --mdc-outlined-text-field-caret-color: #4c8bf1 !important;
+    --mdc-outlined-text-field-focus-outline-color: #4c8bf1 !important;
+  
+    --mdc-filled-text-field-caret-color: #4c8bf1 !important;
+    --mdc-filled-text-field-focus-active-indicator-color: #4c8bf1 !important;
+    --mdc-filled-text-field-focus-label-text-color: #4c8bf1 !important;
+    --mdc-filled-text-field-container-color: whitesmoke;
+    --mdc-filled-text-field-disabled-container-color: #fafafa;
+    --mdc-filled-text-field-label-text-color: rgba(0, 0, 0, 0.6);
+    --mdc-filled-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-filled-text-field-input-text-color: rgba(0, 0, 0, 0.87);
+    --mdc-filled-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-filled-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.6);
+    --mdc-filled-text-field-error-focus-label-text-color: #f44336;
+    --mdc-filled-text-field-error-label-text-color: #f44336;
+    --mdc-filled-text-field-error-caret-color: #f44336;
+    --mdc-filled-text-field-active-indicator-color: rgba(0, 0, 0, 0.42);
+    --mdc-filled-text-field-disabled-active-indicator-color: rgba(0, 0, 0, 0.06);
+    --mdc-filled-text-field-hover-active-indicator-color: rgba(0, 0, 0, 0.87);
+    --mdc-filled-text-field-error-active-indicator-color: #f44336;
+    --mdc-filled-text-field-error-focus-active-indicator-color: #f44336;
+    --mdc-filled-text-field-error-hover-active-indicator-color: #f44336;
+    --mdc-outlined-text-field-caret-color: #4c8bf1 !important;
+    --mdc-outlined-text-field-focus-outline-color: #4c8bf1 !important;
+    --mdc-outlined-text-field-focus-label-text-color: #4c8bf1 !important;
+    --mdc-outlined-text-field-label-text-color: rgba(0, 0, 0, 0.6);
+    --mdc-outlined-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-input-text-color: rgba(0, 0, 0, 0.87);
+    --mdc-outlined-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.6);
+    --mdc-outlined-text-field-error-caret-color: #f44336;
+    --mdc-outlined-text-field-error-focus-label-text-color: #f44336;
+    --mdc-outlined-text-field-error-label-text-color: #f44336;
+    --mdc-outlined-text-field-outline-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-disabled-outline-color: rgba(0, 0, 0, 0.06);
+    --mdc-outlined-text-field-hover-outline-color: rgba(0, 0, 0, 0.87);
+    --mdc-outlined-text-field-error-focus-outline-color: #f44336;
+    --mdc-outlined-text-field-error-hover-outline-color: #f44336;
+    --mdc-outlined-text-field-error-outline-color: #f44336;
+    --mat-form-field-disabled-input-text-placeholder-color: rgba(0, 0, 0, 0.38);
+  }
+
 
 .mat-list-base .mat-list-item .mat-list-item-content,
 .mat-list-base .mat-list-option .mat-list-item-content {

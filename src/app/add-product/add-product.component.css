@@ -7,19 +7,19 @@
     padding: 7rem 0rem 7rem 0rem !important;
 }
 
-.step2Form{
-    height: 520px;
+.step2Form {
+    height: 480px;
 }
 
 @media screen and (min-height: 1100px) {
     .head-rectangle {
-        height: 900px; 
+        height: 900px;
     }
 }
 
 @media screen and (min-height: 1300px) {
     .head-rectangle {
-        height: 1100px; 
+        height: 1100px;
     }
 }
 
@@ -41,8 +41,10 @@
 }
 
 .inner-text {
-    padding: 2rem 14rem 2rem 14rem
+    padding: 2rem 14rem 2rem 14rem;
+    min-height: 185px;
 }
+
 
 .glass {
     border-radius: 10px;
@@ -50,7 +52,7 @@
     background-color: rgba(36, 36, 36, 0.4);
     backdrop-filter: blur(10px);
     z-index: 1;
-    height:  603px;
+    height: 603px;
     width: 48%;
     display: flex;
     flex-direction: column;
@@ -148,7 +150,7 @@
     border: 1px solid;
 }
 
-.carousel{
+.carousel {
     height: 100px;
 }
 
@@ -1036,23 +1038,80 @@ body {
     border-color: white !important;
 }
 
-
-:host::ng-deep.mat-checkbox-layout {
-    white-space: normal !important;
+:host ::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+    display: inline-flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 26px !important;
+    border-color: white !important;
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
 }
 
-:host ::ng-deep.mat-checkbox-inner-container {
-    margin-top: 7px;
-    margin-left: 2px;
+:host ::ng-deep .mat-mdc-checkbox .checkboxStyle .checkboxStyle2 .mat-primary .mat-mdc-checkbox-checked {
+    border-color: green !important;
+    background-color: green !important;
 }
 
-/* :host ::ng-deep .mat-horizontal-stepper-header {
-    padding: 0 24px 0px 0px !important;
+.iti__arrow{
+    color: white;
+}
+
+:host ::ng-deep .mdc-checkbox {
+    display: inline-block;
+    position: relative;
+    flex: 0 0 26px !important;
+    box-sizing: content-box;
+    width: 26px !important;
+    height: 26px !important;
+}
+
+/* *, ::after, ::before{
+    color: white !important;
+    border-color: white !important;
 } */
 
-/* :host ::ng-deep .mat-horizontal-content-container {
-    padding: 0 24px 24px 0px !important;
+/* :host ::ng-deep.mat-mdc-text-field-wrapper.mat-mdc-form-field-flex.mat-mdc-select {
+    color: white !important;
+    border-color: white !important;
 } */
+
+:host ::ng-deep.mdc-text-field--outlined {
+    --mdc-outlined-text-field-outline-color: white;
+    --mdc-outlined-text-field-focus-outline-color: #ffffff !important;
+    --mdc-outlined-text-field-hover-outline-color: #ffffff !important;
+}
+
+:host ::ng-deep.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: rgb(255 255 255) !important; 
+}
+
+:host ::ng-deep.mat-mdc-select-arrow{
+    color: white !important
+}
+
+:host ::ng-deep.mat-mdc-form-field-required-marker{
+    color: white !important
+} 
+
+
+:host ::ng-deep.mat-mdc-select-value-text{
+    color: white;
+}
+
+
+:host ::ng-deep .mdc-checkbox .mdc-checkbox__native-control.mdc-checkbox--selected~.mdc-checkbox__background {
+    border-color: green !important;
+    background: green !important;
+}
+
+
+:host ::ng-deep .mat-horizontal-content-container {
+    padding: 24px !important;
+    color: white;
+}
 
 :host ::ng-deep .mat-checkbox-inner-container.mat-checkbox-inner-container-no-side-margin {
     padding: 13px;
@@ -1063,15 +1122,14 @@ body {
     background-color: #1ca706 !important;
 }
 
-/* :host ::ng-deep .mat-checkbox-frame{
-    border-radius: 5px;
-} */
 
 :host ::ng-deep .checkboxStyle {
-    & .mat-checkbox-background, .mat-checkbox-frame {
-      border-radius: 6px !important;
+
+    & .mat-checkbox-background,
+    .mat-checkbox-frame {
+        border-radius: 6px !important;
     }
-  }
+}
 
 
 .sparte_span {
