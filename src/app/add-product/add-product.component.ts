@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -46,7 +46,7 @@ export interface Fruitnew {
   ]
 })
 
-export class AddProductComponent implements OnInit {
+export class AddProductComponent implements OnInit, AfterViewInit {
 
   api_url: any;
   getproductpartner: any;
@@ -343,7 +343,7 @@ export class AddProductComponent implements OnInit {
     console.log("sdfdsfsdfsdfsdfsd" + length);
     for (let i = 0; i < length; i++) {
       const brokerage_telefon = document.querySelector("#brokerage_telefon" + i)
-      if (brokerage_telefon)
+      if (brokerage_telefon) {
         intlTelInput(brokerage_telefon, {
           initialCountry: "de",
           geoIpLookup: function (callback) {
@@ -356,9 +356,9 @@ export class AddProductComponent implements OnInit {
             });
           },
         });
-
+      }
       const brokeradvisor_telefon = document.querySelector("#brokeradvisor_telefon" + i);
-      if (brokeradvisor_telefon)
+      if (brokeradvisor_telefon) {
         intlTelInput(brokeradvisor_telefon, {
           initialCountry: "de",
           geoIpLookup: function (callback: any) {
@@ -371,11 +371,12 @@ export class AddProductComponent implements OnInit {
             });
           },
         });
+      }
 
 
 
       const contract_department_telefon = document.querySelector("#contract_department_telefon" + i);
-      if (contract_department_telefon)
+      if (contract_department_telefon) {
         intlTelInput(contract_department_telefon, {
           initialCountry: "de",
           geoIpLookup: function (callback) {
@@ -388,9 +389,10 @@ export class AddProductComponent implements OnInit {
             });
           },
         });
+      }
 
       const damage_department_telefon = document.querySelector("#damage_department_telefon" + i)
-      if (damage_department_telefon)
+      if (damage_department_telefon) {
         intlTelInput(damage_department_telefon, {
           initialCountry: "de",
           geoIpLookup: function (callback) {
@@ -403,7 +405,7 @@ export class AddProductComponent implements OnInit {
             });
           },
         });
-
+      }
     }
   }
 
@@ -414,7 +416,7 @@ export class AddProductComponent implements OnInit {
       for (let i = this.quantities().controls.length; i < length; i++) {
         console.log("sdfdsfsdfsdfsdfsd" + document.querySelector("#brokerage_telefon" + i));
         const brokerage_telefon = document.querySelector("#brokerage_telefon" + i)
-        if (brokerage_telefon)
+        if (brokerage_telefon) {
           intlTelInput(brokerage_telefon, {
             initialCountry: "de",
             geoIpLookup: function (callback) {
@@ -427,9 +429,10 @@ export class AddProductComponent implements OnInit {
               });
             },
           });
+        }
 
         const brokeradvisor_telefon = document.querySelector("#brokeradvisor_telefon" + i);
-        if (brokeradvisor_telefon)
+        if (brokeradvisor_telefon) {
           intlTelInput(brokeradvisor_telefon, {
             initialCountry: "de",
             geoIpLookup: function (callback) {
@@ -442,10 +445,10 @@ export class AddProductComponent implements OnInit {
               });
             },
           });
-
+        }
 
         const contract_department_telefon = document.querySelector("#contract_department_telefon" + i);
-        if (contract_department_telefon)
+        if (contract_department_telefon) {
           intlTelInput(contract_department_telefon, {
             initialCountry: "de",
             geoIpLookup: function (callback) {
@@ -458,10 +461,10 @@ export class AddProductComponent implements OnInit {
               });
             },
           });
-
+        }
 
         const damage_department_telefon = document.querySelector("#damage_department_telefon" + i)
-        if (damage_department_telefon)
+        if (damage_department_telefon) {
           intlTelInput(damage_department_telefon, {
             initialCountry: "de",
             geoIpLookup: function (callback) {
@@ -474,7 +477,7 @@ export class AddProductComponent implements OnInit {
               });
             },
           });
-
+        }
       }
     }, 500);
 
@@ -1051,6 +1054,8 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit() {
     this.loginRole = this.loginRole;
+    console.log(this.loginRole);
+    
     this.routeParams = this.activatedRoute.snapshot?.routeConfig?.path;
 
     this.personalInfoFormGroup = this._formBuilder.group({
@@ -1180,7 +1185,7 @@ export class AddProductComponent implements OnInit {
     //   },
     // });
     const brokeradvisor_telefonn = document.querySelector("#brokeradvisor_telefonn")
-    if (brokeradvisor_telefonn)
+    if (brokeradvisor_telefonn) {
       intlTelInput(
         brokeradvisor_telefonn, {
         initialCountry: "de",
@@ -1194,6 +1199,7 @@ export class AddProductComponent implements OnInit {
           });
         },
       });
+    }
   }
 
   captcha = "";
@@ -1926,7 +1932,7 @@ export class AddProductComponent implements OnInit {
       //.checkemail(datanew)
       .checkemailproductpartner(datanew)
       .pipe(first())
-      .subscribe((data11:Object|any) => {
+      .subscribe((data11: Object | any) => {
         if (data11["status"] == "200") {
           // this.validemail = true;
           // $("#checkemailerror1").html("");
@@ -1935,7 +1941,7 @@ export class AddProductComponent implements OnInit {
           this.userService
             .checkemail(datanew)
             .pipe()
-            .subscribe((data11:Object|any) => {
+            .subscribe((data11: Object | any) => {
               if (data11["status"] == "200") {
                 this.validemail = true;
                 $("#checkemailerror1").html("");

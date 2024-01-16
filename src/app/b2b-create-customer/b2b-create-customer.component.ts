@@ -355,7 +355,7 @@ export class B2bCreateCustomerComponent {
   intlTelInputShow() {
     const input = document.getElementById("phone");
     console.log("querySelector" + input);
-    if (input)
+    if (input){
       intlTelInput(input, {
         initialCountry: "DE",
         geoIpLookup: function (callback) {
@@ -368,6 +368,7 @@ export class B2bCreateCustomerComponent {
           });
         },
       });
+    }
   };
 
   ngAfterViewInit() {

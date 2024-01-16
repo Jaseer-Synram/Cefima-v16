@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { UserService } from '../user.service';
@@ -8,7 +8,7 @@ import { UserService } from '../user.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit, AfterViewInit {
   tokensession = localStorage.getItem("token");
   currentUserToParse: any = localStorage.getItem("currentUser")
   localdata = JSON.parse(this.currentUserToParse);
@@ -45,13 +45,6 @@ export class NavBarComponent {
         queryParams: { id: this.localdata._id, tabname: 1 },
       });
     }
-  }
-
-  logout() {
-    localStorage.removeItem("token");
-    // this.router.navigate(["./"]);
-    window.location.reload();
-    document.body.classList.remove("modal-open");
   }
 
   gotosessiondashboard() {
@@ -284,9 +277,9 @@ export class NavBarComponent {
     // this.signaturePad.set("minWidth", 2); // set szimek/signature_pad options at runtime
     // this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
 
-    // if (this.ppid != undefined) {
-    $("#loginbtn").trigger("click");
-    // }
+    if (this.ppid != undefined) {
+      $("#loginbtn").trigger("click");
+    }
 
     let that = this;
 
@@ -333,6 +326,13 @@ export class NavBarComponent {
       //   $('#privatesection').css("display","block");
       //   $('#footersectionnew').css("display","block");
     });
+  }
+
+  logout() {
+    localStorage.removeItem("token");
+    // this.router.navigate(["./"]);
+    window.location.reload();
+    document.body.classList.remove("modal-open");
   }
 
 }

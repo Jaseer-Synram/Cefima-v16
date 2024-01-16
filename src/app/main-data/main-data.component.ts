@@ -630,13 +630,11 @@ export class MainDataComponent {
     canvasWidth: 750,
     canvasHeight: 300,
   };
-  @ViewChild("canvas", { read: SignaturePad, static: true })
-  canvas!: ElementRef;
-  signaturePad!: SignaturePad;
+  @ViewChild("canvasone", { static: true }) canvasone: ElementRef;
+  signaturePad: SignaturePad;
 
-  @ViewChild("canvastwo", { read: SignaturePad, static: true })
-  canvastwo!: ElementRef;
-  signaturePadtwo!: SignaturePad;
+  @ViewChild("canvastwo", { static: true }) canvastwo: ElementRef;
+  signaturePadtwo: SignaturePad;
   // @ViewChild(SignaturePad) signaturePad: SignaturePad;
   // Kommunikation End
 
@@ -779,7 +777,7 @@ export class MainDataComponent {
     });
     this.addEmail("manual");
 
-    this.signaturePad = new SignaturePad(this.canvas.nativeElement);
+    this.signaturePad = new SignaturePad(this.canvasone.nativeElement);
     this.signaturePadtwo = new SignaturePad(this.canvastwo.nativeElement);
 
     this.sendEmailFormGroup = this._formBuilder.group({
@@ -832,10 +830,10 @@ export class MainDataComponent {
           this.loaded.calendarLoad = true;
         });
     } else if (event.index == 1) {
-      this.currentUser?.frontend_home_page.find((x:any) => x.id == this.brand_id)
+      this.currentUser?.frontend_home_page.find((x: any) => x.id == this.brand_id)
         ? (this.chosen_dashboard_functionality_url =
           this.currentUser?.frontend_home_page.find(
-            (x:any) => x.id == this.brand_id
+            (x: any) => x.id == this.brand_id
           ).url)
         : (this.chosen_dashboard_functionality_url = "");
       this.userData = {
@@ -874,15 +872,15 @@ export class MainDataComponent {
     }
   }
 
-  handleAllFields(data:any) {
+  handleAllFields(data: any) {
     const splitArr = data.address_components;
     this.getAllFields(splitArr);
   }
 
-  getAllFields(data:any){
+  getAllFields(data: any) {
     let that = this;
     const splitArr = data;
-    splitArr.forEach(function (i:any, k:any) {
+    splitArr.forEach(function (i: any, k: any) {
       let content: any = i.types;
       const found = content.find((element: any) => (element = "street_number"));
       if (found === "street_number") {
@@ -910,15 +908,15 @@ export class MainDataComponent {
     });
   }
 
-  handleAddressChangeland(data:any) {
+  handleAddressChangeland(data: any) {
     const splitArr = data.address_components;
     this.getCountryland(splitArr);
   }
 
-  getCountryland(data:any): any {
+  getCountryland(data: any): any {
     let that = this;
     const splitArr = data;
-    splitArr.forEach(function (i:any, k:any) {
+    splitArr.forEach(function (i: any, k: any) {
       let content: any = i.types;
       if (content.length > 1) {
         const countryArr = content;
@@ -947,7 +945,7 @@ export class MainDataComponent {
     }
   }
 
-  getUserData(id:any) {
+  getUserData(id: any) {
     this.userService.getEditUser(id).subscribe((data1: any) => {
       const that = this;
       this.customerFormGroup.patchValue({
@@ -996,7 +994,7 @@ export class MainDataComponent {
               _id: result._id,
             });
 
-            result.emails.map((email:any) => {
+            result.emails.map((email: any) => {
               that.addEmail("auto");
               that.emails.controls[that.emails.controls.length - 1].patchValue({
                 email: email.email,
@@ -1112,7 +1110,7 @@ export class MainDataComponent {
       status: "1",
     };
     this.userService.updateUser(data).subscribe(
-      (data:any) => {
+      (data: any) => {
         $("#loaderouterid").css("display", "none");
         this.isFormDirty = false;
         localStorage.setItem("token", data["token"]);
@@ -1169,7 +1167,7 @@ export class MainDataComponent {
       this.userService
         .get_calendar_events_by_user({ user_id: this.currentUser._id })
         .subscribe((result: any) => {
-          result.map((event:any) => {
+          result.map((event: any) => {
             this.events.push({
               id: event._id,
               start: new Date(event.start_time),
@@ -1214,7 +1212,7 @@ export class MainDataComponent {
       this.userService
         .get_calendar_events_by_user({ user_id: this.currentUser._id })
         .subscribe((result: any) => {
-          result.map((event:any) => {
+          result.map((event: any) => {
             this.events.push({
               id: event._id,
               start: new Date(event.start_time),
@@ -1283,7 +1281,7 @@ export class MainDataComponent {
     this.refresh.next(0);
   }
 
-  send_message(type?:any) {
+  send_message(type?: any) {
     if (
       this.checkmessage() &&
       (this.documents.length <= 0 || !this.all_uploaded)
@@ -1305,7 +1303,7 @@ export class MainDataComponent {
 
     let inputmessage: any = $("#inputmessage1").val();
     let documents: any = [];
-    this.documents.map((doc:any) =>
+    this.documents.map((doc: any) =>
       documents.push({
         document_unique_id: doc.document_unique_id,
         tags: doc.tags,
@@ -1335,7 +1333,7 @@ export class MainDataComponent {
     this.all_uploaded = false;
     let uploaded_files: any = [];
 
-    const previewData = (source:any, modaltitle:any) => {
+    const previewData = (source: any, modaltitle: any) => {
       $("#openpreviewmodel").trigger("click");
       this.open_modal("exampleModalpreview1");
       $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
@@ -1357,10 +1355,10 @@ export class MainDataComponent {
         $("#showpreviewimg").attr("src", source);
       }
     };
-    const removeData = (j:any) => {
+    const removeData = (j: any) => {
       //this.documents.splice(j,1);
       this.documents.splice(
-        this.documents.map((doc:any) => doc.index == j),
+        this.documents.map((doc: any) => doc.index == j),
         1
       );
       this.documents.length <= 0 ? (this.all_uploaded = false) : "";
@@ -1523,13 +1521,14 @@ export class MainDataComponent {
               // console.log('Response header has been received!');
               break;
             case HttpEventType.UploadProgress:
-              if(event.total){
-              $("div.percentageclass" + newsize).width(
-                Math.round((event.loaded / event.total) * 100) + "%"
-              );
-              $("div.percentageclass" + newsize).html(
-                Math.round((event.loaded / event.total) * 100) + "%"
-              );}
+              if (event.total) {
+                $("div.percentageclass" + newsize).width(
+                  Math.round((event.loaded / event.total) * 100) + "%"
+                );
+                $("div.percentageclass" + newsize).html(
+                  Math.round((event.loaded / event.total) * 100) + "%"
+                );
+              }
               break;
             case HttpEventType.Response:
               $("#progressnew" + newsize).css("display", "none");
@@ -1621,7 +1620,7 @@ export class MainDataComponent {
 
   update_case_files(newdata?: any) {
     let document_unique_ids: any = [];
-    this.documents.map((doc:any) =>
+    this.documents.map((doc: any) =>
       document_unique_ids.push(doc.document_unique_id)
     );
     let data: any = {
@@ -1724,7 +1723,7 @@ export class MainDataComponent {
     }
     this.userService
       .get_case_details_by_case_number(case_details.Activity_No)
-      .subscribe((result:any) => {
+      .subscribe((result: any) => {
         console.log("result came here");
         console.log(result);
         this.opened_case_details = result[0];
@@ -1743,7 +1742,7 @@ export class MainDataComponent {
         // 	if(result[0] && result[0]._id){
         this.userService
           .get_brand_by_id({ brand_id: this.brand_id })
-          .subscribe((result:any) => {
+          .subscribe((result: any) => {
             this.opened_case_details.case_brand_details = result[0];
             this.opened_case_details.brand = result[0]?.name;
             this.get_chat(message);
@@ -1759,7 +1758,7 @@ export class MainDataComponent {
     this.userService.getchatmessage(message).subscribe((success: any) => {
       if (this.initial_emails_data?.emails) {
         let index: any = this.initial_emails_data?.emails?.findIndex(
-          (email:any) => email.main_receiver == "1"
+          (email: any) => email.main_receiver == "1"
         );
         if (index != -1) {
           let email_imap_data: any = {
@@ -1795,7 +1794,7 @@ export class MainDataComponent {
               this.chat_interval = interval(1000).subscribe((result) => {
                 this.userService.getchatunreadmessage(message).subscribe(
                   (success: any) => {
-                    success.result.map((result:any) =>
+                    success.result.map((result: any) =>
                       this.chat_messages.push(result)
                     );
 
@@ -1816,7 +1815,7 @@ export class MainDataComponent {
           this.chat_interval = interval(1000).subscribe((result) => {
             this.userService.getchatunreadmessage(message).subscribe(
               (success: any) => {
-                success.result.map((result:any) => this.chat_messages.push(result));
+                success.result.map((result: any) => this.chat_messages.push(result));
               },
               (err) => {
                 console.log(err);
@@ -1830,7 +1829,7 @@ export class MainDataComponent {
         this.chat_interval = interval(1000).subscribe((result) => {
           this.userService.getchatunreadmessage(message).subscribe(
             (success: any) => {
-              success.result.map((result:any) => this.chat_messages.push(result));
+              success.result.map((result: any) => this.chat_messages.push(result));
             },
             (err) => {
               console.log(err);
@@ -1845,7 +1844,7 @@ export class MainDataComponent {
     this.userService.get_chat_unread_mails(email_imap_data).subscribe(
       (result: any) => {
         if (result.data != "Data not found" && result.data.length > 0) {
-          result.data.map((email:any) => {
+          result.data.map((email: any) => {
             this.chat_messages.push(email);
           });
         }
@@ -1862,12 +1861,12 @@ export class MainDataComponent {
 
   send_email() {
     let email_to: any = [];
-    this.opened_case_details?.userinfo.map((user:any) => {
+    this.opened_case_details?.userinfo.map((user: any) => {
       if (user._id != this.userService.LoggedInUser._id) {
         email_to.push(user.email);
       }
     });
-    this.custom_emails.map((email:any) => email_to.push(email));
+    this.custom_emails.map((email: any) => email_to.push(email));
     if (email_to.length < 1) {
       Swal.fire({
         title: "Keine Empfänger gefunden.",
@@ -1960,7 +1959,7 @@ export class MainDataComponent {
     }
   }
 
-  previewdocclick(url:any, unique_id:any, name: string) {
+  previewdocclick(url: any, unique_id: any, name: string) {
     $("#openpreviewmodel").trigger("click");
     this.open_modal("exampleModalpreview1");
 
@@ -2119,11 +2118,11 @@ export class MainDataComponent {
   choosing_homepage(event: any, type: any) {
     if (type == "company") {
       this.chosen_dashboard_company = this.company_rights.find(
-        (company:any) => company._id == event.value
+        (company: any) => company._id == event.value
       );
     } else if (type == "brand") {
       this.chosen_dashboard_brand = this.chosen_dashboard_company.brands.find(
-        (brand:any) => brand._id == event.value
+        (brand: any) => brand._id == event.value
       );
     }
   }
@@ -2328,7 +2327,7 @@ export class MainDataComponent {
     }
   }
 
-  check_smtp_connection(data:any) {
+  check_smtp_connection(data: any) {
     console.log("Testing smtp connection with the data");
     console.log(data);
     console.log(data.imap == 1);
@@ -2369,7 +2368,7 @@ export class MainDataComponent {
     });
   }
 
-  check_imap_connection(data:any) {
+  check_imap_connection(data: any) {
     this.userService.check_imap_connection(data).subscribe((result: any) => {
       $("#loaderouterid").css("display", "none");
       if (result.status == "200") {
@@ -2399,7 +2398,7 @@ export class MainDataComponent {
   match_my_email(chat_email: any) {
     let exists: Boolean;
     this.initial_emails_data.emails.findIndex(
-      (email:any) => email.email == chat_email
+      (email: any) => email.email == chat_email
     ) != -1
       ? (exists = true)
       : (exists = false);

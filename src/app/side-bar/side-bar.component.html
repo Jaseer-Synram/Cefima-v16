@@ -20,7 +20,7 @@
                     (click)="router.navigate(['./cefima/consulting'])">
                     <img *ngIf="router.url == '/cefima/consulting'" src="assets/beratung-icon-active.png">
                     <img *ngIf="router.url != '/cefima/consulting'" src="assets/beratung-icon.png">
-                    <span [ngClass]="router.url == '/cefima/consulting' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 pb-2" *ngIf="isExpanded || isShowing" role="button">Beratung</span>
+                    <span [ngClass]="router.url == '/cefima/consulting' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Beratung</span>
                 </mat-list-item>
                 <!-- (click)="router.navigate(['cefima/consulting'])" -->
                 <!-- [ngStyle]="{'filter': router.url == '/neoloop/customer-managment' ? 'brightness(0.5)' : 'brightness(1)' }" -->
@@ -29,7 +29,7 @@
                     (click)="router.navigate(['cefima/customer'])">
                     <img *ngIf="router.url == '/cefima/customer'" src="assets/kunden-icon-active.png">
                     <img *ngIf="router.url != '/cefima/customer'" src="assets/kunden-icon.png">
-                    <span [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 pb-2" *ngIf="isExpanded || isShowing" role="button">Kunden</span>
+                    <span [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Kunden</span>
                 </mat-list-item>
                 <!-- <mat-list-item class="parent"
                     [ngClass]="router.url == '/neoloop/mediacloud/All' ? 'active text-dark parent' : 'parent text-white'">
@@ -42,7 +42,7 @@
                     (click)="router.navigate(['cefima/upload-document'])">
                     <img *ngIf="router.url == '/cefima/upload-document'" src="assets/upload-icon-active.png">
                     <img *ngIf="router.url != '/cefima/upload-document'" src="assets/upload-icon.png">
-                    <span [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2 pb-2" *ngIf="isExpanded || isShowing" role="button">Dokumenten Upload</span>
+                    <span [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'parent text-white'" class="full-width ml-2" *ngIf="isExpanded || isShowing" role="button">Dokumenten Upload</span>
                 </mat-list-item>
 
             </mat-nav-list>

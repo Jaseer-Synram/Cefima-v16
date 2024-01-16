@@ -41,6 +41,7 @@ import { SharedModule } from './shared/shared.module';
 import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { DEFAULT_PSM_OPTIONS } from 'angular-password-strength-meter/zxcvbn';
 
+
 export const MY_FORMATS = {
   parse: {
     dateInput: "DD.MM.YYYY",
