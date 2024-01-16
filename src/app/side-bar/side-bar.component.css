@@ -1,8 +1,48 @@
 .not-active {
-    color: #ffffff;
-  }
-  
-  .mat-nav-list .mat-list-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  
+  color: #ffffff !important;
+}
+
+.mat-nav-list .mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.active {
+  background: #fff !important;
+  border-radius: 10px;
+  max-width: 95%;
+  margin: 0 auto;
+  color: black;
+}
+
+.full-width {
+  width: 70%;
+  font-size: 15px;
+  /* margin-bottom: 40px !important; */
+}
+.parent{
+  height: fit-content;
+}
+
+:host ::ng-deep .mdc-list-item__content{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+/* :host ::ng-deep .mdc-list-item__primary-text{
+  display: flex;
+  align-items: center;
+} */
+
+
+
+:host ::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  align-items: center;
+  color: rgb(255, 255, 255) !important;
+}
+
+:host ::ng-deep.active .mdc-list-item__primary-text {
+  color: black !important;
+}

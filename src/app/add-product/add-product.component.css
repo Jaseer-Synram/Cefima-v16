@@ -1050,9 +1050,28 @@ body {
     height: 26px;
 }
 
+
+:host ::ng-deep .mdc-checkbox .mdc-checkbox__native-control~.mdc-checkbox__background {
+    display: inline-flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 26px !important;
+    border-color: white !important;
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+}
+
 :host ::ng-deep .mat-mdc-checkbox .checkboxStyle .checkboxStyle2 .mat-primary .mat-mdc-checkbox-checked {
     border-color: green !important;
     background-color: green !important;
+    display: inline-block;
+    position: relative;
+    flex: 0 0 26px !important;
+    box-sizing: content-box;
+    width: 26px !important;
+    height: 26px !important;
 }
 
 .iti__arrow{

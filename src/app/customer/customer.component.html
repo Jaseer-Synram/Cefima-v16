@@ -130,18 +130,18 @@
                                                             <div *ngIf="role == 'Superadmin'">Superadmin</div>
                                                         </span>
                                                     </li>
-                                                    <li class="customer-number" style="width:20%">{{ cl.customerno }}
+                                                    <li class="customer-number " style="width:20%">{{ cl.customerno }}
                                                     </li>
                                                     <!--
                                                             class="openclass offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1 b"
                                                             -->
-                                                    <li class="customer-action mb-2" style="width:20%">
-                                                        <a class="btn btn-sm button-primary botton-hover mr-2"
+                                                    <li class="customer-action " style="width:20%;text-align: center;">
+                                                        <a class="btn btn-sm button-primary botton-hover  mb-3 mr-2"
                                                             data-toggle="collapse"
                                                             (click)="editRecord(cl._id, i + 1, cl)"
                                                             id="click{{ cl._id }}">Öffnen</a>
                                                         <a href="javascript:void(0)"
-                                                            class="btn btn-danger btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            class="btn btn-danger btn-sm add-assigment mr-2 py-1 mb-3 action-edit"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Status"
                                                             (click)="statusCustomer(cl._id)" *ngIf="cl.status == '1'">
@@ -151,7 +151,7 @@
                               cursor: not-allowed;
                               text-decoration: underline;
                               background-color: #28a7459e;
-                            " href="javascript:void(0)" class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                            " href="javascript:void(0)" class="btn btn-success btn-sm add-assigment mr-2 py-1 mb-3 action-edit"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Please Fill all information to activate this button"
                                                             data-original-title="Status"
@@ -159,7 +159,7 @@
                                                             Aktivieren</a>
 
                                                         <a href="javascript:void(0)"
-                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 mb-3 action-edit"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Status"
                                                             (click)="statusCustomernew(cl._id)" *ngIf="
@@ -171,7 +171,7 @@
                             ">
                                                             Aktivieren</a>
                                                         <a href="javascript:void(0)"
-                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 mb-3 action-edit"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Status"
                                                             (click)="statusCustomer(cl._id)" *ngIf="
@@ -183,7 +183,7 @@
                                                             Aktivieren</a>
 
                                                         <a href="javascript:void(0)"
-                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 action-edit"
+                                                            class="btn btn-success btn-sm add-assigment mr-2 py-1 mb-3 action-edit"
                                                             data-toggle="tooltip" data-placement="top" title=""
                                                             data-original-title="Status" *ngIf="
                               cl.status == '0' &&
@@ -194,14 +194,14 @@
                             ">
                                                             Aktivieren Geschickt</a>
 
-                                                        <button *ngIf="
+                                                        <button  *ngIf="
                               cl.roles.includes('b2b') ||
                               (cl.companies_with_roles &&
                                 cl.companies_with_roles.includes('cefima_customer'))
                             " mat-icon-button [matMenuTriggerFor]="menu" (click)="saveCurrentSelectedUser(cl)"
                                                             aria-label="Example icon-button with a menu" style="
                               line-height: 30px !important;
-                              height: 30px !important;
+                              margin-bottom: -10px;
                             ">
                                                             <mat-icon>menu</mat-icon>
                                                         </button>

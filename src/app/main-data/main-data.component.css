@@ -38,7 +38,7 @@
 }
 
 
-:host ::ng-deep .button-arrow .mat-tab-label .mat-tab-label-content {
+:host ::ng-deep .button-arrow .mat-mdc-tab-label .mat-mdc-tab-label-content {
     font-size: 14px;
     font-weight: 500;
     line-height: 30px;
@@ -48,13 +48,38 @@
 }
 
 
-
-:host ::ng-deep .mat-tab-group .mat-tab-header .mat-tab-label-container {
+/* my item */
+:host ::ng-deep .mat-mdc-tab-label-container {
     background: linear-gradient(283deg, #02a9ed -11.74%, #16499e 110.6%);
     box-shadow: 5px 3px 20px 1px #262d3424;
     border-radius: 10px;
     padding: 10px;
     margin-top: 30px;
+}
+
+
+:host ::ng-deep.mdc-tab--active .mat-ripple {
+    background: white !important;
+    border-radius: 10px;
+}
+
+:host ::ng-deep.mdc-tab--active .mdc-tab__text-label {
+    color: black !important;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+:host ::ng-deep.mdc-tab__text-label {
+    color: rgb(255, 255, 255) !important;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
+/* up to here */
+:host ::ng-deep .mat-tab-label-active .mat-tab-label-content {
+    color: #000 !important;
 }
 
 :host ::ng-deep .mat-ripple:not(:empty) {
@@ -223,13 +248,21 @@
     border-color: #d1e8ff;
     color: #fff;
 }
-:host ::ng-deep .cal-month-view .cal-open-day-events .cal-event{  background-color: #fff !important;}
-:host ::ng-deep .cal-month-view .cal-day-cell.cal-today .cal-day-badge{  background-color: #fff !important;color: #5d6371 !important;}
 
-:host ::ng-deep .cal-month-view .cal-day-cell.cal-today .cal-event{background: #fff !important;}
-:host ::ng-deep .cal-month-view .cal-open-day-events 
+:host ::ng-deep .cal-month-view .cal-open-day-events .cal-event {
+    background-color: #fff !important;
+}
 
-:host ::ng-deep .cal-month-view .cal-day-badge {
+:host ::ng-deep .cal-month-view .cal-day-cell.cal-today .cal-day-badge {
+    background-color: #fff !important;
+    color: #5d6371 !important;
+}
+
+:host ::ng-deep .cal-month-view .cal-day-cell.cal-today .cal-event {
+    background: #fff !important;
+}
+
+:host ::ng-deep .cal-month-view .cal-open-day-events:host ::ng-deep .cal-month-view .cal-day-badge {
     width: 23px;
     font-weight: 700;
     line-height: unset;
@@ -249,6 +282,7 @@
 :host ::ng-deep .cal-week-view .cal-header.cal-today {
     background: linear-gradient(180deg, #a64f9d8f -4.52%, #6182c47a 22.3%, #33a4df7d 95.97%);
 }
+
 :host::ng-deep .cal-today .cal-day-number {
     font-size: 1.9em;
     color: #fff !important;

@@ -105,7 +105,7 @@ export function tokenGetter() {
       useClass: JwtInterceptorService,
       multi: true,
     },
-    { provide: MAT_DATE_LOCALE, useValue: "de-DE" },
+    { provide: MAT_DATE_LOCALE, useValue: "de" },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
