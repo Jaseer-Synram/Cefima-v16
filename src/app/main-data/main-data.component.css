@@ -11,26 +11,31 @@
     min-height: 0vh !important;
 }
 
-:host ::ng-deep .button-arrow .mat-ink-bar:before {
+:host ::ng-deep.mdc-radio {
+    width: 10px !important;
+    margin-bottom: 8px !important;
+}
+
+/* :host ::ng-deep .button-arrow >.mat-mdc-ink-bar:before {
     width: 100%;
     background: #4196d2 !important;
     left: 0px !important;
     height: 3px !important;
     border-width: 0px 0px 0px 0px !important;
     top: 50px !important;
-}
+} */
 
-:host ::ng-deep .mat-tab-group .button-arrow .mat-tab-header .mat-tab-label-container {
+/* :host ::ng-deep .mat-tab-group .button-arrow .mat-tab-header .mat-mdc-tab-label-container {
     border-radius: 0px;
     padding: 0px 0px 5px 0px;
     margin-top: 0px;
     background: none;
     box-shadow: none;
     border-bottom: 1px solid silver;
-}
+} */
 
 
-:host ::ng-deep .button-arrow .mat-tab-body-wrapper {
+:host ::ng-deep .button-arrow .mat-mdc-tab-body-wrapper {
     box-shadow: none;
     margin: 0px;
     padding: 0px 0px 15px 0px;
@@ -39,7 +44,7 @@
 
 
 :host ::ng-deep .button-arrow .mat-mdc-tab-label .mat-mdc-tab-label-content {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0em;
@@ -48,36 +53,194 @@
 }
 
 
-/* my item */
+/* my item ******************************************************************************************/
 :host ::ng-deep .mat-mdc-tab-label-container {
-    background: linear-gradient(283deg, #02a9ed -11.74%, #16499e 110.6%);
+    position: relative;
+    background-image: linear-gradient(283deg, #02a9ed -11.74%, #16499e 110.6%);
     box-shadow: 5px 3px 20px 1px #262d3424;
     border-radius: 10px;
     padding: 10px;
     margin-top: 30px;
 }
 
+:host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container {
+    position: relative !important;
+    background: transparent !important;
+    padding: 0px 10px !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+    color: white !important;
+    margin-top: 0px !important;
+}
 
-:host ::ng-deep.mdc-tab--active .mat-ripple {
+:host ::ng-deep.mdc-tab-indicator__content--underline {
     background: white !important;
-    border-radius: 10px;
+    height: 100% !important;
+    border-radius: 10px !important;
 }
 
-:host ::ng-deep.mdc-tab--active .mdc-tab__text-label {
+:host ::ng-deep .mdc-tab--active>.mdc-tab-indicator :before {
+    content: "" !important;
+    position: absolute !important;
+    top: 58px;
+    border-bottom: 0px solid #0f67b7;
+    border-top: 0px solid #0f67b7;
+    border-right: 11px solid #0000;
+    border-left: 10px solid #0000;
+    left: 38%;
+    border-width: 26px 15px 0px 15px;
+}
+
+h2 {
+    font-size: 30px !important;
+    font-weight: 600 !important;
+}
+
+.tab-1-head{
+    font-size: 18px !important;
+    font-weight: 500 !important;
+}
+
+.icon-person-info{
+    width: 24px;
+    margin-right: 5px;
+}
+
+:host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container .mdc-tab--active ::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0px !important;
+    border-bottom: 0px solid transparent !important;
+    border-top: 0px solid transparent !important;
+    border-right: 0px solid transparent !important;
+    border-left: 0px solid transparent !important;
+    border-width: 0px !important;
+}
+
+:host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
+    background: #02a9ed !important;
+    height: 3px !important;
+    border-radius: 0px !important;
+    border: none;
+    --mdc-tab-indicator-active-indicator-color: #02a9ed;
+}
+
+:host ::ng-deep.remove-bottom-mat-input-padding>.mat-mdc-form-field-subscript-wrapper {
+    height: 0px;
+    display: none !important;
+  }
+/* :host ::ng-deep .mat-mdc-tab .mdc-tab__content{mat-tab-label-1-0
+    position: unset;
+} */
+
+.table-min-height-here {
+    min-height: calc(100vh - 40vh)
+}
+
+
+:host ::ng-deep .mdc-tab--active .mdc-tab__text-label {
     color: black !important;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
+    font-family: system-ui;
+    letter-spacing: 0;
 }
 
-:host ::ng-deep.mdc-tab__text-label {
+:host ::ng-deep .mdc-tab__text-label {
     color: rgb(255, 255, 255) !important;
+    font-size: 17px;
+    font-weight: 500;
+    font-family: system-ui;
+    letter-spacing: 0;
+}
+
+
+:host ::ng-deep[id^="mat-tab-label-0-"],
+.mat-mdc-tab-header {
+    --mdc-tab-indicator-active-indicator-height: 0px;
+    --mdc-tab-indicator-active-indicator-color: white;
+    /* --mdc-tab-indicator-active-indicator-border-radius: 10px;
+    --mdc-tab-indicator-active-indicator-color:white; */
+}
+
+
+/* :host ::ng-deep[id^="mat-tab-label-1-"],
+.mat-mdc-tab .mdc-tab-indicator--active,
+.mdc-tab .mdc-tab-indicator--active {
+  --mdc-tab-indicator-active-indicator-color: #4196d2 !important;
+}
+
+
+:host ::ng-deep[id^="mat-tab-label-1-"],
+.mat-mdc-tab-header {
+    --mdc-tab-indicator-active-indicator-height: 3px;
+    --mdc-tab-indicator-active-indicator-color: #4196d2!important;
+    --mdc-tab-indicator-focus-active-indicator-color:#4196d2!important; 
+    --mdc-tab-indicator-hover-active-indicator-color:#4196d2!important; 
+}
+
+:host ::ng-deep[id^="mat-tab-label-1-"],
+.mat-mdc-tab-labels .mdc-tab--active.mdc-tab-indicator--active.cdk-focused.cdk-mouse-focused {
+    --mdc-tab-indicator-active-indicator-color: #4196d2 !important; 
+ } */
+
+
+:host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab>.mdc-tab__content>.mdc-tab__text-label {
+    color: #464646 !important;
     font-size: 15px;
     font-weight: 500;
+    letter-spacing: 0;
+    font-family: system-ui;
+}
+
+:host ::ng-deep.mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
 }
 
 
 
-/* up to here */
+:host ::ng-deep [id^="mat-tab-label-1-"],
+.mdc-tab__text-label {
+    color: rgb(0, 0, 0) !important;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: system-ui;
+    letter-spacing: 0;
+    padding: 0px 48px;
+}
+
+:host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab.mdc-tab {
+    flex-grow: 0 !important;
+}
+
+.editPhoneVLogo {
+    width: 24px !important;
+    height: 24px !important;
+    float: right !important;
+    margin-top: -63px !important;
+    margin-right: 20px !important;
+}
+
+.editEmailVLogo {
+    width: 24px !important;
+    height: 24px !important;
+    float: right !important;
+    margin-top: -65px !important;
+    margin-right: 20px !important;
+}
+
+.upload-section {
+    padding: 12px 16px;
+}
+
+
+/* up to here ***************************************************************************************** */
 :host ::ng-deep .mat-tab-label-active .mat-tab-label-content {
     color: #000 !important;
 }
@@ -94,8 +257,20 @@
 }
 
 
+/* :host ::ng-deep .mat-mdc-tab-group.button-arrow>.button-arrow.mat-mdc-tab-body-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
+    box-shadow:0px ;
+    background: transparent !important;
+    margin-top: 0px !important;
+    padding: 0px !important;
+    border-radius: 0px !important;
+    margin-bottom: 0px !important;
+} */
 
-:host ::ng-deep .mat-tab-body-wrapper {
+:host ::ng-deep .mat-mdc-tab-body-wrapper {
     position: relative;
     overflow: hidden;
     display: flex;
@@ -126,7 +301,7 @@
 }
 
 .Persönliche-Informationen h2 {
-    font-family: Open Sans;
+    font-family: system-ui;
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 0em;
@@ -134,7 +309,7 @@
     color: #454C58;
     float: left;
     margin-bottom: 0px;
-    margin-top: 6px;
+    margin-top: 1px;
 
 }
 
@@ -172,7 +347,6 @@
     transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
     background: #fff !important;
     border-radius: 10px;
-    ;
     color: #000 !important;
     z-index: -99;
 }
@@ -186,7 +360,7 @@
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    font-family: Open Sans;
+    font-family: system-ui;
     font-size: 17px;
     font-weight: 600;
     line-height: 30px;
@@ -202,7 +376,7 @@
     color: #000;
 }
 
-:host ::ng-deep .mat-tab-label-container .mat-ink-bar:before {
+/* :host ::ng-deep .mat-mdc-tab-label-container .mat-mdc-ink-bar:before {
     content: '';
     position: absolute;
     top: 58px;
@@ -212,16 +386,16 @@
     border-left: 10px solid #0000;
     left: 38%;
     border-width: 26px 15px 0px 15px;
-}
+} */
 
-:host ::ng-deep .mat-tab-header {
+:host ::ng-deep .mat-mdc-tab-header {
     display: flex;
     overflow: inherit;
     position: relative;
     flex-shrink: 0;
 }
 
-:host ::ng-deep .mat-tab-label-container {
+:host ::ng-deep .mat-mdc-tab-label-container {
     display: flex;
     flex-grow: 1;
     overflow: initial;

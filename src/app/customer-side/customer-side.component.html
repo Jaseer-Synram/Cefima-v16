@@ -5390,13 +5390,13 @@
                                   padding: 0px;
                                   margin-top: 20px !important;
                                 ">
-                                <div class="col-md-4" id="familymenber" style="padding: 10px" [ngClass]="
+                                <div class="col-md-4 p-0 m-0" id="familymenber" [ngClass]="
                                     enterTitlebroker
                                       ? 'showredborder'
                                       : 'showwhiteborder'
                                   ">
-                                  <label style="display: block">Anrede</label>
-                                  <mat-radio-group aria-label="Select an option" formControlName="title">
+                                  <!--<label style="display: block">Anrede</label>
+                                   <mat-radio-group aria-label="Select an option" formControlName="title">
                                     <mat-radio-button value="Frau" (click)="titleChangeBroker($event)"
                                       class="radioclass"><span [ngClass]="
                                           enterTitlebroker
@@ -5417,33 +5417,43 @@
                                             ? 'showredtext'
                                             : 'showwhitetext'
                                         ">Divers</span></mat-radio-button>
-                                  </mat-radio-group>
+                                  </mat-radio-group> -->
+                                  <div class="col-md-12 p-0 m-0" style="text-align:start">
+                                    <mat-form-field style="width:96%" class="form-width p-0 m-0" appearance="outline">
+                                      <mat-label>Anrede</mat-label>
+                                      <mat-select matNativeControl formControlName="usertitle">
+                                        <mat-option value="Frau">Frau</mat-option>
+                                        <mat-option value="Herr">Herr</mat-option>
+                                        <mat-option value="Divers">Divers</mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </div>
                                   <mat-error *ngIf="enterTitlebroker" style="color: red">*Bitte Ansprache auswählen
                                   </mat-error>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="padding: 0px;text-align:center">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Vorname </mat-label>
                                     <input matInput placeholder="Vorname " formControlName="firstname"
                                       (ngModelChange)="showTitleError($event)" />
                                   </mat-form-field>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:right">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Nachname </mat-label>
                                     <input matInput placeholder="Nachname " formControlName="lastname" />
                                   </mat-form-field>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:start">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Telefonnummer eingeben</mat-label>
                                     <input matInput id="phone_numbercustomer" [maxlength]="20" name="phone_number"
                                       formControlName="phone_number" class="test" placeholder="Telefonnummer eingeben"
                                       type="tel" value="+49" oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
                                   </mat-form-field>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline" style="margin-bottom: 0px !important">
+                                <div class="col-md-4 p-0" style="text-align:center">
+                                  <mat-form-field  style="width:96%"  appearance="outline" >
                                     <mat-label>E-Mail</mat-label>
                                     <input type="email" matInput placeholder="E-Mail" formControlName="email"
                                       (blur)="checkemailnewcompany()" email="true" />
@@ -5454,8 +5464,8 @@
                                       margin-top: -25px;
                                     " id="checkemailerrorcompany"></p>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:right">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Geburtsdatum</mat-label>
                                     <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
                                       placeholder="Geburtsdatum" formControlName="dob"
@@ -5467,8 +5477,8 @@
                                   </mat-form-field>
                                 </div>
 
-                                <div class="col-md-4" style="padding: 0px" *ngIf="familyData.length != 0">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:left" *ngIf="familyData.length != 0">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Verwandtschaftsverhältnis</mat-label>
                                     <input type="text" aria-label="Number" matInput [formControl]="familyRelation"
                                       [matAutocomplete]="auto1" />
@@ -5482,8 +5492,8 @@
                                     </mat-autocomplete>
                                   </mat-form-field>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:start">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Beziehungsstatus</mat-label>
                                     <input type="text" aria-label="Number" matInput [formControl]="martialStatusControl"
                                       [matAutocomplete]="auto" />
@@ -5506,8 +5516,8 @@
                                   Meldeadresse an.
                                 </p>
 
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline" style="background-color: white !important">
+                                <div class="col-md-4 p-0" style="text-align:start">
+                                  <mat-form-field  style="width:96%"  appearance="outline" >
                                     <mat-label>Straße</mat-label>
                                     <input matInput placeholder="Straße" formControlName="street"
                                       ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
@@ -5517,28 +5527,28 @@
                                   </mat-form-field>
                                 </div>
 
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:center">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Nr.</mat-label>
                                     <input matInput placeholder="Nr." formControlName="streetNumber" />
                                   </mat-form-field>
                                 </div>
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:right">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>PLZ</mat-label>
                                     <input matInput placeholder="PLZ" formControlName="postCode" />
                                   </mat-form-field>
                                 </div>
 
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:start">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Stadt</mat-label>
                                     <input matInput placeholder="Stadt" formControlName="city" />
                                   </mat-form-field>
                                 </div>
 
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:center">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>C/O Appartmentnummer, Türcode,
                                       usw.</mat-label>
                                     <input matInput placeholder="C/O Appartmentnummer, Türcode, usw."
@@ -5546,8 +5556,8 @@
                                   </mat-form-field>
                                 </div>
 
-                                <div class="col-md-4" style="padding: 0px">
-                                  <mat-form-field appearance="outline">
+                                <div class="col-md-4 p-0" style="text-align:right">
+                                  <mat-form-field  style="width:96%"  appearance="outline">
                                     <mat-label>Land des Wohnsitzes</mat-label>
                                     <input matInput placeholder="Land des Wohnsitzes"
                                       formControlName="countryOfResidence" ngx-google-places-autocomplete

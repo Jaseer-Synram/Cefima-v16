@@ -14,6 +14,13 @@
   margin: 0 auto;
   color: black;
 }
+.left-arrow img {
+  position: absolute;
+  right: 30%;
+  top: 40px;
+  border-radius: 0px 10px 10px 0px;
+  width: 50px;
+}
 
 .full-width {
   width: 70%;
@@ -45,4 +52,9 @@
 
 :host ::ng-deep.active .mdc-list-item__primary-text {
   color: black !important;
+}
+
+:host ::ng-deep.mat-mdc-icon-button img{
+  width: 50px !important;
+  height: 40px;
 }

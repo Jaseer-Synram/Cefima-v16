@@ -630,11 +630,11 @@ export class MainDataComponent {
     canvasWidth: 750,
     canvasHeight: 300,
   };
-  @ViewChild("canvasone", { static: true }) canvasone: ElementRef;
-  signaturePad: SignaturePad;
+  // @ViewChild("canvasone", { static: true }) canvasone: ElementRef;
+  // signaturePad: SignaturePad;
 
   @ViewChild("canvastwo", { static: true }) canvastwo: ElementRef;
-  signaturePadtwo: SignaturePad;
+  signaturePad: SignaturePad;
   // @ViewChild(SignaturePad) signaturePad: SignaturePad;
   // Kommunikation End
 
@@ -777,8 +777,8 @@ export class MainDataComponent {
     });
     this.addEmail("manual");
 
-    this.signaturePad = new SignaturePad(this.canvasone.nativeElement);
-    this.signaturePadtwo = new SignaturePad(this.canvastwo.nativeElement);
+    // this.signaturePad = new SignaturePad(this.canvasone.nativeElement);
+    this.signaturePad = new SignaturePad(this.canvastwo.nativeElement);
 
     this.sendEmailFormGroup = this._formBuilder.group({
       from_email: ["", Validators.required],
