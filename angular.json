@@ -65,12 +65,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "7mb",
-                  "maximumError": "12mb"
+                  "maximumError": "13mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "7mb",
-                  "maximumError": "12mb"
+                  "maximumError": "13mb"
                 }
               ],
               "outputHashing": "all",
@@ -79,7 +79,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "optimization": false
             },
             "development": {
               "buildOptimizer": false,

@@ -36,12 +36,13 @@
                                 </span>
                             </button>
                         </div>
-                        <mat-horizontal-stepper linear #consultStepper
+                        <mat-horizontal-stepper linear #consultStepper 
                             ngClass="{{ 'last-edited-step-' + consultStepper.selectedIndex }}">
                             <ng-template matStepperIcon="edit">
                                 <mat-icon>check</mat-icon>
+                                <!-- <mat-icon *ngIf="!myControl.valid">close</mat-icon> -->
                             </ng-template>
-                            <mat-step>
+                            <mat-step [stepControl]="myControl" >
                                 <div class="w-75">
                                     <ng-template matStepLabel>
                                         <span>Kunden</span>
@@ -59,13 +60,8 @@
                                             class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
                                             appearance="outline"
                                             style=" width: 100%;background: white;border-radius: 10px;">
-                                            <!-- <mat-label>Haushalt / Firma
-                                        auswählen
-                                    </mat-label> -->
-                                            <!-- (keyup.enter)="patchnationalityValue($event)" (ngModelChange)="
-                                    patchnationalityValue($event)"  -->
                                             <input type="text" placeholder="Haushalt / Firma auswählen"
-                                                aria-label="Number" matInput [formControl]="myControl"
+                                                 aria-label="Number" matInput [formControl]="myControl"
                                                 [matAutocomplete]="auto"
                                                 (change)="currentCustomer = $any($event.target).value" />
                                             <mat-autocomplete #auto="matAutocomplete"
@@ -99,7 +95,7 @@
                                 </div> -->
                             </mat-step>
                             <!-- 2ND STEP START -->
-                            <mat-step>
+                            <mat-step [stepControl]="step2Control"  >
                                 <div class="w-75">
                                     <ng-template matStepLabel>
                                         <span>Ausgewählter Mitglied</span>
@@ -124,7 +120,7 @@
                                                 aus
                                             </p>
                                         </div>
-                                        <div class="d-flex align-items-center pl-1 pr-2 gradient py-1"
+                                        <div *ngIf="showmembers" class="d-flex align-items-center pl-1 pr-2 gradient py-1"
                                             style="border-radius: 10px">
                                             <mat-form-field
                                                 class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient"
@@ -132,7 +128,7 @@
                           width: 100%;
                           background: white;
                           border-radius: 10px;
-                        " *ngIf="showmembers">
+                        " >
                                                 <!-- <mat-label>Haushaltsmitglied auswählen
                                     </mat-label> -->
                                                 <!-- (keyup.enter)="patchmembervalue($event)"
@@ -148,7 +144,7 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
-                                            <mat-icon class="ml-2" style="color: white">search
+                                            <mat-icon  class="ml-2" style="color: white">search
                                             </mat-icon>
                                         </div>
                                         <div *ngIf="selectedMemberList.length > 0" class="list-box text-start p-1 pt-2">
@@ -250,10 +246,10 @@
                                         [ngClass]="{'gradient':hoverOnKunden}">
                                         <img *ngIf="!hoverOnKunden" src="assets/kundendaten.svg">
                                         <img *ngIf="hoverOnKunden" src="assets/kundendaten-active.svg">
-                                        <p class="m-0 mt-3 w-50 text-center"
-                                            [ngStyle]="{'color':hoverOnKunden? 'white' : '#02a8ec' }">
+                                        <span class="m-0 mt-3 w-50 text-center"
+                                            [ngStyle]="{'color':hoverOnKunden? 'white' : '#000', 'font-family': 'Open Sans','font-weight':'700','font-size':'20px'  }">
                                             KUNDENDATEN
-                                            AKTUALISIEREN</p>
+                                            AKTUALISIEREN</span>
                                     </div>
 
 
@@ -265,10 +261,10 @@
                                         [ngClass]="{'gradient':hoverOnproduktberatung }">
                                         <img *ngIf="!hoverOnproduktberatung" src="assets/produktberatung.svg">
                                         <img *ngIf="hoverOnproduktberatung" src="assets/produktberatung-active.svg">
-                                        <p class="m-0 mt-3 w-50 text-center"
-                                            [ngStyle]="{'color':hoverOnproduktberatung ? 'white' : '#02a8ec' }">
+                                        <span class="m-0 mt-3 text-center" 
+                                            [ngStyle]="{'color':hoverOnproduktberatung ? 'white' : '#000', 'font-family': 'Open Sans','font-weight':'700','font-size':'20px' }">
                                             PRODUKTBERATUNG
-                                            STARTEN</p>
+                                            STARTEN</span>
                                     </div>
                                 </div>
                                 <!-- <div class="d-flex justify-content-between align-items-center mt-5">
@@ -502,7 +498,8 @@
                             style="font-weight: 600; color: #454c58; font-size: 15px">Vorgangs Nr.: {{ nextCaseNumber
                             }}</span>
                     </div>
-                    <button type="button" id="QAModalClose" class="transitionanimation hover-grow" data-dismiss="modal" (click)="
+                    <button type="button" id="QAModalClose" class="transitionanimation hover-grow" data-dismiss="modal"
+                        (click)="
               close_modal('questionAnswerModal', 'questionAnswerModal_parent')
             " aria-label="Close" style="
               text-align: center;
@@ -956,7 +953,7 @@
                                           background: white;
                                           border-radius: 10px;
                                         " class=" remove-subscript-wrapper mat-form-field-remove-padding-bottom mat-form-field-remove-margin">
-                                                                                <input matInput 
+                                                                                <input matInput
                                                                                     placeholder="Antwort eingeben"
                                                                                     value="{{
                                             currentQuestionObject?.question

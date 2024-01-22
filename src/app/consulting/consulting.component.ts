@@ -1,13 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import { Observable, startWith, map, first } from 'rxjs';
-// import SignaturePad from 'signature_pad';
 import Swal from 'sweetalert2';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user.service';
@@ -40,7 +39,6 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   i: any
   API_URL = environment.API_URL;
 
-  // @ViewChild(SignaturePad) signaturePad: SignaturePad;
   @ViewChild("canvas", { static: true }) canvas: ElementRef;
   signaturePad: SignaturePad
   public signaturePadOptions: Object = {
@@ -65,7 +63,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     id: "",
   };
   id: any
-  myControl = new FormControl("");
+  myControl = new FormControl("",Validators.required);
   currentCustomer = "";
   customerFormGroup: FormGroup;
   recordCount: Number;
@@ -156,7 +154,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   uploadedPdfArray: any = [];
   tabDataArray: any = [];
 
-  currentBranch: FormControl = new FormControl("");
+  currentBranch = new FormControl("");
   allBranches: any = [];
   branchesOptions: any = [];
   selectedBranchList: any = [];
@@ -180,7 +178,9 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   itemToDisplayUnderKunden = ''
   itemToDisplayUnderAuswahlberatung = ''
   itemToDisplayUnderFragTyp = ''
-  // pdfUrl = ''
+
+  step2Control = this.currentBranch
+
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -188,11 +188,14 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private datePipe: DatePipe,
-    private authService: AuthService, // private elementRef: ElementRef
+    private authService: AuthService, 
     private dialog: MatDialog
   ) {
     // this.element = elementRef.nativeElement;
   }
+
+  
+
   filtercustomer(success: any, companyName: any) {
     let newsuccess = [];
 
@@ -250,6 +253,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     this.selectedUser.id = this.id;
     this.componentname = "consulting";
 
+  
 
     // this.filteredOptions = this.myControl.valueChanges.pipe(
     //   startWith(""),
@@ -641,7 +645,12 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       for (let i = 0; i < this.optionsValue.length; i++) {
         if (this.optionsValue[i].name === this.myControl.value) {
           this.id = this.optionsValue[i].id;
+          console.log(this.optionsValue[i].title);
+          
           if (this.optionsValue[i].title == "Firma") {
+
+            this.step2Control = this.currentBranch
+
             this.kundetype = "Firma";
             this.company_kunde = false;
             this.showmembers = false;
@@ -681,6 +690,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
                 });
             }
           } else {
+            this.step2Control = this.myControlnew
             this.kundetype = " Haushalt " + this.optionsValue[i].lastname;
             this.company_kunde = false;
             $("#loaderouterid").css("display", "block");
@@ -737,6 +747,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
         }
       }
       console.log("selected memeber list", this.selectedMemberList);
+      this.stepTwo = true
       this.ShowButton = false;
     } else {
       this.ShowButton = true;
@@ -1025,7 +1036,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     let userIndex = i;
     let tabIndex = j;
     this.tabQuestionsLength = this.questionList[userIndex].tempList[tabIndex].list.length;
-    let item :HTMLElement  = document.querySelector('.mat-mdc-form-field-subscript-wrapper')!;
+    let item: HTMLElement = document.querySelector('.mat-mdc-form-field-subscript-wrapper')!;
     item.classList.add('removewrapper');
 
     // this.questionArray[uIndex].tempList[tabIndex].list[questionIndex]
@@ -2281,6 +2292,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     stepper.next();
   }
 
+  stepTwo = false
+
   nextDisabled(stepper: MatStepper) {
     let disabled = false;
     if (stepper.selectedIndex === 0 && this.currentCustomer === "") {
@@ -2290,6 +2303,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       this.selectedBranchList.length === 0 &&
       this.selectedMemberList.length === 0
     ) {
+      this.stepTwo = true
       disabled = true;
     } else if (stepper.selectedIndex === 2 && this.contractType === "") {
       disabled = true;

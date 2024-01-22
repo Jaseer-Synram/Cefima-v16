@@ -37,6 +37,9 @@ declare var $: any;
   styleUrls: ['./customer-side.component.css']
 })
 export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild("canvas") canvas: ElementRef;
+  signaturePad: SignaturePad
+
   video_chat_data: any = {};
   public intervallTimer = interval(1000);
 
@@ -48,25 +51,23 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   myControl = new FormControl();
   myControlland = new FormControl();
   // @ViewChild(AgmMap, { read: AgmMap }) agmMap: any;
-  
-  @ViewChild("canvas", { read: SignaturePad }) sigcanvas: ElementRef;
-  signaturePad : SignaturePad
 
-  // @ViewChild(SignaturePad, null) signaturePad2: SignaturePad;
+
+
   public signaturePadOptions: Object = {
     // passed through to szimek/signature_pad constructor
     minWidth: 2,
     canvasWidth: 750,
     canvasHeight: 300,
   };
-  public signaturePadOptions2: Object = {
-    // passed through to szimek/signature_pad constructor
-    // minWidth: "100%",
-    minWidth: 2,
-    canvasWidth: 900,
-    canvasHeight: 300,
-    // backgroundColor: "blue",
-  };
+  // public signaturePadOptions2: Object = {
+  //   // passed through to szimek/signature_pad constructor
+  //   // minWidth: "100%",
+  //   minWidth: 2,
+  //   canvasWidth: 900,
+  //   canvasHeight: 300,
+  //   // backgroundColor: "blue",
+  // };
   @ViewChild("livingfso") familyForm: NgForm;
   @ViewChild("livingfso12") CEOform: NgForm;
   @ViewChild("livingfso123") OtherPersonform: NgForm;
@@ -704,7 +705,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   showceodoc = false;
   selectedppid: any = "";
   brokerformtype1: FormGroup;
-  TimeLineData:any[] = [];
+  TimeLineData: any[] = [];
   OfferedDocWithTicket_No: any = [];
   Conversation: any[] = [];
   showmore = [false];
@@ -719,16 +720,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   filearray: any[] = [];
   l = 0;
 
-  title: any 
-  lastname: any 
+  title: any
+  lastname: any
   firstname: any
-  id: any 
+  id: any
   COMPANYNAME: any
 
   header_title: any
-  header_firstname: any 
-  header_lastname: any 
-  header_companyname: any 
+  header_firstname: any
+  header_lastname: any
+  header_companyname: any
 
   tokensession = localStorage.getItem("token");
   localData: any = JSON.parse(localStorage.getItem("currentUser")!);
@@ -1727,11 +1728,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log("first name", this.firstname);
 
     this.header_title = this.title;
-  this.header_firstname = this.firstname;
-  this.header_lastname = this.lastname;
-  this.header_companyname = this.COMPANYNAME;
+    this.header_firstname = this.firstname;
+    this.header_lastname = this.lastname;
+    this.header_companyname = this.COMPANYNAME;
 
-
+    if (this.canvas) {
+      this.signaturePad = new SignaturePad(this.canvas.nativeElement);
+    }
 
     if (this.eventEmitterService.subsVar == undefined) {
       this.eventEmitterService.subsVar =
@@ -2251,7 +2254,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
       .getusertimeline(this.id)
       .pipe(first())
       .subscribe(
-        (data:any[]) => {
+        (data: any[]) => {
           this.TimeLineData = data;
           console.log(this.TimeLineData);
         },
@@ -2381,6 +2384,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
 
+
+
     let strno = this.localData.strno;
     let strassa = this.localData.strassa;
     let city = this.localData.city;
@@ -2417,12 +2422,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
 
       console.log(
         "this.ReadyProductsTypeOptions" +
-        JSON.stringify(this.filteredProductsTypeOptions)
+        this.filteredProductsTypeOptions.subscribe(data => {
+          JSON.stringify(data)
+        })
+
       );
     }, 3000);
     this.responseobserve = this.intervallTimer.subscribe(() =>
       this.get_unread_chat()
     );
+
   }
 
   getTabList() {
@@ -2892,14 +2901,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-  open_modal(modal_id:any){
-    $('#'+modal_id).appendTo("body");
+
+  open_modal(modal_id: any) {
+    $('#' + modal_id).appendTo("body");
   }
-  close_modal(modal_id:any,append_to:any){
-    $('#'+modal_id).appendTo("#"+append_to);
+  close_modal(modal_id: any, append_to: any) {
+    $('#' + modal_id).appendTo("#" + append_to);
   }
   preview_uploaded_document(filename: any, url: any, datatype: any) {
-    $("#openpreviewmodel").trigger("click");  
+    $("#openpreviewmodel").trigger("click");
     this.open_modal('exampleModalpreview');
     $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + filename);
     if (datatype.indexOf("application/pdf") != -1) {
@@ -3363,7 +3373,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     // let fileTags = item.docTags.length ? item.docTags[0][0].split(",")[1] : "";
     // let fileUrl = item.docId ? item.docId : "";
     let fileName = item.document_info[0]?.document_name ? item.document_info[0]?.document_name : "";
-    let fileTags = item.document_info[0]?.tags[0]? item.document_info[0]?.tags[0] : "";
+    let fileTags = item.document_info[0]?.tags[0] ? item.document_info[0]?.tags[0] : "";
     let fileUrl = item.docId ? item.docId : "";
 
     if (fileName !== "" && fileTags !== "" && fileUrl !== "") {
@@ -3528,11 +3538,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    console.log('aftervie *********************************');
+    
+    setTimeout(() => {
+      console.log(this.canvas);
+      
+      this.signaturePad = new SignaturePad(this.canvas.nativeElement);
+    });
     this.getalldocument();
-
-    if(this.sigcanvas?.nativeElement){
-      this.signaturePad = new SignaturePad(this.sigcanvas.nativeElement);
-    }
 
     if (this.caselistnew.length > 0) {
       $("#li0").trigger("click");
@@ -3750,7 +3763,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 500);
         console.log("userofficeData" + JSON.stringify(userofficedata));
       });
-      
+
   }
   isDivisibleBy(num: any) {
     if (num % 5 == 0 && num % 7 == 0) console.log("isDivisibleByHello World");
@@ -11570,8 +11583,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  DateRender() {
-    console.log("demodate");
+  DateRender(id: string) {
+    console.log("demodate", id);
+    this.open_modal(id)
   }
   dataURLtoBlob(dataurl: any) {
     var arr = dataurl.split(","),

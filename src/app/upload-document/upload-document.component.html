@@ -33,7 +33,7 @@
                         <ng-template matStepperIcon="edit">
                             <mat-icon>check</mat-icon>
                         </ng-template>
-                        <mat-step [stepControl]="askquestion">
+                        <mat-step [stepControl]="myControl">
 
 
 
@@ -110,7 +110,7 @@
                             </div>
                         </mat-step>
 
-                        <mat-step *ngIf="kundetype != 'Firma' && myControl.value ">
+                        <mat-step [stepControl]="myControlnew" *ngIf="kundetype != 'Firma' && myControl.value ">
                             <ng-template matStepLabel>
                                 <span>Haushaltsmitglied</span>
                                 <div *ngIf="kundetype.includes('Haushalt') && myControlnew.value"

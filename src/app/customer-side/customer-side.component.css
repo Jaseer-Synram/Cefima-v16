@@ -73,3 +73,34 @@
     font-weight: 500;
     font-size: medium;
 }
+
+.form-width{
+    width: 96%;
+}
+
+.upload-file {
+    border: 2px dashed #02A9ED;
+}
+
+.upload-file input:hover {
+    cursor: pointer;
+}
+
+.upload-file:hover {
+    border: 2px dashed #007bff;
+}
+
+.upload-file .up-file-wrap {
+    margin: 20px 0px;
+}
+
+.upload-file input {
+    outline: none;
+    opacity: 0;
+}
+
+.icons-img {
+    display: inline-block;
+    width: 130px;
+    /* margin-bottom: 30px; */
+}
