@@ -1741,7 +1741,8 @@
                       </ng-template>
                       <mat-step [stepControl]="addressFormGroupnew">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="addressFormGroupnew" #fso1="ngForm" class="Official-residence-form">
+                          <form *ngIf="addressFormGroupnew" [formGroup]="addressFormGroupnew" #fso1="ngForm"
+                            class="Official-residence-form">
                             <ng-template matStepLabel>Offizielle Unternehmensdaten
                             </ng-template>
                             <div class="col-md-12 p-0 ">
@@ -1864,7 +1865,7 @@
                           companytypenew == 'Eingetragener Kaufmann (e.K.)'
                         ">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="livingaddressFormGroup" #livingfso1="ngForm"
+                          <form *ngIf="livingaddressFormGroup" [formGroup]="livingaddressFormGroup" #livingfso1="ngForm"
                             class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Informationen
                             </ng-template>
@@ -1995,7 +1996,7 @@
                                 </div>
                               </div>
                               <div class=" d-flex justify-content-between">
-                                <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                   style="width: 110px">
                                   <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                   &nbsp; Zurück
@@ -2039,8 +2040,8 @@
                         ">
                         <div class="row updateprofile">
                           <div class="col-md-4">
-                            <form [formGroup]="secondcompanyaddressFormGroup" #secondcompanyfso="ngForm" novalidate=""
-                              class="Official-residence-form">
+                            <form *ngIf="secondcompanyaddressFormGroup" [formGroup]="secondcompanyaddressFormGroup"
+                              #secondcompanyfso="ngForm" novalidate="" class="Official-residence-form">
                               <ng-template matStepLabel>Gesetzliche Vertreter
                               </ng-template>
 
@@ -2281,8 +2282,8 @@
                             <h5 style="text-align: left; display: inline-block">
                               Sonstige Bevollmächtigte/Prokuristen
                             </h5>
-                            <form [formGroup]="secondcompanyaddressFormGroup1" #secondcompanyfso1="ngForm" novalidate=""
-                              class="Official-residence-form">
+                            <form *ngIf="secondcompanyaddressFormGroup1" [formGroup]="secondcompanyaddressFormGroup1"
+                              #secondcompanyfso1="ngForm" novalidate="" class="Official-residence-form">
                               <div id="companySecondForm" *ngFor="
                                   let addedperson1 of addedpersonsSecond;
                                   let i = index
@@ -2507,8 +2508,8 @@
 
                             <!-- The Modal -->
 
-                            <form [formGroup]="secondcompanyaddressFormGroup2" #secondcompanyfso2="ngForm" novalidate=""
-                              class="Official-residence-form">
+                            <form *ngIf="secondcompanyaddressFormGroup2" [formGroup]="secondcompanyaddressFormGroup2"
+                              #secondcompanyfso2="ngForm" novalidate="" class="Official-residence-form">
                               <div>
                                 <div id="companyThirdForm" *ngFor="
                                     let addedperson1 of addedpersons;
@@ -2780,7 +2781,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                          <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                          <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                             style="width: 110px">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i>
                             &nbsp; Zurück
@@ -2822,7 +2823,7 @@
                         </div>
                       </mat-step>
                       <mat-step [stepControl]="docFromGroup">
-                        <form #fsl="ngForm" [formGroup]="docFromGroup" class="more-info-form">
+                        <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form">
                           <ng-template matStepLabel>Dokumente hochladen</ng-template>
 
                           <!-- <div
@@ -3422,7 +3423,7 @@
                           </div>
 
                           <div class="d-flex justify-content-between">
-                            <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                            <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                               style="width: 110px">
                               <i class="fa fa-arrow-left" aria-hidden="true"></i>
                               &nbsp; Zurück
@@ -3437,8 +3438,7 @@
                             </button>
 
                             <button id="secondbutton" class="stepper-btn btn transitionanimation" mat-raised-button
-                              (click)="finalFirstname(); saveCustomerCompany()" type="button"
-                               [disabled]="!enablebutton"
+                              (click)="finalFirstname(); saveCustomerCompany()" type="button" [disabled]="!enablebutton"
                               *ngIf="currentActiveRole != 'customer'">
                               Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                             </button>
@@ -3446,7 +3446,8 @@
                         </form>
                       </mat-step>
                       <mat-step [stepControl]="agreementFromGroup" *ngIf="currentActiveRole == 'customer'">
-                        <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form">
+                        <form #fs2="ngForm" *ngIf="agreementFromGroup" [formGroup]="agreementFromGroup" novalidate=""
+                          class="more-info-form">
                           <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                           <div
@@ -3466,7 +3467,7 @@
                           
                                data-target="#exampleModalLongnew"
                               class="stepper-btn btn transitionanimation" 
-                              mat-button
+                              mat-raised-button
                               type="button"
                               (click)="DateRender()"
                              
@@ -3479,7 +3480,7 @@
                           
                                data-target="#exampleModalLongCustomer"
                               class="stepper-btn btn transitionanimation" 
-                              mat-button
+                              mat-raised-button
                               type="button"
                               (click)="DateRender()"
                              
@@ -3552,23 +3553,15 @@
                                     <!-- Maklervollmacht öffnen &nbsp; -->
                                     <button *ngIf="brokername == ''; else brokerPOA" data-toggle="modal"
                                       data-target="#exampleModalLongnew" class="stepper-btn btn transitionanimation"
-                                      mat-button type="button" (click)="DateRender('exampleModalLongnew')" style="
-                                        font-size: 18px;
-                                        padding: 10px;
-                                        width: 75%;
-                                        margin-top: 80px;
-                                      ">
+                                      mat-raised-button type="button" (click)="DateRender('exampleModalLongnew')"
+                                      style=" font-size: 18px; padding: 10px; width: 75%; margin-top: 80px; ">
                                       Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                     </button>
                                     <ng-template #brokerPOA>
                                       <button data-toggle="modal" data-target="#exampleModalLongCustomer"
-                                        class="stepper-btn btn transitionanimation" mat-button type="button"
-                                        (click)="DateRender('exampleModalLongCustomer')" style="
-                                          font-size: 18px;
-                                          padding: 10px;
-                                          width: 75%;
-                                          margin-top: 80px;
-                                        ">
+                                        class="stepper-btn btn transitionanimation" mat-raised-button type="button"
+                                        (click)="DateRender('exampleModalLongCustomer')"
+                                        style="font-size: 18px; padding: 10px; width: 75%; margin-top: 80px; ">
                                         Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                       </button>
                                     </ng-template>
@@ -3636,27 +3629,27 @@
 
                           <div class="row mt-5">
                             <div class="col-md-12 d-flex justify-content-between  flex-row">
-                              <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                              <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                 style="width: 110px">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Zurück</button>&nbsp;
                               <div class="d-flex flex-row">
 
-                                <button class="stepper-btn btn transitionanimation" mat-button type="button"
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                   id="resetStepper" (click)="stepper.reset()" style="width: 110px">
                                   Zurücksetzen
                                 </button>
                                 <div *ngIf="drawingnew == 1">
                                   <button id="secondbutton" class="stepper-btn btn transitionanimation"
                                     mat-raised-button (click)="saveCustomerCompany()" type="button"
-                                     [disabled]="!enablebutton">
+                                    [disabled]="!enablebutton">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
 
                                 <div *ngIf="drawingnew == 0">
                                   <button class="stepper-btn btn transitionanimation" mat-raised-button
-                                     [disabled]="true">
+                                    [disabled]="true">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
@@ -3690,9 +3683,11 @@
                   ">
                   Kundentyp hinzufügen:
                 </p>
-                <button type="button" class="close transitionanimation" data-dismiss="modal" aria-label="Close"
-                  (click)="setKeyval('')" id="closeModalCompanyCustomer">
-                  <span aria-hidden="true">&times;</span>
+                <button type="button" id="closeModalCompanyCustomer"
+                  style="border: none;width: 32px;background: transparent;"
+                  (click)="setKeyval('');close_modal('esignmodel','esignmodelParent')" data-dismiss="modal"
+                  aria-label="Close">
+                  <img width="100%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
                 </button>
               </div>
               <div class="modal-body">
@@ -3781,7 +3776,8 @@
 
                       <mat-step [stepControl]="addressFormGroupnew" *ngIf="familyOrCompany == 'company'">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="addressFormGroupnew" #fso1="ngForm" class="Official-residence-form">
+                          <form *ngIf="addressFormGroupnew" [formGroup]="addressFormGroupnew" #fso1="ngForm"
+                            class="Official-residence-form">
                             <ng-template matStepLabel>Offizielle Unternehmensdaten
                             </ng-template>
                             <div class="col-md-12 p-0">
@@ -3882,7 +3878,7 @@
                       >
                         Reset 
                       </button> -->
-                                <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                   style="width: 110px">
                                   <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                   &nbsp; Zurück
@@ -3913,7 +3909,7 @@
                           companytypenew == 'Eingetragener Kaufmann (e.K.)'
                         ">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="livingaddressFormGroup" #livingfso1="ngForm"
+                          <form *ngIf="livingaddressFormGroup" [formGroup]="livingaddressFormGroup" #livingfso1="ngForm"
                             class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Informationen
                             </ng-template>
@@ -4044,7 +4040,7 @@
                                 </div>
                               </div>
                               <div class="d-flex justify-content-between">
-                                <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                   style="width: 110px">
                                   <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                   &nbsp; Zurück
@@ -4088,8 +4084,8 @@
                         ">
                         <div class="row updateprofile">
                           <div class="col-md-4">
-                            <form [formGroup]="secondcompanyaddressFormGroup" #secondcompanyfso="ngForm" novalidate=""
-                              class="Official-residence-form">
+                            <form *ngIf="secondcompanyaddressFormGroup" [formGroup]="secondcompanyaddressFormGroup"
+                              #secondcompanyfso="ngForm" novalidate="" class="Official-residence-form">
                               <ng-template matStepLabel>Gesetzliche Vertreter
                               </ng-template>
 
@@ -4330,8 +4326,8 @@
                             <h5 style="text-align: left; display: inline-block">
                               Sonstige Bevollmächtigte/Prokuristen
                             </h5>
-                            <form [formGroup]="secondcompanyaddressFormGroup1" #secondcompanyfso1="ngForm" novalidate=""
-                              class="Official-residence-form">
+                            <form *ngIf="secondcompanyaddressFormGroup1" [formGroup]="secondcompanyaddressFormGroup1"
+                              #secondcompanyfso1="ngForm" novalidate="" class="Official-residence-form">
                               <div id="companySecondForm" *ngFor="
                                   let addedperson1 of addedpersonsSecond;
                                   let i = index
@@ -4559,8 +4555,8 @@
 
                             <!-- The Modal -->
 
-                            <form [formGroup]="secondcompanyaddressFormGroup2" #secondcompanyfso2="ngForm" novalidate=""
-                              class="Official-residence-form">
+                            <form *ngIf="secondcompanyaddressFormGroup2" [formGroup]="secondcompanyaddressFormGroup2"
+                              #secondcompanyfso2="ngForm" novalidate="" class="Official-residence-form">
                               <div>
                                 <div id="companyThirdForm" *ngFor="
                                     let addedperson1 of addedpersons;
@@ -4813,7 +4809,7 @@
                         </div>
 
                         <div class=" d-flex justify-content-end">
-                          <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                          <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                             style="width: 110px">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i>
                             &nbsp; Zurück
@@ -4856,7 +4852,7 @@
                       </mat-step>
 
                       <mat-step [stepControl]="docFromGroup" *ngIf="familyOrCompany == 'company'">
-                        <form #fsl="ngForm" [formGroup]="docFromGroup" class="more-info-form">
+                        <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form">
                           <ng-template matStepLabel>Dokumente hochladen</ng-template>
 
                           <div
@@ -5397,7 +5393,7 @@
                           </div>
 
                           <div class=" d-flex justify-content-between">
-                            <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                            <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                               style="width: 110px">
                               <i class="fa fa-arrow-left" aria-hidden="true"></i>
                               &nbsp; Zurück
@@ -5421,7 +5417,8 @@
                         </form>
                       </mat-step>
                       <mat-step [stepControl]="agreementFromGroup" *ngIf="familyOrCompany == 'company'">
-                        <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form">
+                        <form #fs2="ngForm" *ngIf="agreementFromGroup" [formGroup]="agreementFromGroup" novalidate=""
+                          class="more-info-form">
                           <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                           <div
@@ -5439,12 +5436,12 @@
                                     Maklervollmacht öffnen &nbsp;
                                     <button *ngIf="brokername == ''; else brokerPOA" data-toggle="modal"
                                       data-target="#exampleModalLongnew" class="stepper-btn btn transitionanimation"
-                                      mat-button type="button" (click)="DateRender('exampleModalLongnew')">
+                                      mat-raised-button type="button" (click)="DateRender('exampleModalLongnew')">
                                       Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                     </button>
                                     <ng-template #brokerPOA>
                                       <button data-toggle="modal" data-target="#exampleModalLongCustomer"
-                                        class="stepper-btn btn transitionanimation" mat-button type="button"
+                                        class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                         (click)="DateRender('exampleModalLongCustomer')">
                                         Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                       </button>
@@ -5514,27 +5511,27 @@
 
                           <div class="row mt-5">
                             <div class="col-md-12 d-flex justify-content-between flex-row">
-                              <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                              <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                 style="width: 110px">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Zurück</button>&nbsp;
                               <div class="d-flex flex-row">
 
-                                <button class="stepper-btn btn transitionanimation" mat-button type="button"
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                   id="resetStepper" (click)="stepper.reset()" style="width: 110px">
                                   Zurücksetzen
                                 </button>
                                 <div *ngIf="drawingnew == 1">
                                   <button id="secondbutton" class="stepper-btn btn transitionanimation"
                                     mat-raised-button (click)="saveCustomerCompany()" type="button"
-                                     [disabled]="!enablebutton">
+                                    [disabled]="!enablebutton">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
 
                                 <div *ngIf="drawingnew == 0">
                                   <button class="stepper-btn btn transitionanimation" mat-raised-button
-                                     [disabled]="true">
+                                    [disabled]="true">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
@@ -5546,7 +5543,8 @@
 
                       <mat-step [stepControl]="familyFormGroup" *ngIf="familyOrCompany == 'familymember'">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="familyFormGroup" #livingfso="ngForm" class="Official-residence-form">
+                          <form *ngIf="familyFormGroup" [formGroup]="familyFormGroup" #livingfso="ngForm"
+                            class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Daten1</ng-template>
                             <div class="col-md-12">
                               <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -5828,7 +5826,8 @@
                           currentActiveRole == 'customer' &&
                           familyOrCompany == 'familymember'
                         ">
-                        <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form">
+                        <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroupFamily"
+                          novalidate="" class="more-info-form">
                           <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                           <div
@@ -5879,13 +5878,13 @@
                                         brokername == '';
                                         else brokerPOAfamily
                                       " data-toggle="modal" data-target="#exampleModalLongnewFamilyMember"
-                                      class="stepper-btn btn transitionanimation" mat-button type="button"
+                                      class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                       (click)="DateRender()">
                                       Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                     </button>
                                     <ng-template #brokerPOAfamily>
                                       <button data-toggle="modal" data-target="#exampleModalLongFamilyMember"
-                                        class="stepper-btn btn transitionanimation" mat-button type="button"
+                                        class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                         (click)="DateRender()">
                                         Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                       </button>
@@ -5955,27 +5954,27 @@
 
                           <div class="row mt-5">
                             <div class="col-md-12 d-flex justify-content-between flex-row">
-                              <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                              <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                 style="width: 110px">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Zurück</button>&nbsp;
                               <div class="d-flex flex-row">
 
-                                <button class="stepper-btn btn transitionanimation" mat-button type="button"
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                   id="resetStepper" (click)="stepper.reset()" style="width: 110px">
                                   Zurücksetzen
                                 </button>
                                 <div *ngIf="drawingnew == 1">
                                   <button id="secondbutton" class="stepper-btn btn transitionanimation"
                                     mat-raised-button (click)="saveFamilyMember()" type="button"
-                                     [disabled]="!enablebutton">
+                                    [disabled]="!enablebutton">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
 
                                 <div *ngIf="drawingnew == 0">
                                   <button class="stepper-btn btn transitionanimation" mat-raised-button
-                                     [disabled]="true">
+                                    [disabled]="true">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
@@ -6020,7 +6019,8 @@
                       </ng-template>
                       <mat-step [stepControl]="officeFormGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="officeFormGroup" #livingfsooffice="ngForm" class="Official-residence-form">
+                          <form *ngIf="officeFormGroup" [formGroup]="officeFormGroup" #livingfsooffice="ngForm"
+                            class="Official-residence-form">
                             <ng-template matStepLabel>Offizielle Daten</ng-template>
                             <div class="col-md-12">
                               <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -6226,8 +6226,8 @@
                       </mat-step>
                       <mat-step [stepControl]="officeaddressFormGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="officeaddressFormGroup" #livingfsoofficeaddress="ngForm"
-                            class="Official-residence-form">
+                          <form *ngIf="officeaddressFormGroup" [formGroup]="officeaddressFormGroup"
+                            #livingfsoofficeaddress="ngForm" class="Official-residence-form">
                             <ng-template matStepLabel>Geschäftsadresse</ng-template>
                             <div class="col-md-12">
                               <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -6296,7 +6296,8 @@
                                 </div>
                               </div>
                               <div class=" d-flex justify-content-end">
-                                <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious>
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button
+                                  matStepperPrevious>
                                   <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                   &nbsp; Zurück
                                 </button>
@@ -6327,7 +6328,7 @@
                       </mat-step>
                       <mat-step [stepControl]="officedocFromGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="officedocFromGroup" #livingfsoofficedoc="ngForm"
+                          <form *ngIf="officedocFromGroup" [formGroup]="officedocFromGroup" #livingfsoofficedoc="ngForm"
                             class="Official-residence-form">
                             <ng-template matStepLabel>Betriebsstätte</ng-template>
                             <div class="col-md-12">
@@ -6609,7 +6610,8 @@
                                 </div>
                               </div>
                               <div class=" d-flex justify-content-end">
-                                <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious>
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button
+                                  matStepperPrevious>
                                   <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                   &nbsp; Zurück
                                 </button>
@@ -6682,7 +6684,8 @@
                       </ng-template>
                       <mat-step [stepControl]="familyFormGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="familyFormGroup" #livingfso="ngForm" class="Official-residence-form">
+                          <form *ngIf="familyFormGroup" [formGroup]="familyFormGroup" #livingfso="ngForm"
+                            class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Daten2</ng-template>
                             <div class="col-md-12">
                               <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -6895,7 +6898,8 @@
                       </mat-step>
 
                       <mat-step [stepControl]="agreementFromGroupFamily" *ngIf="currentActiveRole == 'customer'">
-                        <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form">
+                        <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroupFamily"
+                          novalidate="" class="more-info-form">
                           <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                           <div
@@ -6946,13 +6950,13 @@
                                         brokername == '';
                                         else brokerPOAfamily
                                       " data-toggle="modal" data-target="#exampleModalLongnewFamilyMember"
-                                      class="stepper-btn btn transitionanimation" mat-button type="button"
+                                      class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                       (click)="DateRender()">
                                       Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                     </button>
                                     <ng-template #brokerPOAfamily>
                                       <button data-toggle="modal" data-target="#exampleModalLongFamilyMember"
-                                        class="stepper-btn btn transitionanimation" mat-button type="button"
+                                        class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                         (click)="DateRender()">
                                         Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                       </button>
@@ -7022,27 +7026,27 @@
 
                           <div class="row mt-5">
                             <div class="col-md-12 d-flex justify-content-between flex-row">
-                              <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
+                              <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious
                                 style="width: 110px">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Zurück</button>&nbsp;
                               <div class="d-flex flex-row">
 
-                                <button class="stepper-btn btn transitionanimation" mat-button type="button"
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                   id="resetStepper" (click)="stepper.reset()" style="width: 110px">
                                   Zurücksetzen
                                 </button>
                                 <div *ngIf="drawingnew == 1">
                                   <button id="secondbutton" class="stepper-btn btn transitionanimation"
                                     mat-raised-button (click)="saveFamilyMember()" type="button"
-                                     [disabled]="!enablebutton">
+                                    [disabled]="!enablebutton">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
 
                                 <div *ngIf="drawingnew == 0">
                                   <button class="stepper-btn btn transitionanimation" mat-raised-button
-                                     [disabled]="true">
+                                    [disabled]="true">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
@@ -7087,7 +7091,8 @@
                       </ng-template>
                       <mat-step [stepControl]="CEOFormGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="CEOFormGroup" #livingfso12="ngForm" class="Official-residence-form">
+                          <form *ngIf="CEOFormGroup" [formGroup]="CEOFormGroup" #livingfso12="ngForm"
+                            class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Daten3</ng-template>
                             <div class="col-md-12" id="CEOform">
                               <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -7249,7 +7254,7 @@
                       </ng-template>
                       <mat-step [stepControl]="OtherPersonFormGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="OtherPersonFormGroup" #livingfso123="ngForm"
+                          <form *ngIf="OtherPersonFormGroup" [formGroup]="OtherPersonFormGroup" #livingfso123="ngForm"
                             class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Daten4</ng-template>
                             <div class="col-md-12" id="OtherPersonform">
@@ -7417,7 +7422,7 @@
                       </ng-template>
                       <mat-step [stepControl]="ShareholderFormGroup">
                         <div class="container" style="margin: 0px">
-                          <form [formGroup]="ShareholderFormGroup" #livingfso1234="ngForm"
+                          <form *ngIf="ShareholderFormGroup" [formGroup]="ShareholderFormGroup" #livingfso1234="ngForm"
                             class="Official-residence-form">
                             <ng-template matStepLabel>Persönliche Daten5</ng-template>
                             <div class="col-md-12" id="Shareholderform">
@@ -7620,7 +7625,8 @@
                       </ng-template>
 
                       <mat-step [stepControl]="agreementFromGroupFamily">
-                        <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form">
+                        <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroupFamily"
+                          novalidate="" class="more-info-form">
                           <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                           <div
@@ -7671,13 +7677,13 @@
                                         brokername == '';
                                         else brokerPOAfamily
                                       " data-toggle="modal" data-target="#exampleModalLongnewFamilyMember"
-                                      class="stepper-btn btn transitionanimation" mat-button type="button"
+                                      class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                       (click)="DateRender()">
                                       Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                     </button>
                                     <ng-template #brokerPOAfamily>
                                       <button data-toggle="modal" data-target="#exampleModalLongFamilyMember"
-                                        class="stepper-btn btn transitionanimation" mat-button type="button"
+                                        class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                         (click)="DateRender()">
                                         Vorschau anzeigen &nbsp;<i class="far fa-eye"></i>
                                       </button>
@@ -7748,28 +7754,27 @@
                           <div class="row mt-5">
                             <div class="col-md-12 d-flex justify-content-between">
                               <div class="col-md-3 d-flex justify-content-start  ">
-                                <button class="stepper-btn btn transitionanimation" mat-button matStepperPrevious
-                                  style="width: 110px">
+                                <button class="stepper-btn btn transitionanimation" matStepperPrevious
+                                  style="width: 110px" mat-raised-button>
                                   <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                   Zurück</button>&nbsp;
                               </div>
 
                               <div class="col-md-9 d-flex justify-content-end">
 
-                                <button class="stepper-btn btn transitionanimation" mat-button type="button"
+                                <button class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                   id="resetStepperCompany" (click)="stepper.reset()" style="width: 110px">
                                   Zurücksetzen
                                 </button>
                                 <div *ngIf="drawingnew == 1">
                                   <button id="secondbutton" class="stepper-btn btn transitionanimation"
-                                    mat-raised-button (click)="saveFamilyMemberPOA()" type="button"
-                                     [disabled]="false">
+                                    mat-raised-button (click)="saveFamilyMemberPOA()" type="button" [disabled]="false">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
                                 <div *ngIf="drawingnew == 0">
                                   <button class="stepper-btn btn transitionanimation" mat-raised-button
-                                     [disabled]="true">
+                                    [disabled]="true">
                                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                                   </button>
                                 </div>
@@ -7832,7 +7837,8 @@
      
           <mat-step> -->
 
-                    <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form">
+                    <form #fs2="ngForm" *ngIf="agreementFromGroup" [formGroup]="agreementFromGroup" novalidate=""
+                      class="more-info-form">
                       <!-- <ng-template matStepLabel>Legitimation und Signatur</ng-template> -->
 
                       <div
@@ -7894,7 +7900,7 @@
                                 <!-- Maklervollmacht öffnen &nbsp; -->
                                 <button *ngIf="brokername == ''; else brokerPOA" data-toggle="modal"
                                   data-target="#exampleModalLongnew" class="stepper-btn btn transitionanimation"
-                                  mat-button type="button" (click)="DateRender()" style="
+                                  mat-raised-button type="button" (click)="DateRender()" style="
                                     font-size: 18px;
                                     padding: 10px;
                                     width: 75%;
@@ -7905,7 +7911,7 @@
                                 </button>
                                 <ng-template #brokerPOA>
                                   <button data-toggle="modal" data-target="#exampleModalLongCustomer"
-                                    class="stepper-btn btn transitionanimation" mat-button type="button"
+                                    class="stepper-btn btn transitionanimation" mat-raised-button type="button"
                                     (click)="DateRender()" style="
                                       font-size: 18px;
                                       padding: 10px;
@@ -8004,14 +8010,13 @@
                                   _handleImageUploadcustomeresign(
                                     'external signature'
                                   )
-                                " type="button"  [disabled]="!enablebutton">
+                                " type="button" [disabled]="!enablebutton">
                                 Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                               </button>
                             </div>
 
                             <div *ngIf="drawingnew == 0">
-                              <button class="stepper-btn btn transitionanimation" mat-raised-button
-                                 [disabled]="true">
+                              <button class="stepper-btn btn transitionanimation" mat-raised-button [disabled]="true">
                                 Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                               </button>
                             </div>
@@ -9055,31 +9060,32 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="esignmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-          aria-hidden="true" style="z-index: 99999">
-          <div style="max-width: 800px" class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                  <span class="mr-2"><img src="../assets/infoIcon.svg" /></span>
-                  <p class="m-0">
-                    Zum signieren halten Sie einfach den linken Mauscursor im
-                    weißen Feld gedrückt und zeichnen so Ihre Unterschrift. Wenn
-                    Ihr Gerät Touch fähig ist können Sie auch mit Ihrem Finger
-                    die Signatur zeichnen.
-                  </p>
+        <div id="esignmodelParent">
+          <div class="modal fade" id="esignmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+            aria-hidden="true" style="z-index: 99999">
+            <div style="max-width: 800px" class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <span class="mr-2"><img src="../assets/infoIcon.svg" /></span>
+                    <p class="m-0">
+                      Zum signieren halten Sie einfach den linken Mauscursor im
+                      weißen Feld gedrückt und zeichnen so Ihre Unterschrift. Wenn
+                      Ihr Gerät Touch fähig ist können Sie auch mit Ihrem Finger
+                      die Signatur zeichnen.
+                    </p>
+                  </div>
+                  <button type="button" style="border: none;width: 46px;background: transparent;"
+                    (click)="close_modal('esignmodel','esignmodelParent')" data-dismiss="modal" aria-label="Close">
+                    <img width="100%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
+                  </button>
                 </div>
-                <button type="button" class="close transitionanimation" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div style="border: 1px solid" id="signdiv">
-                  <div style="
+                <div class="modal-body">
+                  <div style="border: 1px solid #02A9ED;border-radius:20px" id="signdiv">
+                    <!-- <div style="
                       float: right;
                       padding: 8px 22px 0px 0px;
                       position: absolute;
-                      /* text-align: right; */
                       right: 0;
                     ">
                     <a (click)="clear()" class="btn btn-primary deleteicon" style="
@@ -9091,29 +9097,20 @@
                       ">
                       <mat-icon style="margin: 5px 1px">delete_forever</mat-icon>
                     </a>
-                  </div>
+                  </div> -->
 
-                  <canvas #canvas id="canvas" width="750" height="300" (onBeginEvent)="drawStart1()"
-                    (onEndEvent)="drawComplete1()" (mouseenter)="drawStart1()" (mouseleave)="drawComplete1()"></canvas>
-                  <!-- <signature-pad [options]="signaturePadOptions" id="signatureCanvasnew" (onBeginEvent)="drawStart1()"
+                    <canvas #canvas id="canvas" width="750" height="300" (onBeginEvent)="drawStart1()"
+                      (onEndEvent)="drawComplete1()" (mouseenter)="drawStart1()"
+                      (mouseleave)="drawComplete1()"></canvas>
+                    <!-- <signature-pad [options]="signaturePadOptions" id="signatureCanvasnew" (onBeginEvent)="drawStart1()"
                     (onEndEvent)="drawComplete1()"></signature-pad> -->
 
-                  <div class="col-md-12" (click)="drawComplete1();closeEsignModal();" data-dismiss="modal"
-                    aria-label="Close transitionanimation" style="
-                      display: block;
-                      /* background: red; */
-                      background-color: #184397;
-                      /* border-radius: 42px; */
-                      /* width: 50px; */
-                      height: 50px;
-                      text-align: center;
-                      border: transparent;
-                      color: white;
-                      font-size: 25px;
-                      line-height: 49px;
-                      cursor: pointer;
-                    ">
-                    Jetzt Unterschreiben
+                    <div class="col-md-12 d-flex justify-content-end mb-2 " aria-label="Close ">
+                      <button (click)="clear()"
+                        class="button-primary btn transitionanimation mr-2 ">Zurücksetzen</button>
+                      <button data-dismiss="modal" (click)="drawComplete1();closeEsignModal();"
+                        class="button-primary btn transitionanimation ">Speichern</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -9122,7 +9119,7 @@
         </div>
         <div class="modal fade" id="exampleModalLongnew" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-          <div style="max-width: 600px" class="modal-dialog" role="document">
+          <div style="max-width: 600px" class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -9332,7 +9329,7 @@
         </div>
         <div class="modal fade" id="exampleModalLongnewFamilyMember" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="z-index: 9999">
-          <div style="max-width: 600px" class="modal-dialog" role="document">
+          <div style="max-width: 600px" class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -9553,7 +9550,7 @@
         </div>
         <div class="modal fade" id="exampleModalLongnewFamilyMemberesign" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-          <div style="max-width: 600px" class="modal-dialog" role="document">
+          <div style="max-width: 600px" class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -9756,7 +9753,8 @@
         <div class="modal fade p-0" id="questionAnswerModal" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false"
           style="overflow: hidden">
-          <div class="modal-dialog" style="max-width: 95%; height: 95%; overflow-y: initial" role="document">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 95%; height: 95%; overflow-y: initial"
+            role="document">
             <div class="modal-content" style="height: 95%">
               <div class="modal-header d-flex justify-content-between align-items-center">
                 <p style="font-size: 20px; margin: 0px">
@@ -10679,18 +10677,18 @@
                               </p>
                               <!-- <p style="margin:0px;">{{this.localData.current_country}}</p> -->
                             </div>
-                            <div>
+                            <div *ngIf="localData.brokerinfo">
                               <p style="margin: 0px">
-                                {{ this.localData.brokerinfo[0].title }}
-                                {{ this.localData.brokerinfo[0].firstname }}
-                                {{ this.localData.brokerinfo[0].lastname }}
+                                {{ localData.brokerinfo[0]?.title }}
+                                {{ localData.brokerinfo[0]?.firstname }}
+                                {{ localData.brokerinfo[0]?.lastname }}
                               </p>
                               <p style="margin: 0px">
-                                {{ this.localData.brokerinfo[0].email }}
+                                {{ localData.brokerinfo[0]?.email }}
                               </p>
                               <p style="margin: 0px">
                                 {{
-                                this.localData.brokerinfo[0].current_country
+                                localData.brokerinfo[0]?.current_country
                                 }}
                               </p>
                             </div>
@@ -11186,7 +11184,7 @@
                               </p>
                               <!-- <p style="margin:0px;">{{this.localData.current_country}}</p> -->
                             </div>
-                            <div>
+                            <div *ngIf="localData.brokerinfo">
                               <p style="margin: 0px">
                                 {{ this.localData.brokerinfo[0].title }}
                                 {{ this.localData.brokerinfo[0].firstname }}
@@ -11659,7 +11657,7 @@
         <div class="modal fade p-0" id="viewAnswerModal" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false"
           style="overflow: hidden">
-          <div class="modal-dialog" style="max-width: 55%; overflow-y: initial" role="document">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 55%; overflow-y: initial" role="document">
             <div class="modal-content">
               <div class="modal-header d-flex justify-content-between align-items-center">
                 <p style="font-size: 20px; margin: 0px">
@@ -12128,7 +12126,7 @@
                     Benutzer </span>&nbsp;
                 </ng-template>
                 <ng-template matTabContent>
-                  <mat-tab-group>
+                  <mat-tab-group class="button-arrow">
                     <!-- Benutzer 1ST BLOCK START -->
                     <!-- HAUSHALT TAB START HERE -->
                     <mat-tab *ngIf="
@@ -12138,7 +12136,7 @@
                           localData.companytype == null;
                         else company
                       ">
-                      <ng-template mat-tab-label><span (click)="
+                      <ng-template class="col-md-3 overflow-hidden" mat-tab-label><span (click)="
                             change_account_name(
                               'Haushalt',
                               localData.usertitle,
@@ -12159,7 +12157,7 @@
                         <mat-tab-group>
                           <!-- HAUSHALT MAIN PERSON NAME TAB START -->
                           <mat-tab class="styletab">
-                            <ng-template mat-tab-label><span (click)="
+                            <ng-template class="col-md-3 overflow-hidden" mat-tab-label><span (click)="
                                   change_account_name(
                                     'Haushalt',
                                     localData.title,
@@ -12663,7 +12661,8 @@
                           <ng-container *ngIf="familyData.length > 0">
                             <!-- HAUSHALT FAMIL MEMBER NAME TAB START -->
                             <mat-tab class="styletab" *ngFor="let member of familyData; let i = index">
-                              <ng-template *ngIf="i + 1 == familyData.length" mat-tab-label>
+                              <ng-template class="col-md-3 overflow-hidden" *ngIf="i + 1 == familyData.length"
+                                mat-tab-label>
                                 <span (click)="
                                     change_account_name(
                                       'Haushalt',
@@ -13264,7 +13263,7 @@
                         ">
                         <ng-container *ngIf="companyData.length > 0">
                           <ng-container *ngFor="let member of companyData; let i = index">
-                            <mat-tab *ngIf="
+                            <mat-tab class="col-md-3 overflow-hidden" *ngIf="
                                 member.companytype ==
                                   'Eingetragener Kaufmann (e.K.)' ||
                                   member.companytype == 'Einzelunternehmen';
@@ -13304,7 +13303,7 @@
                               <ng-template matTabContent>
                                 <mat-tab-group>
                                   <mat-tab class="styletab">
-                                    <ng-template mat-tab-label><span (click)="
+                                    <ng-template class="col-md-3 overflow-hidden" mat-tab-label><span (click)="
                                           setCurrentTabUser(member, 'company')
                                         ">Stammdaten</span>&nbsp;
                                       <button *ngIf="officeData.length == 0" class="stepper-btn1 transitionanimation"
@@ -13326,7 +13325,7 @@
                                                   margin: 0;
                                                 ">
                                                 <div class="card-body accordion-list-main newclass px-0 py-3">
-                                                  <form [formGroup]="
+                                                  <form *ngIf="companydataformadded" [formGroup]="
                                                       companydataformadded
                                                     " #f="ngForm" novalidate="">
                                                     <div class="form-body">
@@ -14516,7 +14515,7 @@
                                 <ng-template matTabContent>
                                   <mat-tab-group>
                                     <mat-tab class="styletab">
-                                      <ng-template mat-tab-label>
+                                      <ng-template class="col-md-3 overflow-hidden" mat-tab-label>
                                         <span>Stammdaten</span>&nbsp;
                                         <button *ngIf="officeData.length == 0" class="stepper-btn1 transitionanimation"
                                           data-toggle="modal" data-target="#exampleModalLongnewcompanyoffices"
@@ -14539,7 +14538,7 @@
                                                       margin: 0;
                                                     ">
                                                     <div class="card-body accordion-list-main newclass px-0 py-3">
-                                                      <form [formGroup]="
+                                                      <form *ngIf="companydataformadded" [formGroup]="
                                                           companydataformadded
                                                         " #f="ngForm" novalidate="">
                                                         <div class="form-body">
@@ -14881,17 +14880,12 @@
                                                       </div>
                                                     </div>
 
-                                                    <div id="collapsetype1company{{
-                                                        i
-                                                      }}" class="collapse" style="
-                                                        background: #e7e7e770;
-                                                        border-radius: 10px;
-                                                        padding: 0px 24px;
-                                                      " data-parent="#accordion">
+                                                    <div id="collapsetype1company{{i}}" class="collapse" style="background: #e7e7e770;
+                                                        border-radius: 10px;padding: 0px 24px;"
+                                                      data-parent="#accordion">
                                                       <div class="card-body px-0 py-3">
-                                                        <form [formGroup]="
-                                                            brokerformtype1
-                                                          " #f="ngForm" novalidate="">
+                                                        <form *ngIf="brokerformtype1" [formGroup]="brokerformtype1"
+                                                          #f="ngForm" novalidate="">
                                                           <div class="form-body">
                                                             <h5
                                                               class="form-section-title border-bottom pb-3 mb-3 d-flex">
@@ -15201,7 +15195,7 @@
                                                         padding: 0px 24px;
                                                       " data-parent="#accordion">
                                                       <div class="card-body px-0 py-3">
-                                                        <form [formGroup]="
+                                                        <form *ngIf="brokerformtype2" [formGroup]="
                                                             brokerformtype2
                                                           " #f="ngForm" novalidate="">
                                                           <div class="form-body">
@@ -15526,9 +15520,8 @@
                                                         padding: 0px 24px;
                                                       " data-parent="#accordion">
                                                       <div class="card-body px-0 py-3">
-                                                        <form [formGroup]="
-                                                            brokerformtype3
-                                                          " #f="ngForm" novalidate="">
+                                                        <form *ngIf="brokerformtype3" [formGroup]="brokerformtype3"
+                                                          #f="ngForm" novalidate="">
                                                           <div class="form-body">
                                                             <h5
                                                               class="form-section-title border-bottom pb-3 mb-3 d-flex">
@@ -16011,15 +16004,17 @@
                           </ng-container>
                         </ng-container>
                       </ng-container>
-                      <ng-template #companycustomer>
-                        <ng-container *ngFor="let member of companyData; let i = index">
-                          <mat-tab *ngIf="
+                      <ng-template class="col-md-3 overflow-hidden" #companycustomer>
+                        <ng-container class="col-md-3 overflow-hidden"
+                          *ngFor="let member of companyData; let i = index">
+                          <mat-tab class="col-md-3 overflow-hidden" *ngIf="
                               member.companytype ==
                                 'Eingetragener Kaufmann (e.K.)' ||
                                 member.companytype == 'Einzelunternehmen';
                               else multiCompanycustomer
                             ">
-                            <ng-template *ngIf="i + 1 == companyData.length" mat-tab-label>
+                            <ng-template class="col-md-3 overflow-hidden" *ngIf="i + 1 == companyData.length"
+                              mat-tab-label>
                               <span (click)="tabisclicked(member)"><i class="fa fa-building" aria-hidden="true"
                                   style="color: black"></i>
                                 {{ member.companyname }} </span>&nbsp;
@@ -16039,7 +16034,7 @@
                             <ng-template matTabContent>
                               <mat-tab-group>
                                 <mat-tab class="styletab">
-                                  <ng-template mat-tab-label><span (click)="
+                                  <ng-template class="col-md-3 overflow-hidden" mat-tab-label><span (click)="
                                         setCurrentTabUser(member, 'company')
                                       ">Stammdaten</span>&nbsp;
                                     <button *ngIf="officeData.length == 0" class="stepper-btn1 transitionanimation"
@@ -16062,9 +16057,8 @@
                                                   margin: 0;
                                                 ">
                                                 <div class="card-body accordion-list-main newclass px-0 py-3">
-                                                  <form [formGroup]="
-                                                      companydataformadded
-                                                    " #f="ngForm" novalidate="">
+                                                  <form *ngIf="companydataformadded" [formGroup]="companydataformadded"
+                                                    #f="ngForm" novalidate="">
                                                     <div class="form-body">
                                                       <div role="button" class="Persönliche-Informationen mb-3" (click)="
                                                           opened_tab.personal_data =
@@ -17166,10 +17160,10 @@
                             </ng-template>
                           </mat-tab>
                           <ng-template #multiCompanycustomer>
-                            <mat-tab>
-                              <ng-template *ngIf="i + 1 == companyData.length" mat-tab-label><span
-                                  (click)="tabisclicked(member)"><i class="fa fa-building" aria-hidden="true"
-                                    style="color: black"></i>
+                            <mat-tab class="col-md-3 overflow-hidden">
+                              <ng-template class="col-md-3 overflow-hidden" *ngIf="i + 1 == companyData.length"
+                                mat-tab-label><span (click)="tabisclicked(member)"><i class="fa fa-building"
+                                    aria-hidden="true" style="color: black"></i>
                                   {{ member.companyname }} </span>&nbsp;
                                 <button *ngIf="familyData.length == 0" class="stepper-btn1 transitionanimation"
                                   data-toggle="modal" data-target="#exampleModalLongnewcompanycustomer"
@@ -17187,7 +17181,7 @@
                               <ng-template matTabContent>
                                 <mat-tab-group>
                                   <mat-tab class="styletab">
-                                    <ng-template mat-tab-label>
+                                    <ng-template class="col-md-3 overflow-hidden" mat-tab-label>
                                       <span>Stammdaten</span>&nbsp;
                                       <button *ngIf="officeData.length == 0" class="stepper-btn1 transitionanimation"
                                         data-toggle="modal" data-target="#exampleModalLongnewcompanyoffices"
@@ -17210,9 +17204,7 @@
                                                     margin: 0;
                                                   ">
                                                   <div class="card-body accordion-list-main newclass px-0 py-3">
-                                                    <form [formGroup]="
-                                                        companydataformadded
-                                                      " #f="ngForm" novalidate="">
+                                                    <form *ngIf="companydataformadded" [formGroup]="companydataformadded" #f="ngForm" novalidate="">
                                                       <div class="form-body">
                                                         <!-- <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                                     <mat-icon class="mr-2">account_circle</mat-icon> Unternehmensdaten
@@ -17531,9 +17523,8 @@
                                                       padding: 0px 24px;
                                                     " data-parent="#accordion">
                                                     <div class="card-body px-0 py-3">
-                                                      <form [formGroup]="
-                                                          brokerformtype1
-                                                        " #f="ngForm" novalidate="">
+                                                      <form *ngIf="brokerformtype1" [formGroup]="brokerformtype1" 
+                                                      #f="ngForm" novalidate="">
                                                         <div class="form-body">
                                                           <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                                             <mat-icon class="mr-2">
@@ -17837,7 +17828,7 @@
                                                       padding: 0px 24px;
                                                     " data-parent="#accordion">
                                                     <div class="card-body px-0 py-3">
-                                                      <form [formGroup]="
+                                                      <form *ngIf="brokerformtype2" [formGroup]="
                                                           brokerformtype2
                                                         " #f="ngForm" novalidate="">
                                                         <div class="form-body">
@@ -18153,9 +18144,7 @@
                                                       padding: 0px 24px;
                                                     " data-parent="#accordion">
                                                     <div class="card-body px-0 py-3">
-                                                      <form [formGroup]="
-                                                          brokerformtype3
-                                                        " #f="ngForm" novalidate="">
+                                                      <form *ngIf="brokerformtype3" [formGroup]="brokerformtype3" #f="ngForm" novalidate="">
                                                         <div class="form-body">
                                                           <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                                             <mat-icon class="mr-2">
@@ -19269,7 +19258,7 @@
                         <ng-template matTabContent>
                           <mat-tab-group>
                             <mat-tab class="styletab">
-                              <ng-template mat-tab-label><span>Stammdaten</span>&nbsp;
+                              <ng-template class="col-md-3 overflow-hidden" mat-tab-label><span>Stammdaten</span>&nbsp;
                                 <button *ngIf="userofficeData.length == 0" class="stepper-btn1 transitionanimation"
                                   data-toggle="modal" data-target="#exampleModalLongnewcompanyoffices"
                                   (click)="savecompanyId('user');open_modal('exampleModalLongnewcompanyoffices')">
@@ -19955,7 +19944,7 @@
                           <ng-template matTabContent>
                             <mat-tab-group>
                               <mat-tab class="styletab">
-                                <ng-template mat-tab-label><span (click)="
+                                <ng-template class="col-md-3 overflow-hidden" mat-tab-label><span (click)="
                                       setCurrentTabUser(localData, 'company')
                                     ">Stammdaten</span>&nbsp;
                                   <button *ngIf="userofficeData.length == 0" class="stepper-btn1 transitionanimation"
@@ -20458,7 +20447,8 @@
                                                 padding: 0px 24px;
                                               " data-parent="#accordion">
                                               <div class="card-body px-0 py-3">
-                                                <form [formGroup]="brokerformtype1" #f="ngForm" novalidate="">
+                                                <form *ngIf="brokerformtype1" [formGroup]="brokerformtype1" #f="ngForm"
+                                                  novalidate="">
                                                   <div class="form-body">
                                                     <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                                       <mat-icon class="mr-2">
@@ -20816,7 +20806,8 @@
                                                 padding: 0px 24px;
                                               " data-parent="#accordion">
                                               <div class="card-body px-0 py-3">
-                                                <form [formGroup]="brokerformtype2" #f="ngForm" novalidate="">
+                                                <form *ngIf="brokerformtype2" [formGroup]="brokerformtype2" #f="ngForm"
+                                                  novalidate="">
                                                   <div class="form-body">
                                                     <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                                       <mat-icon class="mr-2">
@@ -21187,7 +21178,8 @@
                                                 padding: 0px 24px;
                                               " data-parent="#accordion">
                                               <div class="card-body px-0 py-3">
-                                                <form [formGroup]="brokerformtype3" #f="ngForm" novalidate="">
+                                                <form *ngIf="brokerformtype3" [formGroup]="brokerformtype3" #f="ngForm"
+                                                  novalidate="">
                                                   <div class="form-body">
                                                     <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                                       <mat-icon class="mr-2">
@@ -25076,7 +25068,7 @@
                     <div class="col-md-10">
                       <div style="cursor: pointer"
                         class="upload-file bg-primary2 rounded-4 p-l-30 position-relative pt-3 pb-3">
-                        <input style="height: 130px" formControlName="document" id="DocOne" name="DocOne" type="file"
+                        <input style="height: 130px" id="DocOne" name="DocOne" type="file"
                           multiple accept="image/*,application/pdf" class="upload-files w-100 position-absolute"
                           (change)="
                             handleImageChange3(
@@ -25239,7 +25231,7 @@
                     <div class="col-md-10">
                       <div style="cursor: pointer"
                         class="upload-file bg-primary2 rounded-4 p-l-30 position-relative pt-3 pb-3">
-                        <input style="height: 130px" formControlName="document" id="DocOne" name="DocOne" type="file"
+                        <input style="height: 130px" id="DocOne" name="DocOne" type="file"
                           multiple accept="image/*,application/pdf" class="upload-files w-100 position-absolute"
                           (change)="
                             handleImageChange3(

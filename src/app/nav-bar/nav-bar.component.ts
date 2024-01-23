@@ -8,10 +8,10 @@ import { UserService } from '../user.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit, AfterViewInit {
+export class NavBarComponent implements OnInit {
+
   tokensession = localStorage.getItem("token");
-  currentUserToParse: any = localStorage.getItem("currentUser")
-  localdata = JSON.parse(this.currentUserToParse);
+  localdata = JSON.parse(localStorage.getItem("currentUser"));
   currentActiveRole = localStorage.getItem("currentActiveRole");
   year: any = new Date().getFullYear();
 
@@ -31,20 +31,7 @@ export class NavBarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     console.log(this.ppid);
-
-  }
-
-  gotosessionmaindata() {
-    if (this.currentActiveRole == "b2b") {
-      console.log("localdata" + JSON.stringify(this.localdata));
-      this.router.navigate(["/b2b-dashboard"], {
-        queryParams: { id: this.localdata._id },
-      });
-    } else {
-      this.router.navigate(["/kunde-home"], {
-        queryParams: { id: this.localdata._id, tabname: 1 },
-      });
-    }
+    
   }
 
   gotosessiondashboard() {
@@ -328,12 +315,4 @@ export class NavBarComponent implements OnInit, AfterViewInit {
     });
   }
 
-  logout() {
-    localStorage.removeItem("token");
-    // this.router.navigate(["./"]);
-    window.location.reload();
-    document.body.classList.remove("modal-open");
-  }
-
 }
-

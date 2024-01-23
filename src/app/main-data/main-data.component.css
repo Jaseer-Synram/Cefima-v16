@@ -96,12 +96,12 @@ h2 {
     font-weight: 600 !important;
 }
 
-.tab-1-head{
+.tab-1-head {
     font-size: 18px !important;
     font-weight: 500 !important;
 }
 
-.icon-person-info{
+.icon-person-info {
     width: 24px;
     margin-right: 5px;
 }
@@ -128,7 +128,8 @@ h2 {
 :host ::ng-deep.remove-bottom-mat-input-padding>.mat-mdc-form-field-subscript-wrapper {
     height: 0px;
     display: none !important;
-  }
+}
+
 /* :host ::ng-deep .mat-mdc-tab .mdc-tab__content{mat-tab-label-1-0
     position: unset;
 } */
@@ -159,30 +160,8 @@ h2 {
 .mat-mdc-tab-header {
     --mdc-tab-indicator-active-indicator-height: 0px;
     --mdc-tab-indicator-active-indicator-color: white;
-    /* --mdc-tab-indicator-active-indicator-border-radius: 10px;
-    --mdc-tab-indicator-active-indicator-color:white; */
 }
 
-
-/* :host ::ng-deep[id^="mat-tab-label-1-"],
-.mat-mdc-tab .mdc-tab-indicator--active,
-.mdc-tab .mdc-tab-indicator--active {
-  --mdc-tab-indicator-active-indicator-color: #4196d2 !important;
-}
-
-
-:host ::ng-deep[id^="mat-tab-label-1-"],
-.mat-mdc-tab-header {
-    --mdc-tab-indicator-active-indicator-height: 3px;
-    --mdc-tab-indicator-active-indicator-color: #4196d2!important;
-    --mdc-tab-indicator-focus-active-indicator-color:#4196d2!important; 
-    --mdc-tab-indicator-hover-active-indicator-color:#4196d2!important; 
-}
-
-:host ::ng-deep[id^="mat-tab-label-1-"],
-.mat-mdc-tab-labels .mdc-tab--active.mdc-tab-indicator--active.cdk-focused.cdk-mouse-focused {
-    --mdc-tab-indicator-active-indicator-color: #4196d2 !important; 
- } */
 
 
 :host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab>.mdc-tab__content>.mdc-tab__text-label {
@@ -203,7 +182,22 @@ h2 {
     border-bottom: 1px solid #ccc;
 }
 
+.heading-div-bg {
+    background: #efefef;
+}
 
+.cefima-font-color {
+    color: #33a4df;
+}
+
+.customer-table-section {
+    padding: 10px 10px;
+    background: #fff;
+}
+
+.font-size-x-small {
+    font-size: x-small;
+}
 
 :host ::ng-deep [id^="mat-tab-label-1-"],
 .mdc-tab__text-label {

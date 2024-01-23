@@ -583,7 +583,261 @@
             </mat-tab>
             <mat-tab class="new-item" label="Sicherheit">
                 <div class="w-100">
-                    <div class=" table-min-height-here"></div>
+                    <div class=" table-min-height-here">
+                        <!-- <mat-tab class="new-item" label="Sicherheit">
+                            <div class="w-100"> -->
+                        <div class="row m-0">
+                            <div class="col-sm-12 mb-2">
+                                <h4 class="p-2 rounded heading-div-bg text-secondary d-flex align-items-center">
+                                    <img src="assets/infoIcon.svg">&nbsp;
+                                    Anmeldungsverlauf ansehen für Details zu letzten Anmeldungen:
+                                </h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card assigments-list">
+                                    <div class="card-body" id="cardbodyid">
+                                        <div class="accordion-main" id="accordion">
+                                            <div class="accordion-head editing-something">
+                                                <ul class="accordion-head-list list-unstyled d-flex">
+                                                    <li class="customer-id font-weight-bold">#</li>
+                                                    <li class="customer-Unternehmensname font-weight-bold">
+                                                        IP-Adresse</li>
+                                                    <li class="customer-Unternehmensname font-weight-bold"><i
+                                                            class="fa fa-globe mr-1" aria-hidden="true"></i>
+                                                        Land</li>
+                                                    <li class="customer-Unternehmensname font-weight-bold">Gerät
+                                                    </li>
+                                                    <li class="customer-Unternehmensname font-weight-bold">
+                                                        Betriebssystem</li>
+                                                    <li class="customer-Unternehmensname font-weight-bold"><i
+                                                            class="fa fa-spinner mr-1" aria-hidden="true"></i>
+                                                        Browser</li>
+                                                    <li class="customer-Unternehmensname font-weight-bold"><i
+                                                            class="fa fa-sign-in mr-1" aria-hidden="true"></i>
+                                                        Eingeloggt um</li>
+                                                    <li class="customer-Unternehmensname font-weight-bold">
+                                                        Interaktionen</li>
+                                                </ul>
+                                            </div>
+                                            <hr />
+                                            <div class="accordion-list-main">
+                                                <ng-container *ngFor="let login of pagedItems; let i = index">
+                                                    <div class="accordion-list-item editing-something">
+                                                        <ul
+                                                            class="accordion-list-data list-unstyled d-flex align-items-center">
+                                                            <li class="customer-id">{{ startRecord + i }}</li>
+                                                            <li class="customer-Unternehmensname">
+                                                                {{login?.ip}}
+                                                                <span *ngIf="login.jwt_token == current_jwt_token"
+                                                                    class="font-size-x-small d-block  cefima-font-color ">(Diese
+                                                                    Gerät-Anmeldesitzung)</span>
+                                                            </li>
+                                                            <li class="customer-Unternehmensname">
+                                                                {{login?.location_details?.country}} <span
+                                                                    class="font-size-x-small d-block  cefima-font-color ">({{login?.location_details?.countryCode}})</span>
+                                                            </li>
+                                                            <li class="customer-Unternehmensname"
+                                                                style="text-transform: capitalize;"><i class="fa mr-1"
+                                                                    [ngClass]="login.device_information.deviceType == 'desktop' ? ' fa-desktop':' fa-tablet'"
+                                                                    aria-hidden="true"></i>
+                                                                {{login.device_information.deviceType}}</li>
+                                                            <li
+                                                                class="customer-Unternehmensname d-flex align-items-center">
+                                                                <div>
+                                                                    <i class="fa-brands "
+                                                                        [ngClass]="login.device_information.os.toLowerCase().includes('windows') ? 'fa-windows mr-1':'fa-apple mr-1' "
+                                                                        aria-hidden="true"></i>
+                                                                </div>
+                                                                <div class="ml-1">
+                                                                    {{login.device_information.os}}<span
+                                                                        class="font-size-x-small d-block  cefima-font-color ">{{
+                                                                        '('+login?.device_information?.os_version+')'
+                                                                        || ''}}</span>
+                                                                </div>
+                                                            </li>
+                                                            <li class="customer-Unternehmensname">
+                                                                {{login.device_information.browser}}<span
+                                                                    class="font-size-x-small d-block  cefima-font-color ">{{login?.device_information?.browser_version||
+                                                                    ''}}</span></li>
+                                                            <li class="customer-Unternehmensname">
+                                                                {{login.createdAt | date: 'dd.MM.yyyy HH:mm'}}
+                                                            </li>
+                                                            <li class="customer-Unternehmensname">
+                                                                <!-- (click)="opened_login_details?._id == login?._id ? opened_login_details = {} : opened_login_details = login;" -->
+                                                                <button type="button"
+                                                                    class="btn btn-sm button-primary botton-hover"
+                                                                    (click)="opened_login_details?._id == login?._id ? opened_login_details = {} : opened_login_details = login;openSecurityData()">
+                                                                    {{opened_login_details?._id == login?._id ?
+                                                                    'Schließen':'Öffnen'}}
+                                                                </button>
+                                                                <button type="button" class="btn btn-sm btn-danger ml-2"
+                                                                    *ngIf="login.jwt_token == current_jwt_token"
+                                                                    (click)="logout()">Logout</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="w-100 opened-list-item-collapse p-3 border-radius"
+                                                        *ngIf="opened_login_details?._id == login?._id"> 
+
+
+                                                        <div class="row m-0 bg-white p-3"
+                                                            style="width: 50% !important;">
+
+                                                            <i class="fa fa-times-circle text-danger h3 position-absolute links"
+                                                                s tyle="right:15px;top:10px;"
+                                                                (click)="opened_login_details = {}" role="button"></i>
+
+                                                            <div class="col-sm-12 mt-5">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="field-heading-parent">
+                                                                            <h6 class="field-heading">
+                                                                                Anmeldesitzungsdetails:
+                                                                                <span
+                                                                                    *ngIf="opened_login_details?.jwt_token == current_jwt_token"
+                                                                                    class="font-size-x-small d-block"><i
+                                                                                        class="fa fa-circle text-success"
+                                                                                        aria-hidden="true"></i>
+                                                                                    (Diese
+                                                                                    Gerät-Anmeldesitzung)</span>
+                                                                            </h6>
+                                                                            <div class="row m-0">
+                                                                                <div class="col-sm-6">
+                                                                                    <mat-form-field appearance="outline"
+                                                                                        class="w-100 bg-white mb-3">
+                                                                                        <mat-label>IP-Adresse</mat-label>
+                                                                                        <div class="input-icon">
+                                                                                            <input matInput readonly
+                                                                                                [value]="opened_login_details.ip"
+                                                                                                placeholder="IP-Adresse">
+                                                                                            <i class="fa fa-map-marker"
+                                                                                                aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                                <div class="col-sm-6">
+                                                                                    <mat-form-field appearance="outline"
+                                                                                        class="w-100 bg-white mb-3">
+                                                                                        <mat-label>Land</mat-label>
+                                                                                        <div class="input-icon">
+                                                                                            <input matInput readonly
+                                                                                                value="{{opened_login_details?.location_details?.country}} ({{opened_login_details?.location_details?.countryCode}})"
+                                                                                                placeholder="Land">
+                                                                                            <i class="fa fa-globe"
+                                                                                                aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                                <div class="col-sm-6">
+                                                                                    <mat-form-field appearance="outline"
+                                                                                        class="w-100 bg-white mb-3">
+                                                                                        <mat-label>Gerät</mat-label>
+                                                                                        <div class="input-icon">
+                                                                                            <input matInput readonly
+                                                                                                value="{{opened_login_details?.device_information?.deviceType}}"
+                                                                                                placeholder="Gerät">
+                                                                                            <i class="fa"
+                                                                                                [ngClass]="opened_login_details?.device_information?.deviceType == 'desktop' ? 'fa-desktop':'fa-tablet'"
+                                                                                                aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                                <div class="col-sm-6">
+                                                                                    <mat-form-field appearance="outline"
+                                                                                        class="w-100 bg-white mb-3">
+                                                                                        <mat-label>Betriebssystem</mat-label>
+                                                                                        <div class="input-icon">
+                                                                                            <input matInput readonly
+                                                                                                value="{{opened_login_details?.device_information?.os}} ({{opened_login_details?.device_information?.os_version}})"
+                                                                                                placeholder="Betriebssystem">
+                                                                                            <i class="fa"
+                                                                                                [ngClass]="opened_login_details?.device_information?.os?.toLowerCase()?.includes('windows') ? 'fa-windows':'fa-apple'"
+                                                                                                aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                                <div class="col-sm-6">
+                                                                                    <mat-form-field appearance="outline"
+                                                                                        class="w-100 bg-white mb-3">
+                                                                                        <mat-label>Browser</mat-label>
+                                                                                        <div class="input-icon">
+                                                                                            <input matInput readonly
+                                                                                                value="{{opened_login_details?.device_information.browser}} ({{opened_login_details?.device_information?.browser_version}})"
+                                                                                                placeholder="Browser">
+                                                                                            <i class="fa fa-spinner"
+                                                                                                aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                                <div class="col-sm-6">
+                                                                                    <mat-form-field appearance="outline"
+                                                                                        class="w-100 bg-white mb-3">
+                                                                                        <mat-label>Eingeloggt
+                                                                                            um</mat-label>
+                                                                                        <div class="input-icon">
+                                                                                            <input matInput readonly
+                                                                                                value="{{opened_login_details?.createdAt | date: 'dd.MM.yyyy HH:mm'}}"
+                                                                                                placeholder="Eingeloggt um">
+                                                                                            <i class="fa fa-sign-in"
+                                                                                                aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12 mt-3 text-right">
+                                                                <button type="button"
+                                                                    class="btn btn-sm button-primary botton-hover"
+                                                                    (click)="opened_login_details = {}">Schließen</button>
+                                                                <button type="button" class="btn btn-sm btn-danger ml-2"
+                                                                    *ngIf="opened_login_details?.jwt_token == current_jwt_token"
+                                                                    (click)="logout()">Logout</button>
+                                                            </div>
+                                                        </div> 
+
+
+                                                     </div> -->
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end pagination-main mt-3 editing-something">
+                                            <ul *ngIf="loginHistory.length" class="pagination m-0 pagerAction">
+                                                <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
+                                                    <a (click)="setPage(1)" class="page-link">
+                                                        << </a>
+                                                </li>
+                                                <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
+                                                    <a (click)="setPage(pager.currentPage - 1)" class="page-link">
+                                                        < </a>
+                                                </li>
+                                                <li *ngFor="let page of pager.pages"
+                                                    [ngClass]="{ active: pager.currentPage === page }"
+                                                    class="page-item">
+                                                    <a (click)="setPage(page)" class="page-link">{{ page }}</a>
+                                                </li>
+                                                <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+                                                    class="page-item">
+                                                    <a (click)="setPage(pager.currentPage + 1)" class="page-link">></a>
+                                                </li>
+                                                <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+                                                    class="page-item">
+                                                    <a (click)="setPage(pager.totalPages)" class="page-link"> >>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div>
+                        </mat-tab> -->
+                    </div>
                 </div>
             </mat-tab>
             <mat-tab class="new-item" label="Kalender">
@@ -1041,9 +1295,7 @@
 </div>
 
 <button id="openpreviewmodel" type="button" data-toggle="modal" style="display: none"
-    data-target="#exampleModalpreview1">
-    ddd
-</button>
+    data-target="#exampleModalpreview1"></button>
 <div id="exampleModalpreview1_parent">
     <div class="modal fade" id="exampleModalpreview1" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalpreviewTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -1337,7 +1589,7 @@
                                                 class="button-primary botton-hover btn btn-sm position-absolute"
                                                 style="right: 0;" (click)="open_modal('esignmodel');"
                                                 data-toggle="modal" data-target="#esignmodel">
-                                                <i class="fa fa-edit " ></i>
+                                                <i class="fa fa-edit "></i>
                                             </button>
                                             <hr class="border-secondary mt-0 mb-2">
                                             <!-- {{opened_case_details.brand}}<br> -->
@@ -1387,7 +1639,8 @@
                             </a>
                         </div>
                         <canvas #canvastwo width="750" height="300" (mouseleave)="drawComplete1()"></canvas>
-                        <div class="col-md-12" (click)="close_modal('esignmodel','esignmodel_parent');add_class();drawComplete1()"
+                        <div class="col-md-12"
+                            (click)="close_modal('esignmodel','esignmodel_parent');add_class();drawComplete1()"
                             data-dismiss="modal" aria-label="Close transitionanimation"
                             style="display: block;background-color: #3e99d4;height: 50px;text-align: center;border: transparent;color: white;font-size: 25px;line-height: 49px;cursor: pointer;">
                             Jetzt Unterschreiben
@@ -1456,3 +1709,129 @@
     </div>
 </div>
 <!-- Letter Modal And E-Sign -->
+
+<button type="button" id="openSecurityData" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop"
+    style="display: none;">
+    Launch static backdrop modal
+</button>
+
+<div id="staticBackdropParent">
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title m-0" id="staticBackdropLabel">Anmeldesitzungsdetails:
+                        <span *ngIf="opened_login_details?.jwt_token == current_jwt_token"
+                                                    class="font-size-x-small d-block"><i
+                                                        class="fa fa-circle text-success" aria-hidden="true"></i>
+                                                    (Diese
+                                                    Gerät-Anmeldesitzung)</span>
+                    </h4>
+                    <button type="button" style="border: none;width: 32px;background: transparent;"
+                        (click)="opened_login_details = {};close_modal('staticBackdrop','staticBackdropParent')"
+                        data-dismiss="modal" aria-label="Close">
+                        <img width="100%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-table-section">
+
+                        <div class="row m-0 bg-white p-3">
+
+                            <div class="col-sm-12 ">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="field-heading-parent">
+                                            <div class="row m-0">
+                                                <div class="col-sm-4">
+                                                    <mat-form-field appearance="outline" class="w-100 bg-white mb-3">
+                                                        <mat-label>IP-Adresse</mat-label>
+                                                        <div class="input-icon">
+                                                            <input matInput readonly [value]="opened_login_details.ip"
+                                                                placeholder="IP-Adresse">
+                                                            <i class="text-secondary fa fa-map-marker" aria-hidden="true"></i>
+                                                        </div>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <mat-form-field appearance="outline" class="w-100 bg-white mb-3">
+                                                        <mat-label>Land</mat-label>
+                                                        <div class="input-icon">
+                                                            <input matInput readonly
+                                                                value="{{opened_login_details?.location_details?.country}} ({{opened_login_details?.location_details?.countryCode}})"
+                                                                placeholder="Land">
+                                                            <i class="text-secondary fa fa-globe" aria-hidden="true"></i>
+                                                        </div>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <mat-form-field appearance="outline" class="w-100 bg-white mb-3">
+                                                        <mat-label>Gerät</mat-label>
+                                                        <div class="input-icon">
+                                                            <input matInput readonly
+                                                                value="{{opened_login_details?.device_information?.deviceType}}"
+                                                                placeholder="Gerät">
+                                                            <i class="text-secondary fa"
+                                                                [ngClass]="opened_login_details?.device_information?.deviceType == 'desktop' ? 'fa-desktop':'fa-tablet'"
+                                                                aria-hidden="true"></i>
+                                                        </div>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <mat-form-field appearance="outline" class="w-100 bg-white mb-3">
+                                                        <mat-label>Betriebssystem</mat-label>
+                                                        <div class="input-icon">
+                                                            <input matInput readonly
+                                                                value="{{opened_login_details?.device_information?.os}} ({{opened_login_details?.device_information?.os_version}})"
+                                                                placeholder="Betriebssystem">
+                                                            <i class="text-secondary fa"
+                                                                [ngClass]="opened_login_details?.device_information?.os?.toLowerCase()?.includes('windows') ? 'fa-windows':'fa-apple'"
+                                                                aria-hidden="true"></i>
+                                                        </div>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <mat-form-field appearance="outline" class="w-100 bg-white mb-3">
+                                                        <mat-label>Browser</mat-label>
+                                                        <div class="input-icon">
+                                                            <input matInput readonly
+                                                                value="{{opened_login_details?.device_information?.browser}} ({{opened_login_details?.device_information?.browser_version}})"
+                                                                placeholder="Browser">
+                                                            <i class="text-secondary fa fa-spinner" aria-hidden="true"></i>
+                                                        </div>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <mat-form-field appearance="outline" class="w-100 bg-white mb-3">
+                                                        <mat-label>Eingeloggt
+                                                            um</mat-label>
+                                                        <div class="input-icon">
+                                                            <input matInput readonly
+                                                                value="{{opened_login_details?.createdAt | date: 'dd.MM.yyyy HH:mm'}}"
+                                                                placeholder="Eingeloggt um">
+                                                            <i class="text-secondary fa fa-sign-in" aria-hidden="true"></i>
+                                                        </div>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-sm button-primary botton-hover" data-dismiss="modal" aria-label="Close"
+                            (click)="opened_login_details = {};close_modal('staticBackdrop','staticBackdropParent')">Schließen</button>
+                        <button type="button" class="btn btn-sm btn-danger ml-2"  data-dismiss="modal" aria-label="Close"
+                            *ngIf="opened_login_details?.jwt_token == current_jwt_token"
+                            (click)="opened_login_details = {};close_modal('staticBackdrop','staticBackdropParent');logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

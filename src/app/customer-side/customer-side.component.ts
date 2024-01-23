@@ -50,12 +50,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly units: unit[] = ["bytes", "KB", "MB", "GB", "TB", "PB"];
   myControl = new FormControl();
   myControlland = new FormControl();
-  // @ViewChild(AgmMap, { read: AgmMap }) agmMap: any;
 
 
 
   public signaturePadOptions: Object = {
-    // passed through to szimek/signature_pad constructor
     minWidth: 2,
     canvasWidth: 750,
     canvasHeight: 300,
@@ -732,7 +730,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   header_companyname: any
 
   tokensession = localStorage.getItem("token");
-  localData: any = JSON.parse(localStorage.getItem("currentUser")!);
+  localData: any = JSON.parse(localStorage.getItem("currentUser"));
   currentActiveRole = localStorage.getItem("currentActiveRole");
   documents: any;
   signeddoc: any = [];
@@ -901,6 +899,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   isHoverUnternahman = false
   isHoverHaushalt = false
 
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -932,7 +931,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
       legalrepresentativeform2: this.form_builder.array([]),
     });
     this.routeParamsActive = this.route.snapshot.routeConfig?.path;
+
+
+
   }
+
+
   openpdfpopup(url: any, showsecond = "") {
     console.log("openpdfpopup" + url);
 
@@ -1736,6 +1740,19 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
       this.signaturePad = new SignaturePad(this.canvas.nativeElement);
     }
 
+    let todaynew = new Date();
+    var dd = String(todaynew.getDate()).padStart(2, "0");
+    var mm = String(todaynew.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = todaynew.getFullYear();
+
+    var todaynew1 = dd + "." + mm + "." + yyyy;
+    this.TodayDate = todaynew1;
+
+    // this.form_builder.array({
+    //   this.myControl,
+    //   myControlland: new FormControl(),
+    // });
+
     if (this.eventEmitterService.subsVar == undefined) {
       this.eventEmitterService.subsVar =
         this.eventEmitterService.invokeFirstComponentFunction.subscribe(
@@ -1797,6 +1814,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.localData.title != "Firma") {
           this.fetch_consulting_data(this.localData._id);
         }
+        console.log(this.localData.brokerinfo, '***********************************************************************');
 
         if (this.localData.brokerinfo && this.localData.brokerinfo.length > 0) {
           this.brokeresign = this.localData.brokerinfo[0].brokeresign;
@@ -3539,10 +3557,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     console.log('aftervie *********************************');
-    
+
     setTimeout(() => {
-      console.log(this.canvas);
-      
       this.signaturePad = new SignaturePad(this.canvas.nativeElement);
     });
     this.getalldocument();
@@ -3564,50 +3580,53 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       const input: any = document.querySelector("#phone_numberoffice");
       console.log("querySelector" + input);
-      intlTelInput(input, {
-        initialCountry: "de",
-        geoIpLookup: function (callback) {
-          $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
-            resp: any
-          ) {
-            var countryCode = resp && resp.country ? resp.country : "de";
-            callback(countryCode);
-            console.log("countryCode" + countryCode);
-          });
-        },
-      });
+      if (input)
+        intlTelInput(input, {
+          initialCountry: "de",
+          geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
+              resp: any
+            ) {
+              var countryCode = resp && resp.country ? resp.country : "de";
+              callback(countryCode);
+              console.log("countryCode" + countryCode);
+            });
+          },
+        });
     }, 500);
     setTimeout(() => {
       const input: any = document.querySelector("#phone_number");
       console.log("querySelector" + input);
-      intlTelInput(input, {
-        initialCountry: "de",
-        geoIpLookup: function (callback) {
-          $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
-            resp: any
-          ) {
-            var countryCode = resp && resp.country ? resp.country : "de";
-            callback(countryCode);
-            console.log("countryCode" + countryCode);
-          });
-        },
-      });
+      if (input)
+        intlTelInput(input, {
+          initialCountry: "de",
+          geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
+              resp: any
+            ) {
+              var countryCode = resp && resp.country ? resp.country : "de";
+              callback(countryCode);
+              console.log("countryCode" + countryCode);
+            });
+          },
+        });
     }, 500);
     setTimeout(() => {
       const input: any = document.querySelector("#phone_numbercustomer");
       console.log("querySelector" + input);
-      intlTelInput(input, {
-        initialCountry: "de",
-        geoIpLookup: function (callback) {
-          $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
-            resp: any
-          ) {
-            var countryCode = resp && resp.country ? resp.country : "de";
-            callback(countryCode);
-            console.log("countryCode" + countryCode);
-          });
-        },
-      });
+      if (input)
+        intlTelInput(input, {
+          initialCountry: "de",
+          geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
+              resp: any
+            ) {
+              var countryCode = resp && resp.country ? resp.country : "de";
+              callback(countryCode);
+              console.log("countryCode" + countryCode);
+            });
+          }
+        });
     }, 100);
     setTimeout(() => {
       if (this.familyData.length > 0) {
@@ -3616,46 +3635,46 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log("querySelector1" + this.familyData.length + i);
           const input: any = document.querySelector("#phoneno" + i);
           console.log("querySelector1" + input);
-          intlTelInput(input, {
-            initialCountry: "de",
-            geoIpLookup: function (callback) {
-              $.get("http://ipinfo.io", function () { }, "jsonp").always(
-                function (resp: any) {
-                  var countryCode = resp && resp.country ? resp.country : "de";
-                  callback(countryCode);
-                  console.log("querySelector1countryCode" + countryCode);
-                }
-              );
-            },
-          });
-        }
-      }
+          if (input)
+            intlTelInput(input, {
+              initialCountry: "de",
+              geoIpLookup: function (callback) {
+                $.get("http://ipinfo.io", function () { }, "jsonp").always(
+                  function (resp: any) {
+                    var countryCode = resp && resp.country ? resp.country : "de";
+                    callback(countryCode);
+                    console.log("querySelector1countryCode" + countryCode);
+                  }
+                );
+              },
+            });
+        };
+      };
     }, 100);
     setTimeout(() => {
       const input: any = document.querySelector("#contactnum");
       console.log("querySelector" + input);
-      intlTelInput(input, {
-        initialCountry: "de",
-        geoIpLookup: function (callback) {
-          $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
-            resp: any
-          ) {
-            var countryCode = resp && resp.country ? resp.country : "de";
-            callback(countryCode);
-            console.log("countryCode" + countryCode);
-          });
-        },
-      });
+      if (input) {
+        intlTelInput(input, {
+          initialCountry: "de",
+          geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
+              resp: any
+            ) {
+              var countryCode = resp && resp.country ? resp.country : "de";
+              callback(countryCode);
+              console.log("countryCode" + countryCode);
+            });
+          },
+        })
+      };
     }, 500);
-    this.signaturePad.minWidth = 2; // set szimek/signature_pad options at runtime
-    this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
-    let todaynew = new Date();
-    var dd = String(todaynew.getDate()).padStart(2, "0");
-    var mm = String(todaynew.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = todaynew.getFullYear();
+    setTimeout(() => {
+      this.signaturePad.minWidth = 2; // set szimek/signature_pad options at runtime
+      this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+    });
 
-    var todaynew1 = dd + "." + mm + "." + yyyy;
-    this.TodayDate = todaynew1;
+
     this.userService
       .getCustomerCompanies(this.customerid)
       .pipe(first())
@@ -3710,19 +3729,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log("querySelector1" + this.familyData.length + i);
                 const input: any = document.querySelector("#phoneno" + i);
                 console.log("querySelector1" + input);
-                intlTelInput(input, {
-                  initialCountry: "de",
-                  geoIpLookup: function (callback) {
-                    $.get("http://ipinfo.io", function () { }, "jsonp").always(
-                      function (resp: any) {
-                        var countryCode =
-                          resp && resp.country ? resp.country : "de";
-                        callback(countryCode);
-                        console.log("querySelector1countryCode" + countryCode);
-                      }
-                    );
-                  },
-                });
+                if (input)
+                  intlTelInput(input, {
+                    initialCountry: "de",
+                    geoIpLookup: function (callback) {
+                      $.get("http://ipinfo.io", function () { }, "jsonp").always(
+                        function (resp: any) {
+                          var countryCode =
+                            resp && resp.country ? resp.country : "de";
+                          callback(countryCode);
+                          console.log("querySelector1countryCode" + countryCode);
+                        }
+                      );
+                    },
+                  });
               }
             }
           }, 100);
@@ -3745,19 +3765,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                 "#userphonenoOffice" + i
               );
               console.log("querySelector1" + input);
-              intlTelInput(input, {
-                initialCountry: "de",
-                geoIpLookup: function (callback) {
-                  $.get("http://ipinfo.io", function () { }, "jsonp").always(
-                    function (resp: any) {
-                      var countryCode =
-                        resp && resp.country ? resp.country : "de";
-                      callback(countryCode);
-                      console.log("querySelector1countryCode" + countryCode);
-                    }
-                  );
-                },
-              });
+              if (input)
+                intlTelInput(input, {
+                  initialCountry: "de",
+                  geoIpLookup: function (callback) {
+                    $.get("http://ipinfo.io", function () { }, "jsonp").always(
+                      function (resp: any) {
+                        var countryCode =
+                          resp && resp.country ? resp.country : "de";
+                        callback(countryCode);
+                        console.log("querySelector1countryCode" + countryCode);
+                      }
+                    );
+                  },
+                });
             }
           }
         }, 500);
@@ -4403,21 +4424,22 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
               console.log("querySelector1" + this.officeData.length + i);
               const input: any = document.querySelector("#phonenoOffice" + i);
               console.log("querySelector1" + input);
-              intlTelInput(input, {
-                initialCountry: "de",
-                geoIpLookup: function (callback) {
-                  $.get("http://ipinfo.io", function () { }, "jsonp").always(
-                    function (resp: any) {
-                      var countryCode =
-                        resp && resp.country ? resp.country : "de";
-                      callback(countryCode);
-                      console.log("querySelector1countryCode" + countryCode);
-                    }
-                  );
-                },
-              });
-            }
-          }
+              if (input)
+                intlTelInput(input, {
+                  initialCountry: "de",
+                  geoIpLookup: function (callback) {
+                    $.get("http://ipinfo.io", function () { }, "jsonp").always(
+                      function (resp: any) {
+                        var countryCode =
+                          resp && resp.country ? resp.country : "de";
+                        callback(countryCode);
+                        console.log("querySelector1countryCode" + countryCode);
+                      }
+                    );
+                  },
+                });
+            };
+          };
         }, 100);
         console.log("officeData" + JSON.stringify(officeData));
       });
@@ -4516,25 +4538,26 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                             "#phonenoOffice" + i
                           );
                           console.log("querySelector1" + input);
-                          intlTelInput(input, {
-                            initialCountry: "de",
-                            geoIpLookup: function (callback) {
-                              $.get(
-                                "http://ipinfo.io",
-                                function () { },
-                                "jsonp"
-                              ).always(function (resp: any) {
-                                var countryCode =
-                                  resp && resp.country ? resp.country : "de";
-                                callback(countryCode);
-                                console.log(
-                                  "querySelector1countryCode" + countryCode
-                                );
-                              });
-                            },
-                          });
-                        }
-                      }
+                          if (input)
+                            intlTelInput(input, {
+                              initialCountry: "de",
+                              geoIpLookup: function (callback) {
+                                $.get(
+                                  "http://ipinfo.io",
+                                  function () { },
+                                  "jsonp"
+                                ).always(function (resp: any) {
+                                  var countryCode =
+                                    resp && resp.country ? resp.country : "de";
+                                  callback(countryCode);
+                                  console.log(
+                                    "querySelector1countryCode" + countryCode
+                                  );
+                                });
+                              },
+                            });
+                        };
+                      };
                     }, 100);
                     console.log("officeData" + JSON.stringify(officeData));
                   });
@@ -4653,25 +4676,26 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                             "#userphonenoOffice" + i
                           );
                           console.log("querySelector1" + input);
-                          intlTelInput(input, {
-                            initialCountry: "de",
-                            geoIpLookup: function (callback) {
-                              $.get(
-                                "http://ipinfo.io",
-                                function () { },
-                                "jsonp"
-                              ).always(function (resp: any) {
-                                var countryCode =
-                                  resp && resp.country ? resp.country : "de";
-                                callback(countryCode);
-                                console.log(
-                                  "querySelector1countryCode" + countryCode
-                                );
-                              });
-                            },
-                          });
-                        }
-                      }
+                          if (input)
+                            intlTelInput(input, {
+                              initialCountry: "de",
+                              geoIpLookup: function (callback) {
+                                $.get(
+                                  "http://ipinfo.io",
+                                  function () { },
+                                  "jsonp"
+                                ).always(function (resp: any) {
+                                  var countryCode =
+                                    resp && resp.country ? resp.country : "de";
+                                  callback(countryCode);
+                                  console.log(
+                                    "querySelector1countryCode" + countryCode
+                                  );
+                                });
+                              },
+                            });
+                        };
+                      };
                     }, 100);
                     console.log(
                       "userofficeData" + JSON.stringify(userofficeData)
@@ -4787,25 +4811,26 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                             "#phoneno" + i
                           );
                           console.log("querySelector1" + input);
-                          intlTelInput(input, {
-                            initialCountry: "de",
-                            geoIpLookup: function (callback) {
-                              $.get(
-                                "http://ipinfo.io",
-                                function () { },
-                                "jsonp"
-                              ).always(function (resp: any) {
-                                var countryCode =
-                                  resp && resp.country ? resp.country : "de";
-                                callback(countryCode);
-                                console.log(
-                                  "querySelector1countryCode" + countryCode
-                                );
-                              });
-                            },
-                          });
-                        }
-                      }
+                          if (input)
+                            intlTelInput(input, {
+                              initialCountry: "de",
+                              geoIpLookup: function (callback) {
+                                $.get(
+                                  "http://ipinfo.io",
+                                  function () { },
+                                  "jsonp"
+                                ).always(function (resp: any) {
+                                  var countryCode =
+                                    resp && resp.country ? resp.country : "de";
+                                  callback(countryCode);
+                                  console.log(
+                                    "querySelector1countryCode" + countryCode
+                                  );
+                                });
+                              },
+                            });
+                        };
+                      };
                     }, 100);
                     console.log("familydata" + JSON.stringify(familydata));
                   });
@@ -4849,20 +4874,21 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
       setTimeout(() => {
         const input: any = document.querySelector("#phone_numbercustomer");
         console.log("querySelector" + input);
-        intlTelInput(input, {
-          initialCountry: "de",
-          geoIpLookup: function (callback) {
-            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
-              resp: any
-            ) {
-              var countryCode = resp && resp.country ? resp.country : "de";
-              callback(countryCode);
-              console.log("countryCode" + countryCode);
-            });
-          },
-        });
+        if (input)
+          intlTelInput(input, {
+            initialCountry: "de",
+            geoIpLookup: function (callback) {
+              $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
+                resp: any
+              ) {
+                var countryCode = resp && resp.country ? resp.country : "de";
+                callback(countryCode);
+                console.log("countryCode" + countryCode);
+              });
+            },
+          });
       }, 100);
-    }
+    };
   }
   async saveFamilyMember() {
     this.enablebutton = false;
@@ -4992,27 +5018,28 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                                 "#phoneno" + i
                               );
                               console.log("querySelector1" + input);
-                              intlTelInput(input, {
-                                initialCountry: "de",
-                                geoIpLookup: function (callback) {
-                                  $.get(
-                                    "http://ipinfo.io",
-                                    function () { },
-                                    "jsonp"
-                                  ).always(function (resp: any) {
-                                    var countryCode =
-                                      resp && resp.country
-                                        ? resp.country
-                                        : "de";
-                                    callback(countryCode);
-                                    console.log(
-                                      "querySelector1countryCode" + countryCode
-                                    );
-                                  });
-                                },
-                              });
-                            }
-                          }
+                              if (input)
+                                intlTelInput(input, {
+                                  initialCountry: "de",
+                                  geoIpLookup: function (callback) {
+                                    $.get(
+                                      "http://ipinfo.io",
+                                      function () { },
+                                      "jsonp"
+                                    ).always(function (resp: any) {
+                                      var countryCode =
+                                        resp && resp.country
+                                          ? resp.country
+                                          : "de";
+                                      callback(countryCode);
+                                      console.log(
+                                        "querySelector1countryCode" + countryCode
+                                      );
+                                    });
+                                  },
+                                });
+                            };
+                          };
                         }, 100);
                         console.log("familydata" + JSON.stringify(familydata));
                       });
@@ -5135,31 +5162,34 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
                               "#phoneno" + i
                             );
                             console.log("querySelector1" + input);
-                            intlTelInput(input, {
-                              initialCountry: "de",
-                              geoIpLookup: function (callback) {
-                                $.get(
-                                  "http://ipinfo.io",
-                                  function () { },
-                                  "jsonp"
-                                ).always(function (resp: any) {
-                                  var countryCode =
-                                    resp && resp.country ? resp.country : "de";
-                                  callback(countryCode);
-                                  console.log(
-                                    "querySelector1countryCode" + countryCode
-                                  );
-                                });
-                              },
-                            });
-                          }
-                        }
+                            if (input)
+                              intlTelInput(input, {
+                                initialCountry: "de",
+                                geoIpLookup: function (callback) {
+                                  $.get(
+                                    "http://ipinfo.io",
+                                    function () { },
+                                    "jsonp"
+                                  ).always(function (resp: any) {
+                                    var countryCode =
+                                      resp && resp.country ? resp.country : "de";
+                                    callback(countryCode);
+                                    console.log(
+                                      "querySelector1countryCode" + countryCode
+                                    );
+                                  });
+                                },
+                              });
+                          };
+                        };
                       }, 100);
                       console.log("familydata" + JSON.stringify(familydata));
                     });
                 }
               })
-              .catch((err) => { });
+              .catch((err) => {
+                console.log('Error', err);
+              });
           } else {
             $("#loaderouterid").css("display", "none");
             console.log("saveFamilyMember" + success.status);
@@ -11915,7 +11945,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     if (typeof value != "object") {
       const filterValue = value.toLowerCase();
 
-      return this.ReadyProductsTypeOptions.filter((option: any) =>
+      return this.ReadyProductsTypeOptions?.filter((option: any) =>
         option.name.toLowerCase().includes(filterValue)
       );
     }

@@ -10,6 +10,8 @@ import {
   HttpEventType,
 } from "@angular/common/http";
 
+let brand_id = environment.brand_id;
+
 @Injectable()
 export class UserService {
   LoggedInUser: any = JSON.parse(localStorage.getItem("currentUser") as any);
@@ -20,7 +22,7 @@ export class UserService {
   type1selected: any = [];
   type2selected: any = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //Get Product Partner
   getproductpartner() {
@@ -68,12 +70,16 @@ export class UserService {
     var token = localStorage.getItem("token");
     if (token !== "") {
       headers["Authorization"] = token;
-    }    
+    }
     return this.http.post(`${this.API_URL}document/upload`, data);
     // .pipe(
     //   map((event) => this.getEventMessage(event, data)),
     //   catchError(this.handleError)
     // );
+  }
+
+  getLoginHistory(user_id){
+    return this.http.get(`${this.API_URL}users/getLoginHistory/${user_id}/${brand_id}`);
   }
 
   uploaddocumentwithoutticketno(data: any): Observable<any> {
@@ -253,9 +259,8 @@ export class UserService {
         return this.apiResponse(event);
         break;
       default:
-        return `File "${
-          formData.get("profile").name
-        }" surprising upload event: ${event.type}.`;
+        return `File "${formData.get("profile").name
+          }" surprising upload event: ${event.type}.`;
     }
   }
 
@@ -608,7 +613,7 @@ export class UserService {
   updateField(data1: any): any {
     return this.http
       .post(`${this.API_URL}users/updateField`, data1)
-      .subscribe((data: any) => {});
+      .subscribe((data: any) => { });
   }
 
   deleteCustomer(id: any): any {
@@ -622,13 +627,13 @@ export class UserService {
   statusCustomer(id: any): any {
     return this.http
       .post(`${this.API_URL}users/statusCustomer`, id)
-      .subscribe((data: any) => {});
+      .subscribe((data: any) => { });
   }
 
   statusCustomernew(id: any): any {
     return this.http
       .post(`${this.API_URL}users/statusCustomernew`, id)
-      .subscribe((data: any) => {});
+      .subscribe((data: any) => { });
   }
 
   updatePassword(data: any): any {
@@ -679,7 +684,7 @@ export class UserService {
 
   getLastUser(): any {
     console.log(this.API_URL);
-    
+
     return this.http.post(`${this.API_URL}users/getLastUser`, {});
     /*this.http.post(`${this.API_URL}users/getLastUser`,{}).subscribe((data:any) => {
         //console.log("getLLLAT",data);
@@ -1382,4 +1387,18 @@ export class UserService {
   // setUserStatus(data:any) {
   //   return this.http.post(`${this.API_URL}user/set-user-status`, data);
   // }
+
+
+  ipify() {
+    return this.http.get('https://api.ipify.org/?format=json');
+  }
+
+  geolocation() {
+    return this.http.get('https://geolocation-db.com/json/');
+  }
+
+  getIpDetails(ip_address) {
+    return this.http.get(`https://freeipapi.com/api/json/${ip_address}`);
+  }
+  
 }

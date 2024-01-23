@@ -19,6 +19,8 @@ import {
 } from "angular-calendar";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NumberFormatStyle } from '@angular/common';
+import { PagerService } from '../_services/pager.service'
+import { Router } from '@angular/router';
 
 export interface Broker {
   name: string;
@@ -487,6 +489,8 @@ export class MainDataComponent {
   currentUserToParse: any = localStorage.getItem("currentUser")
   currentUser = JSON.parse(this.currentUserToParse);
 
+  currentid: any
+
   currentActiveRole = localStorage.getItem("currentActiveRole");
   currentActiveRoleView =
     this.currentActiveRole == "b2b" ? "Vermittler" : this.currentActiveRole;
@@ -507,6 +511,17 @@ export class MainDataComponent {
   //   signaturePad: SignaturePad;
   sendEmailFormGroup!: FormGroup;
   custom_emails: any = [];
+
+  loginHistory: any = [];
+
+  opened_login_details: any = {};
+
+  pagedItems: any[];
+  pager: any = {};
+  startRecord: any;
+  endRecord: any;
+
+  current_jwt_token: String = localStorage.getItem('token');
 
   modalData!: {
     action: string;
@@ -708,13 +723,19 @@ export class MainDataComponent {
   constructor(
     private modal: NgbModal,
     public userService: UserService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private pagerService: PagerService,
+    private router:Router
   ) { }
   today_date: Date = new Date();
 
 
   ngOnInit(): void {
     console.log(localStorage.getItem("currentActiveRole"));
+
+    this.currentid = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).id;
 
     this.customerFormGroup = this._formBuilder.group({
       title: ["", Validators.required],
@@ -852,7 +873,32 @@ export class MainDataComponent {
           this.loaded.chat_cases = true;
           $("#loaderouterid").css("display", "none");
         });
+    } else if (event.index == 2) {
+      $('#loaderouterid').css("display", "flex");
+      this.userService.getLoginHistory(this.currentid).subscribe((response: { status, data }) => {
+        if (response.status == "200") {
+          this.loginHistory = response.data;
+          this.setPage(1);
+        } else {
+          $('#loaderouterid').css("display", "none");
+        }
+      });
     }
+  }
+
+  setPage(page: number) {
+    this.pager = this.pagerService.getPager(this.loginHistory.length, page);
+    this.pagedItems = this.loginHistory.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    if (this.loginHistory.length > 0) {
+      this.startRecord = this.pager.currentPage * this.pagerService.getDefaultPageSize() - this.pagerService.getDefaultPageSize() + 1;
+      this.endRecord = this.pager.currentPage * this.pagerService.getDefaultPageSize() > this.loginHistory.length
+        ? this.loginHistory.length
+        : this.pager.currentPage * this.pagerService.getDefaultPageSize();
+    } else {
+      this.startRecord = 0;
+      this.endRecord = 0;
+    }
+    $('#loaderouterid').css("display", "none");
   }
 
   private _filter(value: string): string[] {
@@ -1133,6 +1179,11 @@ export class MainDataComponent {
         });
       }
     );
+  }
+
+  openSecurityData() {
+    $('#openSecurityData').trigger('click');
+    this.open_modal('staticBackdrop')
   }
 
   open_modal(modal_id: any) {
@@ -2461,5 +2512,12 @@ export class MainDataComponent {
       "imap_port"
     ].updateValueAndValidity();
   }
+
+  logout() {
+    localStorage.removeItem("token");
+    this.router.navigate(["./"]);
+    document.body.classList.remove("modal-open");
+  }
+
 }
 

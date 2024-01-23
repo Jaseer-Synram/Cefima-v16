@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+.container-fluid {
+  max-width: 98%;
+}
+
+.about-wrap {
+  background-image: url(../../assets/about-us/about-bg.webp),
+    linear-gradient(180deg, #184297 0%, #00adef 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.about-content {
+  padding: 40px 0;
+}
+
+.about-main-title h2 {
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  font-size: 75px;
+  font-weight: 900;
+  line-height: 70px;
+  margin-bottom: 45px;
+}
+
+.about-list ul {
+  padding: 20px 0;
+}
+
+.about-list li {
+  padding: 0;
+  margin-bottom: 35px;
+}
+.about-list li:last-child {
+  margin-bottom: 0;
+}
+
+.about-list li .about-list-ico {
+  float: left;
+  background: linear-gradient(123deg, #bbbbbb 0%, #f4f4f4 72.29%);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  padding: 12px;
+}
+.about-list-content {
+  padding-left: 75px;
+}
+.about-list-content h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 40px;
+  color: #fff;
+}
+.about-list-content p {
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #fff;
+}
+
+.about-img {
+  max-width: 599px;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+@media (max-width: 575.98px) {
+  .about-main-title h2 {
+    font-size: 40px;
+    line-height: 70px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .about-list li {
+    text-align: center;
+  }
+  .about-list-content {
+    padding-left: 0;
+  }
+  .about-list li .about-list-ico {
+    float: unset;
+    width: 60px;
+    height: 60px;
+    padding: 12px;
+    margin: 0 auto;
+    margin-bottom: 5px;
+  }
+  .about-list-content h3 {
+    font-size: 25px;
+  }
+  .about-list-content p {
+    font-size: 12px;
+    line-height: 17px;
+  }
+}
+
+@media (max-width: 767.98px) {
+}
+
+@media (max-width: 991.98px) {
+  .about-main-title h2 {
+    font-size: 50px;
+    line-height: 50px;
+    margin-bottom: 20px;
+  }
+  .about-list-content h3 {
+    font-size: 30px;
+    line-height: 25px;
+  }
+  .about-list-content p {
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+}
+
+@media (max-width: 1399.98px) {
+}

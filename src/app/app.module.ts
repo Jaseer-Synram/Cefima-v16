@@ -40,6 +40,7 @@ import { DatePipe } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { DEFAULT_PSM_OPTIONS } from 'angular-password-strength-meter/zxcvbn';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 
 export const MY_FORMATS = {
@@ -73,6 +74,7 @@ export function tokenGetter() {
     AddProductComponent,
     NavBarComponent,
     FrontFooterComponent,
+    AboutUsComponent,
     // B2bDashboardComponent,
   ],
   imports: [

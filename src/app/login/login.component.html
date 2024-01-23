@@ -365,7 +365,7 @@
                     <a id="MEHR" href="#Über_uns" class="nav-link header-text cool-link tabactive">MEHR</a>
                 </li>
                 <li class="nav-item homemenu d-block d-lg-none">
-                    <a [routerLink]="['/uber-uns']" class="nav-link header-text cool-link tabactive">Über uns</a>
+                    <a [routerLink]="['./uber-uns']" class="nav-link header-text cool-link tabactive">Über uns</a>
                 </li>
                 <li class="nav-item homemenu d-block d-lg-none">
                     <a class="nav-link header-text cool-link tabactive">Produktwelt</a>
@@ -502,7 +502,7 @@
                         </div>
                         <ul style="list-style-type: none">
                             <li id="side_li">
-                                <a (click)="navigatecareer('uber-uns')" id="sidenav">Über uns</a>
+                                <a (click)="navigatecareer('about-us')" id="sidenav">Über uns</a>
                             </li>
                             <li style="cursor: pointer" (click)="navigatecareer('produktwelt')" id="side_li">
                                 <a id="sidenav">Produktwelt</a>

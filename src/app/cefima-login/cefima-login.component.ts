@@ -5,6 +5,9 @@ import { first } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-cefima-login',
@@ -39,6 +42,7 @@ export class CefimaLoginComponent implements OnInit {
   documentList: any;
   id: String = "";
   captcha = "";
+  // deviceService: any;
   resolvedcefima(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
     this.captcha = captchaResponse;
@@ -52,7 +56,8 @@ export class CefimaLoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private deviceService: DeviceDetectorService,
   ) {
     if (window) {
       if (
@@ -97,6 +102,7 @@ export class CefimaLoginComponent implements OnInit {
     return this.forgotPasswordForm.controls;
   }
 
+
   newfunction() {
     this.forgotPasswordFormShow = false;
     this.loginError = false;
@@ -119,7 +125,7 @@ export class CefimaLoginComponent implements OnInit {
     this.submitted = true;
 
     if (this.forgotPasswordForm.invalid) {
-       this.router.navigate(["./"]);
+      this.router.navigate(["./"]);
     }
     this.loading = true;
     if (this.f["username"].value) {
@@ -181,7 +187,7 @@ export class CefimaLoginComponent implements OnInit {
     return true;
   }
 
-  login() {
+  async login() {
 
     console.log("check");
     if (this.f["username"].value == "") {
@@ -203,11 +209,18 @@ export class CefimaLoginComponent implements OnInit {
       if (this.loginForm.invalid) {
         return false;
       }
-       
+
       this.loading = false;
-      // console.log(this.f["username"].value, this.f["password"].value);
+
+      let device_information = { 'deviceType': '', 'os': '', 'os_version': '', 'browser': '', 'browser_version': '' }
+      Object.keys(device_information).map(info => { device_information[info] = this.deviceService[info] });
+      console.log(device_information, ':', this.deviceService);
+      let ip_address: any = await this.detectIp();
+      let location_details: any = await this.getLocationByIp(ip_address);
+      console.log('Location Details : ', location_details);
+      console.log('IP Details : ', ip_address);
       this.authService
-        .login(this.f["username"].value, this.f["password"].value)
+        .login(this.f["username"].value, this.f["password"].value, ip_address, device_information, location_details)
         .pipe(first())
         .subscribe(
           (dataUSER: any) => {
@@ -220,6 +233,7 @@ export class CefimaLoginComponent implements OnInit {
               "currentUser",
               JSON.stringify(dataUSER["user"])
             );
+            
 
             localStorage.setItem("UserType", "ProductAndSpecialist");
 
@@ -228,6 +242,8 @@ export class CefimaLoginComponent implements OnInit {
             let decodedData = this.userService.getDecodedAccessToken(
               localStorage.getItem("token")!
             );
+            console.log('userDetails:', decodedData);
+
 
             setTimeout(() => {
               $(".modal-backdrop").removeClass("modal-backdrop");
@@ -271,15 +287,49 @@ export class CefimaLoginComponent implements OnInit {
               this.showErr1 = error;
             }
             this.error = error;
-            console.log('Error:',error["message"]);
+            console.log('Error:', error["message"]);
             console.log(error);
-            
+
             this.router.navigate(["./cefima"]);
             return false
           }
         );
-        return false
+      return false
     }
+  }
+
+  async detectIp() {
+    return new Promise((resolve) => {
+      this.userService.ipify().subscribe(
+        (result: any) => {
+          if (result.ip && result.ip != "" && result.ip != null) {
+            resolve(result.ip);
+          } else {
+            this.userService.geolocation().subscribe((response: { IPv4 }) => {
+              resolve(response.IPv4);
+            });
+          }
+        },
+        (error: any) => {
+          console.log("This is the error came here");
+          this.userService.geolocation().subscribe((response: any) => {
+            resolve(response.IPv4);
+          });
+        }
+      );
+    });
+  }
+
+  async getLocationByIp(ip) {
+    return new Promise((resolve) => {
+      this.userService.getIpDetails(ip).subscribe((response: any) => {
+        if (response?.countryName) {
+          resolve({ country: response.countryName, countryCode: response.countryCode });
+        } else {
+          resolve({ country: "", countryCode: "" });
+        }
+      });
+    });
   }
 
   HideAndShow() {

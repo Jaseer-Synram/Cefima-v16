@@ -636,8 +636,7 @@ export class CustomerComponent implements OnInit {
     this.companytype  = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).companytype;
-    this.title = this.userService.getDecodedAccessToken(localStorage.getItem("token")!)
-    .title;
+    this.title = this.userService.getDecodedAccessToken(localStorage.getItem("token")!).title;
   this.currentid = this.userService.getDecodedAccessToken(
     localStorage.getItem("token")!
   ).id;

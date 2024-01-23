@@ -6,6 +6,49 @@
     opacity: 1;
 }
 
+.styletab {
+    width: max-content;
+}
+
+:host ::ng-deep.mat-mdc-tab-label-container {
+    flex-grow: unset;
+}
+
+:host ::ng-deep .mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
+    background: #02a9ed !important;
+    height: 3px !important;
+    border-radius: 0px !important;
+    border: none;
+    --mdc-tab-indicator-active-indicator-color: #02a9ed;
+}
+
+:host ::ng-deep.mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+}
+
+:host ::ng-deep [mat-tab-label-6-]{
+    padding: 0 !important;
+}
+
+.Persönliche-Informationen h2 {
+    font-family: Open Sans;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #454c58;
+    float: left;
+    margin-bottom: 0px;
+    margin-top: 3px;
+}
+
+
 .stepper-btn1 {
     background: linear-gradient(#17459b, #02a9ed) !important;
     color: #fff;
@@ -13,14 +56,14 @@
     border-radius: 20px;
 }
 
-.stepper-btn{
+.stepper-btn {
     background: linear-gradient(#17459b, #02a9ed) !important;
-    color: #fff;
+    color: #fff !important;
 }
 
-.stepper-btn:disabled{
-     background: rgb(170, 170, 170) !important;
-     color: white;
+.stepper-btn:disabled {
+    background: rgb(170, 170, 170) !important;
+    color: white;
 }
 
 .links1 {
@@ -56,9 +99,9 @@
 
 .custom-margin {
     margin-bottom: 3px;
-  }
+}
 
-  
+
 .custom-heading {
     font-family: Open Sans;
     font-size: 20px;
@@ -66,15 +109,15 @@
     line-height: 33px;
     letter-spacing: 0em;
     text-align: left;
-  }
+}
 
-.graybox{
+.graybox {
     background: rgb(190, 190, 190);
     font-weight: 500;
     font-size: medium;
 }
 
-.form-width{
+.form-width {
     width: 96%;
 }
 

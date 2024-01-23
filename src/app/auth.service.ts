@@ -8,14 +8,28 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   API_URL = environment.API_URL;
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {}
+  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
 
-  login(email: String, password: String) {
-    let data = {
+  login(email: string, password: string, ip?, device_information?, location_details?) {
+
+    let data: {
+      email: string,
+      password: string,
+      ip_address?: any,
+      location_details?: any,
+      device_information?: any,
+      brand_name :string
+    } = {
       email: email,
       password: password,
+      brand_name:'Cefima'
     };
 
+    if (ip && ip != "Not found") { data.ip_address = ip; }
+    if (device_information && Object.keys(device_information).length > 0) { data.device_information = device_information; }
+    if (location_details && Object.keys(location_details).length > 0) { data.location_details = location_details; }
+
+    console.log('Data:',data);
     return this.http.post(`${this.API_URL}login/login`, data);
   }
 

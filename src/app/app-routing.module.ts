@@ -123,6 +123,12 @@ const routes: Routes = [
       import('./add-product/add-product.module')
         .then((m) => m.AddProductModule)
   },
+  {
+    path: 'about-us',
+    loadChildren: () =>
+      import('./about-us/about-us.module')
+        .then((m) => m.AboutUsModule)
+  },
   // {
   //   path: 'forgot-password',
   //   loadChildren: () =>
