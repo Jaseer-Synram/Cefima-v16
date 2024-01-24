@@ -547,6 +547,7 @@ footer .widget.nav-widget ul.moveleftnone li a:hover {
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   backdrop-filter: saturate(180%) blur(16px);
   background-color: rgba(23, 69, 155, 0) !important;
+  z-index:2;
 }
 .kontak a {
   color: #fff;
