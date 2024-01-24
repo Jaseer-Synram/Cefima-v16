@@ -9,6 +9,8 @@ export const environment = {
   //API_URL: "http://localhost:3000/",
   // API_URL: 'https://theadvisorpoint.com/api/',
   brand_id: "64f2fb7142a97fa8cc9064f2",
+  socket_url: "https://fiorettosystems.com",
+  socket_path: "/api/socket.io",
 };
 
 /*

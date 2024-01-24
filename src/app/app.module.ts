@@ -41,6 +41,7 @@ import { SharedModule } from './shared/shared.module';
 import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { DEFAULT_PSM_OPTIONS } from 'angular-password-strength-meter/zxcvbn';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { environment } from 'src/environments/environment.prod';
 
 
 export const MY_FORMATS = {
@@ -89,10 +90,8 @@ export function tokenGetter() {
       },
     }),
     SocketIoModule.forRoot({
-      url: "https://fiorettosystems.com",
-      options: {
-        path: "/api/socket.io",
-      },
+      url: environment.socket_url,
+      options: { path: environment.socket_path},
     }),
     CarouselModule.forRoot(),
     PasswordStrengthMeterModule.forRoot(DEFAULT_PSM_OPTIONS),

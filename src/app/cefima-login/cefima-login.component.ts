@@ -188,6 +188,7 @@ export class CefimaLoginComponent implements OnInit {
   }
 
   async login() {
+    $("#loaderouterid").css("display", "block");
 
     console.log("check");
     if (this.f["username"].value == "") {
@@ -233,7 +234,7 @@ export class CefimaLoginComponent implements OnInit {
               "currentUser",
               JSON.stringify(dataUSER["user"])
             );
-            
+
 
             localStorage.setItem("UserType", "ProductAndSpecialist");
 
@@ -273,6 +274,7 @@ export class CefimaLoginComponent implements OnInit {
             $("body").css("padding-right", "0px");
             console.log('nav');
 
+            $("#loaderouterid").css("display", "none");
             this.router.navigate(["/cefima"]);
             return true
           },
@@ -289,7 +291,8 @@ export class CefimaLoginComponent implements OnInit {
             this.error = error;
             console.log('Error:', error["message"]);
             console.log(error);
-
+            
+            $("#loaderouterid").css("display", "none");
             this.router.navigate(["./cefima"]);
             return false
           }

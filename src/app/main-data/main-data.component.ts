@@ -23,6 +23,8 @@ import { PagerService } from '../_services/pager.service'
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../auth.service';
+import { DatePipe } from '@angular/common';
+import { SocketAlertsService } from '../socket-alerts.service';
 
 export interface Broker {
   name: string;
@@ -732,6 +734,8 @@ export class MainDataComponent {
     private router:Router,
     public jwtHelper: JwtHelperService,
     private authService:AuthService,
+    private socketAlertService:SocketAlertsService,
+    private datePipe: DatePipe,
   ) { }
   today_date: Date = new Date();
 
@@ -887,14 +891,18 @@ export class MainDataComponent {
 
   getLoginHistory(){
     $('#loaderouterid').css("display","flex");
-    let data = {user_id: this.currentUser._id,brand_id:environment.brand_id,limit:30,page: this.currentPage};
+    let data = {user_id: this.currentUser._id,brand_id:this.brand_id,limit:30,page: this.currentPage};
     this.userService.getLoginHistory(data).subscribe((response:{status,data,count})=>{
       if(response.status == "200"){
         this.loginHistoryCount = response.count;
         this.loginHistory = response.data;
         this.loginHistory.map((login:any,index)=>{
-          if(login.expired_data.length <= 0){
-            login.expired_data = this.jwtHelper.isTokenExpired(login.jwt_token)? [true] : [];
+          if(!(login?.log_out) || login?.log_out?.logged_out == "0"){
+            login.log_out = {logged_out:"0",dateTime:""};
+            login.log_out.logged_out = this.jwtHelper.isTokenExpired(login.jwt_token)? "1" : "0";
+            login.log_out.dateTime = (login.log_out.logged_out == "1" ? this.datePipe.transform(this.jwtHelper.getTokenExpirationDate(login.jwt_token), 'dd.MM.yyyy HH:mm') : 'Noch nicht ausgeloggt');
+          }else{
+            login.log_out.dateTime = this.datePipe.transform(login.log_out.dateTime, 'dd.MM.yyyy HH:mm');
           }
           if((this.loginHistory.length-1) == index){
             this.setPage(this.currentPage);
@@ -2574,8 +2582,14 @@ export class MainDataComponent {
     this.authService.logout(login.jwt_token).subscribe((response:any)=>{
       $('#loaderouterid').css("display","none");
       if(response.status == "200"){
-        this.loginHistory[this.loginHistory.findIndex(x=> x._id == login._id)].expired_data = [true];
-        this.pagedItems[this.loginHistory.findIndex(x=> x._id == login._id)].expired_data = [true];
+        this.loginHistory[this.loginHistory.findIndex(x=> x._id == login._id)].log_out.logged_out = "1";
+        this.loginHistory[this.loginHistory.findIndex(x=> x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(),'dd.MM.yyyy HH:mm');
+  
+        this.pagedItems[this.pagedItems.findIndex(x=> x._id == login._id)].log_out.logged_out = "1";
+        this.pagedItems[this.pagedItems.findIndex(x=> x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(),'dd.MM.yyyy HH:mm');
+  
+        const newData = {socketName:"remove-session",token_to_remove:login.jwt_token};
+        this.socketAlertService.updateData(newData);
       }
     });
   }

@@ -15,12 +15,20 @@
 }
 
 :host ::ng-deep .mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
-    background: #02a9ed !important;
+    background: linear-gradient(to right, transparent 20px, #02a9ed 20px) !important;
     height: 3px !important;
     border-radius: 0px !important;
     border: none;
-    --mdc-tab-indicator-active-indicator-color: #02a9ed;
+    /* --mdc-tab-indicator-active-indicator-color: #02a9ed; */
 }
+
+
+:host ::ng-deep #mat-tab-label-4-2{
+    padding: 0 !important;
+    min-width: auto !important;
+    margin-right: 20px !important;
+}
+
 
 :host ::ng-deep.mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
     content: "";
@@ -31,6 +39,15 @@
     width: 100%;
     border-bottom: 1px solid #ccc;
 }
+
+:host ::ng-deep.same-size>.mat-mdc-text-field-wrapper{
+    height: 37px !important;
+}
+
+:host ::ng-deep.same-size>.mat-mdc-text-field-wrapper>.mat-mdc-form-field-flex>.mat-mdc-form-field-infix{
+    padding: 5px 0px 0px 0px !important;
+}
+
 
 :host ::ng-deep [mat-tab-label-6-]{
     padding: 0 !important;

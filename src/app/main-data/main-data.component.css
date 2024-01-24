@@ -16,6 +16,27 @@
     margin-bottom: 8px !important;
 }
 
+
+.online-green{
+    color: #38dc82 !important
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: fadeInOut 1s ease-in-out infinite;
+}
+
 /* :host ::ng-deep .button-arrow >.mat-mdc-ink-bar:before {
     width: 100%;
     background: #4196d2 !important;
