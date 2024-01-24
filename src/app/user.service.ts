@@ -78,8 +78,8 @@ export class UserService {
     // );
   }
 
-  getLoginHistory(user_id){
-    return this.http.get(`${this.API_URL}users/getLoginHistory/${user_id}/${brand_id}`);
+  getLoginHistory(data){
+    return this.http.post(`${this.API_URL}users/getLoginHistory`,data);
   }
 
   uploaddocumentwithoutticketno(data: any): Observable<any> {

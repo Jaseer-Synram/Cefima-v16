@@ -21,6 +21,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NumberFormatStyle } from '@angular/common';
 import { PagerService } from '../_services/pager.service'
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from '../auth.service';
 
 export interface Broker {
   name: string;
@@ -522,6 +524,8 @@ export class MainDataComponent {
   endRecord: any;
 
   current_jwt_token: String = localStorage.getItem('token');
+  loginHistoryCount = 0;
+  currentPage = 1;
 
   modalData!: {
     action: string;
@@ -725,7 +729,9 @@ export class MainDataComponent {
     public userService: UserService,
     private _formBuilder: FormBuilder,
     private pagerService: PagerService,
-    private router:Router
+    private router:Router,
+    public jwtHelper: JwtHelperService,
+    private authService:AuthService,
   ) { }
   today_date: Date = new Date();
 
@@ -873,32 +879,64 @@ export class MainDataComponent {
           this.loaded.chat_cases = true;
           $("#loaderouterid").css("display", "none");
         });
-    } else if (event.index == 2) {
-      $('#loaderouterid').css("display", "flex");
-      this.userService.getLoginHistory(this.currentid).subscribe((response: { status, data }) => {
-        if (response.status == "200") {
-          this.loginHistory = response.data;
-          this.setPage(1);
-        } else {
-          $('#loaderouterid').css("display", "none");
-        }
-      });
-    }
+    } else if(event.index == 2){
+      this.currentPage = 1;
+      this.getLoginHistory();
+     }
+  }
+
+  getLoginHistory(){
+    $('#loaderouterid').css("display","flex");
+    let data = {user_id: this.currentUser._id,brand_id:environment.brand_id,limit:30,page: this.currentPage};
+    this.userService.getLoginHistory(data).subscribe((response:{status,data,count})=>{
+      if(response.status == "200"){
+        this.loginHistoryCount = response.count;
+        this.loginHistory = response.data;
+        this.loginHistory.map((login:any,index)=>{
+          if(login.expired_data.length <= 0){
+            login.expired_data = this.jwtHelper.isTokenExpired(login.jwt_token)? [true] : [];
+          }
+          if((this.loginHistory.length-1) == index){
+            this.setPage(this.currentPage);
+          }
+        });
+        console.log("check login history");
+        console.log(this.loginHistory);
+        //this.setPage(1);
+        
+      }else{
+        $('#loaderouterid').css("display","none");
+      }
+    });
   }
 
   setPage(page: number) {
-    this.pager = this.pagerService.getPager(this.loginHistory.length, page);
-    this.pagedItems = this.loginHistory.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    this.currentPage = page;
+    // get pager object from service
+    //this.pager = this.pagerService.getPager(this.employeeList.length, page);
+    this.pager = this.pagerService.getPager(this.loginHistoryCount, page);
+
+    // get current page of items
+    this.pagedItems = JSON.parse(JSON.stringify(this.loginHistory));/*.slice(
+      this.pager.startIndex,
+      this.pager.endIndex + 1
+    );*/
     if (this.loginHistory.length > 0) {
-      this.startRecord = this.pager.currentPage * this.pagerService.getDefaultPageSize() - this.pagerService.getDefaultPageSize() + 1;
-      this.endRecord = this.pager.currentPage * this.pagerService.getDefaultPageSize() > this.loginHistory.length
-        ? this.loginHistory.length
-        : this.pager.currentPage * this.pagerService.getDefaultPageSize();
+      this.startRecord =
+        this.pager.currentPage * this.pagerService.getDefaultPageSize() -
+        this.pagerService.getDefaultPageSize() +
+        1;
+      this.endRecord =
+        this.pager.currentPage * this.pagerService.getDefaultPageSize() >
+        this.loginHistory.length
+          ? this.loginHistory.length
+          : this.pager.currentPage * this.pagerService.getDefaultPageSize();
     } else {
       this.startRecord = 0;
       this.endRecord = 0;
     }
-    $('#loaderouterid').css("display", "none");
+
+    $('#loaderouterid').css("display","none");
   }
 
   private _filter(value: string): string[] {
@@ -2514,10 +2552,34 @@ export class MainDataComponent {
   }
 
   logout() {
-    localStorage.removeItem("token");
-    this.router.navigate(["./"]);
-    document.body.classList.remove("modal-open");
+    $('#loaderouterid').css("display","flex");
+    this.authService.logout().subscribe((response:any)=>{
+      console.log("lets check whats the response of logout");
+      console.log(response);
+      $('#loaderouterid').css("display","none");
+      if(response.status == "200"){
+        localStorage.removeItem("token");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("currentActiveRole");
+        this.router.navigate(["./"]);
+      }else{
+        console.log("Couldn't logout there is an error maybe");
+        console.log(response);
+      }
+    });
   }
+  
+  logoutOtherSession(login){
+    $('#loaderouterid').css("display","flex");
+    this.authService.logout(login.jwt_token).subscribe((response:any)=>{
+      $('#loaderouterid').css("display","none");
+      if(response.status == "200"){
+        this.loginHistory[this.loginHistory.findIndex(x=> x._id == login._id)].expired_data = [true];
+        this.pagedItems[this.loginHistory.findIndex(x=> x._id == login._id)].expired_data = [true];
+      }
+    });
+  }
+  
 
 }
 

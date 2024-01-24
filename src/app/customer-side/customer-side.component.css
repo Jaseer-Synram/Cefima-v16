@@ -53,7 +53,8 @@
     background: linear-gradient(#17459b, #02a9ed) !important;
     color: #fff;
     border: none;
-    border-radius: 20px;
+    border-radius: 12px 12px 12px 12px;
+    padding: 3px 4px;
 }
 
 .stepper-btn {
@@ -112,7 +113,7 @@
 }
 
 .graybox {
-    background: rgb(190, 190, 190);
+    background: rgb(211 211 211);
     font-weight: 500;
     font-size: medium;
 }

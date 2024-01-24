@@ -95,4 +95,14 @@ export class AuthService {
 
     return !this.jwtHelper.isTokenExpired(token);
   }
+
+  logout(token_to_expire?){
+    let user_info = JSON.parse(localStorage.getItem("currentUser"));
+    let data = {
+      user_id: user_info._id,
+      token_to_expire: token_to_expire || localStorage.getItem("token")
+    }
+    return this.http.post(`${this.API_URL}login/logout`,data);
+  }
+  
 }

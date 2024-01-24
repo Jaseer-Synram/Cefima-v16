@@ -670,9 +670,12 @@
                                                                     {{opened_login_details?._id == login?._id ?
                                                                     'Schließen':'Öffnen'}}
                                                                 </button>
-                                                                <button type="button" class="btn btn-sm btn-danger ml-2"
+                                                                <!-- <button type="button" class="btn btn-sm btn-danger ml-2"
                                                                     *ngIf="login.jwt_token == current_jwt_token"
-                                                                    (click)="logout()">Logout</button>
+                                                                    (click)="logout()">Logout</button> -->
+                                                                <button type="button" class="btn btn-sm btn-danger ml-2"
+                                                                    *ngIf="login.jwt_token == current_jwt_token || login.expired_data.length <= 0"
+                                                                    (click)="login.jwt_token == current_jwt_token ? logout(): logoutOtherSession(login);">Logout</button>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -807,26 +810,30 @@
                                         <div class="d-flex justify-content-end pagination-main mt-3 editing-something">
                                             <ul *ngIf="loginHistory.length" class="pagination m-0 pagerAction">
                                                 <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
-                                                    <a (click)="setPage(1)" class="page-link">
+                                                    <a (click)="setPage(1);getLoginHistory();" class="page-link">
                                                         << </a>
                                                 </li>
                                                 <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
-                                                    <a (click)="setPage(pager.currentPage - 1)" class="page-link">
+                                                    <a (click)="setPage(pager.currentPage - 1);getLoginHistory();"
+                                                        class="page-link">
                                                         < </a>
                                                 </li>
                                                 <li *ngFor="let page of pager.pages"
                                                     [ngClass]="{ active: pager.currentPage === page }"
                                                     class="page-item">
-                                                    <a (click)="setPage(page)" class="page-link">{{ page }}</a>
+                                                    <a (click)="setPage(page);getLoginHistory();(pager.currentPage === page)?'':''"
+                                                        class="page-link">{{ page }}</a>
                                                 </li>
-                                                <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+                                                <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages}"
                                                     class="page-item">
-                                                    <a (click)="setPage(pager.currentPage + 1)" class="page-link">></a>
-                                                </li>
-                                                <li [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
-                                                    class="page-item">
-                                                    <a (click)="setPage(pager.totalPages)" class="page-link"> >>
+                                                    <a (click)="setPage(pager.currentPage + 1);getLoginHistory();"
+                                                        class="page-link">>
                                                     </a>
+                                                </li>
+                                                <li [ngClass]="{disabled: pager.currentPage === pager.totalPages}"
+                                                    class="page-item">
+                                                    <a (click)="setPage(pager.totalPages);getLoginHistory();"
+                                                        class="page-link">>></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1723,10 +1730,10 @@
                 <div class="modal-header">
                     <h4 class="modal-title m-0" id="staticBackdropLabel">Anmeldesitzungsdetails:
                         <span *ngIf="opened_login_details?.jwt_token == current_jwt_token"
-                                                    class="font-size-x-small d-block"><i
-                                                        class="fa fa-circle text-success" aria-hidden="true"></i>
-                                                    (Diese
-                                                    Gerät-Anmeldesitzung)</span>
+                            class="font-size-x-small d-block"><i class="fa fa-circle text-success"
+                                aria-hidden="true"></i>
+                            (Diese
+                            Gerät-Anmeldesitzung)</span>
                     </h4>
                     <button type="button" style="border: none;width: 32px;background: transparent;"
                         (click)="opened_login_details = {};close_modal('staticBackdrop','staticBackdropParent')"
@@ -1750,7 +1757,8 @@
                                                         <div class="input-icon">
                                                             <input matInput readonly [value]="opened_login_details.ip"
                                                                 placeholder="IP-Adresse">
-                                                            <i class="text-secondary fa fa-map-marker" aria-hidden="true"></i>
+                                                            <i class="text-secondary fa fa-map-marker"
+                                                                aria-hidden="true"></i>
                                                         </div>
                                                     </mat-form-field>
                                                 </div>
@@ -1761,7 +1769,8 @@
                                                             <input matInput readonly
                                                                 value="{{opened_login_details?.location_details?.country}} ({{opened_login_details?.location_details?.countryCode}})"
                                                                 placeholder="Land">
-                                                            <i class="text-secondary fa fa-globe" aria-hidden="true"></i>
+                                                            <i class="text-secondary fa fa-globe"
+                                                                aria-hidden="true"></i>
                                                         </div>
                                                     </mat-form-field>
                                                 </div>
@@ -1798,7 +1807,8 @@
                                                             <input matInput readonly
                                                                 value="{{opened_login_details?.device_information?.browser}} ({{opened_login_details?.device_information?.browser_version}})"
                                                                 placeholder="Browser">
-                                                            <i class="text-secondary fa fa-spinner" aria-hidden="true"></i>
+                                                            <i class="text-secondary fa fa-spinner"
+                                                                aria-hidden="true"></i>
                                                         </div>
                                                     </mat-form-field>
                                                 </div>
@@ -1810,7 +1820,8 @@
                                                             <input matInput readonly
                                                                 value="{{opened_login_details?.createdAt | date: 'dd.MM.yyyy HH:mm'}}"
                                                                 placeholder="Eingeloggt um">
-                                                            <i class="text-secondary fa fa-sign-in" aria-hidden="true"></i>
+                                                            <i class="text-secondary fa fa-sign-in"
+                                                                aria-hidden="true"></i>
                                                         </div>
                                                     </mat-form-field>
                                                 </div>
@@ -1824,9 +1835,10 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-md-12 text-right">
-                        <button type="button" class="btn btn-sm button-primary botton-hover" data-dismiss="modal" aria-label="Close"
+                        <button type="button" class="btn btn-sm button-primary botton-hover" data-dismiss="modal"
+                            aria-label="Close"
                             (click)="opened_login_details = {};close_modal('staticBackdrop','staticBackdropParent')">Schließen</button>
-                        <button type="button" class="btn btn-sm btn-danger ml-2"  data-dismiss="modal" aria-label="Close"
+                        <button type="button" class="btn btn-sm btn-danger ml-2" data-dismiss="modal" aria-label="Close"
                             *ngIf="opened_login_details?.jwt_token == current_jwt_token"
                             (click)="opened_login_details = {};close_modal('staticBackdrop','staticBackdropParent');logout()">Logout</button>
                     </div>
