@@ -189,7 +189,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  clikeditem(item:string){
+  clikeditem(item: string) {
     this.userService.selectCustomerSideItem.next(item)
   }
 
@@ -247,16 +247,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.header_firstname = firstname;
       this.header_lastname = lastname_or_company;
       this.header_companyname = "";
-      this.userService.invokeFunctionInCustomerSide.next(['change_account_name',type, title, 
-      firstname, lastname_or_company, user_id])
+      this.userService.invokeFunctionInCustomerSide.next(['change_account_name', type, title,
+        firstname, lastname_or_company, user_id])
       // this.fetch_consulting_data(user_id);
     } else {
       this.header_title = title;
       this.header_companyname = lastname_or_company;
       this.header_firstname = "";
       this.header_lastname = "";
-      this.userService.invokeFunctionInCustomerSide.next(['change_account_name',type, title, 
-      firstname, lastname_or_company, user_id])
+      this.userService.invokeFunctionInCustomerSide.next(['change_account_name', type, title,
+        firstname, lastname_or_company, user_id])
     }
 
   }
@@ -272,29 +272,26 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     console.log("tabisclicked" + JSON.stringify(event));
     setTimeout(() => {
       this.userService
-      .getCompanyOffices(event._id)
-      .pipe(first())
-      .subscribe((officeData: any) => {
-        this.officeData = officeData;
+        .getCompanyOffices(event._id)
+        .pipe(first())
+        .subscribe((officeData: any) => {
+          this.officeData = officeData;
 
-        console.log("officeData" + JSON.stringify(officeData));
-      });
+          console.log("officeData" + JSON.stringify(officeData));
+        });
     }, 300);
 
-    const eventdata = {
-         _id: event._id,
-         companyname : event.companyname
-    }
-   
-      this.userService.invokeFunctionInCustomerSide.next(['tabisclicked',eventdata])
+    // const eventdata = event
+
+    this.userService.invokeFunctionInCustomerSide.next(['tabisclicked', event])
   }
 
-  savecompanyId(companydata: any){
-    this.userService.invokeFunctionInCustomerSide.next(['savecompanyId',companydata])
+  savecompanyId(companydata: any) {
+    this.userService.invokeFunctionInCustomerSide.next(['savecompanyId', companydata])
   }
 
-  remove_border(btnid: any){
-    this.userService.invokeFunctionInCustomerSide.next(['remove_border',btnid])
+  remove_border(btnid: any) {
+    this.userService.invokeFunctionInCustomerSide.next(['remove_border', btnid])
   }
 
   DateRender(id: string) {

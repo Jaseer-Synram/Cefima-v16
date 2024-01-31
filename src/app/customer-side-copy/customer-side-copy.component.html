@@ -17,9 +17,9 @@
         <div *ngIf=" !localData.hasOwnProperty('companytype') ||
               localData.companytype == ' ' || localData.companytype == '' ||
               localData.companytype == null; else company ">
-          <div [hidden]="hideHaushaltMain">
+          <div [hidden]="hideValues.hideHaushaltMain">
             <mat-tab-group (selectedTabChange)="tabClicked($event)" [selectedIndex]="0">
-              <mat-tab class="styletab" label="Persönliche Daten6">
+              <mat-tab class="styletab" label="Persönliche Daten">
                 <ng-template matTabContent>
 
                   <div
@@ -486,9 +486,9 @@
             <!-- HAUSHALT FAMIL MEMBER NAME TAB START -->
             <ng-container class="styletab" *ngFor="let member of familyData; let i = index">
 
-              <div class="col-md-12" [hidden]="hideHaushaltIn1">
+              <div class="col-md-12" [hidden]="hideValues.hideHaushaltIn1">
                 <mat-tab-group (selectedTabChange)="tabClicked($event)" [selectedIndex]="0">
-                  <mat-tab class="styletab" label="Persönliche Daten7">
+                  <mat-tab class="styletab" label="Persönliche Daten">
                     <div
                       class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                       style="margin-top: 0px">
@@ -1040,9 +1040,9 @@
                           member.companytype == 'Einzelunternehmen';
                           else multiCompanyprivatecustomer">
 
-                  <div class="col-md-12" [hidden]="hideContainerMain">
+                  <div class="col-md-12" [hidden]="hideValues.hideContainerMain">
                     <mat-tab-group (selectedTabChange)="tabClicked($event)">
-                      <mat-tab class="styletab" label="Unternehmensdaten3">
+                      <mat-tab class="styletab" label="Unternehmensdaten">
                         <div
                           class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                           style="margin-top: 0px">
@@ -1589,9 +1589,9 @@
                     <div *ngFor="
                         let office of officeData; let i = index ">
 
-                      <div class="col-md-12" [hidden]="hideContainerIn">
+                      <div class="col-md-12" [hidden]="hideValues.hideContainerIn">
                         <mat-tab-group (selectedTabChange)="tabClicked($event)">
-                          <mat-tab label="Unternehmensdaten6">
+                          <mat-tab label="Unternehmensdaten">
                             <ng-template matTabContent>
                               <div
                                 class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
@@ -2174,9 +2174,9 @@
                   currentActiveRole == 'b2b' &&
                   member.poa == '0' ">
                     <!-- TAB SET 1 START -->
-                    <div class="co-md-12" [hidden]="hidemultiCompanyprivatecustomerMain">
+                    <div class="co-md-12" [hidden]="hideValues.hidemultiCompanyprivatecustomerMain">
                       <mat-tab-group>
-                        <mat-tab class="styletab" label="Unternehmensdaten7">
+                        <mat-tab class="styletab" label="Unternehmensdaten">
                           <ng-template matTabContent>
                             <div
                               class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
@@ -3353,7 +3353,7 @@ data-target="#exampleModalShareholder"
                       <ng-container *ngFor=" let office of officeData;
                               let i = index ">
 
-                        <div class="col-md-12" [hidden]="hidemultiCompanyprivatecustomerIn">
+                        <div class="col-md-12" [hidden]="hideValues.hidemultiCompanyprivatecustomerIn">
                           <div
                             class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                             style="margin-top: 0px">
@@ -3579,9 +3579,9 @@ data-target="#exampleModalShareholder"
                         member.companytype == 'Einzelunternehmen';
                       else multiCompanycustomer ">
 
-                <div class="col-md-12" [hidden]="hideCompanyCustomerMain">
+                <div class="col-md-12" [hidden]="hideValues.hideCompanyCustomerMain">
                   <mat-tab-group (selectedTabChange)="tabClicked($event)">
-                    <mat-tab class="styletab" label="Unternehmensdaten10">
+                    <mat-tab class="styletab" label="Unternehmensdaten">
                       <ng-template matTabContent>
                         <div
                           class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
@@ -4107,9 +4107,9 @@ data-target="#exampleModalShareholder"
                   <div *ngFor=" let office of officeData;
                               let i = index ">
 
-                    <div class="col-md-12" [hidden]="hideCompanyCustomerIn">
+                    <div class="col-md-12" [hidden]="hideValues.hideCompanyCustomerIn">
                       <mat-tab-group (selectedTabChange)="tabClicked($event)">
-                        <mat-tab label="Unternehmensdaten14">
+                        <mat-tab label="Unternehmensdaten">
                           <ng-template matTabContent>
                             <div
                               class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
@@ -4647,10 +4647,10 @@ data-target="#exampleModalShareholder"
 
               <ng-template #multiCompanycustomer>
 
-                <div class="col-md-12 multiCompanycustomer" [hidden]="HidemultiCompanycustomerMain">
+                <div class="col-md-12 multiCompanycustomer" [hidden]="hideValues.hidemultiCompanycustomerMain">
                   <!-- TAB SET 2 START -->
                   <mat-tab-group>
-                    <mat-tab class="styletab" label="Unternehmensdaten15">
+                    <mat-tab class="styletab" label="Unternehmensdaten">
                       <ng-template matTabContent>
                         <div
                           class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
@@ -5776,7 +5776,7 @@ data-target="#exampleModalShareholder"
                   <div *ngFor=" let office of officeData;
                           let i = index ">
 
-                    <div class="col-md-12" [hidden]="HidemultiCompanycustomerIn">
+                    <div class="col-md-12" [hidden]="hideValues.hidemultiCompanycustomerIn">
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                         style="margin-top: 0px">
@@ -5992,9 +5992,9 @@ data-target="#exampleModalShareholder"
                   let member of familyData;
                   let i = index">
 
-                  <div class="col-md-12" [hidden]="HidedisabledfamilyMain">
+                  <div class="col-md-12" [hidden]="hideValues.hidedisabledfamilyMain">
                     <mat-tab-group (selectedTabChange)="tabClicked($event)">
-                      <mat-tab class="styletab" label="Persönliche Daten8">
+                      <mat-tab class="styletab" label="Persönliche Daten">
                         <div
                           class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                           style="margin-top: 0px">
@@ -6561,11 +6561,11 @@ data-target="#exampleModalShareholder"
             localData.companytype == 'Einzelunternehmen';
           else multiCompany " id="secondtabnew">
 
-            <div class="col-md-12" [hidden]="hideCompanyMain">
+            <div class="col-md-12" [hidden]="hideValues.hideCompanyMain">
               <!-- TAB SET 4 START -->
               <mat-tab-group>
                 <mat-tab class="styletab">
-                  <ng-template mat-tab-label>Unternehmensdaten19
+                  <ng-template mat-tab-label>Unternehmensdaten
                   </ng-template>
                   <ng-template matTabContent>
                     <div
@@ -6801,7 +6801,7 @@ data-target="#exampleModalShareholder"
                     </div>
                   </ng-template>
                 </mat-tab>
-                <mat-tab class="styletab" label="Persönliche Daten9">
+                <mat-tab class="styletab" label="Persönliche Daten">
                   <ng-template matTabContent>
                     <div
                       class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
@@ -6995,7 +6995,7 @@ data-target="#exampleModalShareholder"
                       let office of userofficeData;
                       let i = index ">
 
-                <div class="col-md-12" [hidden]="hideCompanyIn">
+                <div class="col-md-12" [hidden]="hideValues.hideCompanyIn">
                   <div
                     class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                     style="margin-top: 0px">
@@ -7178,9 +7178,9 @@ data-target="#exampleModalShareholder"
 
           <ng-template #multiCompany>
 
-            <div class="col-md-12 multiCompany" [hidden]="HidemultiCompanyMain">
+            <div class="col-md-12 multiCompany" [hidden]="hideValues.hidemultiCompanyMain">
               <mat-tab-group (selectedTabChange)="tabClicked($event)">
-                <mat-tab class="styletab" label="Unternehmensdaten22">
+                <mat-tab class="styletab" label="Unternehmensdaten">
                   <div
                     class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                     style="margin-top: 0px">
@@ -8800,7 +8800,7 @@ data-target="#exampleModalShareholder"
                       let office of userofficeData;
                       let i = index ">
 
-                <div class="col-md-12" [hidden]="HidemultiCompanyIn">
+                <div class="col-md-12" [hidden]="hideValues.hidemultiCompanyIn">
                   <mat-tab-group (selectedTabChange)="tabClicked($event)">
                     <mat-tab class="styletab" label="Unternehmensdaten">
                       <div

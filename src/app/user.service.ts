@@ -23,10 +23,10 @@ export class UserService {
   type2selected: any = [];
 
   // For passing modal id from sidebar to customer-side comp: By Jaseer
-  modalIdfromSidebar  = new BehaviorSubject('');
-  invokeSideBarRouteFether:BehaviorSubject<any> = new BehaviorSubject('false');
-  invokeFunctionInCustomerSide  = new BehaviorSubject<any[]>(['string1', 'string2']);
-  selectCustomerSideItem:BehaviorSubject<any> = new BehaviorSubject('');
+  modalIdfromSidebar = new BehaviorSubject('');
+  invokeSideBarRouteFether: BehaviorSubject<any> = new BehaviorSubject('false');
+  invokeFunctionInCustomerSide = new BehaviorSubject<any[]>(['string1', 'string2']);
+  selectCustomerSideItem = new BehaviorSubject('');
 
 
 
@@ -86,8 +86,8 @@ export class UserService {
     // );
   }
 
-  getLoginHistory(data){
-    return this.http.post(`${this.API_URL}users/getLoginHistory`,data);
+  getLoginHistory(data) {
+    return this.http.post(`${this.API_URL}users/getLoginHistory`, data);
   }
 
   uploaddocumentwithoutticketno(data: any): Observable<any> {
@@ -1408,5 +1408,5 @@ export class UserService {
   getIpDetails(ip_address) {
     return this.http.get(`https://freeipapi.com/api/json/${ip_address}`);
   }
-  
+
 }

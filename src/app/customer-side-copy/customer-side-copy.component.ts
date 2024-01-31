@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -36,7 +36,7 @@ declare var $: any;
   templateUrl: './customer-side-copy.component.html',
   styleUrls: ['./customer-side-copy.component.css']
 })
-export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CustomerSideCopyComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
 
   @ViewChild("canvas") canvas: ElementRef;
   signaturePad: SignaturePad
@@ -52,21 +52,24 @@ export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestr
   myControl = new FormControl();
   myControlland = new FormControl();
 
-  hideHaushaltMain = false
-  hideHaushaltIn1 = true
-  hideContainerMain = true
-  hideContainerIn = true
-  hidemultiCompanyprivatecustomerMain = true
-  hidemultiCompanyprivatecustomerIn = true
-  hideCompanyCustomerMain = true
-  hideCompanyCustomerIn = true
-  HidemultiCompanycustomerMain = false
-  HidemultiCompanycustomerIn = true
-  HidedisabledfamilyMain = true
-  hideCompanyMain = false
-  hideCompanyIn = true
-  HidemultiCompanyMain = false
-  HidemultiCompanyIn = true
+
+  hideValues = {
+    hideHaushaltMain: false,
+    hideHaushaltIn1: true,
+    hideContainerMain: true,
+    hideContainerIn: true,
+    hidemultiCompanyprivatecustomerMain: true,
+    hidemultiCompanyprivatecustomerIn: true,
+    hideCompanyCustomerMain: true,
+    hideCompanyCustomerIn: true,
+    hidemultiCompanycustomerMain: false,
+    hidemultiCompanycustomerIn: true,
+    hidedisabledfamilyMain: true,
+    hideCompanyMain: false,
+    hideCompanyIn: true,
+    hidemultiCompanyMain: false,
+    hidemultiCompanyIn: true
+  };
 
   public signaturePadOptions: Object = {
     minWidth: 2,
@@ -949,7 +952,23 @@ export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestr
     });
     this.routeParamsActive = this.route.snapshot.routeConfig?.path;
 
+    this.userService.selectCustomerSideItem.subscribe(item => {
+      console.log('hiden?', item);
 
+      let itemString = `${item}`
+
+      for (const key of Object.keys(this.hideValues)) {
+        if (key !== itemString) {
+          this.hideValues[key] = true
+          console.log(this.hideValues[key]);
+
+        } else {
+          this.hideValues[key] = false
+          console.log(this.hideValues[key]);
+        }
+      }
+
+    })
 
   }
 
@@ -2481,6 +2500,8 @@ export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestr
       this.get_unread_chat()
     );
 
+
+
   }
 
   getTabList() {
@@ -3587,6 +3608,7 @@ export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestr
     );
   }
 
+
   ngAfterViewInit() {
     console.log('aftervie *********************************');
 
@@ -3832,75 +3854,33 @@ export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestr
       }
     })
 
-    this.userService.selectCustomerSideItem.subscribe(item => {
 
-      const items = [this.hideHaushaltMain, this.hideHaushaltIn1, this.hideContainerMain, this.hideContainerIn, this.hidemultiCompanyprivatecustomerMain,
-      this.hidemultiCompanyprivatecustomerIn, this.hideCompanyCustomerMain, this.hideCompanyCustomerIn, this.HidemultiCompanycustomerMain,
-      this.HidemultiCompanycustomerIn, this.HidedisabledfamilyMain, this.hideCompanyMain, this.hideCompanyIn, this.HidemultiCompanyMain, this.HidemultiCompanyIn]
-
-
-      let itemString = `${item}`
-
-      for (let i = 0; i < items.length; i++) {
-        if (items[i] === false) {
-          
-        }
-      }
-
-      switch (item) {
-        case 'hideHaushaltMain':
-          this.hideHaushaltMain = !this.hideHaushaltMain;
-          break;
-        case 'hideHaushaltIn1':
-          this.hideHaushaltIn1 = !this.hideHaushaltIn1;
-          break;
-        case 'hideContainerMain':
-          this.hideContainerMain = !this.hideContainerMain;
-          break;
-        case 'hideContainerIn':
-          this.hideContainerIn = !this.hideContainerIn;
-          break;
-        case 'hidemultiCompanyprivatecustomerMain':
-          this.hidemultiCompanyprivatecustomerMain = !this.hidemultiCompanyprivatecustomerMain;
-          break;
-        case 'hidemultiCompanyprivatecustomerIn':
-          this.hidemultiCompanyprivatecustomerIn = !this.hidemultiCompanyprivatecustomerIn;
-          break;
-        case 'hideCompanyCustomerMain':
-          this.hideCompanyCustomerMain = !this.hideCompanyCustomerMain;
-          break;
-        case 'hideCompanyCustomerIn':
-          this.hideCompanyCustomerIn = !this.hideCompanyCustomerIn;
-          break;
-        case 'HidemultiCompanycustomerMain':
-          this.HidemultiCompanycustomerMain = !this.HidemultiCompanycustomerMain;
-          break;
-        case 'HidemultiCompanycustomerIn':
-          this.HidemultiCompanycustomerIn = !this.HidemultiCompanycustomerIn;
-          break;
-        case 'HidedisabledfamilyMain':
-          this.HidedisabledfamilyMain = !this.HidedisabledfamilyMain;
-          break;
-        case 'hideCompanyMain':
-          this.hideCompanyMain = !this.hideCompanyMain;
-          break;
-        case 'hideCompanyIn':
-          this.hideCompanyIn = !this.hideCompanyIn;
-          break;
-        case 'HidemultiCompanyMain':
-          this.HidemultiCompanyMain = !this.HidemultiCompanyMain;
-          break;
-        case 'HidemultiCompanyIn':
-          this.HidemultiCompanyIn = !this.HidemultiCompanyIn;
-          break;
-
-        default:
-          break;
-      }
-
-    })
 
   }
+
+
+  ngAfterContentInit(): void {
+    this.hideValues = {
+      hideHaushaltMain: false,
+      hideHaushaltIn1: true,
+      hideContainerMain: true,
+      hideContainerIn: true,
+      hidemultiCompanyprivatecustomerMain: true,
+      hidemultiCompanyprivatecustomerIn: true,
+      hideCompanyCustomerMain: true,
+      hideCompanyCustomerIn: true,
+      hidemultiCompanycustomerMain: false,
+      hidemultiCompanycustomerIn: true,
+      hidedisabledfamilyMain: true,
+      hideCompanyMain: false,
+      hideCompanyIn: true,
+      hidemultiCompanyMain: false,
+      hidemultiCompanyIn: true
+    };
+
+  }
+
+
   isDivisibleBy(num: any) {
     if (num % 5 == 0 && num % 7 == 0) console.log("isDivisibleByHello World");
 
@@ -3908,10 +3888,7 @@ export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestr
 
     if (num % 7 == 0) console.log("isDivisibleByWorld");
   }
-  // ngAfterViewInit() {
 
-  //   // $("#datedynamic").html(todaynew1);
-  // }
   startloader() {
     console.log("startloader");
     $("#loaderouterid").css("display", "block");

@@ -480,7 +480,7 @@
 
                                             <ng-template #multiCompanycustomer>
                                                 <mat-expansion-panel [expanded]="true" class="col-md-12 px-1 ">
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('HidemultiCompanycustomerMain')"
+                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hidemultiCompanycustomerMain')"
                                                         class="col-md-12  px-1 "
                                                         *ngIf="i + 1 == companyData.length"><span
                                                             (click)="tabisclicked(member)"><i class="fa fa-building"
@@ -489,7 +489,7 @@
 
                                                     </mat-expansion-panel-header>
 
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('HidemultiCompanycustomerMain')"
+                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hidemultiCompanycustomerMain')"
                                                         *ngIf="i + 1 != companyData.length" class="col-md-12  px-1 ">
                                                         <span (click)="tabisclicked(member)"><i class="fa fa-building"
                                                                 aria-hidden="true" style="color: black"></i>
@@ -516,7 +516,7 @@
 
                                                             <div *ngFor="let office of officeData;
                                                                 let i = index">
-                                                                <div class="col-md-12 px-1" (click)="clikeditem('HidemultiCompanycustomerIn')"
+                                                                <div class="col-md-12 px-1" (click)="clikeditem('hidemultiCompanycustomerIn')"
                                                                     *ngIf="i + 1 == officeData.length">
                                                                     <span
                                                                         *ngIf=" office.hasOwnProperty('officename'); else noname ">
@@ -535,7 +535,7 @@
                                                                     </button>
                                                                 </div>
 
-                                                                <div class="col-md-12 px-1 " (click)="clikeditem('HidemultiCompanycustomerIn')"
+                                                                <div class="col-md-12 px-1 " (click)="clikeditem('hidemultiCompanycustomerIn')"
                                                                     *ngIf="i + 1 != officeData.length">
                                                                     <span
                                                                         *ngIf=" office.hasOwnProperty('officename'); else noname ">
@@ -572,7 +572,7 @@
                                                 currentActiveRole == 'b2b' &&
                                                 familyData[0].documents == ''
                                               ">
-                                                <mat-expansion-panel-header class="col-md-12 px-1" mat-panel-title (click)="clikeditem('HidedisabledfamilyMain')" >
+                                                <mat-expansion-panel-header class="col-md-12 px-1" mat-panel-title (click)="clikeditem('hidedisabledfamilyMain')" >
                                                     <span (click)=" setCurrentTabUser(familyData[0], 'haushalt')">
                                                         <i class="fa-solid fa-family" style="color: black"></i>
                                                         Haushalt {{ familyData[0].lastname }} </span>&nbsp;
@@ -720,7 +720,7 @@
 
                                     <ng-template #multiCompany>
                                         <mat-expansion-panel [expanded]="true" class="col-12 px-1 ">
-                                            <mat-expansion-panel-header mat-panel-title class="col-12 px-1 " (click)="clikeditem('HidemultiCompanyMain')"><span
+                                            <mat-expansion-panel-header mat-panel-title class="col-12 px-1 " (click)="clikeditem('hidemultiCompanyMain')"><span
                                                     role="button" (click)="
                                                     change_account_name('Firma','Firma','',localData.companyname);
                                                     setCurrentTabUser(localData, 'company')">
@@ -752,7 +752,7 @@
 
                                                     <div *ngFor="let office of userofficeData;
                                                         let i = index">
-                                                        <div class="col-md-12 d-flex flex-column" (click)="clikeditem('HidemultiCompanyIn')"
+                                                        <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hidemultiCompanyIn')"
                                                             *ngIf="i + 1 == userofficeData.length">
                                                             <span (click)="setCurrentTabUser(office, 'branch')"
                                                                 *ngIf="office.hasOwnProperty('officename'); else noname ">
@@ -772,7 +772,7 @@
                                                             </button>
                                                         </div>
 
-                                                        <div *ngIf="i + 1 != userofficeData.length" (click)="clikeditem('HidemultiCompanyIn')">
+                                                        <div *ngIf="i + 1 != userofficeData.length" (click)="clikeditem('hidemultiCompanyIn')">
                                                             <span (click)="setCurrentTabUser(office, 'branch')"
                                                                 *ngIf=" office.hasOwnProperty('officename'); else noname ">
                                                                 {{ office.officename }}
