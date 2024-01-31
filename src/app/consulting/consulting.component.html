@@ -36,13 +36,13 @@
                                 </span>
                             </button>
                         </div>
-                        <mat-horizontal-stepper linear #consultStepper 
+                        <mat-horizontal-stepper linear #consultStepper
                             ngClass="{{ 'last-edited-step-' + consultStepper.selectedIndex }}">
                             <ng-template matStepperIcon="edit">
                                 <mat-icon>check</mat-icon>
                                 <!-- <mat-icon *ngIf="!myControl.valid">close</mat-icon> -->
                             </ng-template>
-                            <mat-step [stepControl]="myControl" >
+                            <mat-step [stepControl]="myControl">
                                 <div class="w-75">
                                     <ng-template matStepLabel>
                                         <span>Kunden</span>
@@ -61,7 +61,7 @@
                                             appearance="outline"
                                             style=" width: 100%;background: white;border-radius: 10px;">
                                             <input type="text" placeholder="Haushalt / Firma auswählen"
-                                                 aria-label="Number" matInput [formControl]="myControl"
+                                                aria-label="Number" matInput [formControl]="myControl"
                                                 [matAutocomplete]="auto"
                                                 (change)="currentCustomer = $any($event.target).value" />
                                             <mat-autocomplete #auto="matAutocomplete"
@@ -95,23 +95,10 @@
                                 </div> -->
                             </mat-step>
                             <!-- 2ND STEP START -->
-                            <mat-step [stepControl]="step2Control"  >
+                            <mat-step [stepControl]="step2Control">
                                 <div class="w-75">
                                     <ng-template matStepLabel>
                                         <span>Ausgewählter Mitglied</span>
-                                        <ng-container *ngIf="selectedBranchList.length > 0 else haushalt">
-                                            <div class="underKundenHead rounded-sm "
-                                                *ngFor="let member of selectedBranchList">
-                                                {{ member.name }}
-                                            </div>
-                                        </ng-container>
-                                        <ng-template #haushalt>
-                                            <div class="underKundenHead rounded-sm ">
-                                                <ng-container *ngFor="  let member of selectedMemberList">
-                                                    {{ member.name }}
-                                                </ng-container>
-                                            </div>
-                                        </ng-template>
                                     </ng-template>
                                     <div *ngIf="kundetype !== 'Firma'">
                                         <div class="mt-5 mb-4">
@@ -120,7 +107,8 @@
                                                 aus
                                             </p>
                                         </div>
-                                        <div *ngIf="showmembers" class="d-flex align-items-center pl-1 pr-2 gradient py-1"
+                                        <div *ngIf="showmembers"
+                                            class="d-flex align-items-center pl-1 pr-2 gradient py-1"
                                             style="border-radius: 10px">
                                             <mat-form-field
                                                 class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient"
@@ -128,7 +116,7 @@
                           width: 100%;
                           background: white;
                           border-radius: 10px;
-                        " >
+                        ">
                                                 <!-- <mat-label>Haushaltsmitglied auswählen
                                     </mat-label> -->
                                                 <!-- (keyup.enter)="patchmembervalue($event)"
@@ -144,7 +132,7 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
-                                            <mat-icon  class="ml-2" style="color: white">search
+                                            <mat-icon class="ml-2" style="color: white">search
                                             </mat-icon>
                                         </div>
                                         <div *ngIf="selectedMemberList.length > 0" class="list-box text-start p-1 pt-2">
@@ -241,12 +229,12 @@
                                 <div class="d-flex justify-content-center align-items-center w-100 m-auto mt-5 p-3">
                                     <div role="button" (mouseover)="hoverOnKunden = true"
                                         (mouseleave)=" hoverOnKunden = false" (click)="setContractType('privatkunde')"
-                                        class="d-flex flex-column align-items-center justify-content-center mr-2"
+                                        class="d-flex flex-column  align-items-center justify-content-center mr-2"
                                         style="width:250px;height:250px;border-radius:6px;border:1px solid #02a8ec;"
                                         [ngClass]="{'gradient':hoverOnKunden}">
                                         <img *ngIf="!hoverOnKunden" src="assets/kundendaten.svg">
                                         <img *ngIf="hoverOnKunden" src="assets/kundendaten-active.svg">
-                                        <span class="m-0 mt-3 w-50 text-center"
+                                        <span class="m-0 mt-3 text-center"
                                             [ngStyle]="{'color':hoverOnKunden? 'white' : '#000', 'font-family': 'Open Sans','font-weight':'700','font-size':'20px'  }">
                                             KUNDENDATEN
                                             AKTUALISIEREN</span>
@@ -261,7 +249,7 @@
                                         [ngClass]="{'gradient':hoverOnproduktberatung }">
                                         <img *ngIf="!hoverOnproduktberatung" src="assets/produktberatung.svg">
                                         <img *ngIf="hoverOnproduktberatung" src="assets/produktberatung-active.svg">
-                                        <span class="m-0 mt-3 text-center" 
+                                        <span class="m-0 mt-3 text-center"
                                             [ngStyle]="{'color':hoverOnproduktberatung ? 'white' : '#000', 'font-family': 'Open Sans','font-weight':'700','font-size':'20px' }">
                                             PRODUKTBERATUNG
                                             STARTEN</span>
@@ -284,8 +272,6 @@
                             <mat-step>
                                 <ng-template matStepLabel>
                                     <span>Fragetyp</span>
-                                    <div class="underKundenHead rounded-sm "
-                                        *ngFor="let product of selectedProductTypeList;">{{product.name}}</div>
                                 </ng-template>
                                 <div *ngIf="contractType === 'firmakunde'" class="w-75">
                                     <div class="mt-5 mb-4" style="color: #454c58; font-weight: 500; font-size: 20px">
@@ -407,7 +393,7 @@
                         </mat-horizontal-stepper>
                     </div>
                     <div class="d-flex justify-content-between align-items-end mb-4 mx-auto"
-                        style="width: 98%; height: 150px">
+                        style="width: 98%; height: 50px">
                         <button type="button" (click)="goBack(consultStepper)"
                             class="btn btn-primary primary-btn gradient" [hidden]="hiddenPrevButton(consultStepper)">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Zurück
@@ -456,7 +442,8 @@
     <div class="modal fade p-0" id="questionAnswerModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false"
         style="overflow: hidden">
-        <div class="modal-dialog" style="max-width: 95%; height: 95%; overflow-y: initial" role="document">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 95%; height: 95%; overflow-y: initial"
+            role="document">
             <div class="modal-content" style="height: 95%">
                 <div class="modal-header d-flex justify-content-between align-items-center">
                     <div class="col-md-6 px-2 py-1 d-flex align-items-center"
@@ -511,7 +498,7 @@
                     </button>
                 </div>
                 <div class="modal-body overflow-auto">
-                    <mat-horizontal-stepper #QAStepper style="height: 100%">
+                    <mat-horizontal-stepper #QAStepper class="qa-stepper" style="height: 100%">
                         <ng-template matStepperIcon="edit">
                             <mat-icon>check</mat-icon>
                         </ng-template>
@@ -522,13 +509,24 @@
                                 </ng-template>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div *ngIf="kundetype != 'Firma'"
-                                            class="p-2 h-100 d-flex flex-column justify-content-start" style="
+                                        <div class="p-2 h-75 d-flex flex-column justify-content-start" style="overflow-y: auto;
+                        background-image: linear-gradient(#02a9ed, #17459b);
+                        border-radius: 6px; min-height: 58vh !important;">
+                                            <div style="background-color: white; border-radius: 6px"
+                                                class="m-0 mb-3 p-2 d-flex justify-content-between align-items-center">
+                                                <span>Frage: {{ answeredCount() }} /
+                                                    {{ questionCounter }}</span><img src="../assets/infoIcon.svg" />
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- <div *ngIf="kundetype != 'Firma'"
+                                            class="p-2 h-75 d-flex flex-column justify-content-start" style="
                         overflow-y: auto;
                         background-image: linear-gradient(#02a9ed, #17459b);
                         border-radius: 6px;
                         min-height: 58vh !important;
-                        max-height: 65vh;
                       ">
                                             <div role="button" style="background: #ffffff38"
                                                 class="rounded p-2 text-white mt-3"
@@ -544,12 +542,12 @@
                                             </div>
                                         </div>
                                         <div *ngIf="kundetype == 'Firma'"
-                                            class="p-2 h-100 d-flex flex-column justify-content-start" style="
+                                            class="p-2 h-75 d-flex flex-column justify-content-start" style="
                         overflow-y: auto;
                         background-image: linear-gradient(#02a9ed, #17459b);
                         border-radius: 6px;
                         min-height: 58vh !important;
-                        max-height: 65vh;
+                        /* max-height: 65vh; */
                       ">
                                             <div role="button" style="background: #ffffff38"
                                                 class="rounded p-2 text-white mt-3"
@@ -563,10 +561,13 @@
                                                     {{ branch.name }}
                                                 </p>
                                             </div>
-                                        </div>
+                                        </div> -->
+
+
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-body" *ngIf="currentUserInfo && currentUserInfo._id">
+                                    <div class="col-md-8" style="border: 1px solid #4a4a4a29;border-radius:5px">
+                                        <div class="form-body" style="padding: 0px 7px 0px 7px;"
+                                            *ngIf="currentUserInfo && currentUserInfo._id">
                                             <div class="row">
                                                 <div role="button" class="Persönliche-Informationen mb-3" (click)="
                             opened_tab.personal_data = !opened_tab.personal_data
@@ -631,7 +632,7 @@
                                                             <input matInput readonly value="{{ currentUserInfo.email }}"
                                                                 placeholder="E-Mail" />
                                                         </mat-form-field>
-                                                        <img src="./assets/email_120x120.png"
+                                                        <img src="../../assets/icons/Green_tick.svg"
                                                             class="mr-2 editEmailVLogo"
                                                             *ngIf="localData.email_verify == 1" />
                                                     </div>
@@ -655,7 +656,7 @@
                                     : currentUserInfo.phoneno
                                 }}" />
                                                         </mat-form-field>
-                                                        <img src="./assets/phone_verified_120x120.png"
+                                                        <img src="../../assets/icons/Green_tick.svg"
                                                             class="mr-2 ml-2 editPhoneVLogo"
                                                             *ngIf="localData.mobile_verify == 1" />
                                                     </div>
@@ -745,6 +746,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -767,13 +769,9 @@
                                 </ng-template>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="p-2 h-100 d-flex flex-column justify-content-start" style="
-                        overflow-y: auto;
+                                        <div class="p-2 h-75 d-flex flex-column justify-content-start" style="overflow-y: auto;
                         background-image: linear-gradient(#02a9ed, #17459b);
-                        border-radius: 6px;
-                        min-height: 58vh !important;
-                        max-height: 65vh;
-                      ">
+                        border-radius: 6px; min-height: 58vh !important;">
                                             <div style="background-color: white; border-radius: 6px"
                                                 class="m-0 mb-3 p-2 d-flex justify-content-between align-items-center">
                                                 <span>Frage: {{ answeredCount() }} /
@@ -815,7 +813,7 @@
                                                             <div *ngFor="let item of tab.list; let k = index"
                                                                 class="d-flex justify-content-between align-items-center p-2">
                                                                 <div role="button"
-                                                                    class="d-flex justify-content-start align-items-center w-100"
+                                                                    class="d-flex justify-content-start align-items-center w-75"
                                                                     (click)="
                                     questionIndex = k;
                                     setCurrentQuestion(i, j, k, item)
@@ -825,7 +823,7 @@
                                       j === currentQuestionObject.tabIndex &&
                                       k === currentQuestionObject.questionIndex
                                         ? 'active-circle'
-                                        : 'circle'  
+                                        : 'circle'
                                     " class="mr-2 rounded-circle">
                                                                         {{ k + 1 }}
                                                                     </div>
@@ -868,9 +866,10 @@
                                             </mat-accordion>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 d-flex flex-column justify-content-between">
-                                        <div>
-                                            <div class="col-md-12" *ngIf="
+                                    <div class="col-md-8 d-flex flex-column justify-content-between"
+                                        style="border: 1px solid #4a4a4a29;border-radius:5px">
+                                        <div style="padding: 7px;" class="h-100">
+                                            <div class="col-md-12 p-0" *ngIf="
                           currentQuestionObject.question &&
                           currentQuestionObject.question.questionname
                         ">
@@ -881,9 +880,8 @@
                             font-size: 20px;
                             background-color: #f2f2f2;
                           " class="rounded d-flex justify-content-start align-items-center p-2">
-                                                    <span class="mr-2 rounded-circle p-1 text-center" style="
+                                                    <span class="mr-2 rounded-circle py-1 px-2 text-center" style="
                               background-color: #454c58;
-                              width: 38px;
                               color: white;
                             ">{{ currentQuestionObject.questionIndex + 1 }}</span>
                                                     <span
@@ -898,7 +896,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12" *ngIf="currentQuestionObject.question.type == 'mcq'">
+                                            <div class="col-md-12 p-0 justify-content-center align-items-center h-75"
+                                                *ngIf="currentQuestionObject.question.type == 'mcq'">
                                                 <div style="margin-top: 26px" *ngIf="
                             currentQuestionObject.question.option.length > 0
                           ">
@@ -936,7 +935,8 @@
                                       currentQuestionObject.question
                                         .option_fields[j].option3 ==
                                       'Kurze Antwort'
-                                    " class="col-md-12 p-0" style="display: inline-block">
+                                    " class="col-md-12 p-0 d-flex justify-content-center align-items-center h-100 flex-column"
+                                                                        style="display: inline-block">
                                                                         <p class="text-start"
                                                                             style="font-weight: 500; color: #454c58">
                                                                             <span>Antwort Eingeben</span>&nbsp;<span
@@ -946,7 +946,7 @@
                                           'Erforderlich'
                                         " style="color: red">*</span>
                                                                         </p>
-                                                                        <div class="d-flex align-items-center px-1 gradient py-1"
+                                                                        <div class="d-flex col-md-8 align-items-center px-1 gradient py-1"
                                                                             style="border-radius: 10px">
                                                                             <mat-form-field appearance="outline" style="
                                           width: 100%;
@@ -974,7 +974,8 @@
                                       currentQuestionObject.question
                                         .option_fields[j].option3 ==
                                       'Lange Antwort'
-                                    " class="col-md-12 p-0" style="display: inline-block">
+                                    " class="col-md-12 p-0 d-flex justify-content-center align-items-center h-100 flex-column"
+                                                                        style="display: inline-block">
                                                                         <p class="text-start"
                                                                             style="font-weight: 500; color: #454c58">
                                                                             <span>Antwort Eingeben</span>&nbsp;<span
@@ -984,7 +985,7 @@
                                           'Erforderlich'
                                         " style="color: red">*</span>
                                                                         </p>
-                                                                        <div class="d-flex align-items-center px-1 gradient py-1"
+                                                                        <div class="d-flex col-md-8 align-items-center px-1 gradient py-1"
                                                                             style="border-radius: 10px">
                                                                             <mat-form-field appearance="outline" style="
                                           width: 100%;
@@ -1357,19 +1358,20 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12"
+                                            <div class="col-md-12 p-0 justify-content-center align-items-center h-75"
                                                 *ngIf="currentQuestionObject.question.type == 'input'">
                                                 <div *ngIf="
                             currentQuestionObject.question.option3 ==
                             'Kurze Antwort'
-                          " class="col-md-12 p-0" style="display: inline-block">
+                          " class="col-md-12 p-0 d-flex justify-content-center align-items-center h-100 flex-column"
+                                                    style="display: inline-block">
                                                     <p class="text-start" style="font-weight: 500; color: #454c58">
                                                         <span>Antwort Eingeben</span>&nbsp;<span *ngIf="
                                 currentQuestionObject.question.option[0] ==
                                 'Erforderlich'
                               " style="color: red">*</span>
                                                     </p>
-                                                    <div class="d-flex align-items-center px-1 gradient py-1"
+                                                    <div class="d-flex col-md-8 align-items-center px-1 gradient py-1"
                                                         style="border-radius: 10px">
                                                         <mat-form-field appearance="outline" style="
                                 width: 100%;
@@ -1392,14 +1394,15 @@
                                                 <div *ngIf="
                             currentQuestionObject.question.option3 ==
                             'Lange Antwort'
-                          " class="col-md-12 p-0" style="display: inline-block">
+                          " class="col-md-12 p-0 d-flex justify-content-center align-items-center h-100 flex-column"
+                                                    style="display: inline-block">
                                                     <p class="text-start" style="font-weight: 500; color: #454c58">
                                                         <span>Antwort Eingeben</span>&nbsp;<span *ngIf="
                                 currentQuestionObject.question.option[0] ==
                                 'Erforderlich'
                               " style="color: red">*</span>
                                                     </p>
-                                                    <div class="d-flex align-items-center px-1 gradient py-1"
+                                                    <div class="d-flex col-md-8 align-items-center px-1 gradient py-1"
                                                         style="border-radius: 10px">
                                                         <mat-form-field
                                                             class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin"
@@ -1714,7 +1717,7 @@
 
                                         <div class="d-flex justify-content-between align-items-center"
                                             *ngIf="tabQuestionsLength !== 0" style="
-                        margin-top: 10px;
+                        margin-bottom: 10px;
                         width: 96%;
                         margin-left: auto;
                         margin-right: auto;
@@ -1756,7 +1759,7 @@
                                         class="btn btn-primary primary-btn gradient">
                                         <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Zurück
                                     </button>
-                                    <button *ngIf="questionList.length > 0" matStepperNext type="button"
+                                    <button *ngIf="questionList.length > 0 " matStepperNext type="button"
                                         class="btn btn-primary primary-btn gradient" [disabled]="submitValidation()">
                                         Weiter&nbsp;
                                         <i class="fa fa-arrow-right" aria-hidden="true"></i>

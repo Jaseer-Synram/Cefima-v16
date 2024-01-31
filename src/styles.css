@@ -26,7 +26,7 @@ body {
 html {
     --mdc-outlined-text-field-caret-color: #4c8bf1 !important;
     --mdc-outlined-text-field-focus-outline-color: #4c8bf1 !important;
-  
+
     --mdc-filled-text-field-caret-color: #4c8bf1 !important;
     --mdc-filled-text-field-focus-active-indicator-color: #4c8bf1 !important;
     --mdc-filled-text-field-focus-label-text-color: #4c8bf1 !important;
@@ -64,7 +64,7 @@ html {
     --mdc-outlined-text-field-error-hover-outline-color: #f44336;
     --mdc-outlined-text-field-error-outline-color: #f44336;
     --mat-form-field-disabled-input-text-placeholder-color: rgba(0, 0, 0, 0.38);
-  }
+}
 
 
 .mat-list-base .mat-list-item .mat-list-item-content,
@@ -962,6 +962,13 @@ img {
     background-color: var(--defaultColor) !important;
 }
 
+.mat-step-header {
+    margin: 5px;
+    border-radius: 10px;
+}
+
+
+
 .mat-calendar-body-selected {
     background-color: var(--defaultColor) !important;
 }
@@ -1331,6 +1338,14 @@ button.sparte {
     top: -20px ; */
     color: transparent !important;
 }
+
+/* Question stepper */
+
+.modal>.modal-dialog>.modal-content>.modal-body>.qa-stepper.mat-stepper-horizontal>.mat-horizontal-stepper-wrapper>.mat-horizontal-stepper-header-container {
+    display: none !important;
+}
+
+/* question stepper end */
 
 
 /* MY CSS END HERE */

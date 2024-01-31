@@ -186,7 +186,7 @@
 
                         </mat-step>
 
-                        <mat-step>
+                        <mat-step [stepControl]="dokumenttypStep">
                             <ng-template matStepLabel>
                                 <span>Dokumenttyp</span>
                                 <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderDokumenttyp}}</div>
@@ -308,7 +308,7 @@
 
 
 
-                        <mat-step>
+                        <mat-step [stepControl]="ProdukttypStep">
                             <ng-template matStepLabel>
                                 <span>Produkttyp</span>
                                 <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderProdukttyp}}</div>
@@ -416,7 +416,7 @@
                                 </div>
                             </div>
                         </mat-step>
-                        <mat-step *ngIf=" document_type != 'Allgemeines Dokument'">
+                        <mat-step [stepControl]="ProductsControl" *ngIf=" document_type != 'Allgemeines Dokument'" >
                             <ng-template matStepLabel>
                                 <span>Produktpartner</span>
                                 <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderProduktPartner}}</div>

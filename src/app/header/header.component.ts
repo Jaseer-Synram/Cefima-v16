@@ -59,13 +59,13 @@ export class HeaderComponent implements OnInit {
     } else if (this.router.url.includes("add-module-subscription")) {
       this.opened_page_title = "NEOLOOP Produkte / Abo Hinzufügen";
     } else if (this.router.url.includes("customer")) {
-      this.opened_page_title = "Customer";
+      this.opened_page_title = "Kunden";
     } else if (this.router.url.includes("kunde-home")) {
       this.opened_page_title = "Kunde Home";
     } else if (this.router.url.includes("b2b-dashboard")) {
       this.opened_page_title = "B2B Dashboard";
     } else if (this.router.url.includes("consulting")) {
-      this.opened_page_title = "Consulting";
+      this.opened_page_title = "Beratung ";
     } else {
       this.opened_page_title = "Neoloop";
     }

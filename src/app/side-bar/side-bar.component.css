@@ -1,5 +1,34 @@
 .not-active {
   color: #ffffff !important;
+  background: transparent;
+}
+
+.stepper-btn1{
+  border: none;
+  background: transparent;
+  color: black;
+  padding: 2px 2px 2px 2px;
+}
+
+:host ::ng-deep.side.mat-accordion>.mat-expansion-panel{
+  background: transparent;
+  border: none;
+}
+
+
+
+.stepper-btn1 span:focus{
+  border: none;
+  background: transparent;
+  color: black;
+  text-decoration: underline;
+}
+
+.stepper-btn1 span:hover{
+  border: none;
+  background: white;
+  color: black;
+  text-decoration: underline;
 }
 
 .mat-nav-list .mat-list-item:hover {
@@ -14,6 +43,7 @@
   margin: 0 auto;
   color: black;
 }
+
 .left-arrow img {
   position: absolute;
   right: 30%;
@@ -27,20 +57,42 @@
   font-size: 15px;
   /* margin-bottom: 40px !important; */
 }
-.parent{
+
+.parent {
   height: fit-content;
 }
 
-:host ::ng-deep .mdc-list-item__content{
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-
-/* :host ::ng-deep .mdc-list-item__primary-text{
+:host ::ng-deep .mdc-list-item__content {
   display: flex;
   align-items: center;
-} */
+  text-align: center;
+}
+
+:host ::ng-deep .kunden_panel.mat-expansion-panel{
+  /* margin-left: 6px; */
+  box-shadow: none;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  background: transparent !important;
+  max-width: 100%;
+  color: black;
+}
+
+:host ::ng-deep .kunden_panel.active.mat-expansion-panel {
+  margin-left: 6px;
+  box-shadow: none;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  background: #fff !important;
+  border-radius: 10px;
+  max-width: 100%;
+  margin: 0 auto;
+  color: black;
+}
 
 
 
@@ -54,7 +106,7 @@
   color: black !important;
 }
 
-:host ::ng-deep.mat-mdc-icon-button img{
+:host ::ng-deep.mat-mdc-icon-button img {
   width: 50px !important;
   height: 40px;
 }

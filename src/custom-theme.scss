@@ -441,6 +441,20 @@ $Frontend-theme: mat.define-light-theme((color:(primary:$Frontend-primary,
   }
 }
 
+// :host::ng-deep.modal>.modal-dialog>.modal-content>.modal-body>.qa-stepper.mat-stepper-horizontal>.mat-horizontal-stepper-wrapper.mat-horizontal-stepper-header-container {
+//   display: none !important;
+// }
+
+// :host::ng-deep#questionAnswerModal.modal>.modal-dialog>.modal-content>.modal-body>.qa-stepper.mat-stepper-horizontal>.mat-horizontal-stepper-wrapper.mat-horizontal-stepper-header-container {
+//   display: none !important;
+// }
+
+// :host::ng-deep [questionAnswerModal],
+// .modal>.modal-dialog>.modal-content>.modal-body>.qa-stepper.mat-stepper-horizontal>.mat-horizontal-stepper-wrapper.mat-horizontal-stepper-header-container {
+//   display: none !important;
+// }
+
+
 
 @mixin styleEditedStepIcon($index) {
   .mat-horizontal-stepper-header:nth-child(#{$index}) {

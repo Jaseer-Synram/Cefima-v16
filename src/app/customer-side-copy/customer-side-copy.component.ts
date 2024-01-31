@@ -32,11 +32,11 @@ const defaultPrecisionMap: unitPrecisionMap = {
 };
 declare var $: any;
 @Component({
-  selector: 'app-customer-side',
-  templateUrl: './customer-side.component.html',
-  styleUrls: ['./customer-side.component.css']
+  selector: 'app-customer-side-copy',
+  templateUrl: './customer-side-copy.component.html',
+  styleUrls: ['./customer-side-copy.component.css']
 })
-export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CustomerSideCopyComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild("canvas") canvas: ElementRef;
   signaturePad: SignaturePad
@@ -52,7 +52,21 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   myControl = new FormControl();
   myControlland = new FormControl();
 
-
+  hideHaushaltMain = false
+  hideHaushaltIn1 = true
+  hideContainerMain = true
+  hideContainerIn = true
+  hidemultiCompanyprivatecustomerMain = true
+  hidemultiCompanyprivatecustomerIn = true
+  hideCompanyCustomerMain = true
+  hideCompanyCustomerIn = true
+  HidemultiCompanycustomerMain = false
+  HidemultiCompanycustomerIn = true
+  HidedisabledfamilyMain = true
+  hideCompanyMain = false
+  hideCompanyIn = true
+  HidemultiCompanyMain = false
+  HidemultiCompanyIn = true
 
   public signaturePadOptions: Object = {
     minWidth: 2,
@@ -1712,15 +1726,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnInit() {
 
-    console.log('haushalt if:' , !this.localData.hasOwnProperty('companytype') ||
-    this.localData.companytype == ' ' ||
-    this.localData.companytype == '' ||
-    this.localData.companytype == null);
-    
-    console.log('company if:' , this.localData.companytype ==
-    'Eingetragener Kaufmann (e.K.)' ||
-    this.localData.companytype == 'Einzelunternehmen');
-      
+    console.log('haushalt if:', !this.localData.hasOwnProperty('companytype') ||
+      this.localData.companytype == ' ' ||
+      this.localData.companytype == '' ||
+      this.localData.companytype == null);
+
+    console.log('company if:', this.localData.companytype ==
+      'Eingetragener Kaufmann (e.K.)' ||
+      this.localData.companytype == 'Einzelunternehmen');
+
 
     this.currentid = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
@@ -1814,16 +1828,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companyData = [];
     this.api_url = environment.API_URL;
     this.legalrepresentativeform().push(this.newlegalrepresentativeform());
-    console.log('customerid',this.customerid);
-    
+    console.log('customerid', this.customerid);
+
     // this.legalrepresentativeform2().push(this.newlegalrepresentativeform2());
     this.userService
       .getEditUser(this.customerid)
       .pipe(first())
       .subscribe((user: any) => {
         this.localData = user;
-        console.log('localData',this.localData);
-        
+        console.log('localData', this.localData);
+
         this.getTabList();
         console.log("brokername1");
         console.log("this is user local data", this.localData);
@@ -3804,19 +3818,87 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("userofficeData" + JSON.stringify(userofficedata));
       });
 
-      this.userService.invokeFunctionInCustomerSide.subscribe(data => {
-        if(data[0] == 'setCurrentTabUser'){
-          this.setCurrentTabUser(data[1],data[2])
-        } else if(data[0] == 'change_account_name') {
-          this.change_account_name(data[1],data[2],data[3],data[4],data[5])
-        } else if(data[0] == 'tabisclicked'){
-          this.tabisclicked(data[1])
-        } else if(data[0] == 'savecompanyId') {
-          this.savecompanyId(data[1]);
-        } else if (data[0] == 'remove_border'){
-          this.remove_border(data[1])
+    this.userService.invokeFunctionInCustomerSide.subscribe(data => {
+      if (data[0] == 'setCurrentTabUser') {
+        this.setCurrentTabUser(data[1], data[2])
+      } else if (data[0] == 'change_account_name') {
+        this.change_account_name(data[1], data[2], data[3], data[4], data[5])
+      } else if (data[0] == 'tabisclicked') {
+        this.tabisclicked(data[1])
+      } else if (data[0] == 'savecompanyId') {
+        this.savecompanyId(data[1]);
+      } else if (data[0] == 'remove_border') {
+        this.remove_border(data[1])
+      }
+    })
+
+    this.userService.selectCustomerSideItem.subscribe(item => {
+
+      const items = [this.hideHaushaltMain, this.hideHaushaltIn1, this.hideContainerMain, this.hideContainerIn, this.hidemultiCompanyprivatecustomerMain,
+      this.hidemultiCompanyprivatecustomerIn, this.hideCompanyCustomerMain, this.hideCompanyCustomerIn, this.HidemultiCompanycustomerMain,
+      this.HidemultiCompanycustomerIn, this.HidedisabledfamilyMain, this.hideCompanyMain, this.hideCompanyIn, this.HidemultiCompanyMain, this.HidemultiCompanyIn]
+
+
+      let itemString = `${item}`
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i] === false) {
+          
         }
-      })
+      }
+
+      switch (item) {
+        case 'hideHaushaltMain':
+          this.hideHaushaltMain = !this.hideHaushaltMain;
+          break;
+        case 'hideHaushaltIn1':
+          this.hideHaushaltIn1 = !this.hideHaushaltIn1;
+          break;
+        case 'hideContainerMain':
+          this.hideContainerMain = !this.hideContainerMain;
+          break;
+        case 'hideContainerIn':
+          this.hideContainerIn = !this.hideContainerIn;
+          break;
+        case 'hidemultiCompanyprivatecustomerMain':
+          this.hidemultiCompanyprivatecustomerMain = !this.hidemultiCompanyprivatecustomerMain;
+          break;
+        case 'hidemultiCompanyprivatecustomerIn':
+          this.hidemultiCompanyprivatecustomerIn = !this.hidemultiCompanyprivatecustomerIn;
+          break;
+        case 'hideCompanyCustomerMain':
+          this.hideCompanyCustomerMain = !this.hideCompanyCustomerMain;
+          break;
+        case 'hideCompanyCustomerIn':
+          this.hideCompanyCustomerIn = !this.hideCompanyCustomerIn;
+          break;
+        case 'HidemultiCompanycustomerMain':
+          this.HidemultiCompanycustomerMain = !this.HidemultiCompanycustomerMain;
+          break;
+        case 'HidemultiCompanycustomerIn':
+          this.HidemultiCompanycustomerIn = !this.HidemultiCompanycustomerIn;
+          break;
+        case 'HidedisabledfamilyMain':
+          this.HidedisabledfamilyMain = !this.HidedisabledfamilyMain;
+          break;
+        case 'hideCompanyMain':
+          this.hideCompanyMain = !this.hideCompanyMain;
+          break;
+        case 'hideCompanyIn':
+          this.hideCompanyIn = !this.hideCompanyIn;
+          break;
+        case 'HidemultiCompanyMain':
+          this.HidemultiCompanyMain = !this.HidemultiCompanyMain;
+          break;
+        case 'HidemultiCompanyIn':
+          this.HidemultiCompanyIn = !this.HidemultiCompanyIn;
+          break;
+
+        default:
+          break;
+      }
+
+    })
 
   }
   isDivisibleBy(num: any) {
@@ -4955,7 +5037,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       lastname = this.localData.lastname;
     }
-    
+
     if (this.currentActiveRole == "customer") {
       let documentdata = await this._handleImageUpload();
 
@@ -13568,10 +13650,5 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  // open_modal(modalId: any) {
-  //   $("#" + modalId).appendTo("body");
-  // }
-
 
 }
-

@@ -2,7 +2,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { DatePipe } from '@angular/common';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import jsPDF from 'jspdf';
@@ -45,7 +45,7 @@ export class UploadDocumentComponent implements OnInit {
   loginRole = localStorage.getItem("currentActiveRole");
 
   documentList: any;
-  myControl = new FormControl();
+  myControl = new FormControl('',Validators.required);
   myControlnew = new FormControl();
   customerFormGroup!: FormGroup;
   recordCount!: Number;
@@ -92,6 +92,8 @@ export class UploadDocumentComponent implements OnInit {
   hoverBestands = false
   hoverFremdvertrag = false
   hoverAllgemeines = false
+  dokumenttypStep = new FormControl('',Validators.required)
+  ProdukttypStep = new FormControl('',Validators.required)
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -406,6 +408,7 @@ export class UploadDocumentComponent implements OnInit {
   patchnationalityValue(event: any) {
     console.log(this.optionsValue);
     this.myControlnew.reset();
+    this.stepper.next()
     if (this.myControl.value != "") {
 
       for (let i = 0; i < this.optionsValue.length; i++) {
@@ -553,6 +556,7 @@ export class UploadDocumentComponent implements OnInit {
   // this.routeParams = this.activatedRoute.snapshot.routeConfig.path;
 
   GoNext2(document_type: string) {
+    this.dokumenttypStep.setValue('value')
     this.itemToDisplayUnderDokumenttyp = document_type
     console.log(document_type);
     this.document_type = document_type
@@ -608,9 +612,9 @@ export class UploadDocumentComponent implements OnInit {
   ReadyProductsTypeOptions!: string[];
   filteredProductsOptions!: Observable<any>;
   filteredProductsTypeOptions!: Observable<any>;
-  ProductsControl = new FormControl();
+  ProductsControl:FormControl<any> = new FormControl('',Validators.required);
   ProductsTypeControl = new FormControl();
-  ThirdTypeDoc = new FormControl();
+  ThirdTypeDoc: FormControl<any> = new FormControl('',Validators.required);
   ThirdTypeDocOptions!: Observable<any>;
   ShowProductsPartner: boolean = false;
   lastproducttypeid: any = '';
@@ -819,6 +823,7 @@ export class UploadDocumentComponent implements OnInit {
     console.log("ProductsControl" + this.ProductsControl.value.name);
     if (this.ProductsControl.value.name != "") {
       if (this.ProductsControl.value.name) {
+        this.stepper.next()
         this.lastproductpartnerid = this.ProductsControl.value.id;
 
         this.product_partner = this.ProductsControl.value
@@ -840,9 +845,11 @@ export class UploadDocumentComponent implements OnInit {
   ThirdTypeDocValue() {
 
     this.producttypeselected = this.ThirdTypeDoc.value;
-
+    
     console.log("ThirdTypeDoc" + this.ThirdTypeDoc.value);
     if (this.ThirdTypeDoc.value != "") {
+      this.ProdukttypStep.setValue('value')
+      this.stepper.next()
       if (this.ThirdTypeDoc.value) {
         console.log("ThirdTypeDoc" + this.ThirdTypeDoc.value);
         this.ShowButtonStep3 = false;
@@ -857,12 +864,15 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   patchProductTpyeValue(_event: any) {
+    
     this.ReadyProductsOptions = [];
     console.log("ProductsTypeControl" + this.ProductsTypeControl.value.name);
     this.document_sub_typename = this.ProductsTypeControl.value.name
     this.document_sub_type = this.ProductsTypeControl.value.name
     this.itemToDisplayUnderProdukttyp = this.ProductsTypeControl.value.name
     if (this.ProductsTypeControl.value != "") {
+      this.ProdukttypStep.setValue('value')
+      this.stepper.next()
       if (this.ProductsTypeControl.value) {
         this.ShowProductsPartner = true;
         this.ReadyProductsOptions =

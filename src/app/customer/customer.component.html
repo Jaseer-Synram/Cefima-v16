@@ -5,7 +5,8 @@
 <div class="d-flex flex-column app-background">
     <div class="d-flex flex-column">
         <div class="d-flex ">
-            <div  class="d-flex flex-row flex-fill flex-wrap justify-content-center align-items-center" style="gap: 0px;">
+            <div class="d-flex flex-row flex-fill flex-wrap justify-content-center align-items-center"
+                style="gap: 0px;">
                 <div class="col-md-12 p-0  table-min-height">
                     <!-- <div class="table-section">
                 <div class="d-flex justify-content-end customer-search mt-3">
@@ -49,7 +50,8 @@
                                 <!-- (keyup)="filterTable($event)" -->
                                 <!-- (click)="open_modal('addCountryModal')" -->
                                 <div class="col-sm-3 pl-1">
-                                    <button style="width:50%;border: none;" data-toggle="modal" data-target="#addCountryModal"
+                                    <button style="width:50%;border: none;" data-toggle="modal"
+                                        data-target="#addCountryModal"
                                         class="mat-raised-button button-primary botton-hover" (click)="gotonewuser()">
                                         <img src="../assets/add_customerwhite.svg" style="width: 80%;margin-top: 10px;">
                                     </button>
@@ -194,7 +196,7 @@
                             ">
                                                             Aktivieren Geschickt</a>
 
-                                                        <button  *ngIf="
+                                                        <button *ngIf="
                               cl.roles.includes('b2b') ||
                               (cl.companies_with_roles &&
                                 cl.companies_with_roles.includes('cefima_customer'))
@@ -270,7 +272,8 @@
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Sach</h5>
+                    <span style="font-weight: 600;font-size: 23px;" class="modal-title"
+                        id="staticBackdropLabel">Kundendetails</span>
                     <button type="button" style="border: none;width: 32px;background: transparent;"
                         (click)="close_modal('staticBackdrop','staticBackdropParent')" data-dismiss="modal"
                         aria-label="Close">
@@ -292,8 +295,7 @@
                             <div [ngClass]="opened_tab.personal_data ? '' : 'd-none'">
                                 <div class="row">
                                     <div *ngIf="customer && !b2b" class="form-group p-0 col-md-8 d-flex">
-                                        <mat-form-field class="example-full-width col-md-6" appearance="outline"
-                                            >
+                                        <mat-form-field class="example-full-width col-md-6" appearance="outline">
                                             <mat-label>Geschäftszweig</mat-label>
                                             <mat-select matNativeControl formControlName="statusbrand"
                                                 [disabled]="true">
@@ -314,8 +316,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div *ngIf="!customer && b2b" class="form-group p-0 col-md-4">
-                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
-                                            >
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline">
                                             <mat-label>Geschäftszweig</mat-label>
                                             <mat-select matNativeControl formControlName="statusbrand">
                                                 <mat-option *ngFor="let clnew of roleCompaniesbrand['b2b']"
@@ -336,8 +337,7 @@
                                     </div>
 
                                     <div *ngIf="customer && b2b" class="form-group p-0 col-md-4">
-                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
-                                            >
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline">
                                             <mat-label>Geschäftszweig</mat-label>
                                             <mat-select matNativeControl formControlName="statusbrand">
                                                 <mat-option *ngFor="let clnew of roleCompaniesbrandnew"
@@ -368,8 +368,7 @@
                                     </div>
 
                                     <div *ngIf="employee" style="display: none" class="form-group col-md-4 p-0">
-                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
-                                            >
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline">
                                             <mat-label>Geschäftszweig</mat-label>
                                             <mat-select matNativeControl formControlName="employeebrand">
                                                 <mat-option *ngFor="let clnew of roleCompaniesbrand['employee']"
@@ -389,7 +388,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    
+
                                     <div class="form-group col-md-4 p-0" *ngIf="companyTitleShow">
                                         <mat-form-field class="col-md-12" appearance="outline">
                                             <mat-label>Firmenname</mat-label>
@@ -572,8 +571,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="form-group col-md-4 p-0" *ngIf="customer">
-                                        <mat-form-field class="example-full-width col-md-12" appearance="outline"
-                                            >
+                                        <mat-form-field class="example-full-width col-md-12" appearance="outline">
                                             <mat-label>Geschäftszweig</mat-label>
                                             <mat-select matNativeControl formControlName="brokerbrand"
                                                 (selectionChange)="changebrandbroker($event)">

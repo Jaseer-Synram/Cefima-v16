@@ -279,7 +279,7 @@ export class B2bCreateCustomerComponent {
   showmore1 = [false];
   ThirdTypeDocOptions!: Observable<any>;
   ThirdTypeDoc = new FormControl();
-  askquestion!: FormGroup;
+  askquestion = new FormControl('',Validators.required)
   customervalidemail = false;
   companytypevalue = false;
   registerDone = false;
@@ -1200,6 +1200,7 @@ export class B2bCreateCustomerComponent {
       console.log("setKeyval" + this.companyTitle)
       this.itemToDisplayUnderKundenType = 'Haushalt'
     }
+    this.askquestion.setValue('value')
     setTimeout(() => {
       $('#movetonextstep').trigger("click");
     }, 100);

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../environments/environment";
 import * as jwt_decode from "jwt-decode";
-import { Observable, throwError } from "rxjs";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import {
   HttpClient,
@@ -21,6 +21,14 @@ export class UserService {
   kundevalue: any = [];
   type1selected: any = [];
   type2selected: any = [];
+
+  // For passing modal id from sidebar to customer-side comp: By Jaseer
+  modalIdfromSidebar  = new BehaviorSubject('');
+  invokeSideBarRouteFether:BehaviorSubject<any> = new BehaviorSubject('false');
+  invokeFunctionInCustomerSide  = new BehaviorSubject<any[]>(['string1', 'string2']);
+  selectCustomerSideItem:BehaviorSubject<any> = new BehaviorSubject('');
+
+
 
   constructor(private http: HttpClient) { }
 

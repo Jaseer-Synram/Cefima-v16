@@ -63,7 +63,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     id: "",
   };
   id: any
-  myControl = new FormControl("",Validators.required);
+  myControl = new FormControl("", Validators.required);
   currentCustomer = "";
   customerFormGroup: FormGroup;
   recordCount: Number;
@@ -179,7 +179,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   itemToDisplayUnderAuswahlberatung = ''
   itemToDisplayUnderFragTyp = ''
 
-  step2Control = this.currentBranch
+  step2Control = new FormControl('', Validators.required)
 
 
   constructor(
@@ -188,13 +188,13 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private datePipe: DatePipe,
-    private authService: AuthService, 
+    private authService: AuthService,
     private dialog: MatDialog
   ) {
     // this.element = elementRef.nativeElement;
   }
 
-  
+
 
   filtercustomer(success: any, companyName: any) {
     let newsuccess = [];
@@ -253,7 +253,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     this.selectedUser.id = this.id;
     this.componentname = "consulting";
 
-  
+
 
     // this.filteredOptions = this.myControl.valueChanges.pipe(
     //   startWith(""),
@@ -633,6 +633,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   patchnationalityValue(event: any) {
     this.myControlnew.reset();
     console.log("my control value", this.myControl.value);
+    this.consultStepper.next()
     if (this.myControl.value != "") {
       this.currentCustomer = this.myControl.value;
       let words = this.myControl.value.split(' ');
@@ -646,10 +647,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
         if (this.optionsValue[i].name === this.myControl.value) {
           this.id = this.optionsValue[i].id;
           console.log(this.optionsValue[i].title);
-          
-          if (this.optionsValue[i].title == "Firma") {
 
-            this.step2Control = this.currentBranch
+          if (this.optionsValue[i].title == "Firma") {
 
             this.kundetype = "Firma";
             this.company_kunde = false;
@@ -688,9 +687,13 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
                   this.allBranches = branches;
                   this.setBranchesOptions(this.allBranches);
                 });
+
             }
           } else {
-            this.step2Control = this.myControlnew
+            // this.step2Control = this.myControlnew
+            this.step2Control.setValue('value');
+            console.log(this.step2Control.valid);
+
             this.kundetype = " Haushalt " + this.optionsValue[i].lastname;
             this.company_kunde = false;
             $("#loaderouterid").css("display", "block");
@@ -730,6 +733,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     }
   }
   patchmembervalue(event: any) {
+    this.step2Control.setValue('value');
+    console.log(this.step2Control.valid);
     if (this.myControlnew.value != "") {
       for (let i = 0; i < this.optionsValuemembers.length; i++) {
         if (this.optionsValuemembers[i].name === this.myControlnew.value) {
@@ -750,6 +755,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       this.stepTwo = true
       this.ShowButton = false;
     } else {
+      this.step2Control.setValue('value');
+      console.log(this.step2Control.valid);
       this.ShowButton = true;
     }
   }
@@ -859,6 +866,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   }
   deleteMemberFromList(index: any) {
     this.selectedMemberList.splice(index, 1);
+    this.step2Control.setValue(null);
+    console.log(this.step2Control.valid);
   }
 
   open_modal(modalId: any) {
@@ -874,6 +883,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
 
 
   getQuestionsForTabs() {
+    console.log('getQuestions');
+    
     let that = this;
     this.questionList = [];
     let tabName: any = [];
@@ -944,6 +955,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   }
 
   getQuestionsForProductType() {
+    console.log('getQuestionsForProductType');
     let that = this;
     this.questionList = [];
     let tabName: any = [];
@@ -952,6 +964,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     this.userService
       .getAllQuestionsProductType(tabName)
       .subscribe((results: any) => {
+        
         if (this.kundetype.toLowerCase() == "firma") {
           that.selectedBranchList.map((item: any) => {
             let user = this.allCustomerData.find(
@@ -1003,7 +1016,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
             });
           });
         });
-        console.log("question list ------", that.questionList);
+        console.log("question list ------", this.questionList);
       });
 
   }
@@ -2104,6 +2117,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
           icon: "success",
           allowOutsideClick: false,
           title: "Ihre Daten wurden erfolgreich gespeichert.",
+          confirmButtonColor: '#02a9ed'
         }).then(() => {
           this.resetMemberList();
           this.resetContractType();
@@ -2146,6 +2160,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
           icon: "success",
           allowOutsideClick: false,
           title: "Ihre Daten wurden erfolgreich gespeichert.",
+          confirmButtonColor: '#02a9ed'
         }).then(() => {
           this.reloadCurrentRoute();
         });
@@ -2206,6 +2221,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
 
   resetMemberList() {
     this.selectedMemberList = [];
+
   }
 
   resetContractType() {
@@ -2219,6 +2235,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   resetBranchList() {
     this.selectedBranchList = [];
     this.branchesOptions = [];
+
   }
 
   setBranchesOptions(data: any) {
@@ -2235,6 +2252,10 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
 
   setBranchList(event: any) {
     console.log("all customer data", this.allCustomerData);
+    // this.step2Control = this.currentBranch
+    this.step2Control.setValue('value');
+    console.log(this.step2Control.valid);
+    console.log(this.step2Control);
 
     let branch = this.selectedBranchList.find(
       (item: any) => JSON.stringify(item) === JSON.stringify(event.option.value)
@@ -2244,10 +2265,14 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       this.setCurrentUserInfo(this.selectedBranchList[0].id);
     }
     this.currentBranch.setValue("");
+    this.step2Control.setValue('value');
+    console.log(this.step2Control.valid);
   }
 
   deleteBranchFromList(index: any) {
     this.selectedBranchList.splice(index, 1);
+    this.step2Control.setValue(null);
+    console.log(this.step2Control.valid);
   }
 
   getCaseNumber() {
@@ -2397,6 +2422,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       this.currentTab = this.questionList[userIndex].tempList[tabIndex].tabId;
       this.tabIndex = tabIndex;
     } else {
+      this.QAStepper.next()
       console.log("no more question");
     }
     for (let a = 0; a <= userIndex; a++) {
