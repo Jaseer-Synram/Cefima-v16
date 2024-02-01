@@ -17,24 +17,26 @@
 }
 
 
-.online-green{
+.online-green {
     color: #38dc82 !important
 }
 
 @keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 .blink {
-  animation: fadeInOut 1s ease-in-out infinite;
+    animation: fadeInOut 1s ease-in-out infinite;
 }
 
 /* :host ::ng-deep .button-arrow >.mat-mdc-ink-bar:before {

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -36,7 +36,7 @@ declare var $: any;
   templateUrl: './customer-side.component.html',
   styleUrls: ['./customer-side.component.css']
 })
-export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CustomerSideComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
 
   @ViewChild("canvas") canvas: ElementRef;
   signaturePad: SignaturePad
@@ -53,6 +53,23 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   myControlland = new FormControl();
 
 
+  hideValues = {
+    hideHaushaltMain: false,
+    hideHaushaltIn1: true,
+    hideContainerMain: true,
+    hideContainerIn: true,
+    hidemultiCompanyprivatecustomerMain: true,
+    hidemultiCompanyprivatecustomerIn: true,
+    hideCompanyCustomerMain: true,
+    hideCompanyCustomerIn: true,
+    hidemultiCompanycustomerMain: false,
+    hidemultiCompanycustomerIn: true,
+    hidedisabledfamilyMain: true,
+    hideCompanyMain: false,
+    hideCompanyIn: true,
+    hidemultiCompanyMain: false,
+    hidemultiCompanyIn: true
+  };
 
   public signaturePadOptions: Object = {
     minWidth: 2,
@@ -935,7 +952,23 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.routeParamsActive = this.route.snapshot.routeConfig?.path;
 
+    this.userService.selectCustomerSideItem.subscribe(item => {
+      console.log('hiden?', item);
 
+      let itemString = `${item}`
+
+      for (const key of Object.keys(this.hideValues)) {
+        if (key !== itemString) {
+          this.hideValues[key] = true
+          console.log(this.hideValues[key]);
+
+        } else {
+          this.hideValues[key] = false
+          console.log(this.hideValues[key]);
+        }
+      }
+
+    })
 
   }
 
@@ -1712,15 +1745,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnInit() {
 
-    console.log('haushalt if:' , !this.localData.hasOwnProperty('companytype') ||
-    this.localData.companytype == ' ' ||
-    this.localData.companytype == '' ||
-    this.localData.companytype == null);
-    
-    console.log('company if:' , this.localData.companytype ==
-    'Eingetragener Kaufmann (e.K.)' ||
-    this.localData.companytype == 'Einzelunternehmen');
-      
+    console.log('haushalt if:', !this.localData.hasOwnProperty('companytype') ||
+      this.localData.companytype == ' ' ||
+      this.localData.companytype == '' ||
+      this.localData.companytype == null);
+
+    console.log('company if:', this.localData.companytype ==
+      'Eingetragener Kaufmann (e.K.)' ||
+      this.localData.companytype == 'Einzelunternehmen');
+
 
     this.currentid = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
@@ -1814,16 +1847,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companyData = [];
     this.api_url = environment.API_URL;
     this.legalrepresentativeform().push(this.newlegalrepresentativeform());
-    console.log('customerid',this.customerid);
-    
+    console.log('customerid', this.customerid);
+
     // this.legalrepresentativeform2().push(this.newlegalrepresentativeform2());
     this.userService
       .getEditUser(this.customerid)
       .pipe(first())
       .subscribe((user: any) => {
         this.localData = user;
-        console.log('localData',this.localData);
-        
+        console.log('localData', this.localData);
+
         this.getTabList();
         console.log("brokername1");
         console.log("this is user local data", this.localData);
@@ -2466,6 +2499,24 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     this.responseobserve = this.intervallTimer.subscribe(() =>
       this.get_unread_chat()
     );
+
+    this.hideValues = {
+      hideHaushaltMain: false,
+      hideHaushaltIn1: true,
+      hideContainerMain: true,
+      hideContainerIn: true,
+      hidemultiCompanyprivatecustomerMain: true,
+      hidemultiCompanyprivatecustomerIn: true,
+      hideCompanyCustomerMain: true,
+      hideCompanyCustomerIn: true,
+      hidemultiCompanycustomerMain: false,
+      hidemultiCompanycustomerIn: true,
+      hidedisabledfamilyMain: true,
+      hideCompanyMain: false,
+      hideCompanyIn: true,
+      hidemultiCompanyMain: false,
+      hidemultiCompanyIn: true
+    };
 
   }
 
@@ -3573,6 +3624,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+
   ngAfterViewInit() {
     console.log('aftervie *********************************');
 
@@ -3804,21 +3856,47 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("userofficeData" + JSON.stringify(userofficedata));
       });
 
-      this.userService.invokeFunctionInCustomerSide.subscribe(data => {
-        if(data[0] == 'setCurrentTabUser'){
-          this.setCurrentTabUser(data[1],data[2])
-        } else if(data[0] == 'change_account_name') {
-          this.change_account_name(data[1],data[2],data[3],data[4],data[5])
-        } else if(data[0] == 'tabisclicked'){
-          this.tabisclicked(data[1])
-        } else if(data[0] == 'savecompanyId') {
-          this.savecompanyId(data[1]);
-        } else if (data[0] == 'remove_border'){
-          this.remove_border(data[1])
-        }
-      })
+    this.userService.invokeFunctionInCustomerSide.subscribe(data => {
+      if (data[0] == 'setCurrentTabUser') {
+        this.setCurrentTabUser(data[1], data[2])
+      } else if (data[0] == 'change_account_name') {
+        this.change_account_name(data[1], data[2], data[3], data[4], data[5])
+      } else if (data[0] == 'tabisclicked') {
+        this.tabisclicked(data[1])
+      } else if (data[0] == 'savecompanyId') {
+        this.savecompanyId(data[1]);
+      } else if (data[0] == 'remove_border') {
+        this.remove_border(data[1])
+      }
+    })
+
+
 
   }
+
+
+  ngAfterContentInit(): void {
+    this.hideValues = {
+      hideHaushaltMain: false,
+      hideHaushaltIn1: true,
+      hideContainerMain: true,
+      hideContainerIn: true,
+      hidemultiCompanyprivatecustomerMain: true,
+      hidemultiCompanyprivatecustomerIn: true,
+      hideCompanyCustomerMain: true,
+      hideCompanyCustomerIn: true,
+      hidemultiCompanycustomerMain: false,
+      hidemultiCompanycustomerIn: true,
+      hidedisabledfamilyMain: true,
+      hideCompanyMain: false,
+      hideCompanyIn: true,
+      hidemultiCompanyMain: false,
+      hidemultiCompanyIn: true
+    };
+
+  }
+
+
   isDivisibleBy(num: any) {
     if (num % 5 == 0 && num % 7 == 0) console.log("isDivisibleByHello World");
 
@@ -3826,10 +3904,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (num % 7 == 0) console.log("isDivisibleByWorld");
   }
-  // ngAfterViewInit() {
 
-  //   // $("#datedynamic").html(todaynew1);
-  // }
   startloader() {
     console.log("startloader");
     $("#loaderouterid").css("display", "block");
@@ -4955,7 +5030,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       lastname = this.localData.lastname;
     }
-    
+
     if (this.currentActiveRole == "customer") {
       let documentdata = await this._handleImageUpload();
 
@@ -13568,10 +13643,5 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  // open_modal(modalId: any) {
-  //   $("#" + modalId).appendTo("body");
-  // }
-
 
 }
-

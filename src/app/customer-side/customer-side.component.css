@@ -6,20 +6,17 @@
     opacity: 1;
 }
 
+
+
+
 .styletab {
     width: max-content;
 }
 
-:host ::ng-deep.mat-mdc-tab-label-container {
-    flex-grow: unset;
-}
 
-:host ::ng-deep .mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
-    background: linear-gradient(to right, transparent 20px, #02a9ed 20px) !important;
-    height: 3px !important;
-    border-radius: 0px !important;
-    border: none;
-    /* --mdc-tab-indicator-active-indicator-color: #02a9ed; */
+.tabDataHead {
+    font-size: large;
+    text-align: center
 }
 
 :host ::ng-deep.accordion-main .accordion-head ul li {
@@ -73,15 +70,85 @@
     margin-right: 20px !important;
 }
 
+/* my item ********************* */
 
-:host ::ng-deep.mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    /* left: 10px; */
-    display: block;
-    width: 100%;
-    border-bottom: 1px solid #ccc;
+:host ::ng-deep .mat-mdc-tab-body-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
+    box-shadow: 5px 3px 20px 1px #262d3424;
+    background: #fff;
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+:host ::ng-deep .mat-mdc-tab-header {
+    display: flex;
+    overflow: inherit;
+    position: relative;
+    flex-shrink: 0;
+}
+
+:host ::ng-deep .mat-mdc-tab-label-container {
+    display: flex;
+    flex-grow: 1;
+    overflow: initial;
+    z-index: 1;
+}
+
+:host ::ng-deep .mat-mdc-tab-label-container {
+    position: relative;
+    background-image: linear-gradient(283deg, #02a9ed -11.74%, #16499e 110.6%);
+    box-shadow: 5px 3px 20px 1px #262d3424;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+:host ::ng-deep.mdc-tab-indicator__content--underline {
+    background: white !important;
+    height: 100% !important;
+    border-radius: 10px !important;
+    border: none !important;
+}
+
+
+:host ::ng-deep .mdc-tab--active>.mdc-tab-indicator :before {
+    content: "" !important;
+    position: absolute !important;
+    top: 58px;
+    border-bottom: 0px solid #0f67b7;
+    border-top: 0px solid #0f67b7;
+    border-right: 11px solid #0000;
+    border-left: 10px solid #0000;
+    left: 38%;
+    border-width: 26px 15px 0px 15px;
+}
+
+
+:host ::ng-deep .mdc-tab--active .mdc-tab__text-label {
+    color: black !important;
+    font-size: 17px;
+    font-weight: 500;
+    font-family: system-ui;
+    letter-spacing: 0;
+}
+
+:host ::ng-deep .mdc-tab__text-label {
+    color: rgb(255, 255, 255) !important;
+    font-size: 17px;
+    font-weight: 500;
+    font-family: system-ui;
+    letter-spacing: 0;
+}
+
+:host ::ng-deep[id^="mat-tab-label-0-"],
+.mat-mdc-tab-header {
+    --mdc-tab-indicator-active-indicator-height: 0px !important;
+    --mdc-tab-indicator-active-indicator-color: white !important;
 }
 
 :host ::ng-deep.same-size>.mat-mdc-text-field-wrapper {
@@ -97,17 +164,6 @@
     padding: 0 !important;
 }
 
-.Persönliche-Informationen h2 {
-    font-family: Open Sans;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #454c58;
-    float: left;
-    margin-bottom: 0px;
-    margin-top: 3px;
-}
 
 
 .stepper-btn1 {

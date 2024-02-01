@@ -56,8 +56,8 @@ const routes: Routes = [
       {
         path: 'kunde-home',
         loadChildren: () =>
-          import('../customer-side-copy/customer-side-copy.module').then(
-            (m) => m.CustomerSideCopyModule
+          import('../customer-side/customer-side.module').then(
+            (m) => m.CustomerSideModule
           ),
         canActivate: [AuthGuardService],
         data: { roles: ['customer'] },

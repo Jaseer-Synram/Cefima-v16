@@ -55,15 +55,12 @@
                                 <mat-expansion-panel [expanded]="true" *ngIf="!localData.hasOwnProperty('companytype') ||
                                     localData.companytype == ' ' || localData.companytype == '' ||
                                     localData.companytype == null;else company">
-                                    <mat-expansion-panel-header (click)="clikeditem('hideHaushaltMain') ">
-                                        <mat-panel-title>
-                                            <span
-                                                (click)="
+                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideHaushaltMain') ">
+                                            <span (click)="
                                             change_account_name( 'Haushalt', localData.usertitle, localData.firstname,
                                             localData.lastname, localData._id ); setCurrentTabUser(localData, 'haushalt')">
                                                 <i class="fa-solid fa-family" style="color: black"></i>
                                                 Haushalt {{ localData.lastname }} </span>
-                                        </mat-panel-title>
 
                                     </mat-expansion-panel-header>
 
@@ -100,7 +97,7 @@
                                                     <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideHaushaltIn1')"
                                                         class="col-md-3 overflow-hidden"
                                                         *ngIf="i + 1 == familyData.length">
-                                                        <span (click)=" change_account_name( 'Haushalt',
+                                                        <span style="color: black" (click)=" change_account_name( 'Haushalt',
                                                             member.title, member.firstname, member.lastname, member._id );
                                                             setCurrentTabUser(member, 'haushalt');clikeditem('hideHaushaltIn1') ">
                                                             <i class="fa fa-user" aria-hidden="true"
@@ -113,7 +110,7 @@
 
                                                     <mat-expansion-panel-header mat-panel-title  (click)="clikeditem('hideHaushaltIn1')"
                                                         *ngIf="i + 1 != familyData.length">
-                                                        <span (click)=" change_account_name( 'Haushalt',
+                                                        <span style="color: black" (click)=" change_account_name( 'Haushalt',
                                                         member.title, member.firstname, member.lastname, member._id );
                                                         setCurrentTabUser(member, 'haushalt')  ">
                                                             <i class="fa fa-user" aria-hidden="true"
@@ -806,6 +803,10 @@
 
                                 </ng-template>
 
+
+                            </mat-accordion>
+
+                            <mat-accordion class="side">
 
                             </mat-accordion>
 

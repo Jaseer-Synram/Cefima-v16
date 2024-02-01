@@ -18,17 +18,7 @@
     float: left;
     padding: 7px 10px 5px;
   }
-  .Persönliche-Informationen h2 {
-    /* font-family: Open Sans; */
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #454c58;
-    float: left;
-    margin-bottom: 0px;
-    margin-top: 6px;
-  }
+
   .Persönliche-Informationen p {
     margin: 0px;
   }
