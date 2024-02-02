@@ -54,7 +54,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
 
   hideValues = {
-    hideHaushaltMain: false,
+    hideHaushaltMain: true,
     hideHaushaltIn1: true,
     hideContainerMain: true,
     hideContainerIn: true,
@@ -62,12 +62,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     hidemultiCompanyprivatecustomerIn: true,
     hideCompanyCustomerMain: true,
     hideCompanyCustomerIn: true,
-    hidemultiCompanycustomerMain: false,
+    hidemultiCompanycustomerMain: true,
     hidemultiCompanycustomerIn: true,
     hidedisabledfamilyMain: true,
-    hideCompanyMain: false,
+    hideCompanyMain: true,
     hideCompanyIn: true,
-    hidemultiCompanyMain: false,
+    hidemultiCompanyMain: true,
     hidemultiCompanyIn: true
   };
 
@@ -2554,7 +2554,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     );
 
     this.hideValues = {
-      hideHaushaltMain: false,
+      hideHaushaltMain: true,
       hideHaushaltIn1: true,
       hideContainerMain: true,
       hideContainerIn: true,
@@ -2562,12 +2562,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanyprivatecustomerIn: true,
       hideCompanyCustomerMain: true,
       hideCompanyCustomerIn: true,
-      hidemultiCompanycustomerMain: false,
+      hidemultiCompanycustomerMain: true,
       hidemultiCompanycustomerIn: true,
       hidedisabledfamilyMain: true,
-      hideCompanyMain: false,
+      hideCompanyMain: true,
       hideCompanyIn: true,
-      hidemultiCompanyMain: false,
+      hidemultiCompanyMain: true,
       hidemultiCompanyIn: true
     };
 

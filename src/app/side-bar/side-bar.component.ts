@@ -58,6 +58,8 @@ export class SideBarComponent implements OnInit {
   customerid: any;
   officeData: any = [];
 
+  currentTab = ''
+
 
 
   constructor(public router: Router,
@@ -179,11 +181,6 @@ export class SideBarComponent implements OnInit {
       const stammdatenid = document.getElementById(id)
       const StammdatenBtn = document.getElementById(btnid)
 
-      // const Stammdaten6Btn = document.getElementById('Stammdaten6Btn')
-      // const Stammdaten6 = document.getElementById('Stammdaten6')
-
-
-
       if(stammdatenid){
         StammdatenBtn.click()
       }
@@ -206,9 +203,10 @@ export class SideBarComponent implements OnInit {
 
   clikeditem(item: string) {
     console.log(item);
-    
+    this.currentTab = item
     this.userService.selectCustomerSideItem.next(item)
   }
+  
 
   clikedVertrage(item: string, subitem: string) {
     this.userService.selectVertrage.next([item, subitem])
@@ -315,8 +313,11 @@ export class SideBarComponent implements OnInit {
     this.userService.invokeFunctionInCustomerSide.next(['remove_border', btnid])
   }
 
-  DateRender(id: string) {
-    this.userService.modalIdfromSidebar.next(id)
+  DateRender(id: string,item:string) {
+    this.currentTab = item
+    console.log(item);
+    
+    // this.userService.modalIdfromSidebar.next(id)
   }
 
   close_modal(modal_id: any, append_to: any) {

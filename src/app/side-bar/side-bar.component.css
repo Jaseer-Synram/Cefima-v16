@@ -45,6 +45,10 @@
   color: black;
 }
 
+.active-text{
+  text-decoration: underline !important;
+}
+
 .left-arrow img {
   position: absolute;
   right: 30%;
