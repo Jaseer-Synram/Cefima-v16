@@ -922,18 +922,21 @@
                                         <ng-template [matExpansionPanelContent]>
                                             <div class="col-md-12 px-1 d-flex flex-column">
                                                 <button class="stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Versicherungsgesellschaft1' ? 'active-text': ''"
                                                     (click)="clikedVertrage('Laufende','Versicherungsgesellschaft')">
                                                     <span>
                                                         Versicherungsgesellschaft
                                                     </span>
                                                 </button>
                                                 <button class="stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Geldanlagen1' ? 'active-text': ''"
                                                     (click)="clikedVertrage('Laufende','Geldanlagen')">
                                                     <span>
                                                         Geldanlagen
                                                     </span>
                                                 </button>
                                                 <button class="stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Bank1' ? 'active-text': ''"
                                                     (click)="clikedVertrage('Laufende','Bank')">
                                                     <span>
                                                         Bank
@@ -957,18 +960,21 @@
                                         <ng-template [matExpansionPanelContent]>
                                             <div class="col-md-12 px-1 d-flex flex-column">
                                                 <button class="stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Versicherungsgesellschaft2' ? 'active-text': ''"
                                                     (click)="clikedVertrage('Angebote','Versicherungsgesellschaft')">
                                                     <span>
                                                         Versicherungsgesellschaft
                                                     </span>
                                                 </button>
                                                 <button class="stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Geldanlagen2' ? 'active-text': ''"
                                                     (click)="clikedVertrage('Angebote','Geldanlagen')">
                                                     <span>
                                                         Geldanlagen
                                                     </span>
                                                 </button>
                                                 <button class="stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Bank2' ? 'active-text': ''"
                                                     (click)="clikedVertrage('Angebote','Bank')">
                                                     <span>
                                                         Bank
@@ -987,6 +993,7 @@
                                     </div> -->
                                     <div class="col-md-12 px-1">
                                         <button class="stepper-btn1 transitionanimation"
+                                        [ngClass]=" currentTab === 'Allgemeine' ? 'active-text': ''"
                                             (click)="clikedVertrage('Allgemeine','')">
                                             Allgemeine Dokumente
                                         </button>

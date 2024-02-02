@@ -209,6 +209,13 @@ export class SideBarComponent implements OnInit {
   
 
   clikedVertrage(item: string, subitem: string) {
+    if(item == 'Laufende'){
+      this.currentTab = `${subitem}1`
+    }else if( item == 'Angebote'){
+      this.currentTab = `${subitem}2`
+    } else {
+      this.currentTab = item
+    }
     this.userService.selectVertrage.next([item, subitem])
   }
 
