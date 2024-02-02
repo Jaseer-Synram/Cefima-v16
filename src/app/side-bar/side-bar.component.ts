@@ -11,7 +11,7 @@ import { data } from 'jquery';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.css']
 })
-export class SideBarComponent implements OnInit, AfterViewInit {
+export class SideBarComponent implements OnInit {
 
 
 
@@ -68,6 +68,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     });
 
     this.userService.invokeSideBarRouteFether.subscribe(data => {
+
 
       if (data) {
         this.route.queryParams.subscribe((params) => {
@@ -173,8 +174,22 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
 
-  ngAfterViewInit(): void {
+  clicker(id:string,btnid:string): void {
+    setTimeout(() => {
+      const stammdatenid = document.getElementById(id)
+      const StammdatenBtn = document.getElementById(btnid)
 
+      // const Stammdaten6Btn = document.getElementById('Stammdaten6Btn')
+      // const Stammdaten6 = document.getElementById('Stammdaten6')
+
+
+
+      if(stammdatenid){
+        StammdatenBtn.click()
+      }
+
+
+    }, 1000);
   }
 
   mouseenter() {
@@ -190,7 +205,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   clikeditem(item: string) {
+    console.log(item);
+    
     this.userService.selectCustomerSideItem.next(item)
+  }
+
+  clikedVertrage(item: string, subitem: string) {
+    this.userService.selectVertrage.next([item, subitem])
   }
 
   setCurrentTabUser(office: any, type: any) {

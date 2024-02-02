@@ -55,83 +55,89 @@
                                 <mat-expansion-panel [expanded]="true" *ngIf="!localData.hasOwnProperty('companytype') ||
                                     localData.companytype == ' ' || localData.companytype == '' ||
                                     localData.companytype == null;else company">
-                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideHaushaltMain') ">
-                                            <span (click)="
+                                    <mat-expansion-panel-header mat-panel-title
+                                        (click)="clikeditem('hideHaushaltMain') ">
+                                        <span
+                                            (click)="
                                             change_account_name( 'Haushalt', localData.usertitle, localData.firstname,
                                             localData.lastname, localData._id ); setCurrentTabUser(localData, 'haushalt')">
-                                                <i class="fa-solid fa-family" style="color: black"></i>
-                                                Haushalt {{ localData.lastname }} </span>
+                                            <i class="fa-solid fa-family" style="color: black"></i>
+                                            Haushalt {{ localData.lastname }} </span>
 
                                     </mat-expansion-panel-header>
 
                                     <ng-template [matExpansionPanelContent]>
 
-                                        <mat-accordion>
-                                            <mat-expansion-panel>
-                                                <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideHaushaltMain')"
-                                                    class="col-md-3 overflow-hidden">
-                                                    <span (click)=" change_account_name(
+                                        <div class="col-md-12 px-1">
+                                            <div class="col-md-12 px-1" (click)="clikeditem('hideHaushaltMain')"
+                                                class="col-md-12 overflow-hidden">
+                                                <span (click)=" change_account_name(
                                                           'Haushalt', localData.title, localData.firstname,
                                                           localData.lastname, localData._id  );
                                                         setCurrentTabUser(localData, 'haushalt'); ">
-                                                        <i class="fa fa-user" aria-hidden="true"
-                                                            style="color: black"></i>
-                                                        {{ localData.firstname }}
-                                                        {{ localData.lastname }}
-                                                    </span>
-                                                </mat-expansion-panel-header>
-                                            </mat-expansion-panel>
+                                                    <i class="fa fa-user" aria-hidden="true" style="color: black"></i>
+                                                    {{ localData.firstname }}
+                                                    {{ localData.lastname }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 px-1">
                                             <button *ngIf="familyData.length == 0"
                                                 class="stepper-btn1 transitionanimation" data-toggle="modal"
                                                 data-target="#exampleModalLongnewfamilyPOA"
                                                 (click)="DateRender('exampleModalLongnewfamilyPOA')">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                                <span>Kundentyp hinzufügen</span>
+                                                <span>Mitglied zum Haushalt hinzufügen </span>
                                             </button>
+                                        </div>
 
-                                            <!-- HAUSHALT MAIN PERSON NAME TAB END -->
-                                            <!-- Family Div Start Here -->
-                                            <ng-container *ngIf="familyData.length > 0">
-                                                <!-- HAUSHALT FAMIL MEMBER NAME TAB START -->
-                                                <mat-expansion-panel *ngFor="let member of familyData; let i = index">
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideHaushaltIn1')"
-                                                        class="col-md-3 overflow-hidden"
-                                                        *ngIf="i + 1 == familyData.length">
-                                                        <span style="color: black" (click)=" change_account_name( 'Haushalt',
+
+                                        <!-- HAUSHALT MAIN PERSON NAME TAB END -->
+                                        <!-- Family Div Start Here -->
+                                        <ng-container *ngIf="familyData.length > 0">
+                                            <!-- HAUSHALT FAMIL MEMBER NAME TAB START -->
+                                            <div class="col-md-12 d-flex flex-column"
+                                                *ngFor="let member of familyData; let i = index">
+                                                <div class="col-md-12 d-flex flex-column" mat-panel-title
+                                                    (click)="clikeditem('hideHaushaltIn1')"
+                                                    class="col-md-12 overflow-hidden"
+                                                    *ngIf="i + 1 == familyData.length">
+                                                    <span style="color: black"
+                                                        (click)=" change_account_name( 'Haushalt',
                                                             member.title, member.firstname, member.lastname, member._id );
                                                             setCurrentTabUser(member, 'haushalt');clikeditem('hideHaushaltIn1') ">
-                                                            <i class="fa fa-user" aria-hidden="true"
-                                                                style="color: black"></i>
-                                                            &nbsp;{{ member.firstname }}
-                                                            {{ member.lastname }}
-                                                        </span>
+                                                        <i class="fa fa-user" aria-hidden="true"
+                                                            style="color: black"></i>
+                                                        &nbsp;{{ member.firstname }}
+                                                        {{ member.lastname }}
+                                                    </span>
 
-                                                    </mat-expansion-panel-header>
+                                                </div>
 
-                                                    <mat-expansion-panel-header mat-panel-title  (click)="clikeditem('hideHaushaltIn1')"
-                                                        *ngIf="i + 1 != familyData.length">
-                                                        <span style="color: black" (click)=" change_account_name( 'Haushalt',
+                                                <div class="col-md-12 d-flex flex-column"
+                                                    (click)="clikeditem('hideHaushaltIn1')"
+                                                    *ngIf="i + 1 != familyData.length">
+                                                    <span style="color: black" (click)=" change_account_name( 'Haushalt',
                                                         member.title, member.firstname, member.lastname, member._id );
                                                         setCurrentTabUser(member, 'haushalt')  ">
-                                                            <i class="fa fa-user" aria-hidden="true"
-                                                                style="color: black"></i>
-                                                            &nbsp;{{ member.firstname }}
-                                                            {{ member.lastname }}
-                                                        </span>
-                                                    </mat-expansion-panel-header>
-                                                </mat-expansion-panel>
-                                                <ng-container *ngFor="let member of familyData; let i = index">
-                                                    <button class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                        data-target="#exampleModalLongnewfamilyPOA"
-                                                        (click)="DateRender('exampleModalLongnewfamilyPOA')">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                        <span>Kundentyp hinzufügen</span>
-                                                    </button>
-                                                </ng-container>
+                                                        <i class="fa fa-user" aria-hidden="true"
+                                                            style="color: black"></i>
+                                                        &nbsp;{{ member.firstname }}
+                                                        {{ member.lastname }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <ng-container *ngFor="let member of familyData; let i = index">
+                                                <button class="stepper-btn1 transitionanimation" data-toggle="modal"
+                                                    data-target="#exampleModalLongnewfamilyPOA"
+                                                    (click)="DateRender('exampleModalLongnewfamilyPOA')">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    <span>Mitglied zum Haushalt hinzufügen</span>
+                                                </button>
                                             </ng-container>
+                                        </ng-container>
 
 
-                                        </mat-accordion>
                                     </ng-template>
 
                                 </mat-expansion-panel>
@@ -143,7 +149,7 @@
                                             data-toggle="modal" data-target="#exampleModalLongnewcompany"
                                             (click)="DateRender('exampleModalLongnewcompany')">
                                             <i class="fa fa-plus" aria-hidden="true"></i>
-                                            <span>Kundentyp hinzufügen</span>
+                                            <span>Unternehmen hinzufügen</span>
                                         </button>
                                     </div>
                                 </div>
@@ -162,12 +168,13 @@
                                         <ng-container *ngIf="companyData.length > 0 || familyData.length > 0">
                                             <ng-container *ngFor="let member of companyData; let i = index">
 
-                                                <mat-expansion-panel  class="col-md-12  px-1 " *ngIf="
+                                                <mat-expansion-panel class="col-md-12  px-1 " *ngIf="
                                                     member.companytype =='Eingetragener Kaufmann (e.K.)' ||
                                                     member.companytype == 'Einzelunternehmen';
                                                     else multiCompanyprivatecustomer ">
 
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideContainerMain')"
+                                                    <mat-expansion-panel-header mat-panel-title
+                                                        (click)="clikeditem('hideContainerMain')"
                                                         *ngIf="i + 1 == companyData.length">
                                                         <span (click)=" tabisclicked(member);
                                                         change_account_name( 'Firma',
@@ -178,7 +185,8 @@
                                                             {{ member.companyname }} </span>
                                                     </mat-expansion-panel-header>
 
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hideContainerMain')"
+                                                    <mat-expansion-panel-header mat-panel-title
+                                                        (click)="clikeditem('hideContainerMain')"
                                                         *ngIf="i + 1 != companyData.length">
                                                         <span (click)=" tabisclicked(member);
                                                             change_account_name( 'Firma',
@@ -193,7 +201,8 @@
                                                     <ng-template [matExpansionPanelContent]>
                                                         <div>
                                                             <div class="col-md-12 d-flex flex-column">
-                                                                <span (click)=" setCurrentTabUser(member, 'company') ">
+                                                                <span
+                                                                    (click)=" setCurrentTabUser(member, 'company');clikeditem('hideContainerMain') ">
                                                                     Stammdaten
                                                                 </span>
                                                                 <button *ngIf="officeData.length == 0"
@@ -212,7 +221,8 @@
                                                         <ng-container *ngIf="officeData.length > 0">
                                                             <div *ngFor="
                                                                 let office of officeData; let i = index ">
-                                                                <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hideContainerIn')"
+                                                                <div class="col-md-12 d-flex flex-column"
+                                                                    (click)="clikeditem('hideContainerIn')"
                                                                     *ngIf="i + 1 == officeData.length">
                                                                     <span *ngIf="  office.hasOwnProperty('officename');
                                                                         else noname "
@@ -229,11 +239,12 @@
                                                                         data-target="#exampleModalLongnewcompanyoffices"
                                                                         (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices')">
                                                                         <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        <span>Kundentyp hinzufügen</span>
+                                                                        <span>Betriebsstätte hinzufügen</span>
                                                                     </button>
                                                                 </div>
 
-                                                                <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hideContainerIn')"
+                                                                <div class="col-md-12 d-flex flex-column"
+                                                                    (click)="clikeditem('hideContainerIn')"
                                                                     *ngIf="i + 1 != officeData.length">
                                                                     <span *ngIf="  office.hasOwnProperty('officename');
                                                                         else noname "
@@ -268,7 +279,7 @@
                                                             data-target="#exampleModalLongnewcompany"
                                                             (click)="DateRender('exampleModalLongnewcompany')">
                                                             <i class="fa fa-plus text-white" aria-hidden="true"></i>
-                                                            <span>Kundentyp hinzufügen</span>
+                                                            <span>Unternehmen hinzufügen</span>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -276,19 +287,21 @@
 
 
                                                 <ng-template #multiCompanyprivatecustomer>
-                                                    <mat-expansion-panel [expanded]="true" class="col-md-12  px-1 " 
+                                                    <mat-expansion-panel [expanded]="true" class="col-md-12  px-1 "
                                                         [disabled]="
                                                     currentActiveRole == 'b2b' &&
                                                         member.poa == '0' ">
-                                                        <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hidemultiCompanyprivatecustomerMain')"
+                                                        <mat-expansion-panel-header mat-panel-title
+                                                            (click)="clikeditem('hidemultiCompanyprivatecustomerMain')"
                                                             *ngIf="i + 1 == companyData.length"><span
                                                                 (click)="tabisclicked(member)"><i class="fa fa-building"
                                                                     aria-hidden="true" style="color: black"></i>
                                                                 {{ member.companyname }} </span>&nbsp;
 
                                                         </mat-expansion-panel-header>
-                                                        
-                                                        <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hidemultiCompanyprivatecustomerMain')"
+
+                                                        <mat-expansion-panel-header mat-panel-title
+                                                            (click)="clikeditem('hidemultiCompanyprivatecustomerMain')"
                                                             *ngIf="i + 1 != companyData.length">
                                                             <span (click)="tabisclicked(member)"><i
                                                                     class="fa fa-building" aria-hidden="true"
@@ -300,7 +313,10 @@
                                                         <ng-template [matExpansionPanelContent]>
                                                             <div>
                                                                 <div class="col-md-12 d-flex flex-column">
-                                                                    <span>Stammdaten</span>
+                                                                    <div class="stepper-btn1" role="button"
+                                                                        (click)="clikeditem('hidemultiCompanyprivatecustomerMain')">
+                                                                        <span>Stammdaten</span>
+                                                                    </div>
                                                                     <button *ngIf="officeData.length == 0"
                                                                         class="stepper-btn1 transitionanimation"
                                                                         data-toggle="modal"
@@ -318,7 +334,8 @@
                                                             <ng-container *ngIf="officeData.length > 0">
                                                                 <div *ngFor="let office of officeData;
                                                                         let i = index" ;>
-                                                                    <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hidemultiCompanyprivatecustomerIn')"
+                                                                    <div class="col-md-12 d-flex flex-column"
+                                                                        (click)="clikeditem('hidemultiCompanyprivatecustomerIn')"
                                                                         *ngIf="i + 1 == officeData.length">
                                                                         <span *ngIf=" office.hasOwnProperty( 'officename' );
                                                                                     else noname ">
@@ -335,11 +352,12 @@
                                                                             (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices')">
                                                                             <i class="fa fa-plus"
                                                                                 aria-hidden="true"></i>
-                                                                            <span>Kundentyp hinzufügen</span>
+                                                                            <span>Betriebsstätte hinzufügen</span>
                                                                         </button>
                                                                     </div>
 
-                                                                    <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hidemultiCompanyprivatecustomerIn')"
+                                                                    <div class="col-md-12 d-flex flex-column"
+                                                                        (click)="clikeditem('hidemultiCompanyprivatecustomerIn')"
                                                                         *ngIf="i + 1 != officeData.length">
                                                                         <span *ngIf=" office.hasOwnProperty( 'officename' );
                                                                                 else noname ">
@@ -367,7 +385,7 @@
                                                                 (mouseenter)="remove_border('addcompany')"
                                                                 (click)="DateRender('exampleModalLongnewcompany')">
                                                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                <span>Kundentyp hinzufügen</span>
+                                                                <span>Unternehmen hinzufügen</span>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -381,24 +399,29 @@
                                     <ng-template class="col-md-12 px-1 " #companycustomer>
                                         <ng-container class="col-md-12  px-1 "
                                             *ngFor="let member of companyData; let i = index">
-                                            <mat-expansion-panel class="col-md-12 px-1 " *ngIf="
+                                            <mat-expansion-panel (click)="tabisclicked(member)" class="col-md-12 px-1 "
+                                                *ngIf="
                                               member.companytype ==
                                                 'Eingetragener Kaufmann (e.K.)' ||
                                                 member.companytype == 'Einzelunternehmen';
                                               else multiCompanycustomer
                                             ">
-                                                <mat-expansion-panel-header mat-panel-title class="col-md-12  px-1 " (click)="clikeditem('hideCompanyCustomerMain')"
+                                                <mat-expansion-panel-header mat-panel-title class="col-md-12  px-1 "
+                                                    (click)="clikeditem('hideCompanyCustomerMain')"
                                                     *ngIf="i + 1 == companyData.length">
-                                                    <span (click)="tabisclicked(member)"><i class="fa fa-building"
-                                                            aria-hidden="true" style="color: black"></i>
+                                                    <span id="Stammdaten3a" (click)="tabisclicked(member)"><i
+                                                            class="fa fa-building" aria-hidden="true"
+                                                            style="color: black"></i>
                                                         {{ member.companyname }} </span>
 
                                                 </mat-expansion-panel-header>
 
-                                                <mat-expansion-panel-header mat-panel-title class="col-md-12  px-1 " (click)="clikeditem('hideCompanyCustomerMain')"
+                                                <mat-expansion-panel-header mat-panel-title class="col-md-12  px-1 "
+                                                    (click)="clikeditem('hideCompanyCustomerMain')"
                                                     *ngIf="i + 1 != companyData.length">
-                                                    <span (click)="tabisclicked(member)"><i class="fa fa-building"
-                                                            aria-hidden="true" style="color: black"></i>
+                                                    <span id="Stammdaten3b" (click)="tabisclicked(member)"><i
+                                                            class="fa fa-building" aria-hidden="true"
+                                                            style="color: black"></i>
                                                         {{ member.companyname }}
                                                     </span>
                                                 </mat-expansion-panel-header>
@@ -406,7 +429,8 @@
                                                 <ng-template [matExpansionPanelContent]>
                                                     <div>
                                                         <div class="col-md-12 d-flex flex-column">
-                                                            <span (click)=" setCurrentTabUser(member, 'company') ">
+                                                            <span
+                                                                (click)=" setCurrentTabUser(member, 'company');clikeditem('hideCompanyCustomerMain') ">
                                                                 Stammdaten</span>
                                                             <button *ngIf="officeData.length == 0"
                                                                 class="stepper-btn1 transitionanimation"
@@ -422,7 +446,8 @@
 
                                                         <div *ngFor="let office of officeData;
                                                             let i = index;">
-                                                            <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hideCompanyCustomerIn')"
+                                                            <div class="col-md-12 d-flex flex-column"
+                                                                (click)="clikeditem('hideCompanyCustomerIn')"
                                                                 *ngIf="i + 1 == officeData.length">
                                                                 <span
                                                                     *ngIf=" office.hasOwnProperty('officename'); else noname "
@@ -438,11 +463,12 @@
                                                                     data-target="#exampleModalLongnewcompanyoffices"
                                                                     (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices')">
                                                                     <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                    <span>Kundentyp hinzufügen</span>
+                                                                    <span>Betriebsstätte hinzufügen</span>
                                                                 </button>
                                                             </div>
 
-                                                            <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hideCompanyCustomerIn')"
+                                                            <div class="col-md-12 d-flex flex-column"
+                                                                (click)="clikeditem('hideCompanyCustomerIn')"
                                                                 *ngIf="i + 1 != officeData.length">
                                                                 <span
                                                                     *ngIf=" office.hasOwnProperty('officename'); else noname "
@@ -477,7 +503,8 @@
 
                                             <ng-template #multiCompanycustomer>
                                                 <mat-expansion-panel [expanded]="true" class="col-md-12 px-1 ">
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hidemultiCompanycustomerMain')"
+                                                    <mat-expansion-panel-header mat-panel-title
+                                                        (click)="clikeditem('hidemultiCompanycustomerMain')"
                                                         class="col-md-12  px-1 "
                                                         *ngIf="i + 1 == companyData.length"><span
                                                             (click)="tabisclicked(member)"><i class="fa fa-building"
@@ -486,7 +513,8 @@
 
                                                     </mat-expansion-panel-header>
 
-                                                    <mat-expansion-panel-header mat-panel-title (click)="clikeditem('hidemultiCompanycustomerMain')"
+                                                    <mat-expansion-panel-header mat-panel-title
+                                                        (click)="clikeditem('hidemultiCompanycustomerMain')"
                                                         *ngIf="i + 1 != companyData.length" class="col-md-12  px-1 ">
                                                         <span (click)="tabisclicked(member)"><i class="fa fa-building"
                                                                 aria-hidden="true" style="color: black"></i>
@@ -496,8 +524,11 @@
 
                                                     <ng-template [matExpansionPanelContent]>
                                                         <div class="col-md-12 d-flex flex-column">
-                                                            <div mat-panel-title>
+                                                            <div class="stepper-btn1" role="button"
+                                                                (click)="clikeditem('hidemultiCompanycustomerMain')">
                                                                 <span>Stammdaten</span>
+                                                            </div>
+                                                            <div class="stepper-btn1">
                                                                 <button *ngIf="officeData.length == 0"
                                                                     class="stepper-btn1 transitionanimation"
                                                                     data-toggle="modal"
@@ -513,7 +544,8 @@
 
                                                             <div *ngFor="let office of officeData;
                                                                 let i = index">
-                                                                <div class="col-md-12 px-1" (click)="clikeditem('hidemultiCompanycustomerIn')"
+                                                                <div class="col-md-12 px-1"
+                                                                    (click)="clikeditem('hidemultiCompanycustomerIn')"
                                                                     *ngIf="i + 1 == officeData.length">
                                                                     <span
                                                                         *ngIf=" office.hasOwnProperty('officename'); else noname ">
@@ -528,11 +560,12 @@
                                                                         data-target="#exampleModalLongnewcompanyoffices"
                                                                         (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices')">
                                                                         <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        <span>Kundentyp hinzufügen</span>
+                                                                        <span>Betriebsstätte hinzufügen</span>
                                                                     </button>
                                                                 </div>
 
-                                                                <div class="col-md-12 px-1 " (click)="clikeditem('hidemultiCompanycustomerIn')"
+                                                                <div class="col-md-12 px-1 "
+                                                                    (click)="clikeditem('hidemultiCompanycustomerIn')"
                                                                     *ngIf="i + 1 != officeData.length">
                                                                     <span
                                                                         *ngIf=" office.hasOwnProperty('officename'); else noname ">
@@ -569,7 +602,8 @@
                                                 currentActiveRole == 'b2b' &&
                                                 familyData[0].documents == ''
                                               ">
-                                                <mat-expansion-panel-header class="col-md-12 px-1" mat-panel-title (click)="clikeditem('hidedisabledfamilyMain')" >
+                                                <mat-expansion-panel-header class="col-md-12 px-1" mat-panel-title
+                                                    (click)="clikeditem('hidedisabledfamilyMain')">
                                                     <span (click)=" setCurrentTabUser(familyData[0], 'haushalt')">
                                                         <i class="fa-solid fa-family" style="color: black"></i>
                                                         Haushalt {{ familyData[0].lastname }} </span>&nbsp;
@@ -593,7 +627,7 @@
                                                                         data-target="#exampleModalLongnewfamilyPOA"
                                                                         (click)="DateRender('exampleModalLongnewfamilyPOA')">
                                                                         <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        <span>Kundentyp hinzufügen</span>
+                                                                        <span>Mitglied zum Haushalt hinzufügen</span>
                                                                     </button>
                                                                 </mat-expansion-panel-header>
 
@@ -635,7 +669,8 @@
                                     <mat-expansion-panel [expanded]="true" *ngIf=" localData.companytype ==
                                         'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
                                             else multiCompany " id="secondtabnew">
-                                        <mat-expansion-panel-header mat-panel-title class="col-12 px-1 " (click)="clikeditem('hideCompanyMain')">
+                                        <mat-expansion-panel-header mat-panel-title class="col-12 px-1 "
+                                            (click)="clikeditem('hideCompanyMain')">
                                             <span
                                                 (click)="change_account_name( 'Firma', 'Firma', '', localData.companyname ) ">
                                                 <i class="fa fa-building" aria-hidden="true" style="color: black"></i>
@@ -643,10 +678,10 @@
                                         </mat-expansion-panel-header>
 
                                         <ng-template [matExpansionPanelContent]>
-                                            <!-- <mat-accordion> -->
                                             <div class="col-md-12 d-flex flex-column">
                                                 <div class="col-md-12 d-flex flex-column">
-                                                    <div role="button" class="stepper-btn1 transitionanimation">
+                                                    <div (click)="clikeditem('hideCompanyMain')" role="button"
+                                                        class="stepper-btn1 transitionanimation">
                                                         <span>Stammdaten</span>
                                                     </div>
                                                     <div role="button" *ngIf="userofficeData.length == 0"
@@ -659,44 +694,53 @@
                                                 </div>
                                             </div>
 
-                                            <ng-container *ngIf="userofficeData.length == 0">
+                                            <ng-container *ngIf="userofficeData.length > 0">
 
                                                 <div class="col-md-12 d-flex flex-column" *ngFor="let office of userofficeData;
                                                     let i = index">
-                                                    <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hideCompanyIn')"
+                                                    <div class="col-md-12 d-flex flex-column"
+                                                        (click)="clikeditem('hideCompanyIn')"
                                                         *ngIf="i + 1 == userofficeData.length">
-                                                        <span *ngIf="office.hasOwnProperty('officename'); else noname ">
-                                                            {{ office.officename }}</span>
-                                                        <ng-template #noname>
-                                                            <span>
-                                                                office {{ i + 1 }}
-                                                            </span>
-                                                        </ng-template>
+                                                        <button class="stepper-btn1">
+                                                            <span
+                                                                *ngIf="office.hasOwnProperty('officename'); else noname ">
+                                                                {{ office.officename }}</span>
+
+                                                            <ng-template #noname>
+                                                                <span>
+                                                                    office {{ i + 1 }}
+                                                                </span>
+                                                            </ng-template>
+                                                        </button>
                                                         <button class="stepper-btn1 transitionanimation"
                                                             data-toggle="modal"
                                                             data-target="#exampleModalLongnewcompanyoffices"
                                                             (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices')">
                                                             <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            <span>Kundentyp hinzufügen</span>
+                                                            <span>Betriebsstätte hinzufügen</span>
                                                         </button>
                                                     </div>
 
-                                                    <div class="col-md-12 d-flex flex-column"  (click)="clikeditem('hideCompanyIn')"
+                                                    <div class="col-md-12 d-flex flex-column"
+                                                        (click)="clikeditem('hideCompanyIn')"
                                                         *ngIf="i + 1 != userofficeData.length">
-                                                        <span
-                                                            *ngIf=" office.hasOwnProperty('officename'); else noname ">
-                                                            {{ office.officename }}</span>
-                                                        <ng-template #noname>
-                                                            <span>
-                                                                office {{ i + 1 }}
-                                                            </span>
-                                                        </ng-template>
+                                                        <button class="stepper-btn1">
+                                                            <span
+                                                                *ngIf=" office.hasOwnProperty('officename'); else noname ">
+                                                                {{ office.officename }}</span>
+                                                            <ng-template #noname>
+                                                                <span>
+                                                                    office {{ i + 1 }}
+                                                                </span>
+                                                            </ng-template>
+                                                        </button>
+
+
                                                     </div>
                                                 </div>
 
                                             </ng-container>
 
-                                            <!-- </mat-accordion> -->
 
                                         </ng-template>
 
@@ -717,8 +761,10 @@
 
                                     <ng-template #multiCompany>
                                         <mat-expansion-panel [expanded]="true" class="col-12 px-1 ">
-                                            <mat-expansion-panel-header mat-panel-title class="col-12 px-1 " (click)="clikeditem('hidemultiCompanyMain')"><span
-                                                    role="button" (click)="
+                                            <mat-expansion-panel-header
+                                                (click)="clikeditem('hidemultiCompanyMain');clicker('Stammdaten6','Stammdaten6Btn')"
+                                                mat-panel-title class="col-12 px-1 ">
+                                                <span id="Stammdaten6" role="button" (click)="
                                                     change_account_name('Firma','Firma','',localData.companyname);
                                                     setCurrentTabUser(localData, 'company')">
                                                     <i class="fa fa-building" aria-hidden="true"
@@ -730,9 +776,10 @@
                                             <ng-template [matExpansionPanelContent]>
 
                                                 <div class="col-md-12 d-flex flex-column">
-                                                    <div class="stepper-btn1 transitionanimation">
-                                                        <span role="button" 
-                                                            (click)="setCurrentTabUser(localData, 'company')">Stammdaten
+                                                    <div role="button" class="stepper-btn1 transitionanimation"
+                                                        id="Stammdaten6Btn">
+                                                        <span role="button"
+                                                            (click)="setCurrentTabUser(localData, 'company');clikeditem('hidemultiCompanyMain')">Stammdaten
                                                         </span>
                                                     </div>
                                                     <div role="button" *ngIf="userofficeData.length == 0"
@@ -745,46 +792,53 @@
                                                 </div>
 
 
-                                                <ng-container *ngIf="userofficeData.length == 0">
+                                                <ng-container *ngIf="userofficeData.length > 0">
 
                                                     <div *ngFor="let office of userofficeData;
                                                         let i = index">
-                                                        <div class="col-md-12 d-flex flex-column" (click)="clikeditem('hidemultiCompanyIn')"
+                                                        <div class="col-md-12 d-flex flex-column"
+                                                            (click)="clikeditem('hidemultiCompanyIn')"
                                                             *ngIf="i + 1 == userofficeData.length">
-                                                            <span (click)="setCurrentTabUser(office, 'branch')"
-                                                                *ngIf="office.hasOwnProperty('officename'); else noname ">
-                                                                {{ office.officename }}
-                                                            </span>
-                                                            <ng-template #noname>
-                                                                <span>
-                                                                    office {{ i + 1 }}
+                                                            <button class="stepper-btn1">
+                                                                <span class="stepper-btn1"
+                                                                    (click)="setCurrentTabUser(office, 'branch')"
+                                                                    *ngIf="office.hasOwnProperty('officename'); else noname ">
+                                                                    {{ office.officename }}
                                                                 </span>
-                                                            </ng-template>
+                                                                <ng-template #noname>
+                                                                    <span>
+                                                                        office {{ i + 1 }}
+                                                                    </span>
+                                                                </ng-template>
+                                                            </button>
                                                             <button class="stepper-btn1 transitionanimation"
                                                                 data-toggle="modal"
                                                                 data-target="#exampleModalLongnewcompanyoffices"
                                                                 (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices')">
                                                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                <span>Kundentyp hinzufügen</span>
+                                                                <span>Betriebsstätte hinzufügen</span>
                                                             </button>
                                                         </div>
 
-                                                        <div *ngIf="i + 1 != userofficeData.length" (click)="clikeditem('hidemultiCompanyIn')">
-                                                            <span (click)="setCurrentTabUser(office, 'branch')"
-                                                                *ngIf=" office.hasOwnProperty('officename'); else noname ">
-                                                                {{ office.officename }}
-                                                            </span>
-                                                            <ng-template #noname>
-                                                                <span>
-                                                                    office {{ i + 1 }}
+                                                        <div *ngIf="i + 1 != userofficeData.length"
+                                                            (click)="clikeditem('hidemultiCompanyIn')">
+                                                            <button class="stepper-btn1">
+                                                                <span class="stepper-btn1"
+                                                                    (click)="setCurrentTabUser(office, 'branch')"
+                                                                    *ngIf=" office.hasOwnProperty('officename'); else noname ">
+                                                                    {{ office.officename }}
                                                                 </span>
-                                                            </ng-template>
+                                                                <ng-template #noname>
+                                                                    <span>
+                                                                        office {{ i + 1 }}
+                                                                    </span>
+                                                                </ng-template>
+                                                            </button>
                                                         </div>
                                                     </div>
 
                                                 </ng-container>
 
-                                                <!-- </mat-accordion> -->
                                             </ng-template>
                                         </mat-expansion-panel>
 
@@ -806,9 +860,89 @@
 
                             </mat-accordion>
 
-                            <mat-accordion class="side">
 
-                            </mat-accordion>
+                            <div class="col-md-12 p-0" style="margin-top: 30px;">
+                                <mat-accordion class="side">
+                                    <mat-expansion-panel>
+                                        <mat-expansion-panel-header mat-panel-title>
+                                            <span>Laufende Verträge</span>
+                                        </mat-expansion-panel-header>
+                                        <ng-template [matExpansionPanelContent]>
+                                            <div class="col-md-12 px-1 d-flex flex-column">
+                                                <button class="stepper-btn1 transitionanimation"
+                                                    (click)="clikedVertrage('Laufende','Versicherungsgesellschaft')">
+                                                    <span>
+                                                        Versicherungsgesellschaft
+                                                    </span>
+                                                </button>
+                                                <button class="stepper-btn1 transitionanimation"
+                                                    (click)="clikedVertrage('Laufende','Geldanlagen')">
+                                                    <span>
+                                                        Geldanlagen
+                                                    </span>
+                                                </button>
+                                                <button class="stepper-btn1 transitionanimation"
+                                                    (click)="clikedVertrage('Laufende','Bank')">
+                                                    <span>
+                                                        Bank
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+
+                                    </mat-expansion-panel>
+                                    <div class="col-md-12 px-1">
+                                        <button class="stepper-btn1 transitionanimation" data-toggle="modal"
+                                            data-target="#runningcontracts" (click)="open_modal('runningcontracts')">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                                            Bestandsübertragung
+                                        </button>
+                                    </div>
+                                    <mat-expansion-panel>
+                                        <mat-expansion-panel-header mat-panel-title>
+                                            <span>Angebote/Fremdverträge</span>
+                                        </mat-expansion-panel-header>
+                                        <ng-template [matExpansionPanelContent]>
+                                            <div class="col-md-12 px-1 d-flex flex-column">
+                                                <button class="stepper-btn1 transitionanimation"
+                                                    (click)="clikedVertrage('Angebote','Versicherungsgesellschaft')">
+                                                    <span>
+                                                        Versicherungsgesellschaft
+                                                    </span>
+                                                </button>
+                                                <button class="stepper-btn1 transitionanimation"
+                                                    (click)="clikedVertrage('Angebote','Geldanlagen')">
+                                                    <span>
+                                                        Geldanlagen
+                                                    </span>
+                                                </button>
+                                                <button class="stepper-btn1 transitionanimation"
+                                                    (click)="clikedVertrage('Angebote','Bank')">
+                                                    <span>
+                                                        Bank
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+
+                                    </mat-expansion-panel>
+                                    <div class="col-md-12 px-1">
+                                        <button class="stepper-btn1 transitionanimation" data-toggle="modal"
+                                            data-target="#externalcontracts" (click)="open_modal('externalcontracts')">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                                            Fremdvertrag
+                                        </button>
+                                    </div>
+                                    <div class="col-md-12 px-1">
+                                        <button class="stepper-btn1 transitionanimation"
+                                            (click)="clikedVertrage('Allgemeine','')">
+                                            Allgemeine Dokumente
+                                        </button>
+                                    </div>
+
+                                </mat-accordion>
+                            </div>
+
 
                         </div>
                     </div>

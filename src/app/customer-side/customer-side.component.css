@@ -20,9 +20,9 @@
 }
 
 :host ::ng-deep.accordion-main .accordion-head ul li {
-    font-size: 12px !important;
+    font-size: 13px !important;
     letter-spacing: unset;
-
+    color: black;
 }
 
 /* :host ::ng-deep.bottom-selector>.form-control{
@@ -164,7 +164,37 @@
     padding: 0 !important;
 }
 
+.tabsecond1{
+    width: 1%;
+}
 
+.tabsecond2{
+    width: 15%;
+}
+
+.tabsecond3{
+    width: 15%;
+}
+
+.tabsecond4{
+    width: 15%;
+}
+
+.tabsecond5{
+    width: 15%;
+}
+
+.tabsecond6{
+    width: 15%;
+}
+
+.tabsecond7{
+    width: 15%;
+}
+
+.tabsecond7{
+    width: 12%;
+}
 
 .stepper-btn1 {
     background: linear-gradient(#17459b, #02a9ed) !important;

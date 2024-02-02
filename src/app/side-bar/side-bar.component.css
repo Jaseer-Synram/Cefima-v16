@@ -8,6 +8,7 @@
   background: transparent;
   color: black;
   padding: 2px 2px 2px 2px;
+  text-align: center;
 }
 
 :host ::ng-deep.side.mat-accordion>.mat-expansion-panel{

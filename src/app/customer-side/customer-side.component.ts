@@ -71,6 +71,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     hidemultiCompanyIn: true
   };
 
+  Vertrage = {
+    Angebote: {
+      Versicherungsgesellschaft: true,
+      Geldanlagen: true,
+      Bank: true
+    },
+    Laufende: {
+      Versicherungsgesellschaft: true,
+      Geldanlagen: true,
+      Bank: true
+    },
+    Allgemeine: true
+  }
+
   public signaturePadOptions: Object = {
     minWidth: 2,
     canvasWidth: 750,
@@ -955,18 +969,57 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.userService.selectCustomerSideItem.subscribe(item => {
       console.log('hiden?', item);
 
+      for (const key of Object.keys(this.Vertrage.Laufende)) {
+        this.Vertrage.Laufende[key] = true
+      }
+      for (const key of Object.keys(this.Vertrage.Angebote)) {
+        this.Vertrage.Angebote[key] = true
+      }
+      this.Vertrage.Allgemeine = true
+
       let itemString = `${item}`
 
       for (const key of Object.keys(this.hideValues)) {
         if (key !== itemString) {
           this.hideValues[key] = true
-          console.log(this.hideValues[key]);
-
         } else {
           this.hideValues[key] = false
-          console.log(this.hideValues[key]);
         }
       }
+
+    })
+
+    this.userService.selectVertrage.subscribe(data => {
+      console.log('hiden?', data);
+
+      for (const key of Object.keys(this.hideValues)) {
+        this.hideValues[key] = true
+      }
+
+      if (data[0] == 'Laufende') {
+
+        for (const key of Object.keys(this.Vertrage.Laufende)) {
+          console.log(this.Vertrage.Laufende[`${key}`], data[1], key);
+
+          if (key == data[1]) {
+            this.Vertrage.Laufende[key] = false
+
+          } else {
+            this.Vertrage.Laufende[key] = true
+          }
+        }
+      } else if (data[0] == 'Angebote') {
+        for (const key of Object.keys(this.Vertrage.Angebote)) {
+          if (key == data[1]) {
+            this.Vertrage.Angebote[key] = false
+          } else {
+            this.Vertrage.Angebote[key] = true
+          }
+        }
+      } else if (data[0] == 'Allgemeine') {
+        this.Vertrage.Allgemeine = false
+      }
+      console.log(this.Vertrage);
 
     })
 
@@ -2517,6 +2570,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanyMain: false,
       hidemultiCompanyIn: true
     };
+
+    this.Vertrage = {
+      Angebote: {
+        Versicherungsgesellschaft: true,
+        Geldanlagen: true,
+        Bank: true
+      },
+      Laufende: {
+        Versicherungsgesellschaft: true,
+        Geldanlagen: true,
+        Bank: true
+      },
+      Allgemeine: true
+    }
 
   }
 
