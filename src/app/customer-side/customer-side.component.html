@@ -21522,32 +21522,33 @@ data-target="#exampleModalShareholder"
                         <div class="card-body p-0" id="cardbodyid" style="font-size: 14px">
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
-                              <ul class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
-                                <li class="tabsecond1 font-weight-bold" >#</li>
-                                <li class="tabsecond2 font-weight-bold" >
+                              <ul
+                                class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
+                                <li class="tabsecond1 font-weight-bold">#</li>
+                                <li class="tabsecond2 font-weight-bold">
                                   <!-- Logo -->
-                                   PRODUKT
+                                  PRODUKT
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Sparte"></i> -->
                                 </li>
-                                <li class="tabsecond3 font-weight-bold" >
-                                   ANBIETER
+                                <li class="tabsecond3 font-weight-bold">
+                                  ANBIETER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="providers"></i> -->
                                 </li>
-                                <li class="tabsecond4 font-weight-bold" >
-                                   VERTRAGSNUMMER
+                                <li class="tabsecond4 font-weight-bold">
+                                  VERTRAGSNUMMER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Contract_number"></i> -->
                                 </li>
-                                <li class="tabsecond5 font-weight-bold" >
-                                   VERTRAG-STATUS
+                                <li class="tabsecond5 font-weight-bold">
+                                  VERTRAG-STATUS
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Contract_status"></i> -->
                                 </li>
-                                <li class="tabsecond6 font-weight-bold" >
+                                <li class="tabsecond6 font-weight-bold">
                                   <!-- Vertragsbeginn/Vertragsablauf -->
-                                   LAUFZEIT / BEGINN
+                                  LAUFZEIT / BEGINN
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Start_of_contract"></i> -->
                                 </li>
@@ -21566,69 +21567,71 @@ data-target="#exampleModalShareholder"
                                   <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Insured_risk"></i>
                                 </li> -->
-                                <li class="tabsecond8 font-weight-bold" >
+                                <li class="tabsecond8 font-weight-bold">
                                   <!-- Interaktionen xyxyxy-->
                                   INTERAKTIONEN
                                 </li>
                               </ul>
-                              
+
                             </div>
                             <!-- <hr /> -->
-                            <div class="accordion-list-main mt-3" style="border:1px solid #02a9ed;border-radius:10px 10px ">
+                            <div class="accordion-list-main mt-3"
+                              style="border:1px solid #02a9ed;border-radius:10px 10px ">
                               <div class="accordion-list-item" *ngFor="let cl of pagedItems; let i = index">
                                 <div *ngFor="let el of cl.element.inventorydata">
-                                  <ul class="accordion-list-data list-unstyled mx-2 my-0 d-flex justify-content-between align-items-center"
-                                  id="ul{{ cl.element.id }}">
-                                  <li class="tabsecond1" >
-                                    {{ startRecord + i }}
-                                  </li>
-                                  <li class="tabsecond2" >
-                                    <!-- <img
+                                  <ul
+                                    class="accordion-list-data list-unstyled mx-2 my-0 d-flex justify-content-between align-items-center"
+                                    id="ul{{ cl.element.id }}">
+                                    <li class="tabsecond1">
+                                      {{ startRecord + i }}
+                                    </li>
+                                    <li class="tabsecond2">
+                                      <!-- <img
                                 src="{{ cl.element.responselogo }}"
                                 style="width: 50%"
                               /> -->
-                                    {{
-                                    cl.element.producttype[0]
-                                    .product_typename
-                                    }}
-                                  </li>
-                                  <li class="tabsecond3" >
-                                    <!-- {{ el.providers }} -->
-                                    <!-- <img src="{{ cl.element.responselogo }}" style="width: 50px" /> -->
-                                    {{
-                                    cl.element.productpartner[0]
-                                    .company_name
-                                    }}
-                                  </li>
-                                  <li class="tabsecond4 text-center" >
-                                    {{ el.Contract_number }}
-                                  </li>
-                                  <li class="tabsecond5" >
-                                    {{ el.Contract_status }}
-                                  </li>
-                                  <li class="tabsecond6"  *ngIf="el.Start_of_contract != ''">
-                                    {{
-                                    el.Start_of_contract | date : "dd"
-                                    }}.{{
-                                    el.Start_of_contract | date : "MM"
-                                    }}.{{
-                                    el.Start_of_contract | date : "yyyy"
-                                    }}
-                                    /
-                                    {{
-                                    el.Contract_expiration | date : "dd"
-                                    }}.{{
-                                    el.Contract_expiration | date : "MM"
-                                    }}.{{
-                                    el.Contract_expiration | date : "yyyy"
-                                    }}
-                                  </li>
+                                      {{
+                                      cl.element.producttype[0]
+                                      .product_typename
+                                      }}
+                                    </li>
+                                    <li class="tabsecond3">
+                                      <!-- {{ el.providers }} -->
+                                      <!-- <img src="{{ cl.element.responselogo }}" style="width: 50px" /> -->
+                                      {{
+                                      cl.element.productpartner[0]
+                                      .company_name
+                                      }}
+                                    </li>
+                                    <li class="tabsecond4 text-center">
+                                      {{ el.Contract_number }}
+                                    </li>
+                                    <li class="tabsecond5">
+                                      {{ el.Contract_status }}
+                                    </li>
+                                    <li class="tabsecond6" *ngIf="el.Start_of_contract != ''">
+                                      {{
+                                      el.Start_of_contract | date : "dd"
+                                      }}.{{
+                                      el.Start_of_contract | date : "MM"
+                                      }}.{{
+                                      el.Start_of_contract | date : "yyyy"
+                                      }}
+                                      /
+                                      {{
+                                      el.Contract_expiration | date : "dd"
+                                      }}.{{
+                                      el.Contract_expiration | date : "MM"
+                                      }}.{{
+                                      el.Contract_expiration | date : "yyyy"
+                                      }}
+                                    </li>
 
-                                  <li class="tabsecond6"  *ngIf="el.Start_of_contract == ''">
-                                  </li>
+                                    <li class="tabsecond6" *ngIf="el.Start_of_contract == ''">
+                                    </li>
 
-                                  
-                                  <!-- <li class="tabsecond7"  *ngIf="el.Contribution != ''">
+
+                                    <!-- <li class="tabsecond7"  *ngIf="el.Contribution != ''">
                                     € {{ el.Contribution }}
                                   </li>
                                   <li class="tabsecond7"  *ngIf="el.Contribution == ''"></li>
@@ -21639,38 +21642,38 @@ data-target="#exampleModalShareholder"
                                     {{ el.Insured_risk }}
                                   </li> -->
 
-                                  <li class="tabsecond8 " >
-                                    
-                                    <span class="d-flex align-items-center">
-                                      <button type="button"
-                                        class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2  py-1"
-                                        (click)="
+                                    <li class="tabsecond8 ">
+
+                                      <span class="d-flex align-items-center">
+                                        <button type="button"
+                                          class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2  py-1"
+                                          (click)="
                                         opencontract(
                                           'opencontract1',
                                           'click1',
                                           cl.element.id
                                         )
                                       " id="click1{{ cl.element.id }}">
-                                        Öffnen
-                                      </button>
+                                          Öffnen
+                                        </button>
 
-                                      <button mat-icon-button [matMenuTriggerFor]="menu"
-                                        aria-label="Example icon-button with a menu" style="
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                          aria-label="Example icon-button with a menu" style="
                                         line-height: 30px !important;
                                       ">
-                                        <mat-icon>menu</mat-icon>
-                                      </button>
-                                      <mat-menu #menu="matMenu">
-                                        <button mat-menu-item>
-                                          <span>Kontakt</span>
+                                          <mat-icon>menu</mat-icon>
                                         </button>
-                                        <button mat-menu-item>
-                                          <span>Leistungsfall melden</span>
-                                        </button>
-                                      </mat-menu>
-                                    </span>
-                                  </li>
-                                </ul>
+                                        <mat-menu #menu="matMenu">
+                                          <button mat-menu-item>
+                                            <span>Kontakt</span>
+                                          </button>
+                                          <button mat-menu-item>
+                                            <span>Leistungsfall melden</span>
+                                          </button>
+                                        </mat-menu>
+                                      </span>
+                                    </li>
+                                  </ul>
                                   <div class="col-md-12 mb-3 opencontract" id="opencontract1{{ cl.element.id }}" style="
                                         display: none;
                                         background: #e6e6e6;
@@ -21937,7 +21940,7 @@ data-target="#exampleModalShareholder"
                   </div>
                 </div>
 
-                <div [hidden]="Vertrage.Laufende.Geldanlagen" class="new-item  " >
+                <div [hidden]="Vertrage.Laufende.Geldanlagen" class="new-item  ">
                   <div
                     class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                     style="margin-top: 0px">
@@ -21989,33 +21992,34 @@ data-target="#exampleModalShareholder"
                         </button>
                       </div>
                       <div class="card assigments-list" style="border:none">
-                        <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                        <div class="card-body p-0" id="cardbodyid" style="font-size: 14px">
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
-                              <ul class="accordion-head-list list-unstyled  mx-2 my-1 d-flex justify-content-between align-items-center  ">
-                                <li class="tabsecond1 font-weight-bold" >#</li>
-                                <li class="tabsecond2 font-weight-bold" >
+                              <ul
+                                class="accordion-head-list list-unstyled  mx-2 my-1 d-flex justify-content-between align-items-center  ">
+                                <li class="tabsecond1 font-weight-bold">#</li>
+                                <li class="tabsecond2 font-weight-bold">
                                   <!-- Logo -->
                                   PRODUKT
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Sparte"></i> -->
                                 </li>
-                                <li class="tabsecond3 font-weight-bold" >
+                                <li class="tabsecond3 font-weight-bold">
                                   ANBIETER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="providers"></i> -->
                                 </li>
-                                <li class="tabsecond4 font-weight-bold" >
+                                <li class="tabsecond4 font-weight-bold">
                                   VERTRAGSNUMMER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Contract_number"></i> -->
                                 </li>
-                                <li class="tabsecond5 font-weight-bold" >
+                                <li class="tabsecond5 font-weight-bold">
                                   VERTRAG-STATUS
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Contract_status"></i> -->
                                 </li>
-                                <li class="tabsecond6 font-weight-bold" >
+                                <li class="tabsecond6 font-weight-bold">
                                   <!-- Vertragsbeginn/Vertragsablauf -->
                                   LAUFZEIT / BEGINN
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
@@ -22030,7 +22034,7 @@ data-target="#exampleModalShareholder"
                                   data-name="Contract_expiration"
                                 ></i>
                               </li> -->
-                              <!-- Commented By Jaseer for New Design -->
+                                <!-- Commented By Jaseer for New Design -->
                                 <!-- <li class="tabsecond7 font-weight-bold" style="width: 6%">
                                   Beitrag
                                   <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
@@ -22046,7 +22050,7 @@ data-target="#exampleModalShareholder"
                                   <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Insured_risk"></i>
                                 </li> -->
-                                <li class="tabsecond8 font-weight-bold" >
+                                <li class="tabsecond8 font-weight-bold">
                                   <!-- Interaktionen -->
                                   INTERAKTIONEN
                                 </li>
@@ -22057,12 +22061,13 @@ data-target="#exampleModalShareholder"
                               style="border: 1px solid #02a9ed; border-radius: 10px 10px;">
                               <div class="accordion-list-item" *ngFor="let cl of pagedItems; let i = index">
                                 <div *ngFor="let el of cl.element.inventorydata">
-                                  <ul class="accordion-list-data list-unstyled  mx-2 my-1 d-flex align-items-center justify-content-between"
+                                  <ul
+                                    class="accordion-list-data list-unstyled  mx-2 my-1 d-flex align-items-center justify-content-between"
                                     id="ul{{ cl.element.id }}">
-                                    <li class="tabsecond1" >
+                                    <li class="tabsecond1">
                                       {{ startRecord + i }}
                                     </li>
-                                    <li class="tabsecond2" >
+                                    <li class="tabsecond2">
                                       <!-- <img
                                     src="{{ cl.element.responselogo }}"
                                     style="width: 50%"
@@ -22072,7 +22077,7 @@ data-target="#exampleModalShareholder"
                                       .product_typename
                                       }}
                                     </li>
-                                    <li class="tabsecond3" >
+                                    <li class="tabsecond3">
                                       <!-- {{ el.providers }} -->
                                       <!-- <img src="{{ cl.element.responselogo }}" style="width: 50px" /> -->
                                       {{
@@ -22083,10 +22088,10 @@ data-target="#exampleModalShareholder"
                                     <li class="tabsecond4 text-center">
                                       {{ el.Contract_number }}
                                     </li>
-                                    <li class="tabsecond5" >
+                                    <li class="tabsecond5">
                                       {{ el.Contract_status }}
                                     </li>
-                                    <li class="tabsecond6" >
+                                    <li class="tabsecond6">
                                       {{
                                       el.Start_of_contract | date : "dd"
                                       }}.{{
@@ -22108,7 +22113,7 @@ data-target="#exampleModalShareholder"
                                     el.Contract_expiration | date: "MM"
                                   }}.{{ el.Contract_expiration | date: "yyyy" }}
                                 </li> -->
-                                <!-- By Jaseer for new design -->
+                                    <!-- By Jaseer for new design -->
                                     <!-- <li class="tabsecond7" style="width: 6%">
                                       € {{ el.Contribution }}
                                     </li>
@@ -22119,7 +22124,7 @@ data-target="#exampleModalShareholder"
                                       {{ el.Insured_risk }}
                                     </li> -->
 
-                                    <li class="tabsecond8 " >
+                                    <li class="tabsecond8 ">
                                       <!-- <button
                                       type="button"
                                       class="
@@ -22485,19 +22490,19 @@ data-target="#exampleModalShareholder"
                         </button>
                       </div>
                       <div class="card assigments-list" style="border:none">
-                        <div class="card-body" id="cardbodyid" style="font-size:14px">
+                        <div class="card-body p-0" id="cardbodyid" style="font-size:14px">
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
                               <ul
                                 class="accordion-head-list list-unstyled mx-2 my-1  d-flex align-items-center justify-content-between">
-                                <li class="tabsecond1 font-weight-bold" >#</li>
-                                <li class="tabsecond2 font-weight-bold" >
+                                <li class="tabsecond1 font-weight-bold">#</li>
+                                <li class="tabsecond2 font-weight-bold">
                                   <!-- Logo -->
                                   PRODUKT
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Sparte"></i> -->
                                 </li>
-                                <li class="tabsecond3 font-weight-bold" >
+                                <li class="tabsecond3 font-weight-bold">
                                   ANBIETER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="providers"></i> -->
@@ -22507,12 +22512,12 @@ data-target="#exampleModalShareholder"
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Contract_number"></i> -->
                                 </li>
-                                <li class="tabsecond5 font-weight-bold" >
+                                <li class="tabsecond5 font-weight-bold">
                                   VERTRAG-STATUS
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Contract_status"></i> -->
                                 </li>
-                                <li class="tabsecond6 font-weight-bold" >
+                                <li class="tabsecond6 font-weight-bold">
                                   <!-- Vertragsbeginn/Vertragsablauf -->
                                   LAUFZEIT / BEGINN
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
@@ -22527,7 +22532,7 @@ data-target="#exampleModalShareholder"
                                       data-name="Contract_expiration"
                                       ></i>
                                     </li> -->
-                                    <!-- By Jaseer -->
+                                <!-- By Jaseer -->
                                 <!-- <li class="tabsecond7 font-weight-bold" style="width: 6%">
                                   Beitrag
                                   <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
@@ -22543,7 +22548,7 @@ data-target="#exampleModalShareholder"
                                   <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                     data-name="Insured_risk"></i>
                                 </li> -->
-                                <li class="tabsecond8 font-weight-bold" >
+                                <li class="tabsecond8 font-weight-bold">
                                   <!-- Interaktionen -->
                                   INTERAKTIONEN
                                 </li>
@@ -22557,10 +22562,10 @@ data-target="#exampleModalShareholder"
                                   <ul
                                     class="accordion-list-data list-unstyled  mx-2 my-1  d-flex align-items-center justify-content-between"
                                     id="ul{{ cl.element.id }}">
-                                    <li class="tabsecond1" >
+                                    <li class="tabsecond1">
                                       {{ startRecord + i }}
                                     </li>
-                                    <li class="tabsecond2" >
+                                    <li class="tabsecond2">
                                       <!-- <img
                                           src="{{ cl.element.responselogo }}"
                                             style="width: 50%"
@@ -22570,7 +22575,7 @@ data-target="#exampleModalShareholder"
                                       .product_typename
                                       }}
                                     </li>
-                                    <li class="tabsecond3" >
+                                    <li class="tabsecond3">
                                       <!-- {{ el.providers }} -->
                                       <!-- <img src="{{ cl.element.responselogo }}" style="width: 50px" /> -->
                                       {{
@@ -22578,13 +22583,13 @@ data-target="#exampleModalShareholder"
                                       .company_name
                                       }}
                                     </li>
-                                    <li class="tabsecond4 text-center" >
+                                    <li class="tabsecond4 text-center">
                                       {{ el.Contract_number }}
                                     </li>
-                                    <li class="tabsecond5" >
+                                    <li class="tabsecond5">
                                       {{ el.Contract_status }}
                                     </li>
-                                    <li class="tabsecond6" >
+                                    <li class="tabsecond6">
                                       {{
                                       el.Start_of_contract | date : "dd"
                                       }}.{{
@@ -22616,7 +22621,7 @@ data-target="#exampleModalShareholder"
                                       {{ el.Insured_risk }}
                                     </li> -->
 
-                                    <li class="tabsecond8 " >
+                                    <li class="tabsecond8 ">
                                       <!-- <button
                                             type="button"
                                             class="
@@ -23027,18 +23032,18 @@ data-target="#exampleModalShareholder"
                         </button>
                       </div>
                       <div class="card assigments-list" style="border:none">
-                        <div class="card-body" id="cardbodyid">
+                        <div class="card-body p-0" id="cardbodyid">
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
                               <ul
                                 class="accordion-head-list list-unstyled mx-2 my-1 d-flex align-items-start justify-content-between">
-                                <li class="tabsecond1 font-weight-bold" >#</li>
-                                <li class="tabsecond2 font-weight-bold" >
+                                <li class="tabsecond1 font-weight-bold">#</li>
+                                <li class="tabsecond2 font-weight-bold">
                                   LOGO
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="Sparte"></i> -->
                                 </li>
-                                <li class="tabsecond3 font-weight-bold" >
+                                <li class="tabsecond3 font-weight-bold">
                                   ANBIETER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="providers"></i> -->
@@ -23059,7 +23064,7 @@ data-target="#exampleModalShareholder"
                                     data-name="Start_of_contract"></i> -->
                                 </li>
                                 <li class="tabsecond7 font-weight-bold">
-                                    VERTRAGSABLAUF
+                                  VERTRAGSABLAUF
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="Contract_expiration"></i> -->
                                 </li>
@@ -23094,13 +23099,13 @@ data-target="#exampleModalShareholder"
                                   <ul
                                     class="accordion-list-data list-unstyled mx-2 my-1 d-flex align-items-center justify-content-between"
                                     id="ul{{ cl._id }}">
-                                    <li class="tabsecond1" >
+                                    <li class="tabsecond1">
                                       {{ startRecordsecond + i }}
                                     </li>
-                                    <li class="tabsecond2" >
+                                    <li class="tabsecond2">
                                       <img src="{{ cl.element.responselogo }}" style="width: 50%" />
                                     </li>
-                                    <li class="tabsecond3" >
+                                    <li class="tabsecond3">
                                       {{ cl.element.product_partner }}
                                     </li>
                                     <li class="tabsecond4"></li>
@@ -23184,7 +23189,7 @@ data-target="#exampleModalShareholder"
                     </div>
                   </div>
                 </div>
-                <div [hidden]="Vertrage.Angebote.Geldanlagen" class="new-item  " >
+                <div [hidden]="Vertrage.Angebote.Geldanlagen" class="new-item  ">
                   <div
                     class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                     style="margin-top: 0px">
@@ -23264,13 +23269,13 @@ data-target="#exampleModalShareholder"
                             <div class="accordion-head">
                               <ul
                                 class="accordion-head-list list-unstyled mx-2 my-0 d-flex align-items-start justify-content-between">
-                                <li class="tabsecond1 font-weight-bold" >#</li>
-                                <li class="tabsecond2 font-weight-bold" >
-                                  LOGO  
+                                <li class="tabsecond1 font-weight-bold">#</li>
+                                <li class="tabsecond2 font-weight-bold">
+                                  LOGO
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="Sparte"></i> -->
                                 </li>
-                                <li class="tabsecond3 font-weight-bold" >
+                                <li class="tabsecond3 font-weight-bold">
                                   ANBIETER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="providers"></i> -->
@@ -23326,13 +23331,13 @@ data-target="#exampleModalShareholder"
                                   <ul
                                     class="accordion-list-data list-unstyled mx-2 my-1 d-flex align-items-center justify-content-between"
                                     id="ul{{ cl._id }}">
-                                    <li class="tabsecond1" >
+                                    <li class="tabsecond1">
                                       {{ startRecordsecond + i }}
                                     </li>
                                     <li class="tabsecond2">
                                       <img src="{{ cl.element.responselogo }}" style="width: 50%" />
                                     </li>
-                                    <li class="tabsecond3" >
+                                    <li class="tabsecond3">
                                       {{ cl.element.product_partner }}
                                     </li>
                                     <li class="tabsecond4"></li>
@@ -23415,7 +23420,7 @@ data-target="#exampleModalShareholder"
                     </div>
                   </div>
                 </div>
-                <div [hidden]="Vertrage.Angebote.Bank" class="new-item  " >
+                <div [hidden]="Vertrage.Angebote.Bank" class="new-item  ">
                   <div
                     class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                     style="margin-top: 0px">
@@ -23508,18 +23513,18 @@ data-target="#exampleModalShareholder"
                         </button>
                       </div>
                       <div class="card assigments-list" style="border:none">
-                        <div class="card-body" id="cardbodyid">
+                        <div class="card-body p-0" id="cardbodyid">
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
                               <ul
                                 class="accordion-head-list list-unstyled mx-2 my-1 d-flex align-items-start justify-content-between">
-                                <li class="tabsecond1 font-weight-bold" >#</li>
-                                <li class="tabsecond2 font-weight-bold" >
+                                <li class="tabsecond1 font-weight-bold">#</li>
+                                <li class="tabsecond2 font-weight-bold">
                                   LOGO
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="Sparte"></i> -->
                                 </li>
-                                <li class="tabsecond3 font-weight-bold" >
+                                <li class="tabsecond3 font-weight-bold">
                                   ANBIETER
                                   <!-- <i class="fa fa-sort-desc" [appSort]="pagedItemssecond" data-order="asc"
                                     data-name="providers"></i> -->
@@ -23575,13 +23580,13 @@ data-target="#exampleModalShareholder"
                                   <ul
                                     class="accordion-list-data list-unstyled mx-2 my-1  d-flex align-items-center justify-content-between"
                                     id="ul{{ cl._id }}">
-                                    <li class="tabsecond1" >
+                                    <li class="tabsecond1">
                                       {{ startRecordsecond + i }}
                                     </li>
-                                    <li class="tabsecond2" >
+                                    <li class="tabsecond2">
                                       <img src="{{ cl.element.responselogo }}" style="width: 50%" />
                                     </li>
-                                    <li class="tabsecond3" >
+                                    <li class="tabsecond3">
                                       {{ cl.element.product_partner }}
                                     </li>
                                     <li class="tabsecond4"></li>
