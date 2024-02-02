@@ -996,6 +996,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.hideValues[key] = true
       }
 
+      for (const key of Object.keys(this.Vertrage.Laufende)) {
+        this.Vertrage.Laufende[key] = true
+      }
+      for (const key of Object.keys(this.Vertrage.Angebote)) {
+        this.Vertrage.Angebote[key] = true
+      }
+      this.Vertrage.Allgemeine = true
+
       if (data[0] == 'Laufende') {
 
         for (const key of Object.keys(this.Vertrage.Laufende)) {
