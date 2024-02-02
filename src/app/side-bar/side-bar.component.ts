@@ -324,7 +324,7 @@ export class SideBarComponent implements OnInit {
     this.currentTab = item
     console.log(item);
     
-    // this.userService.modalIdfromSidebar.next(id)
+    this.userService.modalIdfromSidebar.next(id)
   }
 
   close_modal(modal_id: any, append_to: any) {

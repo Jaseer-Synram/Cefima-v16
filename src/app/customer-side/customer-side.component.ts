@@ -38,6 +38,8 @@ declare var $: any;
 })
 export class CustomerSideComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
 
+
+
   @ViewChild("canvas") canvas: ElementRef;
   signaturePad: SignaturePad
 
@@ -84,6 +86,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     },
     Allgemeine: true
   }
+
+  addKunden = {
+    exampleModalLongnewfamilyPOA: true,
+    exampleModalLongnewcompany: true,
+    exampleModalLongnewcompanyoffices: true,
+    exampleModalLongnewcompanycustomer: true
+  }
+
+  itemToDisplayUnderKunden = ''
 
   public signaturePadOptions: Object = {
     minWidth: 2,
@@ -977,6 +988,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
       this.Vertrage.Allgemeine = true
 
+      for (const key of Object.keys(this.addKunden)) {
+        this.addKunden[key] = true
+      }
+
       let itemString = `${item}`
 
       for (const key of Object.keys(this.hideValues)) {
@@ -1003,6 +1018,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.Vertrage.Angebote[key] = true
       }
       this.Vertrage.Allgemeine = true
+
+      for (const key of Object.keys(this.addKunden)) {
+        this.addKunden[key] = true
+      }
 
       if (data[0] == 'Laufende') {
 
@@ -1031,6 +1050,35 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     })
 
+    this.userService.modalIdfromSidebar.subscribe((data) => {
+
+
+      for (const key of Object.keys(this.hideValues)) {
+        this.hideValues[key] = true
+      }
+
+      for (const key of Object.keys(this.Vertrage.Laufende)) {
+        this.Vertrage.Laufende[key] = true
+      }
+      for (const key of Object.keys(this.Vertrage.Angebote)) {
+        this.Vertrage.Angebote[key] = true
+      }
+      this.Vertrage.Allgemeine = true
+
+      for (const key of Object.keys(this.addKunden)) {
+        this.addKunden[key] = true
+      }
+
+      for (const key of Object.keys(this.addKunden)) {
+        if (key !== data) {
+          this.addKunden[key] = true
+        } else {
+          this.addKunden[key] = false
+        }
+      }
+
+
+    })
   }
 
 
@@ -1806,6 +1854,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
   ngOnInit() {
 
+
     console.log('haushalt if:', !this.localData.hasOwnProperty('companytype') ||
       this.localData.companytype == ' ' ||
       this.localData.companytype == '' ||
@@ -2455,6 +2504,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 exists = 1;
               }
             }
+            console.log('exists******************');
 
             if (exists == 0) {
               this.customerDocListunique.push(this.customerDocList[i]);
@@ -3449,9 +3499,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 console.log("result it", result);
                 Swal.fire({
                   position: "center",
-                  icon: "success",
                   allowOutsideClick: false,
                   title: "Ihre Daten wurden erfolgreich gespeichert.",
+                  iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                  confirmButtonText: "Ok",
+                  confirmButtonColor: '#02a9ed',
+                  customClass: {
+                    icon: 'no-border'
+                  },
                 }).then(() => {
                   this.userService
                     .getDocumentByTabId(this.selectedTab.id)
@@ -4681,9 +4736,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           Swal.fire({
             position: "center",
-            icon: "success",
             allowOutsideClick: false,
             title: "Ihre Daten wurden erfolgreich gespeichert.",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           })
             .then((result) => {
               console.log(result);
@@ -4817,9 +4877,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           Swal.fire({
             position: "center",
-            icon: "success",
             allowOutsideClick: false,
             title: "Ihre Daten wurden erfolgreich gespeichert.",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           })
             .then((result) => {
               console.log(result);
@@ -4967,9 +5032,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           console.log("saveFamilyMemberPOA");
           Swal.fire({
             position: "center",
-            icon: "success",
             allowOutsideClick: false,
             title: "Ihre Daten wurden erfolgreich gespeichert.",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           })
             .then((result) => {
               console.log(result);
@@ -5149,7 +5219,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
               Swal.fire({
                 position: "center",
-                icon: "success",
                 allowOutsideClick: false,
                 title: "Ihre Daten wurden erfolgreich gespeichert.",
                 html: `<div>
@@ -5157,6 +5226,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                       <i class="fa fa-download" aria-hidden="true"></i> </a>
                   
                      </div>`,
+                iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                confirmButtonText: "Ok",
+                confirmButtonColor: '#02a9ed',
+                customClass: {
+                  icon: 'no-border'
+                },
               })
                 .then((result) => {
                   console.log(result);
@@ -5298,9 +5373,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             console.log("saveFamilyMember" + success.status);
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -7836,9 +7916,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -7931,9 +8016,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -8011,9 +8101,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -8091,9 +8186,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -8167,9 +8267,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -8275,9 +8380,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             Swal.fire({
               position: "center",
-              icon: "success",
               allowOutsideClick: false,
               title: "Ihre Daten wurden erfolgreich gespeichert.",
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => {
                 console.log(result);
@@ -11799,11 +11909,30 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
-  DateRender(id: string) {
+  addCustomer() {
+    let id: any
     this.userService.modalIdfromSidebar.pipe(first()).subscribe((data) => {
       id = data
     })
+
+    for (const key of Object.keys(this.hideValues)) {
+      this.hideValues[key] = true
+    }
+
+    for (const key of Object.keys(this.Vertrage.Laufende)) {
+      this.Vertrage.Laufende[key] = true
+    }
+    for (const key of Object.keys(this.Vertrage.Angebote)) {
+      this.Vertrage.Angebote[key] = true
+    }
+    this.Vertrage.Allgemeine = true
+    console.log(id);
+  }
+
+  DateRender(id: string) {
+
     this.open_modal(id)
+
   }
   dataURLtoBlob(dataurl: any) {
     var arr = dataurl.split(","),
@@ -12879,11 +13008,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                       $("#loaderouterid").css("display", "none");
 
                       Swal.fire({
-                        icon: "success",
                         title: "Angebote/Fremdverträge hinzugefügt",
                         text: "Ihre Vorgangsnmummer ist: " + values.ticket_no,
                         allowOutsideClick: false,
                         confirmButtonText: "Ok",
+                        iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                        confirmButtonColor: '#02a9ed',
+                        customClass: {
+                          icon: 'no-border'
+                        },
                       }).then((result) => {
                         if (result.value) {
                           if (values.document_type == "fremdvertrag") {
@@ -12950,11 +13083,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                       $("#loaderouterid").css("display", "none");
 
                       Swal.fire({
-                        icon: "success",
                         title: "Bestandsübertragung hinzugefügt",
                         text: "Ihre Vorgangsnmummer ist: " + values.ticket_no,
                         allowOutsideClick: false,
                         confirmButtonText: "Ok",
+                        iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                        confirmButtonColor: '#02a9ed',
+                        customClass: {
+                          icon: 'no-border'
+                        },
                       }).then((result) => {
                         if (result.value) {
                           if (values.document_type == "fremdvertrag") {
@@ -12986,14 +13123,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("sparte");
     console.log(sparte);
 
-    let index = sparte.indexOf(" ");
-    if (index >= 0) sparte = sparte.slice(0, index); // or index + 1 to keep the character  this.pagedItems[i].element.inventorydata[j].Sparte
+    // let index = sparte.indexOf(" ");
+    // if (index >= 0) sparte = sparte.slice(0, index); // or index + 1 to keep the character  this.pagedItems[i].element.inventorydata[j].Sparte
 
-    console.log(sparte);
-
+    console.log('customerDocList', this.customerDocList);
+    console.log('customerDocListunique', this.customerDocListunique);
     this.customerDocListunique = [];
 
-    if (sparte != "all") {
+    if (sparte != "All") {
       for (let i = 0; i < this.customerDocList.length; i++) {
         for (
           let j = 0;
@@ -13039,6 +13176,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.customerDocListunique.push(this.customerDocList[i]);
         }
       }
+
     }
 
     this.setPage(1);
@@ -13103,19 +13241,29 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log(this.customerDocListsecondunique);
   }
 
-  opencontract(divid: any, btnid: any, id: any) {
+  cl: any
+  el: any
+  opencontract(divid: any, btnid: any, id: any, cl: any, el: any) {
     console.log("open contract");
+    this.el = el
+    this.cl = cl
+    console.log('elcl:', cl, el);
+
+    $('#opencontractmodal').trigger("click")
+    this.open_modal('opencontract')
 
     let btnvalue = $("#" + btnid + id).html();
 
+
     if (btnvalue == "Schließen") {
       $("#" + btnid + id).html("Öffnen");
-      $("#" + divid + id).css("display", "none");
+      // this.open_modal('opencontract')
+      // $("#" + divid + id).css("display", "none");
     } else {
       $(".openclass").html("Öffnen");
       $("#" + btnid + id).html("Schließen");
-      $(".opencontract").css("display", "none");
-      $("#" + divid + id).css("display", "block");
+      // $(".opencontract").css("display", "none");
+      // $("#" + divid + id).css("display", "block");
     }
   }
 
@@ -13133,6 +13281,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log(event);
 
     if (event.target.innerHTML == "Öffnen") {
+      console.log('here');
+
       $(".opencontractdocbtn").html("Öffnen");
       event.target.innerHTML = "Schließen";
       $(".contractdocs").css("display", "none");
@@ -13140,6 +13290,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       $("#" + embedid + index).attr("src", url);
       $("#" + embedid + index).attr("type", tags[0].split(",")[1]);
     } else {
+      console.log(' elsehere');
+
       event.target.innerHTML = "Öffnen";
       $(".contractdocs").css("display", "none");
     }
@@ -13316,7 +13468,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
                 Swal.fire({
                   position: "center",
-                  icon: "success",
                   allowOutsideClick: false,
                   title: "Ihre Daten wurden erfolgreich gespeichert.",
                   html: `<div>
@@ -13324,6 +13475,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                       <i class="fa fa-download" aria-hidden="true"></i> </a>
                   
                     </div>`,
+                  iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                  confirmButtonText: "Ok",
+                  confirmButtonColor: '#02a9ed',
+                  customClass: {
+                    icon: 'no-border'
+                  },
                 })
                   .then((result) => {
                     console.log(result);
@@ -13396,7 +13553,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             if (this.currentActiveRole == "customer") {
               Swal.fire({
                 position: "center",
-                icon: "success",
                 allowOutsideClick: false,
                 title: "Ihre Daten wurden erfolgreich gespeichert.",
                 html: `<div>
@@ -13404,6 +13560,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               <i class="fa fa-download" aria-hidden="true"></i> </a>
           
             </div>`,
+                iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                confirmButtonText: "Ok",
+                confirmButtonColor: '#02a9ed',
+                customClass: {
+                  icon: 'no-border'
+                },
               })
                 .then((result) => {
                   console.log(result);
@@ -13422,9 +13584,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             } else {
               Swal.fire({
                 position: "center",
-                icon: "success",
                 allowOutsideClick: false,
                 title: "Ihre Daten wurden erfolgreich gespeichert.",
+                iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                confirmButtonText: "Ok",
+                confirmButtonColor: '#02a9ed',
+                customClass: {
+                  icon: 'no-border'
+                },
               })
                 .then((result) => {
                   console.log(result);
@@ -13502,7 +13669,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             if (this.currentActiveRole == "customer") {
               Swal.fire({
                 position: "center",
-                icon: "success",
                 allowOutsideClick: false,
                 title: "Ihre Daten wurden erfolgreich gespeichert.",
                 html: `<div>
@@ -13510,6 +13676,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                   <i class="fa fa-download" aria-hidden="true"></i> </a>
               
                 </div>`,
+                iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                confirmButtonText: "Ok",
+                confirmButtonColor: '#02a9ed',
+                customClass: {
+                  icon: 'no-border'
+                },
               })
                 .then((result) => {
                   console.log(result);
@@ -13528,9 +13700,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             } else {
               Swal.fire({
                 position: "center",
-                icon: "success",
                 allowOutsideClick: false,
                 title: "Ihre Daten wurden erfolgreich gespeichert.",
+                iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                confirmButtonText: "Ok",
+                confirmButtonColor: '#02a9ed',
+                customClass: {
+                  icon: 'no-border'
+                },
               })
                 .then((result) => {
                   console.log(result);

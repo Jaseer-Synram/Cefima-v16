@@ -1133,7 +1133,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
             title: `Ihr Konto wurde erfolgreich erstellt. Bitte überprüfen Sie Ihre E-Mails und legen Sie Ihr Passwort fest. Ihre Vorgangs Nr. ist. : ${T_N}`,
             showConfirmButton: false,
             allowOutsideClick: false,
-            icon: "success",
             html:
               `<div style="width:100%">
             <a id="buttonthree" style="color: #184397" class="btn "><i class="fa fa-file-pdf-o" aria-hidden="true"></i> ` +
@@ -1143,6 +1142,12 @@ export class LoginComponent implements AfterViewInit, OnInit {
             <br><br> 
             <button id="buttonFour" type="button" style="background: #184397" class="btn btn-primary">Zur Startseite <i class='fa fa-arrow-right'></i></button>
             </div>`,
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           }).then((result) => {
             if (result["isDismissed"]) {
               // this.logout();
@@ -1539,7 +1544,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
   //   (<any>$('[data-toggle="tooltip"]')).tooltip("show");
   // }
   ngAfterViewInit() {
-    if(this.canvas?.nativeElement){
+    if (this.canvas?.nativeElement) {
       this.signaturePad = new SignaturePad(this.canvas.nativeElement);
     }
     $("#brokerhowitworkmodal").css("display", "none");
@@ -1754,8 +1759,8 @@ export class LoginComponent implements AfterViewInit, OnInit {
       $(".section-fix").css("height", "100%");
       $("#rotatebtn").css("width", "100%");
     }
-    
-    if(this.signaturePad != undefined){
+
+    if (this.signaturePad != undefined) {
       this.signaturePad.minWidth = 2; // set szimek/signature_pad options at runtime
       this.signaturePad.clear();  // invoke functions from szimek/signature_pad API
     }
@@ -2969,7 +2974,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
   }
 
   getRef(fullPageRef: any) {
-    
+
     // this.fullpage_api = fullPageRef;
   }
 
@@ -3271,9 +3276,13 @@ export class LoginComponent implements AfterViewInit, OnInit {
               response["user"].brokerregticketno,
             showCloseButton: true,
             allowOutsideClick: false,
-            icon: "success",
             confirmButtonText:
               "Zur Startseite <i class='fa fa-arrow-right'></i>",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           })
             .then((result) => {
               if (result["isDismissed"]) {
@@ -3619,7 +3628,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
           this.router.navigate(["./"]);
         }
       );
-      // return;
+    // return;
   }
   openNav() {
     $("#myNav").css("width", "100%");
@@ -3728,11 +3737,11 @@ export class LoginComponent implements AfterViewInit, OnInit {
 
   navigatecareer(name: any) {
     let formopen = $("#formopen").val();
-    console.log(formopen ==  undefined,formopen,':',name);
-    
+    console.log(formopen == undefined, formopen, ':', name);
+
     if (formopen == undefined || '0') {
       console.log('000000000000000000');
-      
+
       this.router.navigate(["./" + name]);
     } else {
 

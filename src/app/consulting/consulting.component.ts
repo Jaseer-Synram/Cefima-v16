@@ -884,7 +884,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
 
   getQuestionsForTabs() {
     console.log('getQuestions');
-    
+
     let that = this;
     this.questionList = [];
     let tabName: any = [];
@@ -964,7 +964,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     this.userService
       .getAllQuestionsProductType(tabName)
       .subscribe((results: any) => {
-        
+
         if (this.kundetype.toLowerCase() == "firma") {
           that.selectedBranchList.map((item: any) => {
             let user = this.allCustomerData.find(
@@ -2114,10 +2114,14 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
         $("#QAModalClose").trigger("click");
         Swal.fire({
           position: "center",
-          icon: "success",
           allowOutsideClick: false,
           title: "Ihre Daten wurden erfolgreich gespeichert.",
-          confirmButtonColor: '#02a9ed'
+          confirmButtonColor: '#02a9ed',
+          iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+          confirmButtonText: "Ok",
+          customClass: {
+            icon: 'no-border'
+          },
         }).then(() => {
           this.resetMemberList();
           this.resetContractType();
@@ -2160,7 +2164,12 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
           icon: "success",
           allowOutsideClick: false,
           title: "Ihre Daten wurden erfolgreich gespeichert.",
-          confirmButtonColor: '#02a9ed'
+          confirmButtonColor: '#02a9ed',
+          iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+          confirmButtonText: "Ok",
+          customClass: {
+            icon: 'no-border'
+          },
         }).then(() => {
           this.reloadCurrentRoute();
         });

@@ -51,7 +51,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly units: unit[] = ["bytes", "KB", "MB", "GB", "TB", "PB"];
   // @ViewChild(AgmMap, { read: AgmMap }) agmMap: any;
   showCustomer = false;
-  currentid: any 
+  currentid: any
   showmekFinanz = false;
   brokerList: Broker[] = [];
   showFiorettoImmob = false;
@@ -73,7 +73,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   showSterbVorsoge = false;
   selectedbroker: any = [];
   showCheckntrack = false;
-  customerno: any 
+  customerno: any
   alluserdetails: any = [];
   showceodoc = false;
   customerDocList: any = [];
@@ -169,7 +169,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   title: any
   lastname: any
   firstname: any
-  id: any 
+  id: any
 
   values_document: any = [];
 
@@ -177,11 +177,11 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openid: any = "";
   firstdocumentdata: any = [];
-  COMPANYNAME: any 
+  COMPANYNAME: any
   // localData = JSON.parse(localStorage.getItem("currentUser"));
   documents: any;
 
-  companytype: any 
+  companytype: any
 
   unique_documents: any = [];
 
@@ -915,9 +915,14 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
               Swal.fire({
                 position: "center",
-                icon: "success",
                 allowOutsideClick: false,
                 title: "Ihre Daten wurden erfolgreich gespeichert.",
+                iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                confirmButtonText: "Ok",
+                confirmButtonColor: '#02a9ed',
+                customClass: {
+                  icon: 'no-border'
+                },
               })
                 .then((result) => {
                   // console.log(result);
@@ -995,10 +1000,10 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
 
-    this.lastname  = this.userService.getDecodedAccessToken(
+    this.lastname = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).lastname;
-    this.firstname  = this.userService.getDecodedAccessToken(
+    this.firstname = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).firstname;
     this.customerno = this.userService.getDecodedAccessToken(
@@ -1009,7 +1014,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       localStorage.getItem("token")!
     ).id;
 
-    this.title  = this.userService.getDecodedAccessToken(
+    this.title = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).title;
 
@@ -1020,7 +1025,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companytype = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).companytype;
-  
+
 
     this.currentid = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
@@ -4925,10 +4930,15 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#loaderouterid").css("display", "none");
           Swal.fire({
             position: "center",
-            icon: "success",
             title: "Marketingdetails erfolgreich aktualisiert!!",
             // showConfirmButton: false,
             // timer: 1500
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           });
           localStorage.setItem("currentUser", JSON.stringify(success.result));
           this.documentlist[0] = "";
@@ -5031,10 +5041,15 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#loaderouterid").css("display", "none");
           Swal.fire({
             position: "center",
-            icon: "success",
             title: "Ihre Antwort wurde erfolgreich gesendet.",
             // showConfirmButton: false,
             // timer: 1500
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           });
           // localStorage.setItem("currentUser",JSON.stringify(success.result))
           this.documentlist[0] = "";

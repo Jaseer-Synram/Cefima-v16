@@ -897,11 +897,12 @@
                                             <div class="col-md-12  px-1 d-flex flex-column">
                                                 <button *ngIf="companyData.length == 0 &&familyData.length == 0"
                                                     [ngClass]=" currentTab === 'Kundentyp5' ? 'active-text': ''"
-                                                    class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                    data-target="#exampleModalLongnewcompanycustomer"
+                                                    class="stepper-btn1 transitionanimation" 
                                                     (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp5')">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                     <span>Kundentyp hinzufügen</span>
+                                                    <!-- data-toggle="modal"
+                                                    data-target="#exampleModalLongnewcompanycustomer" -->
                                                 </button>
                                             </div>
                                         </div>

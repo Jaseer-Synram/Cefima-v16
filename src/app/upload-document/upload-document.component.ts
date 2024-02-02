@@ -45,7 +45,7 @@ export class UploadDocumentComponent implements OnInit {
   loginRole = localStorage.getItem("currentActiveRole");
 
   documentList: any;
-  myControl = new FormControl('',Validators.required);
+  myControl = new FormControl('', Validators.required);
   myControlnew = new FormControl();
   customerFormGroup!: FormGroup;
   recordCount!: Number;
@@ -92,8 +92,8 @@ export class UploadDocumentComponent implements OnInit {
   hoverBestands = false
   hoverFremdvertrag = false
   hoverAllgemeines = false
-  dokumenttypStep = new FormControl('',Validators.required)
-  ProdukttypStep = new FormControl('',Validators.required)
+  dokumenttypStep = new FormControl('', Validators.required)
+  ProdukttypStep = new FormControl('', Validators.required)
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -612,9 +612,9 @@ export class UploadDocumentComponent implements OnInit {
   ReadyProductsTypeOptions!: string[];
   filteredProductsOptions!: Observable<any>;
   filteredProductsTypeOptions!: Observable<any>;
-  ProductsControl:FormControl<any> = new FormControl('',Validators.required);
+  ProductsControl: FormControl<any> = new FormControl('', Validators.required);
   ProductsTypeControl = new FormControl();
-  ThirdTypeDoc: FormControl<any> = new FormControl('',Validators.required);
+  ThirdTypeDoc: FormControl<any> = new FormControl('', Validators.required);
   ThirdTypeDocOptions!: Observable<any>;
   ShowProductsPartner: boolean = false;
   lastproducttypeid: any = '';
@@ -845,7 +845,7 @@ export class UploadDocumentComponent implements OnInit {
   ThirdTypeDocValue() {
 
     this.producttypeselected = this.ThirdTypeDoc.value;
-    
+
     console.log("ThirdTypeDoc" + this.ThirdTypeDoc.value);
     if (this.ThirdTypeDoc.value != "") {
       this.ProdukttypStep.setValue('value')
@@ -864,7 +864,7 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   patchProductTpyeValue(_event: any) {
-    
+
     this.ReadyProductsOptions = [];
     console.log("ProductsTypeControl" + this.ProductsTypeControl.value.name);
     this.document_sub_typename = this.ProductsTypeControl.value.name
@@ -998,7 +998,6 @@ export class UploadDocumentComponent implements OnInit {
           if (length == index + 1) {
             $("#loaderouterid").css("display", "none");
             Swal.fire({
-              icon: "success",
               title: ` Möchten Sie für den ausgewählten Kunden  ${this.fn} ${this.ln} weitere Dokumente hochladen?`,
               html: `<div style="width:100%">
                 <button id="buttonOne"type="button" style="background: #184397" class="btn button-primary">Ja</button>
@@ -1006,6 +1005,12 @@ export class UploadDocumentComponent implements OnInit {
                 <button id="buttonThree"type="button" class="btn btn-dark">Neuer Kunde</button>
                 </div>`,
               showConfirmButton: false,
+              iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+              confirmButtonText: "Ok",
+              confirmButtonColor: '#02a9ed',
+              customClass: {
+                icon: 'no-border'
+              },
             })
               .then((result) => { })
               .catch((err) => { });

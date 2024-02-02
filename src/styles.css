@@ -1345,6 +1345,12 @@ button.sparte {
     display: none !important;
 }
 
+/* remove border of swal icon */
+
+.no-border {
+    border: none !important;
+}
+
 /* question stepper end */
 
 

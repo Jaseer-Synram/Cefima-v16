@@ -917,8 +917,10 @@ export class AddProductComponent implements OnInit, AfterViewInit {
         allowOutsideClick: false,
         confirmButtonText: "Ok",
         customClass: {
-          container: 'position-absolute'
+          container: 'position-absolute no-border'
         },
+        iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+        confirmButtonColor: '#02a9ed',
       }).then(result => {
         if (result.value) {
           this.clearSteps()
@@ -1055,7 +1057,7 @@ export class AddProductComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loginRole = this.loginRole;
     console.log(this.loginRole);
-    
+
     this.routeParams = this.activatedRoute.snapshot?.routeConfig?.path;
 
     this.personalInfoFormGroup = this._formBuilder.group({

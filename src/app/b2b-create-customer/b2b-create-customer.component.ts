@@ -279,7 +279,7 @@ export class B2bCreateCustomerComponent {
   showmore1 = [false];
   ThirdTypeDocOptions!: Observable<any>;
   ThirdTypeDoc = new FormControl();
-  askquestion = new FormControl('',Validators.required)
+  askquestion = new FormControl('', Validators.required)
   customervalidemail = false;
   companytypevalue = false;
   registerDone = false;
@@ -355,7 +355,7 @@ export class B2bCreateCustomerComponent {
   intlTelInputShow() {
     const input = document.getElementById("phone");
     console.log("querySelector" + input);
-    if (input){
+    if (input) {
       intlTelInput(input, {
         initialCountry: "DE",
         geoIpLookup: function (callback) {
@@ -1562,11 +1562,15 @@ export class B2bCreateCustomerComponent {
         () => {
 
           Swal.fire({
-            icon: "success",
             html: " Benutzer erfolgreich hinzugefügt und Verifizierungs E-Mail versandt. <br> <br>Möchten Sie weitere Kunden hinzufügen?",
             showCancelButton: true,
             confirmButtonText: "Ja",
-            cancelButtonText: "Nein &nbsp; <i class='fa fa-arrow-right'></i>"
+            cancelButtonText: "Nein &nbsp; <i class='fa fa-arrow-right'></i>",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           }).then(result => {
             let that = this;
             console.log("result", result);

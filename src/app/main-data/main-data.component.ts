@@ -616,7 +616,12 @@ export class MainDataComponent {
                     title: "Erfolgreich gelöscht",
                     showCloseButton: true,
                     allowOutsideClick: false,
-                    icon: "success",
+                    iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                    confirmButtonText: "Ok",
+                    confirmButtonColor: '#02a9ed',
+                    customClass: {
+                      icon: 'no-border'
+                    },
                   }).then((result: any) => { });
                 });
             });
@@ -731,10 +736,10 @@ export class MainDataComponent {
     public userService: UserService,
     private _formBuilder: FormBuilder,
     private pagerService: PagerService,
-    private router:Router,
+    private router: Router,
     public jwtHelper: JwtHelperService,
-    private authService:AuthService,
-    private socketAlertService:SocketAlertsService,
+    private authService: AuthService,
+    private socketAlertService: SocketAlertsService,
     private datePipe: DatePipe,
   ) { }
   today_date: Date = new Date();
@@ -883,37 +888,37 @@ export class MainDataComponent {
           this.loaded.chat_cases = true;
           $("#loaderouterid").css("display", "none");
         });
-    } else if(event.index == 2){
+    } else if (event.index == 2) {
       this.currentPage = 1;
       this.getLoginHistory();
-     }
+    }
   }
 
-  getLoginHistory(){
-    $('#loaderouterid').css("display","flex");
-    let data = {user_id: this.currentUser._id,brand_id:this.brand_id,limit:30,page: this.currentPage};
-    this.userService.getLoginHistory(data).subscribe((response:{status,data,count})=>{
-      if(response.status == "200"){
+  getLoginHistory() {
+    $('#loaderouterid').css("display", "flex");
+    let data = { user_id: this.currentUser._id, brand_id: this.brand_id, limit: 30, page: this.currentPage };
+    this.userService.getLoginHistory(data).subscribe((response: { status, data, count }) => {
+      if (response.status == "200") {
         this.loginHistoryCount = response.count;
         this.loginHistory = response.data;
-        this.loginHistory.map((login:any,index)=>{
-          if(!(login?.log_out) || login?.log_out?.logged_out == "0"){
-            login.log_out = {logged_out:"0",dateTime:""};
-            login.log_out.logged_out = this.jwtHelper.isTokenExpired(login.jwt_token)? "1" : "0";
+        this.loginHistory.map((login: any, index) => {
+          if (!(login?.log_out) || login?.log_out?.logged_out == "0") {
+            login.log_out = { logged_out: "0", dateTime: "" };
+            login.log_out.logged_out = this.jwtHelper.isTokenExpired(login.jwt_token) ? "1" : "0";
             login.log_out.dateTime = (login.log_out.logged_out == "1" ? this.datePipe.transform(this.jwtHelper.getTokenExpirationDate(login.jwt_token), 'dd.MM.yyyy HH:mm') : 'Noch nicht ausgeloggt');
-          }else{
+          } else {
             login.log_out.dateTime = this.datePipe.transform(login.log_out.dateTime, 'dd.MM.yyyy HH:mm');
           }
-          if((this.loginHistory.length-1) == index){
+          if ((this.loginHistory.length - 1) == index) {
             this.setPage(this.currentPage);
           }
         });
         console.log("check login history");
         console.log(this.loginHistory);
         //this.setPage(1);
-        
-      }else{
-        $('#loaderouterid').css("display","none");
+
+      } else {
+        $('#loaderouterid').css("display", "none");
       }
     });
   }
@@ -936,7 +941,7 @@ export class MainDataComponent {
         1;
       this.endRecord =
         this.pager.currentPage * this.pagerService.getDefaultPageSize() >
-        this.loginHistory.length
+          this.loginHistory.length
           ? this.loginHistory.length
           : this.pager.currentPage * this.pagerService.getDefaultPageSize();
     } else {
@@ -944,7 +949,7 @@ export class MainDataComponent {
       this.endRecord = 0;
     }
 
-    $('#loaderouterid').css("display","none");
+    $('#loaderouterid').css("display", "none");
   }
 
   private _filter(value: string): string[] {
@@ -1212,7 +1217,12 @@ export class MainDataComponent {
           title: "Benutzer erfolgreich aktualisiert",
           showCancelButton: false,
           allowOutsideClick: false,
-          icon: "success",
+          iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+          confirmButtonText: "Ok",
+          confirmButtonColor: '#02a9ed',
+          customClass: {
+            icon: 'no-border'
+          },
         });
       },
       (error) => {
@@ -1284,7 +1294,12 @@ export class MainDataComponent {
             title: "Erfolgreich hinzugefügt",
             showCancelButton: false,
             allowOutsideClick: false,
-            icon: "success",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           }).then((result) => {
             if (result.value) {
               $("#close_createEventModal").trigger("click");
@@ -1327,7 +1342,12 @@ export class MainDataComponent {
             title: "Erfolgreich aktualisiert",
             showCancelButton: false,
             allowOutsideClick: false,
-            icon: "success",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           }).then((result) => {
             if (result.value) {
               $("#close_editEventModal").trigger("click");
@@ -1772,7 +1792,12 @@ export class MainDataComponent {
           title: `Brief erfolgreich versendet.`,
           showCloseButton: true,
           allowOutsideClick: false,
-          icon: "success",
+          iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+          confirmButtonText: "Ok",
+          confirmButtonColor: '#02a9ed',
+          customClass: {
+            icon: 'no-border'
+          },
         });
         while (this.letter_sections.length != 0) {
           this.letter_sections.removeAt(0);
@@ -2002,7 +2027,12 @@ export class MainDataComponent {
           title: "Email wurde erfolgreich Versendet.",
           showCloseButton: true,
           allowOutsideClick: false,
-          icon: "success",
+          iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+          confirmButtonText: "Ok",
+          confirmButtonColor: '#02a9ed',
+          customClass: {
+            icon: 'no-border'
+          },
         }).then((result) => {
           this.custom_emails = [];
           this.sendEmailFormGroup.reset();
@@ -2253,7 +2283,12 @@ export class MainDataComponent {
         title: "Ihre Startseite wurde erfolgreich geändert.",
         showCloseButton: true,
         allowOutsideClick: false,
-        icon: "success",
+        iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+        confirmButtonText: "Ok",
+        confirmButtonColor: '#02a9ed',
+        customClass: {
+          icon: 'no-border'
+        },
       }).then((result: any) => { });
     });
   }
@@ -2369,7 +2404,12 @@ export class MainDataComponent {
             title: "E-Mail-Konfiguration erfolgreich aktualisiert.",
             showCloseButton: true,
             allowOutsideClick: false,
-            icon: "success",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           });
         });
     } else {
@@ -2381,7 +2421,12 @@ export class MainDataComponent {
             title: "E-Mail-Konfiguration erfolgreich gespeichert.",
             showCloseButton: true,
             allowOutsideClick: false,
-            icon: "success",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           });
         });
     }
@@ -2448,7 +2493,12 @@ export class MainDataComponent {
             title: "E-Mail eingerichtet",
             showCloseButton: true,
             allowOutsideClick: false,
-            icon: "success",
+            iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+            confirmButtonText: "Ok",
+            confirmButtonColor: '#02a9ed',
+            customClass: {
+              icon: 'no-border'
+            },
           });
         } else if (result.status == "500") {
           this.emails.controls[data.email_index].patchValue({
@@ -2476,7 +2526,12 @@ export class MainDataComponent {
           title: "E-Mail eingerichtet",
           showCloseButton: true,
           allowOutsideClick: false,
-          icon: "success",
+          iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+          confirmButtonText: "Ok",
+          confirmButtonColor: '#02a9ed',
+          customClass: {
+            icon: 'no-border'
+          },
         });
       } else if (result.status == "500") {
         this.emails.controls[data.email_index].patchValue({
@@ -2560,40 +2615,40 @@ export class MainDataComponent {
   }
 
   logout() {
-    $('#loaderouterid').css("display","flex");
-    this.authService.logout().subscribe((response:any)=>{
+    $('#loaderouterid').css("display", "flex");
+    this.authService.logout().subscribe((response: any) => {
       console.log("lets check whats the response of logout");
       console.log(response);
-      $('#loaderouterid').css("display","none");
-      if(response.status == "200"){
+      $('#loaderouterid').css("display", "none");
+      if (response.status == "200") {
         localStorage.removeItem("token");
         localStorage.removeItem("currentUser");
         localStorage.removeItem("currentActiveRole");
         this.router.navigate(["./"]);
-      }else{
+      } else {
         console.log("Couldn't logout there is an error maybe");
         console.log(response);
       }
     });
   }
-  
-  logoutOtherSession(login){
-    $('#loaderouterid').css("display","flex");
-    this.authService.logout(login.jwt_token).subscribe((response:any)=>{
-      $('#loaderouterid').css("display","none");
-      if(response.status == "200"){
-        this.loginHistory[this.loginHistory.findIndex(x=> x._id == login._id)].log_out.logged_out = "1";
-        this.loginHistory[this.loginHistory.findIndex(x=> x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(),'dd.MM.yyyy HH:mm');
-  
-        this.pagedItems[this.pagedItems.findIndex(x=> x._id == login._id)].log_out.logged_out = "1";
-        this.pagedItems[this.pagedItems.findIndex(x=> x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(),'dd.MM.yyyy HH:mm');
-  
-        const newData = {socketName:"remove-session",token_to_remove:login.jwt_token};
+
+  logoutOtherSession(login) {
+    $('#loaderouterid').css("display", "flex");
+    this.authService.logout(login.jwt_token).subscribe((response: any) => {
+      $('#loaderouterid').css("display", "none");
+      if (response.status == "200") {
+        this.loginHistory[this.loginHistory.findIndex(x => x._id == login._id)].log_out.logged_out = "1";
+        this.loginHistory[this.loginHistory.findIndex(x => x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(), 'dd.MM.yyyy HH:mm');
+
+        this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.logged_out = "1";
+        this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(), 'dd.MM.yyyy HH:mm');
+
+        const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
         this.socketAlertService.updateData(newData);
       }
     });
   }
-  
+
 
 }
 
