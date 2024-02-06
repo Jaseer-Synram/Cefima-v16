@@ -18,14 +18,14 @@
 
 
 
-.stepper-btn1 span:focus{
+.stepper-btn1 :focus{
   border: none;
   background: transparent;
   color: black;
   text-decoration: underline;
 }
 
-.stepper-btn1 span:hover{
+.stepper-btn1 :hover{
   border: none;
   background: white;
   color: black;

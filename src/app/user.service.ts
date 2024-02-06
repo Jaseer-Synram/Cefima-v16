@@ -26,7 +26,7 @@ export class UserService {
   modalIdfromSidebar = new BehaviorSubject('');
   invokeSideBarRouteFether: BehaviorSubject<any> = new BehaviorSubject('false');
   invokeFunctionInCustomerSide = new BehaviorSubject<any[]>(['string1', 'string2']);
-  selectCustomerSideItem = new BehaviorSubject('');
+  selectCustomerSideItem:BehaviorSubject<(string|number)[]> = new BehaviorSubject([]);
   selectVertrage = new BehaviorSubject([''])
 
 

@@ -67,6 +67,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     hidemultiCompanycustomerMain: true,
     hidemultiCompanycustomerIn: true,
     hidedisabledfamilyMain: true,
+    hidedisabledfamilyIn:true,
     hideCompanyMain: true,
     hideCompanyIn: true,
     hidemultiCompanyMain: true,
@@ -101,14 +102,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     canvasWidth: 750,
     canvasHeight: 300,
   };
-  // public signaturePadOptions2: Object = {
-  //   // passed through to szimek/signature_pad constructor
-  //   // minWidth: "100%",
-  //   minWidth: 2,
-  //   canvasWidth: 900,
-  //   canvasHeight: 300,
-  //   // backgroundColor: "blue",
-  // };
+
   @ViewChild("livingfso") familyForm: NgForm;
   @ViewChild("livingfso12") CEOform: NgForm;
   @ViewChild("livingfso123") OtherPersonform: NgForm;
@@ -941,7 +935,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   isHoverUnternahman = false
   isHoverHaushalt = false
-
+  indexOfHideValues:any = -1
+  indexOfHideValuesj:any = -1
 
   constructor(
     private authService: AuthService,
@@ -977,8 +972,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     });
     this.routeParamsActive = this.route.snapshot.routeConfig?.path;
 
-    this.userService.selectCustomerSideItem.subscribe(item => {
-      console.log('hiden?', item);
+    this.userService.selectCustomerSideItem.subscribe(data => {
+      console.log('hiden?', data);
 
       for (const key of Object.keys(this.Vertrage.Laufende)) {
         this.Vertrage.Laufende[key] = true
@@ -992,7 +987,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.addKunden[key] = true
       }
 
-      let itemString = `${item}`
+      let itemString = `${data[0]}`
+
+        console.log('data1',data[1])
+        console.log('data2',data[2])
+        this.indexOfHideValues = data[1]
+        this.indexOfHideValuesj = data[2]
+
 
       for (const key of Object.keys(this.hideValues)) {
         if (key !== itemString) {
@@ -1001,6 +1002,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.hideValues[key] = false
         }
       }
+
+      console.log(this.indexOfHideValues,this.indexOfHideValuesj,this.hideValues)
+
 
     })
 
@@ -2623,6 +2627,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanycustomerMain: true,
       hidemultiCompanycustomerIn: true,
       hidedisabledfamilyMain: true,
+      hidedisabledfamilyIn:true,
       hideCompanyMain: true,
       hideCompanyIn: true,
       hidemultiCompanyMain: true,
@@ -2668,6 +2673,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   tabClicked(event: any) {
+    console.log('companydata:',this.companyData)
+    console.log('officedata:',this.officeData)
     $("#loaderouterid").css("display", "block");
     const value = event.tab.textLabel;
     let tab = this.tabList.find((item: any) => item.tab === value);
@@ -4018,6 +4025,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanycustomerMain: false,
       hidemultiCompanycustomerIn: true,
       hidedisabledfamilyMain: true,
+      hidedisabledfamilyIn:true,
       hideCompanyMain: false,
       hideCompanyIn: true,
       hidemultiCompanyMain: false,
@@ -4307,9 +4315,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     });
   }
   editRecord(type: any, index: any, data: any, cardindex?: any) {
-    console.log("editRecord" + JSON.stringify(data) + "index" + index);
+    console.log("editRecord" + JSON.stringify(data) + "index" + index,type,cardindex);
     console.log("editRecordcardindex" + cardindex);
+    let modalid = `collapse${type}modal`
     if (type == "type1" && index == 0) {
+
       this.showceodoc = true;
     } else {
       this.showceodoc = false;
@@ -4342,15 +4352,17 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       element = document.getElementById(
         "click" + type + cardindex + index
       ) as HTMLElement;
+
     }
 
     let accordian: HTMLElement = document.getElementById(accordianId)!;
     if (element.innerHTML == "Schließen") {
       console.log("element", element1new);
       element1new.after(accordian);
-      accordian.classList.add("collapse");
       // accordian.classList.add("collapse");
-      accordian.classList.remove("collapse-show");
+      // accordian.classList.add("collapse");
+      // accordian.classList.remove("collapse-show");
+
       element.innerHTML = "Öffnen";
 
       let close = "close";
@@ -4358,6 +4370,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.openid = "";
       //this.checkDataAndCreateUpdateData(true, element, accordian,close)
     } else {
+      console.log('else')
       // setTimeout(() => {
       //   const input = document.querySelector("#phone");
       //   console.log("querySelector" + JSON.stringify(input));
@@ -4374,19 +4387,26 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           // accordian.classList.add("collapse");
           // // accordian.classList.add("collapse");
           // accordian.classList.remove("collapse-show");
-          elementnew1.innerHTML = "Öffnen";
+          // elementnew1.innerHTML = "Öffnen";
         }
       }
-
+      console.log(this.openid);
       element1.after(accordian);
-      accordian.classList.remove("collapse");
-      accordian.classList.add("collapse-show");
-      element.innerHTML = "Schließen";
+      console.log(accordian);
+
+      $(`#${modalid}btn`).trigger("click");
+      this.open_modal(modalid)
+      // accordian.classList.remove("collapse");
+      // accordian.classList.add("collapse-show");
+      // element.innerHTML = "Schließen";
       if (cardindex == undefined) {
         this.openid = type + index;
       } else {
         this.openid = type + cardindex + index;
       }
+
+      console.log(this.openid);
+      console.log(accordian);
 
       if (type == "type1company") {
         this.brokerformtype1.patchValue({
@@ -5224,7 +5244,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 html: `<div>
                       <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Maklervollmacht
                       <i class="fa fa-download" aria-hidden="true"></i> </a>
-                  
+
                      </div>`,
                 iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
                 confirmButtonText: "Ok",
@@ -6551,6 +6571,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       });
     }
   }
+
+  preViewData:any
   preview(
     url: any,
     tags: any,
@@ -6659,7 +6681,25 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
       );
       */
+      this.preViewData = {
+        document_name:document_name,
+        metadata:metadata,
+        ticket_no:ticket_no,
+        date_of_document:date_of_document,
+        date_of_upload:date_of_upload,
+        created_byname:created_byname,
+        filetype:filetype,
+        companycode:companycode,
+        brand:brand,
+        url:url,
+        imagename:imagename,
+        href:`${environment.API_URL}document/downloaddocument/${imagename}`
+      }
+      console.log(this.preViewData)
 
+      $("#openAllgemeinePreiveiwmodal").trigger("click");
+      this.open_modal('openAllgemeinePreiveiw');
+      /*
       $("#preview" + id).html(
         '<div style="border-radius:10px;background:white;padding: 33px;border:1px solid;margin-bottom: 15px;"><div class="col-md-4"  style="display: inline-block;vertical-align: top;"><div class="line-heights">' +
         '<div class="row" style="margin-top:36px;cursor: pointer;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
@@ -6706,8 +6746,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         "document/downloaddocument/" +
         imagename +
         '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
-      );
-
+      );  */
       const someInput: any = document.getElementById("previewimg");
       someInput.addEventListener(
         "click",
@@ -7203,10 +7242,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
         let Size = Math.round(f.size / 1024);
         $(`<div class="pip" style="width: 290px;display: inline-block;margin: 8px;" id="pipremove"
-        
+
       >
         <div class="removepreview" id="removepreviewid${newsize}"
-        
+
        style="background: #184297;
        border-radius: 50%;
        width: 30px;
@@ -7220,9 +7259,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
        margin-top: 0px;
        margin-right: 0 !important;
        cursor: pointer;">X</div>
-      
+
         <img class="imageThumb" style="width: 60%;height:210px" src=${ImageName}
-      
+
    /></div>`).insertAfter("#result");
         $("#removepreviewid" + newsize).click(function () {
           removeData(newsize);
@@ -7270,6 +7309,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         });
         this.addMoreMemberShareholder = true;
         $("#openshareholdermodel").trigger("click");
+        this.open_modal('exampleModalShareholder')
       } else {
         this.addMoreMemberShareholder = false;
         Swal.fire({
@@ -7308,6 +7348,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       });
       this.addMoreShareholder = true;
       $("#openshareholdermodel").trigger("click");
+      this.open_modal('exampleModalShareholder')
     } else {
       Swal.fire({
         icon: "error",
@@ -13473,7 +13514,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                   html: `<div>
                       <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Maklervollmacht
                       <i class="fa fa-download" aria-hidden="true"></i> </a>
-                  
+
                     </div>`,
                   iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
                   confirmButtonText: "Ok",
@@ -13558,7 +13599,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 html: `<div>
               <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Maklervollmacht
               <i class="fa fa-download" aria-hidden="true"></i> </a>
-          
+
             </div>`,
                 iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
                 confirmButtonText: "Ok",
@@ -13674,7 +13715,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 html: `<div>
                   <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Maklervollmacht
                   <i class="fa fa-download" aria-hidden="true"></i> </a>
-              
+
                 </div>`,
                 iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
                 confirmButtonText: "Ok",

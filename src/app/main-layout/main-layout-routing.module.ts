@@ -63,15 +63,6 @@ const routes: Routes = [
         data: { roles: ['customer'] },
       },
       {
-        path: 'create-customer',
-        loadChildren: () =>
-          import('../create-customer/create-customer.module').then(
-            (m) => m.CreateCustomerModule
-          ),
-        canActivate: [AuthGuardService],
-        data: { roles: ['customer'] },
-      },
-      {
         path: 'meine-daten',
         loadChildren: () =>
           import('../main-data/main-data.module').then(

@@ -188,40 +188,50 @@
 }
 
 .tabsecond1 {
-    width: 10px;
+    min-width: 25px;
+    min-width: 35px;
 }
 
 .tabsecond2 {
-    width: 10rem;
+    min-width: 10rem;
+    max-width: 20rem;
 }
 
 .tabsecond3 {
-    width: 10rem;
+    min-width: 10rem;
+    max-width: 20rem;
 }
 
 .tabsecond4 {
-    width: 10rem;
+    min-width: 10rem;
+    max-width: 20rem;
 }
 
 .tabsecond5 {
-    width: 10rem;
+    min-width: 10rem;
+    max-width: 20rem;
 }
 
 .tabsecond6 {
-    width: 10rem;
+    min-width: 10rem;
+    max-width: 20rem;
 }
 
 .tabsecond7 {
-    width: 10rem;
+    min-width: 10rem;
+    max-width: 20rem;
+}
+
+.tabsecond8 {
+    min-width: 9rem;
+    /* max-width: 20rem; */
 }
 
 .customer-search-bg {
     background-color: #f3f3f3;
 }
 
-.tabsecond8 {
-    width: 9rem;
-}
+
 
 .stepper-btn1 {
     background: linear-gradient(#17459b, #02a9ed) !important;

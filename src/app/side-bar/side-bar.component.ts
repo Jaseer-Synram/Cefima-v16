@@ -21,7 +21,7 @@ export class SideBarComponent implements OnInit {
   showSubSubMenu: boolean = false;
   all_companies: any = [];
 
-  // For Kunden Dashboard 
+  // For Kunden Dashboard
 
   header_title: any
   header_firstname: any
@@ -201,12 +201,15 @@ export class SideBarComponent implements OnInit {
     }
   }
 
-  clikeditem(item: string) {
-    console.log(item);
+  indexOfHideValuesj:any = -1
+  indexOfHideValues:any = -1
+  clikeditem(item: string,index?:number,indexj?:number) {
+    console.log(item,index,indexj);
+    this.indexOfHideValues = index
     this.currentTab = item
-    this.userService.selectCustomerSideItem.next(item)
+    this.userService.selectCustomerSideItem.next([item,index,indexj])
   }
-  
+
 
   clikedVertrage(item: string, subitem: string) {
     if(item == 'Laufende'){
@@ -323,7 +326,7 @@ export class SideBarComponent implements OnInit {
   DateRender(id: string,item:string) {
     this.currentTab = item
     console.log(item);
-    
+
     this.userService.modalIdfromSidebar.next(id)
   }
 
