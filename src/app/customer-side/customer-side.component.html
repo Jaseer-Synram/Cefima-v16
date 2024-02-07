@@ -13617,12 +13617,12 @@
                                         let item of documentPdfList;
                                         let j = index
                                                                     ">
-                                    <ul [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
+                                    <ul [ngStyle]="{'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border': j % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': j % 2 === 0 ? '10px 10px' : null}"
                                       class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
                                       <li class="tabsecond1" style="width: 10%">
                                         {{ j + 1 }}
                                       </li>
-                                      <li class="tabsecond2" style="width: 50%">
+                                      <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                         {{
                                         item.docName.length
                                         ? item.docName[0]
@@ -13630,10 +13630,10 @@
                                         }}
                                       </li>
 
-                                      <li class="tabsecond2" style="width: 10%">
+                                      <li  *ngIf="item.docTags" class="tabsecond2" style="width: 10%">
                                         {{
-                                        item.docTags.length
-                                        ? item.docTags[0][0].split(
+                                        item.docTags?.length
+                                        ? item?.docTags[0][0].split(
                                                                       ","
                                         )[0]
                                         : "NA"
@@ -13673,7 +13673,7 @@
                                 setQuestionArray(i);
                                 QAStepper.reset()
                                                             " [disabled]="
-                                tabList[i].data.length === 0
+                                tabList[i].data?.length === 0
                                                             ">
                             Beantworten Sie die Fragen
                           </button>
@@ -14182,12 +14182,12 @@
                                           let item of documentPdfList;
                                           let j = index
                                                                       ">
-                                        <ul [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
+                                        <ul [ngStyle]="{'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border': j % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': j % 2 === 0 ? '10px 10px' : null}"
                                           class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
                                           <li class="tabsecond1" style="width: 10%">
                                             {{ j + 1 }}
                                           </li>
-                                          <li class="tabsecond2" style="width: 50%">
+                                          <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                             {{
                                             item.docName
                                             .length
@@ -14197,7 +14197,7 @@
                                             }}
                                           </li>
 
-                                          <li class="tabsecond2" style="width: 10%">
+                                          <li *ngIf="item.docTags" class="tabsecond2" style="width: 10%">
                                             {{
                                             item.docTags
                                             .length
@@ -14775,7 +14775,7 @@
                                               <li class="tabsecond1" style="width: 10%">
                                                 {{ j + 1 }}
                                               </li>
-                                              <li class="tabsecond2" style="width: 50%">
+                                              <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                                 {{
                                                 item.docName
                                                 .length
@@ -14785,7 +14785,7 @@
                                                 }}
                                               </li>
 
-                                              <li class="tabsecond2" style="width: 10%">
+                                              <li *ngIf="item.docTags"  class="tabsecond2" style="width: 10%">
                                                 {{
                                                 item.docTags
                                                 .length
@@ -16771,7 +16771,7 @@
                                         <li class="tabsecond1" style="width: 10%">
                                           {{ j + 1 }}
                                         </li>
-                                        <li class="tabsecond2" style="width: 50%">
+                                        <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                           {{
                                           item.docName.length
                                           ? item.docName[0]
@@ -16779,7 +16779,7 @@
                                           }}
                                         </li>
 
-                                        <li class="tabsecond2" style="width: 10%">
+                                        <li *ngIf="item.docTags"  class="tabsecond2" style="width: 10%">
                                           {{
                                           item.docTags.length
                                           ? item.docTags[0][0].split(
@@ -17321,7 +17321,7 @@
                                             <li class="tabsecond1" style="width: 10%">
                                               {{ j + 1 }}
                                             </li>
-                                            <li class="tabsecond2" style="width: 50%">
+                                            <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                               {{
                                               item.docName
                                               .length
@@ -17331,7 +17331,7 @@
                                               }}
                                             </li>
 
-                                            <li class="tabsecond2" style="width: 10%">
+                                            <li *ngIf="item.docTags"  class="tabsecond2" style="width: 10%">
                                               {{
                                               item.docTags
                                               .length
@@ -19248,7 +19248,7 @@
                                           <li class="tabsecond1" style="width: 10%">
                                             {{ j + 1 }}
                                           </li>
-                                          <li class="tabsecond2" style="width: 50%">
+                                          <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                             {{
                                             item.docName
                                             .length
@@ -19258,7 +19258,7 @@
                                             }}
                                           </li>
 
-                                          <li class="tabsecond2" style="width: 10%">
+                                          <li  *ngIf="item.docTags" class="tabsecond2" style="width: 10%">
                                             {{
                                             item.docTags
                                             .length
@@ -21285,7 +21285,7 @@
                                     <li class="tabsecond1" style="width: 10%">
                                       {{ j + 1 }}
                                     </li>
-                                    <li class="tabsecond2" style="width: 50%">
+                                    <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
                                       {{
                                       item.docName.length
                                       ? item.docName[0]
@@ -21293,7 +21293,7 @@
                                       }}
                                     </li>
 
-                                    <li class="tabsecond2" style="width: 10%">
+                                    <li  *ngIf="item.docTags" class="tabsecond2" style="width: 10%">
                                       {{
                                       item.docTags.length
                                       ? item.docTags[0][0].split(
@@ -21829,7 +21829,7 @@
                                         <li class="tabsecond1" style="width: 10%">
                                           {{ j + 1 }}
                                         </li>
-                                        <li class="tabsecond2" style="width: 50%">
+                                        <li *ngIf="item.docName"  class="tabsecond2" style="width: 50%">
                                           {{
                                           item.docName.length
                                           ? item.docName[0]
@@ -21837,7 +21837,7 @@
                                           }}
                                         </li>
 
-                                        <li class="tabsecond2" style="width: 10%">
+                                        <li *ngIf="item.docTags"  class="tabsecond2" style="width: 10%">
                                           {{
                                           item.docTags.length
                                           ? item.docTags[0][0].split(
@@ -28856,7 +28856,7 @@
                 <div
                       class="d-flex justify-content-between col-12 customer-search p-2 rounded-2 mb-3 customer-search-bg">
                       <div class="col-md-5 d-flex p-0 justify-content-start flex-row">
-                  <div class="form-group col-md-3 position-relative">
+                  <div class="form-group col-md-9 position-relative">
                     <form action="">
                       <mat-icon class="position-absolute has-icon">search</mat-icon>
                       <input class="form-control pl-5 mr-4" name="search" placeholder="z.B. Dokumentenname" type="text"
@@ -28879,30 +28879,30 @@
                       <div class="accordion-head">
                         <ul
                           class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                          <li class="tabsecond1 font-weight-bold">#</li>
-                          <li class="tabsecond2 font-weight-bold">
+                          <li class="tabsecondallgem1 font-weight-bold">#</li>
+                          <li class="tabsecondallgem2 font-weight-bold">
                             Dokumentenname
                             <!-- <i class="fas fa-sort-down" [appSort]="pagedItemsGDOC" data-order="asc"
                                 data-name="element.document_name"></i> -->
                           </li>
-                          <li class="tabsecond3 font-weight-bold">
+                          <li class="tabsecondallgem3 font-weight-bold">
                             Dateityp
                             <!-- <i class="fas fa-sort-down" [appSort]="pagedItemsGDOC" data-order="asc"
                                 data-name="tags"></i> -->
                           </li>
-                          <li class="tabsecond4 font-weight-bold">
+                          <li class="tabsecondallgem4 font-weight-bold">
                             Dateigröße
                             <!-- <i class="fas fa-sort-down" [appSort]="pagedItemsGDOC" data-order="asc"
                                 data-name="tags"></i> -->
                           </li>
 
-                          <li class="tabsecond5 font-weight-bold">
+                          <li class="tabsecondallgem5 font-weight-bold">
                             Datum des Uploads
                             <!-- <i class="fas fa-sort-down" [appSort]="pagedItemsGDOC" data-order="asc"
                                 data-name="Start_of_contract"></i> -->
                           </li>
 
-                          <li class="tabsecond8 font-weight-bold">
+                          <li class="tabsecondallgem8 font-weight-bold">
                             Interaktionen
                           </li>
                         </ul>
@@ -28913,27 +28913,27 @@
                           <ul [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
                             class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
                             id="ul{{ cl.element.id }}">
-                            <li class="tabsecond1">
+                            <li class="tabsecondallgem1">
                               {{ startRecordGDOC + i }}
                             </li>
 
-                            <li class="tabsecond2">
+                            <li class="tabsecondallgem2">
                               {{ cl.element.document_name }}
                             </li>
 
-                            <li class="tabsecond3">
+                            <li class="tabsecondallgem3">
                               {{ cl.filetype }}
                             </li>
-                            <li class="tabsecond4">{{ cl.size }}</li>
+                            <li class="tabsecondallgem4">{{ cl.size }}</li>
 
-                            <li class="tabsecond5">
+                            <li class="tabsecondallgem5">
                               {{ cl.date_of_upload }}
                             </li>
 
                             <!-- <li class="4" style="width: 33%">
                             {{ cl.element.document_sub_type }}
                           </li> -->
-                            <li class="tabsecond8 ">
+                            <li class="tabsecondallgem8 ">
                               <button type="button"
                                 class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1"
                                 (click)="
@@ -29037,60 +29037,62 @@
       <div class="modal-content">
         <div class="modal-header">
           <span id="showpreviewtitle"
-            style="font-size: 15px;border: none;width: 32px;background: transparent;opacity:1"></span>
+            style="font-size: 18px;font-weight:500;border: none;background: transparent;opacity:1">Maklervollmacht:</span>
           <button type="button" style="border: none;background: transparent;opacity:1" class=" " data-dismiss="modal" aria-label="Close"
-            (click)="close_modal('openAllgemeinePreiveiw','openAllgemeinePreiveiw_parent')">
+            (click)="close_modal('openAllgemeinePreiveiw','openAllgemeinePreiveiw_parent');changebuttonname()">
             <img width="50%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
           </button>
         </div>
         <div class="modal-body">
-          <div style="border-radius:10px;background:white;padding: 33px;border:1px solid;margin-bottom: 15px;">
-            <div class="col-md-4"  style="display: inline-block;vertical-align: top;">
-              <div class="line-heights">
-                <div class="row" style="margin-top:36px;cursor: pointer;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">
-                  <div class="col-md-11" >1. {{preViewData?.document_name}}-1
+            <div class="col-md-12 d-flex flex-wrap" >
+              <div class="col-md-4 d-flex flex-row" style="cursor: pointer;color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        Accordion Item #1
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                      <div class="accordion-body">
+                          <h6>Dokumentenname: {{preViewData?.document_name}}  </h6>
+                          <h6>Dateigröße:  {{preViewData?.metadata[0]}}Kb</h6>
+                          <h6>Vorgangs Nr.: {{preViewData?.ticket_no}} </h6>
+                          <h6>Datum des Dokuments:   {{preViewData?.date_of_document}}  </h6>
+                          <h6>Datum des Uploads:  {{preViewData?.date_of_upload}}  </h6>
+                          <h6>Hochgeladen von:  {{preViewData?.created_byname}}  </h6>
+                          <h6>Dateityp: {{preViewData?.filetype}} </h6>
+                          <h6>Stichworte:
+                            <div class="previedocbox m-1">
+                              <span >
+                                {{preViewData?.companycode}}
+                            </span> &nbsp;
+                            </div>
+                            <div class="previedocbox m-1">
+                          <span >
+                            {{preViewData?.brand}}
+                          </span> &nbsp;
+                        </div>
+                          <div class="previedocbox m-1">
+                          <span >
+                            {{preViewData?.ticket_no}}
+                          </span>
+                        </div>
+                          </h6>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-1">
-                    <i class="fa fa-angle-down" style="font-weight:bold;font-size:25px;"> </i>
-                  </div>
-                <div class="col-md-12" style="background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">
-                  <h6>Dokumentenname: {{preViewData?.document_name}}  </h6>
-                  <h6>Dateigröße:  {{preViewData?.metadata[0]}}Kb</h6>
-                  <h6>Vorgangs Nr.: {{preViewData?.ticket_no}} </h6>
-                  <h6>Datum des Dokuments:   {{preViewData?.date_of_document}}  </h6>
-                  <h6>Datum des Uploads:  {{preViewData?.date_of_upload}}  </h6>
-                  <h6>Hochgeladen von:  {{preViewData?.created_byname}}  </h6>
-                  <h6>Dateityp: {{preViewData?.filetype}} </h6>
-                  <h6>Stichworte:
-                    <span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">
-                      {{preViewData?.companycode}}
-                  </span> &nbsp;
-                  <span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">
-                    {{preViewData?.brand}}
-                  </span> &nbsp;
-                  <span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">
-                    {{preViewData?.ticket_no}}
-                  </span>
-                  </h6>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-12">
-
-            </div>
           </div>
           <div class="col-md-8" style="display: inline-block;">
-            <span class="side-icons">
-              <i class="fa fa-times" aria-hidden="true" style="position:relative;float:right;" aria-hidden="true" id="previewimg" ></i>
-            </span>
-            <embed  [type]="preViewData?.filetype"
-              [src]="preViewData?.url" style=" width: 100%; height:818px;object-fit: cover; "/>
-            <a [href]="preViewData?.href" >
-            <span class="side-icons" >
-              <i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i>
-            </span>
-          </a>
+              <embed id="showpreviewdocument" [src]="preViewData?.url" style="width: 100%; height: 100%;"  />
         </div>
+        <div class="col-md-12 p-0" style="text-align: right;margin-top: 15px;">
+          <a [href]="preViewData?.href"  id="showpreviewdownload" target="_blank" style="text-decoration:none;"
+              class=" button-primary-down p-2" download>
+              <span class=""><i class="fa fa-download " aria-hidden="true"></i>&nbsp;Download</span>
+          </a>
+      </div>
        </div>
 
         </div>

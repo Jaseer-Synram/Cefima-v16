@@ -1999,7 +1999,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           let totalshares: number = 0;
           for (
             let i = 0;
-            i < this.localData.type3.legalrepresentativeform2.length;
+            i < this.localData.type3.legalrepresentativeform2?.length;
             i++
           ) {
             console.log(
@@ -2675,6 +2675,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   tabClicked(event: any) {
     console.log('companydata:',this.companyData)
     console.log('officedata:',this.officeData)
+    console.log('familydata:',this.familyData)
     $("#loaderouterid").css("display", "block");
     const value = event.tab.textLabel;
     let tab = this.tabList.find((item: any) => item.tab === value);
@@ -5559,7 +5560,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log("sadsadsad" + JSON.stringify(this.type1));
 
       this.pagertype[0].type1 = this.pagerService.getPager(
-        this.type1.length,
+        this.type1?.length,
         page
       );
       console.log("sadsadsad" + this.pagertype[0].type1);
@@ -6572,6 +6573,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
+  elementforallgmei:HTMLElement ;
+
+  changebuttonname(){
+    this.elementforallgmei.innerHTML = "Öffnen"
+  }
+
+
   preViewData:any
   preview(
     url: any,
@@ -6590,6 +6598,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     let element: HTMLElement = document.getElementById(
       "click" + this.previewid
     ) as HTMLElement;
+    this.elementforallgmei = element
     if (element.innerHTML == "Schließen") {
       element.innerHTML = "Öffnen";
       $("#preview" + id).html("");
@@ -6598,6 +6607,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       // $("#preview" + id).html("");
     } else {
       $(".openclass").html("Öffnen");
+      this.elementforallgmei = element
       element.innerHTML = "Schließen";
       $(".previewclass").html("");
     }
@@ -6697,8 +6707,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
       console.log(this.preViewData)
 
+      
+      $("#showpreviewdocument").css("display", "block");
+
       $("#openAllgemeinePreiveiwmodal").trigger("click");
       this.open_modal('openAllgemeinePreiveiw');
+
+      $("#showpreviewdocument").attr("src", url);
+
       /*
       $("#preview" + id).html(
         '<div style="border-radius:10px;background:white;padding: 33px;border:1px solid;margin-bottom: 15px;"><div class="col-md-4"  style="display: inline-block;vertical-align: top;"><div class="line-heights">' +

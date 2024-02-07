@@ -130,6 +130,7 @@ export class SideBarComponent implements OnInit {
             .pipe(first())
             .subscribe((familydata11: any) => {
               this.familyData = familydata11;
+              console.log('familyData',this.familyData);
             });
         }, 500);
 
@@ -138,6 +139,7 @@ export class SideBarComponent implements OnInit {
           .pipe(first())
           .subscribe((userofficedata: any) => {
             this.userofficeData = userofficedata;
+            console.log('officedata',this.userofficeData);
           });
 
       }

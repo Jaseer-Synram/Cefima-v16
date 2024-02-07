@@ -189,42 +189,82 @@
 
 .tabsecond1 {
     min-width: 25px;
-    min-width: 35px;
+    text-align:center
 }
 
 .tabsecond2 {
     min-width: 10rem;
-    max-width: 20rem;
+    text-align:center
 }
 
 .tabsecond3 {
     min-width: 10rem;
-    max-width: 20rem;
+    text-align:center
 }
 
 .tabsecond4 {
     min-width: 10rem;
-    max-width: 20rem;
+    text-align:center
 }
 
 .tabsecond5 {
     min-width: 10rem;
-    max-width: 20rem;
+    text-align:center
 }
 
 .tabsecond6 {
     min-width: 10rem;
-    max-width: 20rem;
+    text-align:center
 }
 
 .tabsecond7 {
     min-width: 10rem;
-    max-width: 20rem;
+    text-align:center
 }
 
 .tabsecond8 {
     min-width: 9rem;
-    /* max-width: 20rem; */
+    text-align:center
+}
+
+.tabsecondallgem1 {
+    width: 25px;
+    text-align:center
+}
+
+.tabsecondallgem2 {
+    width: 11rem;
+    text-align:center
+}
+
+.tabsecondallgem3 {
+    width: 11rem;
+    text-align:center
+}
+
+.tabsecondallgem4 {
+    width: 11rem;
+    text-align:center
+}
+
+.tabsecondallgem5 {
+    width: 11rem;
+    text-align:center
+}
+
+.tabsecondallgem6 {
+    width: 11rem;
+    text-align:center
+}
+
+.tabsecondallgem7 {
+    width: 11rem;
+    text-align:center
+}
+
+.tabsecondallgem8 {
+    width: 9rem;
+    text-align:center
 }
 
 .customer-search-bg {
