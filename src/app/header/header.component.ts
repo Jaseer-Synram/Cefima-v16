@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import  { UserService} from '../user.service'
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,14 @@ export class HeaderComponent implements OnInit {
     id: "",
   };
 
-  constructor(public router: Router) {}
+  constructor(
+    public router: Router,
+    private userService:UserService
+    ) {
+      userService.heeaderData.subscribe((data) =>
+      this.opened_page_title= `${data[0]} / ${data[1]}`
+      );
+    }
 
   ngOnInit(): void {
     this.change_page_title();

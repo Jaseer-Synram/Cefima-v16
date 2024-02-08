@@ -1,609 +1,759 @@
-<mat-sidenav-container class="example-container" autosize>
+<mat-sidenav-container class="example-container " autosize>
     <!-- <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()"> -->
-    <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true">
+    <mat-sidenav #sidenav  class="example-sidenav hidden_scrollbar" mode="side" opened="true">
+        <div class="side-nav-fixed">
 
-        <div class="example-app-name" *ngIf="isExpanded">
-            <img class="img-large" role="button" routerLink="" src="assets/cefima-logo.png">
-        </div>
+            <div class="example-app-name" *ngIf="isExpanded">
+                <img class="img-large" role="button" routerLink="" src="assets/cefima-logo.svg">
+            </div>
 
-        <div class="example-app-name1" *ngIf="!isExpanded">
-            <img class="img-compact" role="button" routerLink="" src="assets/cefima-compact-logo.png">
-        </div>
-        <button mat-icon-button *ngIf="isExpanded" (click)="isExpanded = !isExpanded"><img src="assets/arrow.png"
-                class="arrow"></button>
+            <div class="example-app-name1" *ngIf="!isExpanded">
+                <img class="img-compact" role="button" routerLink="" src="assets/cefima-compact-logo.png">
+            </div>
+            <button mat-icon-button *ngIf="isExpanded" (click)="isExpanded = !isExpanded"><img src="assets/arrow.svg"
+                    class="arrow"></button>
 
+            <p class="parent-box-title">Beratungswelt</p>
+            <div class="new-side-bar1">
+                <mat-nav-list>
+                    <mat-list-item
+                        [ngClass]="router.url == '/cefima/consulting' ? 'active text-dark parent' : 'not-active parent '"
+                        (click)="router.navigate(['./cefima/consulting'])">
+                        <img *ngIf="router.url == '/cefima/consulting'" src="assets/images/beratung-icon-active.svg">
+                        <img *ngIf="router.url != '/cefima/consulting'" src="assets/images/beratung-icon.svg">
+                        <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Beratung</span>
+                    </mat-list-item>
+                    <mat-list-item class="parent"
+                        [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'not-active parent '"
+                        (click)="router.navigate(['cefima/customer'])">
+                        <img *ngIf="router.url == '/cefima/customer'" src="assets/images/kunden-icon-active.svg">
+                        <img *ngIf="router.url != '/cefima/customer'" src="assets/images/kunden-icon.svg">
+                        <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Kunden</span>
 
-        <div class="new-side-bar1">
-            <mat-nav-list style="width:95%;margin:auto;">
-                <mat-list-item
-                    [ngClass]="router.url == '/cefima/consulting' ? 'active text-dark parent' : 'not-active parent '"
-                    (click)="router.navigate(['./cefima/consulting'])">
-                    <img *ngIf="router.url == '/cefima/consulting'" src="assets/beratung-icon-active.png">
-                    <img *ngIf="router.url != '/cefima/consulting'" src="assets/beratung-icon.png">
-                    <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Beratung</span>
-                </mat-list-item>
-                <mat-list-item class="parent"
-                    [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'not-active parent '"
-                    (click)="router.navigate(['cefima/customer'])">
-                    <img *ngIf="router.url == '/cefima/customer'" src="assets/kunden-icon-active.png">
-                    <img *ngIf="router.url != '/cefima/customer'" src="assets/kunden-icon.png">
-                    <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Kunden</span>
+                    </mat-list-item>
+                    <div *ngIf="router.url.startsWith('/cefima/kunde-home') ">
+                        <div class="main-child-box">
 
-                </mat-list-item>
-                <div *ngIf="router.url.startsWith('/cefima/kunde-home') " style="border: none;">
-                    <div class="card card-body px-1 py-0" style="width: 97%;background: transparent;border: none;">
-
-                        <div class="col-md-12 px-1 ">
-
-                            <span *ngIf="!localData.hasOwnProperty('companytype') ||
+                            <div class="main-child-menu">
+                                <div class="main-child-box-title">
+                                    <span *ngIf="!localData.hasOwnProperty('companytype') ||
                                 localData.companytype == ' ' ||
                                 localData.companytype == '' ||
-                                localData.companytype == null; else companyname" class="" style="font-size: 11px;">
-                                Kunden Dashboard ({{ localData.lastname }})
-                            </span>
-                            <ng-template #companyname>
-                                <span style="font-size: 11px;">Kunden Dashboard ({{ localData.companyname }})</span>
-                            </ng-template>
-
-
-
-
-                            <!-- Benutzer 1ST BLOCK START -->
-                            <!-- HAUSHALT TAB START HERE -->
-
-                            <mat-accordion class="side">
-                                <mat-expansion-panel [expanded]="true" (opened)="clikeditem('hideHaushaltMain')" *ngIf="!localData.hasOwnProperty('companytype') ||
-                                    localData.companytype == ' ' || localData.companytype == '' ||
-                                    localData.companytype == null;else company">
-                                    <mat-expansion-panel-header mat-panel-title >
-                                        <button class="stepper-btn1 transitionanimation " (click)="change_account_name( 'Haushalt', localData.usertitle, localData.firstname,
-                                        localData.lastname, localData._id ); setCurrentTabUser(localData, 'haushalt')">
-                                        <span >
-                                            <i class="fa-solid fa-family" style="color: black"></i>
-                                            Haushalt {{ localData.lastname }} </span>
-                                        </button>
-                                    </mat-expansion-panel-header>
-
-                                    <ng-template [matExpansionPanelContent]>
-
-                                        <div class="col-md-12 px-1">
-                                            <div class="col-md-12 px-1 overflow-hidden">
-                                                <button class="stepper-btn1 transitionanimation "  (click)=" change_account_name(
-                                                    'Haushalt', localData.title, localData.firstname,
-                                                    localData.lastname, localData._id  );
-                                                  setCurrentTabUser(localData, 'haushalt');clikeditem('hideHaushaltMain')">
-                                                <span [ngClass]=" currentTab === 'hideHaushaltMain' ? 'active-text': ''" >
-                                                    <i class="fa fa-user" aria-hidden="true" style="color: black"></i>
-                                                    {{ localData.firstname }}
-                                                    {{ localData.lastname }}
-                                                </span>
-                                            </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 px-1">
-                                            <button *ngIf="familyData.length == 0"
-                                                [ngClass]=" currentTab === 'Mitglied1' ? 'active-text': ''"
-                                                class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                data-target="#exampleModalLongnewfamilyPOA"
-                                                (click)="DateRender('exampleModalLongnewfamilyPOA','Mitglied1')">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                <span>Mitglied zum Haushalt hinzufügen </span>
-                                            </button>
-                                        </div>
-
-
-                                        <!-- HAUSHALT MAIN PERSON NAME TAB END -->
-                                        <!-- Family Div Start Here -->
-                                        <ng-container *ngIf="familyData.length > 0">
-                                            <!-- HAUSHALT FAMIL MEMBER NAME TAB START -->
-                                            <div class="col-md-12 d-flex flex-column"
-                                                *ngFor="let member of familyData; let i = index">
-                                                <div class="col-md-12 d-flex flex-column" mat-panel-title
-                                                    class="col-md-12 overflow-hidden"
-                                                    *ngIf="i + 1 == familyData.length">
-                                                    <button class="stepper-btn1 transitionanimation " (click)="change_account_name( 'Haushalt',
-                                                    member.title, member.firstname, member.lastname, member._id );
-                                                    setCurrentTabUser(member, 'haushalt');clikeditem('hideHaushaltIn1',i)">
-                                                    <span style="color: black"  
-                                                        [ngClass]=" currentTab === 'hideHaushaltIn1' && indexOfHideValues == i  ? 'active-text': ''">
-                                                        <i class="fa fa-user" aria-hidden="true"
-                                                            style="color: black"></i>
-                                                        &nbsp;{{ member.firstname }}
-                                                        {{ member.lastname }}
-                                                    </span>
-                                                </button>
-                                                </div>
-
-                                                <div class="col-md-12 d-flex flex-column" 
-                                                    *ngIf="i + 1 != familyData.length">
-                                                    <button class="stepper-btn1 transitionanimation " (click)="clikeditem('hideHaushaltIn1',i);change_account_name( 'Haushalt',
-                                                    member.title, member.firstname, member.lastname, member._id );
-                                                    setCurrentTabUser(member, 'haushalt') ">
-                                                    <span style="color: black"
-                                                        [ngClass]=" currentTab === 'hideHaushaltIn1' && indexOfHideValues == i  ? 'active-text': ''">
-                                                        <i class="fa fa-user" aria-hidden="true"
-                                                            style="color: black"></i>
-                                                        &nbsp;{{ member.firstname }}
-                                                        {{ member.lastname }}
-                                                    </span>
-                                                </button>
-                                                </div>
-                                            </div>
-                                            <ng-container *ngFor="let member of familyData; let i = index">
-                                                <button class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                    [ngClass]=" currentTab === 'Mitglied2' ? 'active-text': ''"
-                                                    data-target="#exampleModalLongnewfamilyPOA"
-                                                    (click)="DateRender('exampleModalLongnewfamilyPOA','Mitglied2')">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    <span>Mitglied zum Haushalt hinzufügen</span>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-
-
+                                localData.companytype == null; else companyname" class="">
+                                        Kunden Dashboard ({{ localData.lastname }})
+                                    </span>
+                                    <ng-template #companyname>
+                                        <span>Kunden Dashboard ({{ localData.companyname
+                                            }})</span>
                                     </ng-template>
 
-                                </mat-expansion-panel>
-                                <div *ngIf="!localData.hasOwnProperty('companytype') ||
-                                    localData.companytype == ' ' || localData.companytype == '' ||
-                                    localData.companytype == null;">
-                                    <div class="col-md-12  px-1 d-flex flex-column">
-                                        <button *ngIf="companyData.length == 0" class="stepper-btn1 transitionanimation"
-                                            [ngClass]=" currentTab === 'Unternehmen1' ? 'active-text': ''"
-                                            data-toggle="modal" data-target="#exampleModalLongnewcompany"
-                                            (click)="DateRender('exampleModalLongnewcompany','Unternehmen1')">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                            <span>Unternehmen hinzufügen</span>
-                                        </button>
-                                    </div>
                                 </div>
 
-                                <!-- HAUSHALT TAB END HERE -->
-                                <!-- Benutzer 1ST BLOCK END -->
-                                <!-- Benutzer 2ND BLOCK START -->
 
-                                <ng-container *ngIf="companyData.length > 0 || familyData.length > 0">
-                                    <ng-container *ngIf="
+                                <!-- Benutzer 1ST BLOCK START -->
+                                <!-- HAUSHALT TAB START HERE -->
+                                <div class="menu1">
+                                    <mat-accordion class="side">
+                                        <mat-expansion-panel [expanded]="true" (opened)="clikeditem('hideHaushaltMain',localData.lastname)"
+                                            *ngIf="!localData.hasOwnProperty('companytype') ||
+                                    localData.companytype == ' ' || localData.companytype == '' ||
+                                    localData.companytype == null;else company">
+                                            <mat-expansion-panel-header mat-panel-title>
+                                                <button class="stepper-btn1 transitionanimation " (click)="change_account_name( 'Haushalt', localData.usertitle, localData.firstname,
+                                        localData.lastname, localData._id ); setCurrentTabUser(localData, 'haushalt')">
+                                                    <span>
+                                                        <img src="assets/images/haushalt.svg">
+                                                        Haushalt {{ localData.lastname }} </span>
+                                                </button>
+                                            </mat-expansion-panel-header>
+
+                                            <ng-template [matExpansionPanelContent]>
+
+                                                <div class="col-md-12 p-0">
+                                                    <div class="col-md-12 p-0 overflow-hidden">
+                                                        <button class="col-12 p-0 stepper-btn1 transitionanimation "
+                                                            (click)=" change_account_name(
+                                                    'Haushalt', localData.title, localData.firstname,
+                                                    localData.lastname, localData._id  );
+                                                  setCurrentTabUser(localData, 'haushalt');clikeditem('hideHaushaltMain',localData.lastname)">
+                                                            <span class="col-12"
+                                                                [ngClass]=" currentTab === 'hideHaushaltMain' ? 'active-sub-item': ''">
+                                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                                {{ localData.firstname }}
+                                                                {{ localData.lastname }}
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 p-0">
+                                                    <button *ngIf="familyData.length == 0"
+                                                        [ngClass]=" currentTab === 'Mitglied1' ? 'active-text': ''"
+                                                        class="stepper-btn1 transitionanimation"
+                                                        (click)="DateRender('exampleModalLongnewfamilyPOA','Mitglied1')">
+                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        <span>Mitglied zum Haushalt hinzufügen </span>
+                                                    </button>
+                                                </div>
+
+
+                                                <!-- HAUSHALT MAIN PERSON NAME TAB END -->
+                                                <!-- Family Div Start Here -->
+                                                <ng-container *ngIf="familyData.length > 0">
+                                                    <!-- HAUSHALT FAMIL MEMBER NAME TAB START -->
+                                                    <div class="col-12 p-0" *ngFor="let member of familyData; let i = index">
+                                                        <div class="col-12 p-0" mat-panel-title class=""
+                                                            *ngIf="i + 1 == familyData.length">
+                                                            <button class="col-12 p-0 stepper-btn1 transitionanimation "
+                                                                (click)="change_account_name( 'Haushalt',
+                                                    member.title, member.firstname, member.lastname, member._id );
+                                                    setCurrentTabUser(member, 'haushalt');clikeditem('hideHaushaltIn1',member.lastname,i)">
+                                                                <span class="col-12 p-0"
+                                                                    [ngClass]=" currentTab === 'hideHaushaltIn1' && indexOfHideValues == i  ? 'active-sub-item': ''">
+                                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                                    &nbsp;{{ member.firstname }}
+                                                                    {{ member.lastname }}
+                                                                </span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="col-12 p-0 " *ngIf="i + 1 != familyData.length">
+                                                            <button class="col-12 p-0 stepper-btn1 transitionanimation " (click)="clikeditem('hideHaushaltIn1',member.lastname,i);change_account_name( 'Haushalt',
+                                                    member.title, member.firstname, member.lastname, member._id );
+                                                    setCurrentTabUser(member, 'haushalt') ">
+                                                                <span class="col-12"
+                                                                    [ngClass]=" currentTab === 'hideHaushaltIn1' && indexOfHideValues == i  ? 'active-sub-item': ''">
+                                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                                    &nbsp;{{ member.firstname }}
+                                                                    {{ member.lastname }}
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                        <button class="stepper-btn1 transitionanimation"
+                                                              [ngClass]=" currentTab === 'Mitglied2' ? 'active-text': ''"
+                                                             (click)="DateRender('exampleModalLongnewfamilyPOA','Mitglied2')">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            <span>Mitglied zum Haushalt hinzufügen</span>
+                                                        </button>
+                                                </ng-container>
+
+
+                                            </ng-template>
+
+                                        </mat-expansion-panel>
+                                        <div *ngIf="!localData.hasOwnProperty('companytype') ||
+                                    localData.companytype == ' ' || localData.companytype == '' ||
+                                    localData.companytype == null;">
+                                            <div class="">
+                                                <button *ngIf="companyData.length == 0"
+                                                    class="stepper-btn1 transitionanimation"
+                                                    [ngClass]=" currentTab === 'Unternehmen1' ? 'active-text': ''"
+                                                    (click)="DateRender('exampleModalLongnewcompany','Unternehmen1')">
+                                                    <img src="assets/images/add-customer.svg">
+                                                    <span>Unternehmen hinzufügen</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- HAUSHALT TAB END HERE -->
+                                        <!-- Benutzer 1ST BLOCK END -->
+                                        <!-- Benutzer 2ND BLOCK START -->
+
+                                        <ng-container *ngIf="companyData.length > 0 || familyData.length > 0">
+                                            <ng-container *ngIf="
                                         !localData.hasOwnProperty('companytype') ||
                                           localData.companytype == ' ' ||
                                           localData.companytype == '' ||
                                           localData.companytype == null;
                                             else companycustomer ">
-                                        <ng-container *ngIf="companyData.length > 0 || familyData.length > 0">
-                                            <ng-container *ngFor="let member of companyData; let i = index">
+                                                <ng-container *ngIf="companyData.length > 0 || familyData.length > 0">
+                                                    <ng-container *ngFor="let member of companyData; let i = index">
 
-                                                <mat-expansion-panel class="col-md-12  px-1 " *ngIf="
+                                                        <mat-expansion-panel class="col-md-12  px-1 " *ngIf="
                                                     member.companytype =='Eingetragener Kaufmann (e.K.)' ||
                                                     member.companytype == 'Einzelunternehmen';
                                                     else multiCompanyprivatecustomer ">
 
-                                                    <mat-expansion-panel-header mat-panel-title (click)=" tabisclicked(member);"
-                                                        *ngIf="i + 1 == companyData.length">
-                                                      <button class="stepper-btn1"  (click)=" change_account_name( 'Firma', 'Firma', '',  member.companyname );
-                                                      clikeditem('hideContainerMain',i);
-                                                      setCurrentTabUser(member, 'company') " >
-                                                        <span [ngClass]=" currentTab === 'hideContainerMain' ? 'active-text': ''">
-                                                            <i class="fa fa-building" aria-hidden="true"
-                                                                style="color: black"></i>
-                                                            {{ member.companyname }} 
-                                                        </span>
-                                                      </button>
-                                                    </mat-expansion-panel-header>
-
-                                                    <mat-expansion-panel-header mat-panel-title (click)=" tabisclicked(member);"
-                                                        *ngIf="i + 1 != companyData.length">
-                                                        <button (click)=" change_account_name( 'Firma',
-                                                        'Firma', '', member.companyname );  setCurrentTabUser(member, 'company');
-                                                        clikeditem('hideContainerMain',i) " >
-                                                        <span>
-                                                            <i class="fa fa-building" aria-hidden="true"
-                                                                style="color: black"></i>
-                                                            {{ member.companyname }}
-                                                        </span>
-                                                    </button>
-                                                    </mat-expansion-panel-header>
-
-                                                    <ng-template [matExpansionPanelContent]>
-                                                        <div>
-                                                            <div class="col-md-12 d-flex flex-column">
-                                                                <button class="stepper-btn1 transitionanimation" (click)=" setCurrentTabUser(member, 'company');clikeditem('hideContainerMain',i) " >
-                                                                    <span [ngClass]=" currentTab === 'hideContainerMain'  && indexOfHideValues == i ? 'active-text': ''"  >
-                                                                        Stammdaten
+                                                            <mat-expansion-panel-header mat-panel-title
+                                                                (click)=" tabisclicked(member);"
+                                                                *ngIf="i + 1 == companyData.length">
+                                                                <button class="stepper-btn1" (click)=" change_account_name( 'Firma', 'Firma', '',  member.companyname );
+                                                      clikeditem('hideContainerMain',member.companyname,i);
+                                                      setCurrentTabUser(member, 'company') ">
+                                                                    <span >
+                                                                        <img src="assets/images/company.svg">
+                                                                        {{ member.companyname }}
                                                                     </span>
                                                                 </button>
+                                                            </mat-expansion-panel-header>
 
-                                                                <button *ngIf="officeData.length == 0"
-                                                                    class="stepper-btn1 transitionanimation"
-                                                                    data-toggle="modal"
-                                                                    data-target="#exampleModalLongnewcompanyoffices"
-                                                                    (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte1')">
-                                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                    <span [ngClass]=" currentTab === 'Betriebsstätte1' ? 'active-text': ''">Betriebsstätte hinzufügen</span>
+                                                            <mat-expansion-panel-header mat-panel-title
+                                                                (click)=" tabisclicked(member);"
+                                                                *ngIf="i + 1 != companyData.length">
+                                                                <button (click)=" change_account_name( 'Firma',
+                                                        'Firma', '', member.companyname );  setCurrentTabUser(member, 'company');
+                                                        clikeditem('hideContainerMain',member.companyname,i) ">
+                                                                    <span>
+                                                                        <img src="assets/images/company.svg">
+                                                                        {{ member.companyname }}
+                                                                    </span>
+                                                                </button>
+                                                            </mat-expansion-panel-header>
+
+                                                            <ng-template [matExpansionPanelContent]>
+                                                                <div>
+                                                                    <div class="col-12 p-0">
+                                                                        <button class="col-12 p-0 stepper-btn1 transitionanimation"
+                                                                            (click)=" setCurrentTabUser(member, 'company');clikeditem('hideContainerMain','Stammdaten',i) ">
+                                                                            <span class="col-12"
+                                                                                [ngClass]=" currentTab === 'hideContainerMain'  && indexOfHideValues == i ? 'active-sub-item': ''">
+                                                                                Stammdaten
+                                                                            </span>
+                                                                        </button>
+
+                                                                        <button *ngIf="officeData.length == 0"
+                                                                            class="stepper-btn1 transitionanimation"
+                                                                            (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte1')">
+                                                                            <i class="fa fa-plus"
+                                                                                aria-hidden="true"></i>
+                                                                            <span
+                                                                                [ngClass]=" currentTab === 'Betriebsstätte1' ? 'active-text': ''">Betriebsstätte
+                                                                                hinzufügen</span>
+                                                                        </button>
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                                <ng-container *ngIf="officeData.length > 0">
+                                                                    <div class="col-12 p-0" *ngFor="
+                                                                let office of officeData; let j = index ">
+                                                                        <div class="col-12 p-0"
+                                                                            *ngIf="j + 1 == officeData.length">
+                                                                            <button class="stepper-btn1 col-12 p-0 "
+                                                                                (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideContainerIn',office.officename,i,j) ">
+                                                                                <span class="col-12"
+                                                                                    [ngClass]=" currentTab === 'hideContainerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-sub-item': ''"
+                                                                                    *ngIf="  office.hasOwnProperty('officename'); else noname ">
+                                                                                    {{ office.officename }}
+                                                                                </span>
+                                                                                <ng-template #noname>
+                                                                                    <span>
+                                                                                        office {{ j + 1 }}
+                                                                                    </span>
+                                                                                </ng-template>
+                                                                            </button>
+                                                                            <button
+                                                                                class="stepper-btn1 transitionanimation"
+                                                                                [ngClass]=" currentTab === 'Betriebsstätte2' ? 'active-text': ''"
+                                                                                (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte2')">
+                                                                                <img src="assets/images/add-customer-betr.svg">
+                                                                                <span>Betriebsstätte hinzufügen</span>
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <button class="col-12 p-0"
+                                                                            (click)="clikeditem('hideContainerIn',office.officename,i,j);setCurrentTabUser(office, 'branch')"
+                                                                            *ngIf="i + 1 != officeData.length">
+                                                                            <span class="col-12 "
+                                                                                [ngClass]=" currentTab === 'hideContainerIn' && indexOfHideValues == i  && indexOfHideValuesj == j  ? 'active-sub-item': ''"
+                                                                                *ngIf="  office.hasOwnProperty('officename');
+                                                                        else noname ">
+                                                                                {{ office.officename }}
+                                                                            </span>
+                                                                            <ng-template #noname>
+                                                                                <span>
+                                                                                    office {{ i + 1 }}
+                                                                                </span>
+                                                                            </ng-template>
+                                                                        </button>
+
+                                                                    </div>
+                                                                </ng-container>
+
+
+                                                            </ng-template>
+
+                                                        </mat-expansion-panel>
+
+                                                        <div *ngIf="
+                                                    member.companytype =='Eingetragener Kaufmann (e.K.)' ||
+                                                    member.companytype == 'Einzelunternehmen';">
+                                                            <div class="" *ngIf="i + 1 == companyData.length">
+                                                                <button class="stepper-btn1 sparte transitionanimation"
+                                                                    [ngClass]=" currentTab === 'Unternehmen2' ? 'active-text': ''"
+                                                                    (click)="DateRender('exampleModalLongnewcompany','Unternehmen2')">
+                                                                    <img src="assets/images/add-customer.svg">
+                                                                    <span>Unternehmen hinzufügen</span>
                                                                 </button>
                                                             </div>
-
                                                         </div>
 
 
-                                                        <ng-container *ngIf="officeData.length > 0">
-                                                            <div *ngFor="
-                                                                let office of officeData; let j = index ">
-                                                                <div class="col-md-12 d-flex flex-column"
-                                                                    *ngIf="j + 1 == officeData.length">
-                                                                    <button class="stepper-btn1 "  (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideContainerIn',i,j) ">
-                                                                    <span  [ngClass]=" currentTab === 'hideContainerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-text': ''"
-                                                                        *ngIf="  office.hasOwnProperty('officename');
-                                                                        else noname "  >
-                                                                        {{ office.officename }}
-                                                                    </span>
-                                                                    <ng-template #noname>
-                                                                        <span>
-                                                                            office {{ j + 1 }}
-                                                                        </span>
-                                                                    </ng-template>
-                                                                </button>
-                                                                    <button class="stepper-btn1 transitionanimation"
-                                                                        [ngClass]=" currentTab === 'Betriebsstätte2' ? 'active-text': ''"
-                                                                        data-toggle="modal"
-                                                                        data-target="#exampleModalLongnewcompanyoffices"
-                                                                        (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte2')">
-                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        <span>Betriebsstätte hinzufügen</span>
-                                                                    </button>
-                                                                </div>
 
-                                                                <div class="col-md-12 d-flex flex-column"
-                                                                    (click)="clikeditem('hideContainerIn',i,j);setCurrentTabUser(office, 'branch')"
-                                                                    *ngIf="i + 1 != officeData.length">
-                                                                    <span
-                                                                        [ngClass]=" currentTab === 'hideContainerIn' && indexOfHideValues == i  && indexOfHideValuesj == j  ? 'active-text': ''"
-                                                                        *ngIf="  office.hasOwnProperty('officename');
-                                                                        else noname " >
-                                                                        {{ office.officename }}
-                                                                    </span>
-                                                                    <ng-template #noname>
-                                                                        <span>
-                                                                            office {{ i + 1 }}
-                                                                        </span>
-                                                                    </ng-template>
-                                                                </div>
-
-                                                            </div>
-                                                        </ng-container>
-
-
-                                                    </ng-template>
-
-                                                </mat-expansion-panel>
-
-                                                <div *ngIf="
-                                                    member.companytype =='Eingetragener Kaufmann (e.K.)' ||
-                                                    member.companytype == 'Einzelunternehmen';">
-                                                    <div class="col-md-12  px-1 d-flex flex-column"
-                                                        *ngIf="i + 1 == companyData.length">
-                                                        <button class="stepper-btn1 sparte transitionanimation"
-                                                            [ngClass]=" currentTab === 'Unternehmen2' ? 'active-text': ''"
-                                                            data-toggle="modal"
-                                                            data-target="#exampleModalLongnewcompany"
-                                                            (click)="DateRender('exampleModalLongnewcompany','Unternehmen2')">
-                                                            <i class="fa fa-plus text-white" aria-hidden="true"></i>
-                                                            <span>Unternehmen hinzufügen</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-
-
-                                                <ng-template #multiCompanyprivatecustomer>
-                                                    <mat-expansion-panel [expanded]="true"
-                                                        (opened)="clikeditem('hidemultiCompanyprivatecustomerMain',i)"
-                                                        class="col-md-12  px-1 " [disabled]="
+                                                        <ng-template #multiCompanyprivatecustomer>
+                                                            <mat-expansion-panel [expanded]="true"
+                                                                (opened)="clikeditem('hidemultiCompanyprivatecustomerMain','Stammdaten',i)"
+                                                                class=" " [disabled]="
                                                     currentActiveRole == 'b2b' &&
                                                         member.poa == '0' ">
-                                                        <mat-expansion-panel-header mat-panel-title
-                                                            (click)="clikeditem('hidemultiCompanyprivatecustomerMain',i);tabisclicked(member)"
-                                                            *ngIf="i + 1 == companyData.length"><span
-                                                                (click)="tabisclicked(member)"><i class="fa fa-building"
-                                                                    aria-hidden="true" style="color: black"></i>
-                                                                {{ member.companyname }} </span>&nbsp;
+                                                                <mat-expansion-panel-header mat-panel-title
+                                                                    (click)="clikeditem('hidemultiCompanyprivatecustomerMain','Stammdaten',i)"
+                                                                    *ngIf="i + 1 == companyData.length"><span
+                                                                        (click)="tabisclicked(member)"><img
+                                                                            src="assets/images/company.svg">
+                                                                        {{ member.companyname }} </span>&nbsp;
+
+                                                                </mat-expansion-panel-header>
+
+                                                                <mat-expansion-panel-header mat-panel-title
+                                                                    (click)="clikeditem('hidemultiCompanyprivatecustomerMain','Stammdaten',i)"
+                                                                    *ngIf="i + 1 != companyData.length">
+                                                                    <span (click)="tabisclicked(member)"><img
+                                                                            src="assets/images/company.svg">
+                                                                        {{ member.companyname }}
+                                                                    </span>
+                                                                </mat-expansion-panel-header>
+
+                                                                <ng-template [matExpansionPanelContent]>
+                                                                    <div class="col-12 p-0">
+                                                                        <div class="col-12 p-0">
+                                                                            <button class="col-12 p-0 stepper-btn1" role="button"
+                                                                                (click)="clikeditem('hidemultiCompanyprivatecustomerMain','Stammdaten',i)">
+                                                                                <span class="col-12"
+                                                                                [ngClass]=" currentTab === 'hidemultiCompanyprivatecustomerMain' && indexOfHideValues == i  ? 'active-sub-item': ''">
+                                                                                Stammdaten
+                                                                                </span>
+                                                                            </button>
+                                                                            <button *ngIf="officeData.length == 0"
+                                                                                [ngClass]=" currentTab === 'Betriebsstätte3' ? 'active-text': ''"
+                                                                                class="stepper-btn1 transitionanimation"
+                                                                                (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte3')">
+                                                                                <img src="assets/images/add-customer-betr.svg">
+                                                                                <span>Betriebsstätte hinzufügen</span>
+                                                                            </button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <ng-container *ngIf="officeData.length > 0">
+                                                                        <div class="col-12 p-0" *ngFor="let office of officeData;
+                                                                        let j = index" ;>
+                                                                            <div class="col-12 p-0 "
+                                                                                *ngIf="j + 1 == officeData.length">
+                                                                                <span class="col-12"
+                                                                                    (click)="clikeditem('hidemultiCompanyprivatecustomerIn',office.officename,i,j)"
+                                                                                    [ngClass]=" currentTab === 'hidemultiCompanyprivatecustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-sub-item': ''"
+                                                                                    *ngIf=" office.hasOwnProperty( 'officename' );
+                                                                                    else noname ">
+                                                                                    {{ office.officename }}
+                                                                                </span>
+                                                                                <ng-template #noname>
+                                                                                    <span>
+                                                                                        office {{ j + 1 }}
+                                                                                    </span>
+                                                                                </ng-template>
+                                                                                <button
+                                                                                    class="stepper-btn1 transitionanimation"
+                                                                                    (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte4')">
+                                                                                    <img src="assets/images/add-customer-betr.svg">
+                                                                                    <span
+                                                                                        [ngClass]=" currentTab === 'Betriebsstätte4' ? 'active-text': ''">
+                                                                                        Betriebsstätte hinzufügen
+                                                                                    </span>
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class=" col-12 p-0 "
+                                                                                (click)="clikeditem('hidemultiCompanyprivatecustomerIn',office.officename,i,j)"
+                                                                                *ngIf="j + 1 != officeData.length">
+                                                                                <span class="col-12"
+                                                                                    [ngClass]=" currentTab === 'hidemultiCompanyprivatecustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j  ? 'active-sub-item': ''"
+                                                                                    *ngIf=" office.hasOwnProperty( 'officename' );
+                                                                                else noname ">
+                                                                                    {{ office.officename }}
+                                                                                </span>
+                                                                                <ng-template #noname>
+                                                                                    <span>
+                                                                                        office {{ j + 1 }}
+                                                                                    </span>
+                                                                                </ng-template>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </ng-container>
+                                                                </ng-template>
+
+                                                            </mat-expansion-panel>
+
+                                                            <div class="addtab" *ngIf="i + 1 == companyData.length">
+                                                                <div class="">
+                                                                    <button class="stepper-btn1 transitionanimation"
+                                                                        [ngClass]=" currentTab === 'Unternehmen3' ? 'active-text': ''"
+                                                                        id="addcompany" (mouseenter)="remove_border('addcompany')"
+                                                                        (click)="DateRender('exampleModalLongnewcompany','Unternehmen3')">
+                                                                        <img src="assets/images/add-customer.svg">
+                                                                        <span>Unternehmen hinzufügen</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+
+                                                    </ng-container>
+                                                </ng-container>
+
+                                            </ng-container>
+
+                                            <ng-template class=" " #companycustomer>
+                                                <ng-container class=" "
+                                                    *ngFor="let member of companyData; let i = index">
+                                                    <mat-expansion-panel (click)="tabisclicked(member)" class=" " *ngIf="
+                                              member.companytype ==
+                                                'Eingetragener Kaufmann (e.K.)' ||
+                                                member.companytype == 'Einzelunternehmen';
+                                              else multiCompanycustomer
+                                            ">
+                                                        <mat-expansion-panel-header mat-panel-title class=" "
+                                                            *ngIf="i + 1 == companyData.length">
+                                                            <span  (click)="tabisclicked(member)"><img
+                                                                    src="assets/images/company.svg">
+                                                                {{ member.companyname }} </span>
 
                                                         </mat-expansion-panel-header>
 
-                                                        <mat-expansion-panel-header mat-panel-title
-                                                            (click)="clikeditem('hidemultiCompanyprivatecustomerMain',i);tabisclicked(member)"
+                                                        <mat-expansion-panel-header mat-panel-title class=" "
                                                             *ngIf="i + 1 != companyData.length">
-                                                            <span (click)="tabisclicked(member)"><i
-                                                                    class="fa fa-building" aria-hidden="true"
-                                                                    style="color: black"></i>
+                                                            <span (click)="tabisclicked(member)"><img
+                                                                    src="assets/images/company.svg">
                                                                 {{ member.companyname }}
                                                             </span>
                                                         </mat-expansion-panel-header>
 
                                                         <ng-template [matExpansionPanelContent]>
-                                                            <div>
-                                                                <div class="col-md-12 d-flex flex-column">
-                                                                    <div class="stepper-btn1" role="button"
-                                                                        [ngClass]=" currentTab === 'hidemultiCompanyprivatecustomerMain' && indexOfHideValues == i  ? 'active-text': ''"
-                                                                        (click)="clikeditem('hidemultiCompanyprivatecustomerMain',i)">
-                                                                        <span>Stammdaten</span>
-                                                                    </div>
+                                                            <div class="col-12 p-0">
+                                                                <div class="col-12 p-0 ">
+                                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation" >
+                                                                        <span class="col-12"
+                                                                        [ngClass]=" currentTab === 'hideCompanyCustomerMain' && indexOfHideValues == i  ? 'active-sub-item': ''"
+                                                                            (click)=" setCurrentTabUser(member, 'company');clikeditem('hideCompanyCustomerMain','Stammdaten',i) ">
+                                                                            Stammdaten</span>
+                                                                    </button>
+
                                                                     <button *ngIf="officeData.length == 0"
-                                                                        [ngClass]=" currentTab === 'Betriebsstätte3' ? 'active-text': ''"
+                                                                        [ngClass]=" currentTab === 'Betriebsstätte5' ? 'active-text': ''"
                                                                         class="stepper-btn1 transitionanimation"
-                                                                        data-toggle="modal"
-                                                                        data-target="#exampleModalLongnewcompanyoffices"
-                                                                        (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte3')">
-                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                        (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte5')">
+                                                                        <img src="assets/images/add-customer-betr.svg">
                                                                         <span>Betriebsstätte hinzufügen</span>
                                                                     </button>
                                                                 </div>
-
                                                             </div>
                                                             <ng-container *ngIf="officeData.length > 0">
-                                                                <div *ngFor="let office of officeData;
-                                                                        let j = index" ;>
-                                                                    <div class="col-md-12 d-flex flex-column"
-                                                                        *ngIf="j + 1 == officeData.length">
-                                                                        <span
-                                                                            (click)="clikeditem('hidemultiCompanyprivatecustomerIn',i,j)"
-                                                                            [ngClass]=" currentTab === 'hidemultiCompanyprivatecustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-text': ''"
-                                                                            *ngIf=" office.hasOwnProperty( 'officename' );
-                                                                                    else noname ">
-                                                                            {{ office.officename }}
-                                                                        </span>
+
+                                                                <div clas=="col-12 p-0" *ngFor="let office of officeData;
+                                                            let j = index;">
+                                                                    <div class="col-12 p-0 " *ngIf="j + 1 == officeData.length">
+                                                                        <button
+                                                                            class="col-12 p-0 stepper-btn1 transitionanimation">
+                                                                            <span class='col-12'
+                                                                                [ngClass]=" currentTab === 'hideCompanyCustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-sub-item': ''"
+                                                                                *ngIf=" office.hasOwnProperty('officename'); else noname "
+                                                                                (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideCompanyCustomerIn',office.officename,i,j) ">
+                                                                                {{ office.officename }}</span>
+                                                                        </button>
+
                                                                         <ng-template #noname>
                                                                             <span>
                                                                                 office {{ j + 1 }}
                                                                             </span>
                                                                         </ng-template>
-                                                                        <button class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                                            data-target="#exampleModalLongnewcompanyoffices"
-                                                                            (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte4')">
-                                                                            <i class="fa fa-plus"
-                                                                                aria-hidden="true"></i>
-                                                                            <span [ngClass]=" currentTab === 'Betriebsstätte4' ? 'active-text': ''">
-                                                                                Betriebsstätte hinzufügen
-                                                                            </span>
+                                                                        <button class="stepper-btn1 transitionanimation"
+                                                                            [ngClass]=" currentTab === 'Betriebsstätte6' ? 'active-text': ''"
+                                                                             (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte6')">
+                                                                            <img src="assets/images/add-customer-betr.svg">
+                                                                            <span>Betriebsstätte hinzufügen</span>
                                                                         </button>
                                                                     </div>
 
-                                                                    <div class="col-md-12 d-flex flex-column"
-                                                                        (click)="clikeditem('hidemultiCompanyprivatecustomerIn',i,j)"
-                                                                        *ngIf="j + 1 != officeData.length">
-                                                                        <span
-                                                                            [ngClass]=" currentTab === 'hidemultiCompanyprivatecustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j  ? 'active-text': ''"
-                                                                            *ngIf=" office.hasOwnProperty( 'officename' );
-                                                                                else noname ">
-                                                                            {{ office.officename }}
-                                                                        </span>
-                                                                        <ng-template #noname>
-                                                                            <span>
-                                                                                office {{ j + 1 }}
-                                                                            </span>
-                                                                        </ng-template>
+                                                                    <div class="col-12 p-0" *ngIf="j + 1 != officeData.length">
+                                                                        <button
+                                                                            class="col-12 p-0 stepper-btn1 transitionanimation">
+                                                                            <span class="col-12"
+                                                                                [ngClass]=" currentTab === 'hideCompanyCustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-sub-item': ''"
+                                                                                *ngIf=" office.hasOwnProperty('officename'); else noname "
+                                                                                (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideCompanyCustomerIn',office.officename,i,j) ">
+                                                                                {{ office.officename }}</span>
+                                                                            <ng-template #noname>
+                                                                                <span>
+                                                                                    office {{ j + 1 }}
+                                                                                </span>
+                                                                            </ng-template>
+                                                                        </button>
                                                                     </div>
-
                                                                 </div>
 
                                                             </ng-container>
                                                         </ng-template>
 
                                                     </mat-expansion-panel>
-
-                                                    <div class="addtab" *ngIf="i + 1 == companyData.length">
-                                                        <div class="col-md-12  px-1 d-flex flex-column">
-                                                            <button class="stepper-btn1 transitionanimation"
-                                                                [ngClass]=" currentTab === 'Unternehmen3' ? 'active-text': ''"
-                                                                id="addcompany" data-toggle="modal"
-                                                                data-target="#exampleModalLongnewcompany"
-                                                                (mouseenter)="remove_border('addcompany')"
-                                                                (click)="DateRender('exampleModalLongnewcompany','Unternehmen3')">
-                                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                <span>Unternehmen hinzufügen</span>
+                                                    <div *ngIf=" member.companytype ==
+                                              'Eingetragener Kaufmann (e.K.)' ||
+                                                member.companytype == 'Einzelunternehmen';">
+                                                        <div class="" *ngIf="i + 1 == companyData.length">
+                                                            <button *ngIf="familyData.length == 0"
+                                                                [ngClass]=" currentTab === 'Kundentyp1' ? 'active-text': ''"
+                                                                class="stepper-btn1 transitionanimation"
+                                                                (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp1')">
+                                                                <img src="assets/images/add-customer.svg">
+                                                                <span>Kundentyp hinzufügen</span>
                                                             </button>
                                                         </div>
                                                     </div>
-                                                </ng-template>
 
-                                            </ng-container>
+                                                    <ng-template #multiCompanycustomer>
+                                                        <mat-expansion-panel [expanded]="true" class=""
+                                                            (opened)="clikeditem('hidemultiCompanycustomerMain','Stammdaten',i)">
+                                                            <mat-expansion-panel-header mat-panel-title
+                                                                (click)="clikeditem('hidemultiCompanycustomerMain','Stammdaten',i)"
+                                                                class="" *ngIf="i + 1 == companyData.length"><span
+                                                                    class=" stepper-btn1 transitionanimation "
+                                                                    (click)="tabisclicked(member)"><img
+                                                                        src="assets/images/company.svg">
+                                                                    {{ member.companyname }} </span>
+
+                                                            </mat-expansion-panel-header>
+
+                                                            <mat-expansion-panel-header mat-panel-title
+                                                                (click)="clikeditem('hidemultiCompanycustomerMain','Stammdaten',i)"
+                                                                *ngIf="i + 1 != companyData.length" class="">
+                                                                <span class=" stepper-btn1 transitionanimation "
+                                                                    (click)="tabisclicked(member)"><img
+                                                                        src="assets/images/company.svg">
+                                                                    {{ member.companyname }}
+                                                                </span>
+                                                            </mat-expansion-panel-header>
+
+                                                            <ng-template [matExpansionPanelContent]>
+                                                                <div class="col-12 p-0">
+                                                                    <div class="stepper-btn1 col-12 p-0" role="button"
+                                                                        (click)="clikeditem('hidemultiCompanycustomerMain','Stammdaten',i)">
+
+                                                                        <span class="col-12 " [ngClass]=" currentTab === 'hidemultiCompanycustomerMain' &&
+                                                                        indexOfHideValues  == i ? 'active-sub-item': ''">Stammdaten</span>
+                                                                    </div>
+                                                                    <div class="stepper-btn1">
+                                                                        <button *ngIf="officeData.length == 0"
+                                                                            [ngClass]=" currentTab === 'Betriebsstätte7' ? 'active-text': ''"
+                                                                            class="stepper-btn1 transitionanimation"
+                                                                            (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte7')">
+                                                                            <img src="assets/images/add-customer-betr.svg">
+                                                                            <span>Betriebsstätte hinzufügen</span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <ng-container *ngIf="officeData.length > 0">
+
+                                                                    <div *ngFor="let office of officeData;
+                                                                let i = index">
+                                                                        <div class="col-12 p-0"
+                                                                            *ngIf="i + 1 == officeData.length">
+                                                                            <button
+                                                                                class="stepper-btn1 transitionanimation col-12 p-0"
+                                                                                (click)="clikeditem('hidemultiCompanycustomerIn',office.officename,i,j)">
+                                                                                <span class="col-12"
+                                                                                    [ngClass]=" currentTab === 'hidemultiCompanycustomerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-sub-item': ''"
+                                                                                    *ngIf=" office.hasOwnProperty('officename'); else noname ">
+                                                                                    {{ office.officename }}</span>
+                                                                            </button>
+                                                                            <ng-template #noname>
+                                                                                <span>
+                                                                                    office {{ i + 1 }}
+                                                                                </span>
+                                                                            </ng-template>
+                                                                            <button
+                                                                                class="stepper-btn1 transitionanimation"
+                                                                                [ngClass]=" currentTab === 'Betriebsstätte8' ? 'active-text': ''"
+                                                                                 (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte8')">
+                                                                                <img src="assets/images/add-customer-betr.svg">
+                                                                                <span>Betriebsstätte hinzufügen</span>
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="col-12 p-0 "
+                                                                            (click)="clikeditem('hidemultiCompanycustomerIn',office.officename,i,j)"
+                                                                            *ngIf="i + 1 != officeData.length">
+                                                                            <span
+                                                                                class=" col-12 stepper-btn1 transitionanimation "
+                                                                                [ngClass]=" currentTab === 'hidemultiCompanycustomerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-sub-item': ''"
+                                                                                *ngIf=" office.hasOwnProperty('officename'); else noname ">
+                                                                                {{ office.officename }}</span>
+                                                                            <ng-template #noname>
+                                                                                <span>
+                                                                                    office {{ i + 1 }}
+                                                                                </span>
+                                                                            </ng-template>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </ng-container>
+                                                            </ng-template>
+                                                        </mat-expansion-panel>
+
+                                                        <div class=" ">
+                                                            <div class="" *ngIf="i + 1 == companyData.length">
+                                                                <button *ngIf="familyData.length == 0"
+                                                                    [ngClass]=" currentTab === 'Kundentyp2' ? 'active-text': ''"
+                                                                    class="stepper-btn1 transitionanimation"
+                                                                    (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp2')">
+                                                                    <img src="assets/images/add-customer.svg">
+                                                                    <span>Kundentyp hinzufügen</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="familyData.length > 0">
+                                                    <mat-expansion-panel class=" " [disabled]="
+                                                currentActiveRole == 'b2b' &&
+                                                familyData[0].documents == ''
+                                              ">
+                                                        <mat-expansion-panel-header class="" mat-panel-title>
+                                                            <span class=" stepper-btn1 transitionanimation "
+                                                                (click)=" setCurrentTabUser(familyData[0], 'haushalt');clikeditem('hidedisabledfamilyMain',familyData[0].lastname)">
+                                                                <img src="assets/images/haushalt.svg">
+                                                                Haushalt {{ familyData[0].lastname }} </span>&nbsp;
+                                                        </mat-expansion-panel-header>
+
+                                                        <ng-template [matExpansionPanelContent]>
+                                                            <div class="">
+                                                                <ng-container *ngFor="let member of familyData;
+                                                        let i = index">
+
+                                                                    <div class="">
+                                                                        <div class=""
+                                                                            *ngIf="i + 1 == officeData.length">
+                                                                            <button
+                                                                                class="col-12 p-0 stepper-btn1 transitionanimation"
+                                                                                (click)="clikeditem('hidedisabledfamilyIn',member.lastname,i)">
+                                                                                <span class=" col-12 "
+                                                                                [ngClass]=" currentTab === 'hidedisabledfamilyIn' && i == indexOfHideValues ? 'active-sub-item': ''"
+                                                                                    (click)="setCurrentTabUser(member, 'haushalt')">
+                                                                                    {{ member.firstname }}
+                                                                                    {{ member.lastname }}
+                                                                                </span>
+                                                                            </button>
+
+                                                                            <button
+                                                                                class="stepper-btn1 transitionanimation"
+                                                                                [ngClass]=" currentTab === 'Mitglied3' ? 'active-text': ''"
+                                                                                (click)="DateRender('exampleModalLongnewfamilyPOA','Mitglied3')">
+                                                                                <i class="fa fa-plus"
+                                                                                    aria-hidden="true"></i>
+                                                                                <span>Mitglied zum Haushalt
+                                                                                    hinzufügen</span>
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <button class="stepper-btn1 col-12 p-0 transitionanimation"
+                                                                            (click)="clikeditem('hidedisabledfamilyIn',member.lastname,i)"
+                                                                            *ngIf="i + 1 != officeData.length">
+                                                                            <span [ngClass]=" currentTab === 'hidedisabledfamilyIn' && i == indexOfHideValues ? 'active-sub-item': ''"
+                                                                                class=" stepper-btn1 transitionanimation col-12 "
+                                                                                (click)="setCurrentTabUser(member, 'haushalt')">
+                                                                                {{ member.firstname }}
+                                                                                {{ member.lastname }}
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
+
+                                                                </ng-container>
+                                                            </div>
+                                                        </ng-template>
+
+                                                    </mat-expansion-panel>
+                                                    <div class=" plus-btn ">
+                                                        <div class="">
+                                                            <button id="addfamily"
+                                                                (mouseenter)="remove_border('addfamily')"
+                                                                [ngClass]=" currentTab === 'Kundentyp3' ? 'active-text': ''"
+                                                                class="stepper-btn1 transitionanimation"
+                                                                (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp3')">
+                                                                <img src="assets/images/add-customer.svg">
+                                                                <span>Kundentyp hinzufügen</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-template>
+
                                         </ng-container>
 
-                                    </ng-container>
+                                        <!-- Benutzer 2ND BLOCK END -->
+                                        <!-- Benutzer 3RD BLOCK START -->
+                                        <ng-template #company>
 
-                                    <ng-template class="col-md-12 px-1 " #companycustomer>
-                                        <ng-container class="col-md-12  px-1 "
-                                            *ngFor="let member of companyData; let i = index">
-                                            <mat-expansion-panel (click)="tabisclicked(member)" class="col-md-12 px-1 "
-                                                *ngIf="
-                                              member.companytype ==
-                                                'Eingetragener Kaufmann (e.K.)' ||
-                                                member.companytype == 'Einzelunternehmen';
-                                              else multiCompanycustomer
-                                            ">
-                                                <mat-expansion-panel-header mat-panel-title class="col-md-12  px-1 "
-                                                    *ngIf="i + 1 == companyData.length">
-                                                    <span id="Stammdaten3a" (click)="tabisclicked(member)"><i
-                                                            class="fa fa-building" aria-hidden="true"
-                                                            style="color: black"></i>
-                                                        {{ member.companyname }} </span>
-
-                                                </mat-expansion-panel-header>
-
-                                                <mat-expansion-panel-header mat-panel-title class="col-md-12  px-1 "
-                                                    *ngIf="i + 1 != companyData.length">
-                                                    <span id="Stammdaten3b" (click)="tabisclicked(member)"><i
-                                                            class="fa fa-building" aria-hidden="true"
-                                                            style="color: black"></i>
-                                                        {{ member.companyname }}
-                                                    </span>
+                                            <mat-expansion-panel [expanded]="true"
+                                                (opened)="clikeditem('hideCompanyMain','Stammdaten')" *ngIf=" localData.companytype ==
+                                        'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
+                                            else multiCompany " id="secondtabnew">
+                                                <mat-expansion-panel-header mat-panel-title class=" "
+                                                    (click)="clikeditem('hideCompanyMain','Stammdaten')">
+                                                    <span class=" stepper-btn1 transitionanimation "
+                                                        (click)="change_account_name( 'Firma', 'Firma', '', localData.companyname ) ">
+                                                        <img src="assets/images/company.svg">
+                                                        {{ localData.companyname }} </span>
                                                 </mat-expansion-panel-header>
 
                                                 <ng-template [matExpansionPanelContent]>
-                                                    <div>
-                                                        <div class="col-md-12 d-flex flex-column">
-                                                            <button class="stepper-btn1 transitionanimation"
-                                                                [ngClass]=" currentTab === 'hideCompanyCustomerMain' && indexOfHideValues == i  ? 'active-text': ''">
-                                                                <span
-                                                                    (click)=" setCurrentTabUser(member, 'company');clikeditem('hideCompanyCustomerMain',i) ">
-                                                                    Stammdaten</span>
-                                                            </button>
-
-                                                            <button *ngIf="officeData.length == 0"
-                                                                [ngClass]=" currentTab === 'Betriebsstätte5' ? 'active-text': ''"
+                                                    <div class=" col-12 p-0">
+                                                        <div class="col-12 p-0">
+                                                            <div (click)="clikeditem('hideCompanyMain','Stammdaten')" role="button"
+                                                                class="stepper-btn1 col-12 p-0 transitionanimation">
+                                                                <span class="col-12"
+                                                                    [ngClass]=" currentTab === 'hideCompanyMain' ? 'active-sub-item': ''">Stammdaten</span>
+                                                            </div>
+                                                            <div role="button" *ngIf="userofficeData.length == 0"
+                                                                [ngClass]=" currentTab === 'Betriebsstätte9' ? 'active-text': ''"
                                                                 class="stepper-btn1 transitionanimation"
-                                                                data-toggle="modal"
-                                                                data-target="#exampleModalLongnewcompanyoffices"
-                                                                (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte5')">
-                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                 (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte9')">
+                                                                <img src="assets/images/add-customer-betr.svg">
                                                                 <span>Betriebsstätte hinzufügen</span>
-                                                            </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <ng-container *ngIf="officeData.length > 0">
 
-                                                        <div *ngFor="let office of officeData;
-                                                            let j = index;">
-                                                            <div class="col-md-12 d-flex flex-column"
-                                                                *ngIf="j + 1 == officeData.length">
-                                                                <button  class="stepper-btn1 transitionanimation">
-                                                                  <span
-                                                                  [ngClass]=" currentTab === 'hideCompanyCustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-text': ''"
-                                                                  *ngIf=" office.hasOwnProperty('officename'); else noname "
-                                                                  (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideCompanyCustomerIn',i,j) ">
-                                                                  {{ office.officename }}</span>
-                                                                </button>
+                                                    <ng-container *ngIf="userofficeData.length > 0">
 
-                                                                <ng-template #noname>
-                                                                    <span>
-                                                                        office {{ j + 1 }}
-                                                                    </span>
-                                                                </ng-template>
-                                                                <button class="stepper-btn1 transitionanimation"
-                                                                    [ngClass]=" currentTab === 'Betriebsstätte6' ? 'active-text': ''"
-                                                                    data-toggle="modal"
-                                                                    data-target="#exampleModalLongnewcompanyoffices"
-                                                                    (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte6')">
-                                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                    <span>Betriebsstätte hinzufügen</span>
-                                                                </button>
-                                                            </div>
-
-                                                            <div class="col-md-12 d-flex flex-column"
-                                                                *ngIf="j + 1 != officeData.length">
-                                                                <button  class="stepper-btn1 transitionanimation" >
-                                                                <span
-                                                                    [ngClass]=" currentTab === 'hideCompanyCustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-text': ''"
-                                                                    *ngIf=" office.hasOwnProperty('officename'); else noname "
-                                                                    (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideCompanyCustomerIn',i,j) ">
-                                                                    {{ office.officename }}</span>
-                                                                <ng-template #noname>
-                                                                    <span>
-                                                                        office {{ j + 1 }}
-                                                                    </span>
-                                                                </ng-template>
-                                                              </button>
-                                                            </div>
-                                                        </div>
-
-                                                    </ng-container>
-                                                </ng-template>
-
-                                            </mat-expansion-panel>
-                                            <div *ngIf=" member.companytype ==
-                                              'Eingetragener Kaufmann (e.K.)' ||
-                                                member.companytype == 'Einzelunternehmen';">
-                                                <div class="col-md-12  px-1 d-flex flex-column"
-                                                    *ngIf="i + 1 == companyData.length">
-                                                    <button *ngIf="familyData.length == 0"
-                                                        [ngClass]=" currentTab === 'Kundentyp1' ? 'active-text': ''"
-                                                        class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                        data-target="#exampleModalLongnewcompanycustomer"
-                                                        (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp1')">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                        <span>Kundentyp hinzufügen</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <ng-template #multiCompanycustomer>
-                                                <mat-expansion-panel [expanded]="true" class="col-md-12 px-1 "
-                                                    (opened)="clikeditem('hidemultiCompanycustomerMain',i)">
-                                                    <mat-expansion-panel-header mat-panel-title
-                                                        (click)="clikeditem('hidemultiCompanycustomerMain',i)"
-                                                        class="col-md-12  px-1 "
-                                                        *ngIf="i + 1 == companyData.length"><span class=" stepper-btn1 transitionanimation "
-                                                            [ngClass]=" currentTab === 'hidemultiCompanycustomerMain' && indexOfHideValues == i  ? 'active-text': ''"
-                                                            (click)="tabisclicked(member)"><i class="fa fa-building"
-                                                                aria-hidden="true" style="color: black"></i>
-                                                            {{ member.companyname }} </span>
-
-                                                    </mat-expansion-panel-header>
-
-                                                    <mat-expansion-panel-header mat-panel-title
-                                                        (click)="clikeditem('hidemultiCompanycustomerMain',i)"
-                                                        *ngIf="i + 1 != companyData.length" class="col-md-12  px-1 ">
-                                                        <span class=" stepper-btn1 transitionanimation "
-                                                        [ngClass]=" currentTab === 'hidemultiCompanycustomerMain' && indexOfHideValues == i  ? 'active-text': ''"
-                                                        (click)="tabisclicked(member)"><i class="fa fa-building"
-                                                                aria-hidden="true" style="color: black"></i>
-                                                            {{ member.companyname }}
-                                                        </span>
-                                                    </mat-expansion-panel-header>
-
-                                                    <ng-template [matExpansionPanelContent]>
-                                                        <div class="col-md-12 d-flex flex-column">
-                                                            <div class="stepper-btn1" role="button"
-                                                                (click)="clikeditem('hidemultiCompanycustomerMain',i)">
-                                                                [ngClass]=" currentTab ===
-                                                                'hidemultiCompanycustomerMain'  && indexOfHideValues == i ? 'active-text': ''"
-                                                                <span>Stammdaten</span>
-                                                            </div>
-                                                            <div class="stepper-btn1">
-                                                                <button *ngIf="officeData.length == 0"
-                                                                    [ngClass]=" currentTab === 'Betriebsstätte7' ? 'active-text': ''"
-                                                                    class="stepper-btn1 transitionanimation"
-                                                                    data-toggle="modal"
-                                                                    data-target="#exampleModalLongnewcompanyoffices"
-                                                                    (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte7')">
-                                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                    <span>Betriebsstätte hinzufügen</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <ng-container *ngIf="officeData.length > 0">
-
-                                                            <div *ngFor="let office of officeData;
-                                                                let i = index">
-                                                                <div class="col-md-12 px-1"
-                                                                    *ngIf="i + 1 == officeData.length">
-                                                                    <button class="stepper-btn1 transitionanimation"
-                                                                        (click)="clikeditem('hidemultiCompanycustomerIn',i,j)">
-                                                                        <span
-                                                                            [ngClass]=" currentTab === 'hidemultiCompanycustomerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-text': ''"
-                                                                            *ngIf=" office.hasOwnProperty('officename'); else noname ">
-                                                                            {{ office.officename }}</span>
-                                                                    </button>
+                                                        <div class="" *ngFor="let office of userofficeData;
+                                                    let i = index">
+                                                            <div class="" *ngIf="i + 1 == userofficeData.length">
+                                                                <button class="stepper-btn1 col-12 p-0"
+                                                                    (click)="clikeditem('hideCompanyIn',office.officename,i)">
+                                                                    <span class=" col-12 transitionanimation "
+                                                                        [ngClass]=" currentTab === 'hideCompanyIn' && indexOfHideValues == i  ? 'active-sub-item': ''"
+                                                                        *ngIf="office.hasOwnProperty('officename'); else noname ">
+                                                                        {{ office.officename }}</span>
                                                                     <ng-template #noname>
                                                                         <span>
                                                                             office {{ i + 1 }}
                                                                         </span>
                                                                     </ng-template>
-                                                                    <button class="stepper-btn1 transitionanimation"
-                                                                        [ngClass]=" currentTab === 'Betriebsstätte8' ? 'active-text': ''"
-                                                                        data-toggle="modal"
-                                                                        data-target="#exampleModalLongnewcompanyoffices"
-                                                                        (click)="savecompanyId(member);DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte8')">
-                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        <span>Betriebsstätte hinzufügen</span>
-                                                                    </button>
-                                                                </div>
+                                                                </button>
+                                                                <button class="stepper-btn1 transitionanimation"
+                                                                    [ngClass]=" currentTab === 'Betriebsstätte10' ? 'active-text': ''"
+                                                                     (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte10')">
+                                                                    <img src="assets/images/add-customer-betr.svg">
+                                                                    <span>Betriebsstätte hinzufügen</span>
+                                                                </button>
+                                                            </div>
 
-                                                                <div class="col-md-12 px-1 "
-                                                                    (click)="clikeditem('hidemultiCompanycustomerIn',i,j)"
-                                                                    *ngIf="i + 1 != officeData.length">
-                                                                    <span class=" stepper-btn1 transitionanimation "
-                                                                    [ngClass]=" currentTab === 'hidemultiCompanycustomerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-text': ''"
+                                                            <div class="col-12 p-0" (click)="clikeditem('hideCompanyIn',office.officename,i)"
+                                                                *ngIf="i + 1 != userofficeData.length">
+                                                                <button class="stepper-btn1 col-12 p-0">
+                                                                    <span class="col-12"
+                                                                        [ngClass]=" currentTab === 'hideCompanyIn' && indexOfHideValues == i  ? 'active-sub-item': ''"
                                                                         *ngIf=" office.hasOwnProperty('officename'); else noname ">
                                                                         {{ office.officename }}</span>
                                                                     <ng-template #noname>
@@ -611,425 +761,252 @@
                                                                             office {{ i + 1 }}
                                                                         </span>
                                                                     </ng-template>
-                                                                </div>
-                                                            </div>
-
-                                                        </ng-container>
-                                                    </ng-template>
-                                                </mat-expansion-panel>
-
-                                                <div class="col-md-12 px-1 ">
-                                                    <div class="col-md-12 px-1 d-flex flex-column"
-                                                        *ngIf="i + 1 == companyData.length">
-                                                        <button *ngIf="familyData.length == 0"
-                                                            [ngClass]=" currentTab === 'Kundentyp2' ? 'active-text': ''"
-                                                            class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                            data-target="#exampleModalLongnewcompanycustomer"
-                                                            (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp2')">
-                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            <span>Kundentyp hinzufügen</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </ng-template>
-                                        </ng-container>
-
-                                        <ng-container *ngIf="familyData.length > 0">
-                                            <mat-expansion-panel class="col-12 px-1 " [disabled]="
-                                                currentActiveRole == 'b2b' &&
-                                                familyData[0].documents == ''
-                                              ">
-                                                <mat-expansion-panel-header class="col-md-12 px-1" mat-panel-title >
-                                                    <span class=" stepper-btn1 transitionanimation " (click)=" setCurrentTabUser(familyData[0], 'haushalt');clikeditem('hidedisabledfamilyMain')">
-                                                        <i class="fa-solid fa-family" style="color: black"></i>
-                                                        Haushalt {{ familyData[0].lastname }} </span>&nbsp;
-                                                </mat-expansion-panel-header>
-
-                                                <ng-template [matExpansionPanelContent]>
-                                                    <div class="col-12">
-                                                        <ng-container *ngFor="let member of familyData;
-                                                        let i = index">
-
-                                                            <div class="col-md-12">
-                                                                <div class="col-12"
-                                                                    *ngIf="i + 1 == officeData.length">
-                                                                    <button class="stepper-btn1 transitionanimation" (click)="clikeditem('hidedisabledfamilyIn',i)">
-                                                                      <span class="  "
-                                                                      (click)="setCurrentTabUser(member, 'haushalt')">
-                                                                      {{ member.firstname }}
-                                                                      {{ member.lastname }}
-                                                                      </span>
-                                                                    </button>
-
-                                                                    <button class="stepper-btn1 transitionanimation"
-                                                                        [ngClass]=" currentTab === 'Mitglied3' ? 'active-text': ''"
-                                                                        data-toggle="modal"
-                                                                        data-target="#exampleModalLongnewfamilyPOA"
-                                                                        (click)="DateRender('exampleModalLongnewfamilyPOA','Mitglied3')">
-                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        <span>Mitglied zum Haushalt hinzufügen</span>
-                                                                    </button>
-                                                                  </div>
-
-                                                                <button class="stepper-btn1 transitionanimation" (click)="clikeditem('hidedisabledfamilyIn',i)"
-                                                                    *ngIf="i + 1 != officeData.length">
-                                                                    <span class=" stepper-btn1 transitionanimation "
-                                                                        (click)="setCurrentTabUser(member, 'haushalt')">
-                                                                        {{ member.firstname }}
-                                                                        {{ member.lastname }}
-                                                                    </span>
                                                                 </button>
-                                                            </div>
 
-                                                        </ng-container>
-                                                    </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </ng-container>
+
+
                                                 </ng-template>
 
                                             </mat-expansion-panel>
-                                            <div class=" plus-btn ">
-                                                <div class="col-md-12 px-1 d-flex flex-column">
-                                                    <button id="addfamily" (mouseenter)="remove_border('addfamily')"
-                                                        [ngClass]=" currentTab === 'Kundentyp3' ? 'active-text': ''"
-                                                        class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                        data-target="#exampleModalLongnewcompanycustomer"
-                                                        (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp3')">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                            <div *ngIf=" localData.companytype ==
+                                    'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
+                                        " id="secondtabnew">
+                                                <div class="">
+                                                    <button *ngIf="companyData.length == 0 && familyData.length == 0"
+                                                        [ngClass]=" currentTab === 'Kundentyp4' ? 'active-text': ''"
+                                                        class="stepper-btn1 transitionanimation"
+                                                        (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp4')">
+                                                        <img src="assets/images/add-customer.svg">
                                                         <span>Kundentyp hinzufügen</span>
                                                     </button>
                                                 </div>
                                             </div>
-                                        </ng-container>
-                                    </ng-template>
 
-                                </ng-container>
-
-                                <!-- Benutzer 2ND BLOCK END -->
-                                <!-- Benutzer 3RD BLOCK START -->
-                                <ng-template #company>
-
-                                    <mat-expansion-panel [expanded]="true" (opened)="clikeditem('hideCompanyMain')"
-                                        *ngIf=" localData.companytype ==
-                                        'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
-                                            else multiCompany " id="secondtabnew">
-                                        <mat-expansion-panel-header mat-panel-title class="col-12 px-1 "
-                                            (click)="clikeditem('hideCompanyMain')">
-                                            <span class=" stepper-btn1 transitionanimation " [ngClass]=" currentTab === 'hideCompanyMain' ? 'active-text': ''"
-                                                (click)="change_account_name( 'Firma', 'Firma', '', localData.companyname ) ">
-                                                <i class="fa fa-building" aria-hidden="true" style="color: black"></i>
-                                                {{ localData.companyname }} </span>
-                                        </mat-expansion-panel-header>
-
-                                        <ng-template [matExpansionPanelContent]>
-                                            <div class="col-md-12 d-flex flex-column">
-                                                <div class="col-md-12 d-flex flex-column">
-                                                    <div (click)="clikeditem('hideCompanyMain')" role="button"
-                                                        class="stepper-btn1 transitionanimation">
-                                                        <span
-                                                            [ngClass]=" currentTab === 'hideCompanyMain' ? 'active-text': ''">Stammdaten</span>
-                                                    </div>
-                                                    <div role="button" *ngIf="userofficeData.length == 0"
-                                                        [ngClass]=" currentTab === 'Betriebsstätte9' ? 'active-text': ''"
-                                                        class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                        data-target="#exampleModalLongnewcompanyoffices"
-                                                        (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte9')">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                        <span>Betriebsstätte hinzufügen</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <ng-container *ngIf="userofficeData.length > 0">
-
-                                                <div class="col-md-12 d-flex flex-column" *ngFor="let office of userofficeData;
-                                                    let i = index">
-                                                    <div class="col-md-12 d-flex flex-column"
-                                                        *ngIf="i + 1 == userofficeData.length">
-                                                        <button class="stepper-btn1"
-                                                            (click)="clikeditem('hideCompanyIn',i)">
-                                                            <span class=" stepper-btn1 transitionanimation "
-                                                                [ngClass]=" currentTab === 'hideCompanyIn' && indexOfHideValues == i  ? 'active-text': ''"
-                                                                *ngIf="office.hasOwnProperty('officename'); else noname ">
-                                                                {{ office.officename }}</span>
-                                                            <ng-template #noname>
-                                                                <span>
-                                                                    office {{ i + 1 }}
-                                                                </span>
-                                                            </ng-template>
-                                                        </button>
-                                                        <button class="stepper-btn1 transitionanimation"
-                                                            [ngClass]=" currentTab === 'Betriebsstätte10' ? 'active-text': ''"
-                                                            data-toggle="modal"
-                                                            data-target="#exampleModalLongnewcompanyoffices"
-                                                            (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte10')">
-                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            <span>Betriebsstätte hinzufügen</span>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="col-md-12 d-flex flex-column"
-                                                        (click)="clikeditem('hideCompanyIn',i)"
-                                                        *ngIf="i + 1 != userofficeData.length">
-                                                        <button class="stepper-btn1">
-                                                            <span
-                                                                [ngClass]=" currentTab === 'hideCompanyIn' && indexOfHideValues == i  ? 'active-text': ''"
-                                                                *ngIf=" office.hasOwnProperty('officename'); else noname ">
-                                                                {{ office.officename }}</span>
-                                                            <ng-template #noname>
-                                                                <span>
-                                                                    office {{ i + 1 }}
-                                                                </span>
-                                                            </ng-template>
-                                                        </button>
-
-
-                                                    </div>
-                                                </div>
-
-                                            </ng-container>
-
-
-                                        </ng-template>
-
-                                    </mat-expansion-panel>
-                                    <div *ngIf=" localData.companytype ==
-                                    'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
-                                        " id="secondtabnew">
-                                        <div class="col-md-12  px-1 d-flex flex-column">
-                                            <button *ngIf="companyData.length == 0 && familyData.length == 0"
-                                                [ngClass]=" currentTab === 'Kundentyp4' ? 'active-text': ''"
-                                                class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                data-target="#exampleModalLongnewcompanycustomer"
-                                                (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp4')">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                <span>Kundentyp hinzufügen</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <ng-template #multiCompany>
-                                        <mat-expansion-panel [expanded]="true" class="col-12 px-1 "
-                                            (opened)="clikeditem('hidemultiCompanyMain')">
-                                            <mat-expansion-panel-header role="tabpanel"
-                                                (opened)="clikeditem('hidemultiCompanyMain')"
-                                                (click)="clikeditem('hidemultiCompanyMain');clicker('Stammdaten6','Stammdaten6Btn')"
-                                                mat-panel-title class="col-12 px-1 ">
-                                                <span id="Stammdaten6" role="button" (click)="
+                                            <ng-template #multiCompany>
+                                                <mat-expansion-panel [expanded]="true" class=" "
+                                                    (opened)="clikeditem('hidemultiCompanyMain','Stammdaten')">
+                                                    <mat-expansion-panel-header role="tabpanel"
+                                                        (opened)="clikeditem('hidemultiCompanyMain','Stammdaten')"
+                                                        (click)="clikeditem('hidemultiCompanyMain','Stammdaten');clicker('Stammdaten6','Stammdaten6Btn')"
+                                                        mat-panel-title class=" ">
+                                                        <span id="Stammdaten6" role="button" (click)="
                                                     change_account_name('Firma','Firma','',localData.companyname);
                                                     setCurrentTabUser(localData, 'company')">
-                                                    <i class="fa fa-building" aria-hidden="true"
-                                                        style="color: black"></i>
-                                                    {{ localData.companyname }}</span>
+                                                            <img src="assets/images/company.svg">
+                                                            {{ localData.companyname }}</span>
 
-                                            </mat-expansion-panel-header>
+                                                    </mat-expansion-panel-header>
 
-                                            <ng-template [matExpansionPanelContent]>
+                                                    <ng-template [matExpansionPanelContent]>
 
-                                                <div class="col-md-12 d-flex flex-column">
-                                                    <div role="button" class="stepper-btn1 transitionanimation"
-                                                        id="Stammdaten6Btn">
-                                                        <span role="button"
-                                                            [ngClass]=" currentTab === 'hidemultiCompanyMain' ? 'active-text': ''"
-                                                            (click)="setCurrentTabUser(localData, 'company');clikeditem('hidemultiCompanyMain')">Stammdaten
-                                                        </span>
-                                                    </div>
-                                                    <div role="button" *ngIf="userofficeData.length == 0"
-                                                        [ngClass]=" currentTab === 'Betriebsstätte11' ? 'active-text': ''"
-                                                        class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                                        data-target="#exampleModalLongnewcompanyoffices"
-                                                        (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte11')">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                        <span>Betriebsstätte hinzufügen</span>
+                                                        <div class="col-12 p-0">
+                                                            <div role="button" class="stepper-btn1 col-12 p-0 transitionanimation"
+                                                                id="Stammdaten6Btn">
+                                                                <span role="button" class="col-12"
+                                                                    [ngClass]=" currentTab === 'hidemultiCompanyMain' ? 'active-sub-item': ''"
+                                                                    (click)="setCurrentTabUser(localData, 'company');clikeditem('hidemultiCompanyMain','Stammdaten')">
+                                                                    Stammdaten
+                                                                </span>
+                                                            </div>
+                                                            <div role="button" *ngIf="userofficeData.length == 0"
+                                                                [ngClass]=" currentTab === 'Betriebsstätte11' ? 'active-text': ''"
+                                                                class="stepper-btn1 transitionanimation"
+                                                                (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte11')">
+                                                                <img src="assets/images/add-customer-betr.svg">
+                                                                <span>Betriebsstätte hinzufügen</span>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <ng-container *ngIf="userofficeData.length > 0">
+
+                                                            <div class="p-0 col-12" *ngFor="let office of userofficeData;
+                                                        let i = index">
+                                                                <div class="col-12 p-0" *ngIf="i + 1 == userofficeData.length">
+                                                                    <button class="stepper-btn1 col-12 p-0"
+                                                                        (click)="clikeditem('hidemultiCompanyIn',office.officename,i);setCurrentTabUser(office, 'branch')">
+                                                                        <span class="col-12"
+                                                                            [ngClass]=" currentTab === 'hidemultiCompanyIn'  && indexOfHideValues == i  ? 'active-sub-item': ''"
+                                                                            *ngIf="office.hasOwnProperty('officename'); else noname ">
+                                                                            {{ office.officename }}
+                                                                        </span>
+                                                                        <ng-template #noname>
+                                                                            <span>
+                                                                                office {{ i + 1 }}
+                                                                            </span>
+                                                                        </ng-template>
+                                                                    </button>
+                                                                    <button class="stepper-btn1 transitionanimation"
+                                                                        [ngClass]=" currentTab === 'Betriebsstätte12' ? 'active-text': ''"
+                                                                        (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte12')">
+                                                                        <img src="assets/images/add-customer-betr.svg">
+                                                                        <span>Betriebsstätte hinzufügen</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <div clas="col-12 p-0" *ngIf="i + 1 != userofficeData.length">
+                                                                    <button class="stepper-btn1 col-12 p-0"
+                                                                        (click)="clikeditem('hidemultiCompanyIn',office.officename,i)">
+                                                                        <span class="col-12 "
+                                                                            [ngClass]=" currentTab === 'hidemultiCompanyIn' && indexOfHideValues == i ? 'active-sub-item': ''"
+                                                                            (click)="setCurrentTabUser(office, 'branch')"
+                                                                            *ngIf=" office.hasOwnProperty('officename'); else noname ">
+                                                                            {{ office.officename }}
+                                                                        </span>
+                                                                        <ng-template #noname>
+                                                                            <span>
+                                                                                office {{ i + 1 }}
+                                                                            </span>
+                                                                        </ng-template>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </ng-container>
+
+                                                    </ng-template>
+                                                </mat-expansion-panel>
+
+                                                <div class=" ">
+                                                    <div class="">
+                                                        <button *ngIf="companyData.length == 0 &&familyData.length == 0"
+                                                            [ngClass]=" currentTab === 'Kundentyp5' ? 'active-text': ''"
+                                                            class=" stepper-btn1 transitionanimation"
+                                                            (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp5')">
+                                                            <img src="assets/images/add-customer.svg">
+                                                            <span>Kundentyp hinzufügen</span>
+                                                            <!-- data-toggle="modal"
+                                                    data-target="#exampleModalLongnewcompanycustomer" -->
+                                                        </button>
                                                     </div>
                                                 </div>
-
-
-                                                <ng-container *ngIf="userofficeData.length > 0">
-
-                                                    <div *ngFor="let office of userofficeData;
-                                                        let i = index">
-                                                        <div class="col-md-12 d-flex flex-column"
-                                                            *ngIf="i + 1 == userofficeData.length">
-                                                            <button class="stepper-btn1"
-                                                                (click)="clikeditem('hidemultiCompanyIn',i);setCurrentTabUser(office, 'branch')">
-                                                                <span
-                                                                    [ngClass]=" currentTab === 'hidemultiCompanyIn'  && indexOfHideValues == i  ? 'active-text': ''"
-                                                                    *ngIf="office.hasOwnProperty('officename'); else noname ">
-                                                                    {{ office.officename }}
-                                                                </span>
-                                                                <ng-template #noname>
-                                                                    <span>
-                                                                        office {{ i + 1 }}
-                                                                    </span>
-                                                                </ng-template>
-                                                            </button>
-                                                            <button class="stepper-btn1 transitionanimation"
-                                                                [ngClass]=" currentTab === 'Betriebsstätte12' ? 'active-text': ''"
-                                                                data-toggle="modal"
-                                                                (click)="savecompanyId('user');DateRender('exampleModalLongnewcompanyoffices','Betriebsstätte12')">
-                                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                <span>Betriebsstätte hinzufügen</span>
-                                                                <!-- data-target="#exampleModalLongnewcompanyoffices" -->
-                                                            </button>
-                                                        </div>
-
-                                                        <div *ngIf="i + 1 != userofficeData.length">
-                                                            <button class="stepper-btn1"
-                                                                (click)="clikeditem('hidemultiCompanyIn',i)">
-                                                                <span class="stepper-btn1"
-                                                                    [ngClass]=" currentTab === 'hidemultiCompanyIn' && indexOfHideValues == i ? 'active-text': ''"
-                                                                    (click)="setCurrentTabUser(office, 'branch')"
-                                                                    *ngIf=" office.hasOwnProperty('officename'); else noname ">
-                                                                    {{ office.officename }}
-                                                                </span>
-                                                                <ng-template #noname>
-                                                                    <span>
-                                                                        office {{ i + 1 }}
-                                                                    </span>
-                                                                </ng-template>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                </ng-container>
-
                                             </ng-template>
-                                        </mat-expansion-panel>
 
-                                        <div class="col-12 px-1 ">
-                                            <div class="col-md-12  px-1 d-flex flex-column">
-                                                <button *ngIf="companyData.length == 0 &&familyData.length == 0"
-                                                    [ngClass]=" currentTab === 'Kundentyp5' ? 'active-text': ''"
-                                                    class="stepper-btn1 transitionanimation"
-                                                    (click)="DateRender('exampleModalLongnewcompanycustomer','Kundentyp5')">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    <span>Kundentyp hinzufügen</span>
-                                                    <!-- data-toggle="modal"
-                                                    data-target="#exampleModalLongnewcompanycustomer" -->
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-
-                                </ng-template>
-
-
-                            </mat-accordion>
-
-
-                            <div class="col-md-12 p-0" style="margin-top: 30px;">
-                                <mat-accordion class="side">
-                                    <mat-expansion-panel>
-                                        <mat-expansion-panel-header mat-panel-title>
-                                            <span>Laufende Verträge</span>
-                                        </mat-expansion-panel-header>
-                                        <ng-template [matExpansionPanelContent]>
-                                            <div class="col-md-12 px-1 d-flex flex-column">
-                                                <button class="stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab === 'Versicherungsgesellschaft1' ? 'active-text': ''"
-                                                    (click)="clikedVertrage('Laufende','Versicherungsgesellschaft')">
-                                                    <span>
-                                                        Versicherungsgesellschaft
-                                                    </span>
-                                                </button>
-                                                <button class="stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab === 'Geldanlagen1' ? 'active-text': ''"
-                                                    (click)="clikedVertrage('Laufende','Geldanlagen')">
-                                                    <span>
-                                                        Geldanlagen
-                                                    </span>
-                                                </button>
-                                                <button class="stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab === 'Bank1' ? 'active-text': ''"
-                                                    (click)="clikedVertrage('Laufende','Bank')">
-                                                    <span>
-                                                        Bank
-                                                    </span>
-                                                </button>
-                                            </div>
                                         </ng-template>
 
-                                    </mat-expansion-panel>
-                                    <!-- <div class="col-md-12 px-1">
+
+                                    </mat-accordion>
+
+                                </div>
+                                <div class="menu1">
+                                    <mat-accordion class="side">
+                                        <mat-expansion-panel>
+                                            <mat-expansion-panel-header mat-panel-title>
+                                                <span>Laufende Verträge</span>
+                                            </mat-expansion-panel-header>
+                                            <ng-template [matExpansionPanelContent]>
+                                                <div class="col-12 p-0">
+                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
+                                                        (click)="clikedVertrage('Laufende','Versicherungsgesellschaft')">
+                                                        <span [ngClass]=" currentTab === 'Versicherungsgesellschaft1' ? 'active-sub-item': ''" class="col-12 p-0">
+                                                            Versicherungsgesellschaft
+                                                        </span>
+                                                    </button>
+                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
+
+                                                        (click)="clikedVertrage('Laufende','Geldanlagen')">
+                                                        <span class="col-12" [ngClass]=" currentTab === 'Geldanlagen1' ? 'active-sub-item': ''">
+                                                            Geldanlagen
+                                                        </span>
+                                                    </button>
+                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
+
+                                                        (click)="clikedVertrage('Laufende','Bank')">
+                                                        <span class="col-12" [ngClass]=" currentTab === 'Bank1' ? 'active-sub-item': ''">
+                                                            Bank
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </ng-template>
+
+                                        </mat-expansion-panel>
+                                        <!-- <div class="col-md-12 px-1">
                                         <button class="stepper-btn1 transitionanimation" data-toggle="modal"
                                             data-target="#runningcontracts" (click)="open_modal('runningcontracts')">
                                             <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
                                             Bestandsübertragung
                                         </button>
                                     </div> -->
-                                    <mat-expansion-panel>
-                                        <mat-expansion-panel-header mat-panel-title>
-                                            <span>Angebote/Fremdverträge</span>
-                                        </mat-expansion-panel-header>
-                                        <ng-template [matExpansionPanelContent]>
-                                            <div class="col-md-12 px-1 d-flex flex-column">
-                                                <button class="stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab === 'Versicherungsgesellschaft2' ? 'active-text': ''"
-                                                    (click)="clikedVertrage('Angebote','Versicherungsgesellschaft')">
-                                                    <span>
-                                                        Versicherungsgesellschaft
-                                                    </span>
-                                                </button>
-                                                <button class="stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab === 'Geldanlagen2' ? 'active-text': ''"
-                                                    (click)="clikedVertrage('Angebote','Geldanlagen')">
-                                                    <span>
-                                                        Geldanlagen
-                                                    </span>
-                                                </button>
-                                                <button class="stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab === 'Bank2' ? 'active-text': ''"
-                                                    (click)="clikedVertrage('Angebote','Bank')">
-                                                    <span>
-                                                        Bank
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </ng-template>
+                                        <mat-expansion-panel>
+                                            <mat-expansion-panel-header mat-panel-title>
+                                                <span>Angebote/Fremdverträge</span>
+                                            </mat-expansion-panel-header>
+                                            <ng-template [matExpansionPanelContent]>
+                                                <div class="col-12 p-0">
+                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
 
-                                    </mat-expansion-panel>
-                                    <!-- <div class="col-md-12 px-1">
+                                                        (click)="clikedVertrage('Angebote','Versicherungsgesellschaft')">
+                                                        <span class="col-12" [ngClass]=" currentTab === 'Versicherungsgesellschaft2' ? 'active-sub-item': ''">
+                                                            Versicherungsgesellschaft
+                                                        </span>
+                                                    </button>
+                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
+                                                        [ngClass]=" currentTab === 'Geldanlagen2' ? 'active-sub-item': ''"
+                                                        (click)="clikedVertrage('Angebote','Geldanlagen')">
+                                                        <span>
+                                                            Geldanlagen
+                                                        </span>
+                                                    </button>
+                                                    <button class=" col-12 p-0 stepper-btn1 transitionanimation"
+
+                                                        (click)="clikedVertrage('Angebote','Bank')">
+                                                        <span class="col-12" [ngClass]=" currentTab === 'Bank2' ? 'active-sub-item': ''">
+                                                            Bank
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </ng-template>
+
+                                        </mat-expansion-panel>
+                                        <!-- <div class="col-md-12 px-1">
                                         <button class="stepper-btn1 transitionanimation" data-toggle="modal"
                                             data-target="#externalcontracts" (click)="open_modal('externalcontracts')">
                                             <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
                                             Fremdvertrag
                                         </button>
                                     </div> -->
-                                    <div class="col-md-12 px-1">
-                                        <button class="stepper-btn1 transitionanimation"
-                                        [ngClass]=" currentTab === 'Allgemeine' ? 'active-text': ''"
-                                            (click)="clikedVertrage('Allgemeine','')">
-                                            Allgemeine Dokumente
-                                        </button>
-                                    </div>
+                                        <div class=" col-12 p-0">
+                                            <button class="col-12  stepper-btn1 transitionanimation"
+                                                [ngClass]=" currentTab === 'Allgemeine' ? 'active-sub-item': ''"
+                                                (click)="clikedVertrage('Allgemeine','')">
+                                                Allgemeine Dokumente
+                                            </button>
+                                        </div>
 
-                                </mat-accordion>
+                                    </mat-accordion>
+                                </div>
+
+
                             </div>
-
-
                         </div>
                     </div>
-                </div>
 
 
 
-                <mat-list-item class="parent"
-                    [ngClass]="router.url == '/cefima/upload-document' ? 'active text-dark parent' : 'not-active parent'"
-                    (click)="router.navigate(['cefima/upload-document'])">
-                    <img *ngIf="router.url == '/cefima/upload-document'" src="assets/upload-icon-active.png">
-                    <img *ngIf="router.url != '/cefima/upload-document'" src="assets/upload-icon.png">
-                    <span class="full-width ml-2" *ngIf="isExpanded || isShowing" role="button">Dokumenten Upload</span>
-                </mat-list-item>
+                    <mat-list-item class="parent"
+                        [ngClass]="router.url == '/cefima/upload-document' ? 'active text-dark parent' : 'not-active parent'"
+                        (click)="router.navigate(['cefima/upload-document'])">
+                        <img *ngIf="router.url == '/cefima/upload-document'" src="assets/images/upload-icon-active.svg">
+                        <img *ngIf="router.url != '/cefima/upload-document'" src="assets/images/upload-icon.svg">
+                        <span class="full-width ml-2" *ngIf="isExpanded || isShowing" role="button">Dokumenten
+                            Upload</span>
+                    </mat-list-item>
 
 
 
 
-            </mat-nav-list>
-        </div>
+                </mat-nav-list>
+            </div>
 
 
 
-        <!-- (click)="router.navigate(['neoloop/mediacloud/All'])" -->
-        <!-- <div class="new-side-bar1">
+            <!-- (click)="router.navigate(['neoloop/mediacloud/All'])" -->
+            <!-- <div class="new-side-bar1">
             <mat-nav-list>
                 <ng-container *ngFor="let company of all_companies;">
 
@@ -1047,7 +1024,7 @@
             </mat-nav-list>
         </div> -->
 
-        <!-- <div class="new-side-bar1">
+            <!-- <div class="new-side-bar1">
             <mat-nav-list>
                 <mat-list-item class="parent">
                     <span class="full-width" *ngIf="isExpanded || isShowing">Modul Management</span>
@@ -1060,7 +1037,7 @@
                 </mat-list-item>
             </mat-nav-list>
         </div> -->
-
+        </div>
     </mat-sidenav>
     <button mat-icon-button class="left-arrow" *ngIf="!isExpanded" (click)="isExpanded = !isExpanded"><img
             src="assets/left-arrow.png"></button>

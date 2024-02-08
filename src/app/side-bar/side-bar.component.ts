@@ -205,10 +205,12 @@ export class SideBarComponent implements OnInit {
 
   indexOfHideValuesj:any = -1
   indexOfHideValues:any = -1
-  clikeditem(item: string,index?:number,indexj?:number) {
+  clikeditem(item: string,data:string,index?:number,indexj?:number) {
     console.log(item,index,indexj);
     this.indexOfHideValues = index
     this.currentTab = item
+
+    this.userService.heeaderData.next(['Kunden',data])
     this.userService.selectCustomerSideItem.next([item,index,indexj])
   }
 
@@ -328,6 +330,17 @@ export class SideBarComponent implements OnInit {
   DateRender(id: string,item:string) {
     this.currentTab = item
     console.log(item);
+    let headerData = ''
+    if(item.includes('Betriebsstätte')){
+      headerData = 'Betriebsstätte hinzufügen'
+    } else if (item.includes('Unternehmen')){
+      headerData = 'Unternehmen hinzufügen'
+    } else if (item.includes('Mitglied')){
+      headerData = 'Mitglied zum Haushalt hinzufügen'
+    } else if(item.includes('Kundentyp')){
+      headerData = 'Kundentyp hinzufügen'
+    }
+    this.userService.heeaderData.next(['Kunden',headerData])
 
     this.userService.modalIdfromSidebar.next(id)
   }

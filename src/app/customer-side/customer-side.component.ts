@@ -2736,6 +2736,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     option_index: any = "",
     value: any
   ) {
+
     if (field == "selected_option") {
       this.selectedQuestionArray[answer_index].answerKey.selected_option =
         value;
@@ -2752,6 +2753,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       $(".result" + answer_index).html("");
     } else if (field == "input") {
       this.selectedQuestionArray[answer_index].answerKey.input = value;
+      console.log(this.selectedQuestionArray)
+      console.log(this.selectedQuestionArray[answer_index].validated)
       // const isThere = this.selectedQuestionArray[answer_index].answerKey.some(item => field in item)
       // if (isThere) {
       //   this.selectedQuestionArray[answer_index].answerKey.input = value;
@@ -2801,6 +2804,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       // this.selected_producttype_answers[answer_index].to_date = date;
       this.selectedQuestionArray[answer_index].answerKey.to_date = date;
     }
+
+    console.log('question data:',this.selectedQuestionArray)
   }
 
   async handleDocumentUpload(
@@ -6707,7 +6712,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
       console.log(this.preViewData)
 
-      
+
       $("#showpreviewdocument").css("display", "block");
 
       $("#openAllgemeinePreiveiwmodal").trigger("click");

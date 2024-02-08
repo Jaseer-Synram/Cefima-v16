@@ -633,14 +633,6 @@
                 " [formGroupName]="i" id="formidFirst{{i}}">
                     <div class="col-md-12 d-flex flex-raw flex-wrap p-0 m-0   ">
                       <div class="col-md-4" style="padding: 0px;margin-top:10px !important">
-                        <!-- <label style=" display: block; ">Anrede</label>
-                        <mat-radio-group aria-label="Select an option" formControlName="title">
-                          <mat-radio-button value="Frau" class="radioclass">Frau
-                          </mat-radio-button>
-                          <mat-radio-button value="Herr" class="radioclass">Herr
-                          </mat-radio-button>
-                          <mat-radio-button value="Divers">Divers</mat-radio-button>
-                        </mat-radio-group> -->
                         <mat-form-field class="form-width" appearance="outline">
                           <mat-label>Anrede</mat-label>
                           <mat-select matNativeControl formControlName="title">
@@ -683,16 +675,12 @@
                             (onAddressChange)="handleAllFieldsfirst($event,i)" />
                         </mat-form-field>
                       </div>
-                      <!-- <div class="row" >
-                    </div> -->
 
                       <p class="col-md-4 d-flex m-0 py-4 " (click)="showaddressfields1($event,i)" style="
                         color: black;
                         cursor: pointer;
-                        z-index: 1;
-                      ">
+                        z-index: 1; ">
                         <a id="message3{{i}}" style="font-size: 12px">Mehr Felder anzeigen</a>
-                        <!-- <i id="arrowsetting3{{i}}" class="arrow down rightarrow"></i> -->
                       </p>
 
                       <div *ngIf="showmore[i]" class="col-md-12 d-flex flex-raw  justify-content-between p-0 m-0 ">
@@ -777,7 +765,6 @@
                         </ng-template>
                       </div>
 
-                      <!-- </div> -->
                     </div>
                   </div>
                 </div>
@@ -824,10 +811,8 @@
                 </div>
                 <div class="col-md-12" formArrayName="legalrepresentativeform1">
                   <div *ngFor="
-                  let legalrepresentativeform111 of legalrepresentativeform1()
-                    .controls;
-                  let i = index
-                " [formGroupName]="i" id="formidSecond{{i}}">
+                  let legalrepresentativeform111 of legalrepresentativeform1().controls;
+                  let i = index " [formGroupName]="i" id="formidSecond{{i}}">
                     <div class="col-md-12 d-flex flex-raw flex-wrap p-0 ">
                       <div class="col-md-4" style="padding: 0px;margin-top:10px !important">
                         <!-- <label style=" display: block; ">Anrede</label>
@@ -987,10 +972,7 @@
               <h5 class="col-md-12 d-flex py-2 rounded-lg  " style="text-align: left; background-color:  #F2F2F2;">
                 Wirtschaftlich Berechtigte&nbsp;<i class="fa fa-info-circle iconmove"
                   style="color: #184397;cursor: pointer;" data-toggle="modal" data-target="#myModal"
-                  aria-hidden="true"></i>
-                <!-- <button type="button" class=" btn-info-icon" data-toggle="modal" data-target="#myModal">
-              ?
-              </button> -->
+                  aria-hidden="true"></i> 
 
               </h5>
               <!-- Button to Open the Modal -->
@@ -1062,15 +1044,6 @@
                 " [formGroupName]="i" id="formid{{i}}">
                     <div class="col-md-12 d-flex flex-raw flex-wrap p-0 ">
                       <div class="col-md-4" style="padding: 0px;margin-top:10px !important">
-                        <!-- <div  class="col-md-12 d-flex flex-raw flex-wrap"  style="width: 396px"> -->
-                        <!-- <label style="display: block; ">Anrede</label>
-                        <mat-radio-group aria-label="Select an option" formControlName="title">
-                          <mat-radio-button value="Frau" class="radioclass">Frau
-                          </mat-radio-button>
-                          <mat-radio-button value="Herr" class="radioclass">Herr
-                          </mat-radio-button>
-                          <mat-radio-button value="Divers">Divers</mat-radio-button>
-                        </mat-radio-group> -->
                         <mat-form-field class="form-width" appearance="outline">
                           <mat-label>Anrede</mat-label>
                           <mat-select matNativeControl formControlName="title">
@@ -1103,11 +1076,11 @@
                           <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
                         </mat-form-field>
                       </div>
-                      <p style="text-align: left;;font-size: 12px;position: relative;bottom: 19px;left: 2vh;">
+                      <p style="text-align: left;;font-size: 12px;position: relative;bottom: 19px;left: 2vh;height:fit-content">
                         Bitte geben Sie den prozentualen Unternehmensanteil an.
                       </p>
 
-                      <div class="col-md-4" style="padding: 0px;position: relative;right: 36vh;">
+                      <div class="col-md-4" style="padding: 0px;position: relative;right: 316px;">
                         <mat-form-field appearance="outline" class="form-width">
                           <mat-label>Unternehmensanteil in Prozent</mat-label>
                           <input matInput (ngModelChange)="calculateShares(); checkTotalShares()" [maxlength]=100

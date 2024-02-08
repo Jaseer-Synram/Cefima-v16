@@ -28,7 +28,7 @@ export class UserService {
   invokeFunctionInCustomerSide = new BehaviorSubject<any[]>(['string1', 'string2']);
   selectCustomerSideItem:BehaviorSubject<(string|number)[]> = new BehaviorSubject([]);
   selectVertrage = new BehaviorSubject([''])
-
+  heeaderData = new BehaviorSubject([''])
 
 
   constructor(private http: HttpClient) { }
@@ -531,7 +531,7 @@ export class UserService {
   getUser(id: any) {
     return this.http.post(`${this.API_URL}getUser`, { id: id });
     /*return this.http.post(`${this.API_URL}getUser`,{"id":id}).subscribe((data:any) => {
-        
+
     });*/
   }
   updateUserbrokeresign(data: any) {
@@ -548,7 +548,7 @@ export class UserService {
       customerno: id,
     });
     /*return this.http.post(`${this.API_URL}getUser`,{"id":id}).subscribe((data:any) => {
-        
+
     });*/
   }
   getfamilyMembers(id: any) {
