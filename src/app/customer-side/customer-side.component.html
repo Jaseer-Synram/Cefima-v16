@@ -2085,7 +2085,7 @@
                                         </mat-select>
                                       </mat-form-field>
                                     </div>
-                       
+
                                   <div class="col-md-4 p-0">
                                     <mat-form-field appearance="outline" style="width: 96%">
                                       <mat-label>Vorname </mat-label>
@@ -2218,7 +2218,7 @@
                             </div> -->
                                 </div>
                               </div>
-                            </div> 
+                            </div>
                               <button style="margin-top: 20px; float: right" class="stepper-btn my-2 btn transitionanimation"
                                 mat-raised-button (click)="addlegalrepresentativeform('addmore')"
                                 [disabled]="secondcompanyaddressFormGroup.status != 'INVALID' ">
@@ -2436,7 +2436,7 @@
                               #secondcompanyfso2="ngForm" novalidate="" class="Official-residence-form  col-md-12 p-0 m-0">
                                 <div id="companyThirdForm" *ngFor="
                                     let addedperson1 of addedpersons;
-                                    let i = index " (click)="showhiddenfields(i)" 
+                                    let i = index " (click)="showhiddenfields(i)"
                                     class="col-md-12 d-flex flex-raw  gmbhpersons button-primary px-2 py-1 mt-2 mb-4 mx-0 ">
                                   <div class="p-0 m-0" style="text-align: start;">{{ i + 1 }}.</div>
                                   <div class="py-0 px-1 m-0" style="text-align: center;"><i class="fas fa-check-square"
@@ -2465,7 +2465,7 @@
                                         </mat-select>
                                       </mat-form-field>
                                     </div>
-                               
+
                                   <div class="col-md-4" style="padding: 0px;">
                                     <mat-form-field appearance="outline" style="width: 96%">
                                       <mat-label>Vorname </mat-label>
@@ -3018,7 +3018,7 @@
                                     <div class="icons-img">
 
                                       <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                                
+
                                     </div>
                                     <div class="icons-img">
 
@@ -3073,10 +3073,10 @@
                                     <div class="icons-img">
 
                                       <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                                
+
                                     </div>
                                     <div class="icons-img">
-                                
+
                                       <img width='60%' src="../../assets/icons/file-upload-blue-img.svg" alt="">
                                     </div>
                                   </div>
@@ -3185,10 +3185,10 @@
                                     <div class="icons-img">
 
                                       <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                                
+
                                     </div>
                                     <div class="icons-img">
-                                
+
                                       <img width='60%' src="../../assets/icons/file-upload-blue-img.svg" alt="">
                                     </div>
                                   </div>
@@ -4521,9 +4521,9 @@
                               legalrepresentativeform2().length > 0;
                               else noshareholder
                             " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext [disabled]="
-                            secondcompanyaddressForm.valid == true &&
+                            secondcompanyaddressForm.status != 'INVALID' &&
                               moveForward &&
-                              secondcompanyaddressForm2.valid == true
+                              secondcompanyaddressForm2.status !=  'INVALID'
                                 ? false
                                 : true
                             ">
@@ -4569,10 +4569,10 @@
                               <div class="icons-img">
 
                                 <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                          
+
                               </div>
                               <div class="icons-img">
-                          
+
                                 <img width='60%' src="../../assets/icons/file-upload-blue-img.svg" alt="">
                               </div>
                             </div>
@@ -4609,7 +4609,7 @@
 
                             <div style="display: block; margin: 0 auto">
                               <div class="up-file-wrap" style="text-align: center">
-                               
+
                                 <p style="
                                           font-size: 12px;
                                           font-weight: 500;
@@ -4642,10 +4642,10 @@
                               <div class="icons-img">
 
                                 <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                          
+
                               </div>
                               <div class="icons-img">
-                          
+
                                 <img width='60%' src="../../assets/icons/file-upload-blue-img.svg" alt="">
                               </div>
 
@@ -4697,10 +4697,10 @@
                               <div class="icons-img">
 
                                 <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                          
+
                               </div>
                               <div class="icons-img">
-                          
+
                                 <img width='60%' src="../../assets/icons/file-upload-blue-img.svg" alt="">
                               </div>
                             </div>
@@ -4760,10 +4760,10 @@
                                 <div class="icons-img">
 
                                   <img width='42%' src="../../assets/icons/file-upload-blue-pdf.svg" alt="">
-                            
+
                                 </div>
                                 <div class="icons-img">
-                            
+
                                   <img width='60%' src="../../assets/icons/file-upload-blue-img.svg" alt="">
                                 </div>
                               </div>
@@ -7724,7 +7724,7 @@
 
 
 
-    
+
       <div class="modal fade" id="exampleModalLongFamilyMember" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="z-index: 9999">
         <div style="max-width: 600px" class="modal-dialog modal-dialog-centered" role="document">
@@ -14890,7 +14890,7 @@
                                 <div class="container-fluid">
                                   <div
                                   class="d-flex justify-content-between col-12 customer-search p-2 rounded-2 mb-3 customer-search-bg ">
-        
+
                                   <div class="col-md-5 d-flex p-0 justify-content-start flex-row">
                                     <div class=" col-md-9 p-0  position-relative">
                                       <form class="col-md-12">
@@ -14900,15 +14900,15 @@
                                           placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                       </form>
                                     </div>
-        
+
                                     <button class="col-md-5 button-primary" style="height: 38px" mat-raised-button
                                       data-toggle="modal" data-target="#exampleModalCEO" [disabled]="false"
                                       (click)="open_modal('exampleModalCEO')">
                                       Mehr hinzufügen
                                     </button>
-        
+
                                   </div>
-        
+
                                 </div>
 
                                   <div class="row" style="
@@ -15191,7 +15191,7 @@
                                         patchcompanyid(
                                           member,
                                           'otherperson'
-                                        );open_modal('exampleModalOtherPerson') " 
+                                        );open_modal('exampleModalOtherPerson') "
                                         data-toggle="modal" data-target="#exampleModalOtherPerson" [disabled]="false">
                                       Mehr hinzufügen
                                     </button>
@@ -16910,7 +16910,7 @@
                                                 }}" formControlName="companytype" placeholder="Unternehmensdaten" />
                                           </mat-form-field>
                                         </div>
- 
+
                                         <div class="p-0 col-md-4 text-right">
                                           <mat-form-field appearance="outline" style="width:96%">
                                             <mat-label>
@@ -17389,10 +17389,10 @@
                             class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-1"
                             style="margin-top: 0px">
                             <div class="container-fluid">
-      
+
                               <div
                               class="d-flex justify-content-between col-12 customer-search p-2 rounded-2 mb-3 customer-search-bg ">
-    
+
                               <div class="col-md-5 d-flex p-0 justify-content-start flex-row">
                                 <div class=" col-md-9 p-0  position-relative">
                                   <form class="col-md-12">
@@ -17402,15 +17402,15 @@
                                       placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                   </form>
                                 </div>
-    
+
                                 <button class="col-md-5 button-primary" style="height: 38px" mat-raised-button
                                   data-toggle="modal" data-target="#exampleModalCEO" [disabled]="false"
                                   (click)="open_modal('exampleModalCEO')">
                                   Mehr hinzufügen
                                 </button>
-    
+
                               </div>
-    
+
                               <!-- <button class="button-primary" style="height: 38px" > -->
                                    <!-- Anzahl der Ergebnisse: {{ startRecordtype[0].type2 }} -
                             {{ endRecordtype[0].type2 }} /
