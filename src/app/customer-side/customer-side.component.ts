@@ -3541,6 +3541,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   viewAnswers(item: any) {
+    console.log(item)
     if ($("#click" + item._id).html() == "Öffnen") {
       this.selectedAnswers = [];
       $("#loaderouterid").css("display", "block");
@@ -3652,6 +3653,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.branchList = this.branchList.filter((obj: any) => obj !== data);
   }
 
+  deleteMemberFromList(index:number){
+    console.log(index,this.branchList)
+
+   this.branchList.splice(index,1);
+    console.log(this.branchList)
+
+  }
+
   setCurrentTabUser(office: any, type: any) {
     let id = "";
     let name = "";
@@ -3686,7 +3695,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.currentTabUser = { id, name, email, strno, city, country };
     }
 
-    // this.currentTabUser = office;
     console.log("office data", office);
   }
 
@@ -4323,7 +4331,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   editRecord(type: any, index: any, data: any, cardindex?: any) {
     console.log("editRecord" + JSON.stringify(data) + "index" + index,type,cardindex);
     console.log("editRecordcardindex" + cardindex);
-    let modalid = `collapse${type}modal`
+    let modalid = ''
+    if(type.includes('type1')){
+      modalid= `collapsetype1modal`
+    } else if(type.includes('type2')){
+      modalid= `collapsetype2modal`
+    } else if(type.includes('type3')){
+      modalid= `collapsetype3modal`
+    } 
+    
+    console.log(modalid)
     if (type == "type1" && index == 0) {
 
       this.showceodoc = true;
@@ -9001,7 +9018,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
   calculateType3() {
-    console.log("neelampiu" + this.companytypenew);
+    console.log("neelampiu" + this.companytypenew,this.secondcompanyaddressFormGroup);
 
     if (
       this.companytypenew == "Einzelunternehmen" ||

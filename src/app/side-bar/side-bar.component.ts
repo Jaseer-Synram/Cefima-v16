@@ -209,6 +209,7 @@ export class SideBarComponent implements OnInit {
     console.log(item,index,indexj);
     this.indexOfHideValues = index
     this.currentTab = item
+    this.indexOfHideValuesj = indexj
 
     this.userService.heeaderData.next(['Kunden',data])
     this.userService.selectCustomerSideItem.next([item,index,indexj])
