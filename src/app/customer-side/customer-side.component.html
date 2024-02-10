@@ -1984,15 +1984,7 @@
                                   &nbsp; Zurück
                                 </button>
                                 &nbsp;
-                                <!-- <button
-                  class="stepper-btn btn transitionanimation"
-
-                  mat-raised-button
-
-                  (click)="resetSecondStep()"
-                >
-                  Reset
-                </button> -->
+                                
                                 <button class="stepper-btn btn transitionanimation" matStepperNext mat-raised-button
                                   [disabled]="!livingfso1.form.valid">
                                   Weiter &nbsp;
@@ -2207,21 +2199,13 @@
                                   </div>
 
 
-                                  <!-- <div *ngIf="i > 0" class="col-md-12" style="padding: 0px">
-                              <button
-                                class="btn btn-danger transitionanimation"
-                                mat-raised-button
-                                (click)="removelegalrepresentativeform(i); removeaddedpersonFirst(i)"
-                              >
-                                entfernen
-                              </button>
-                            </div> -->
+                                  
                                 </div>
                               </div>
                             </div>
                               <button style="margin-top: 20px; float: right" class="stepper-btn my-2 btn transitionanimation"
                                 mat-raised-button (click)="addlegalrepresentativeform('addmore')"
-                                [disabled]="secondcompanyaddressFormGroup.status != 'INVALID' ">
+                                [disabled]="!secondcompanyfso.form.valid ">
                                 <i class="fas fa-user-plus"></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down"
                                   aria-hidden="true"></i>
                               </button>
@@ -2657,22 +2641,14 @@
                             &nbsp; Zurück
                           </button>
                           &nbsp;
-                          <!-- <button
-                class="stepper-btn btn transitionanimation"
-
-                mat-raised-button
-
-                (click)="resetThirdStep()"
-              >
-                Reset
-              </button> -->
+                          
                           <button *ngIf="
                               legalrepresentativeform2().length > 0;
                               else noshareholder
                             " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext [disabled]="
-                            secondcompanyaddressFormGroup.status != 'INVALID' &&
+                            secondcompanyaddressFormGroup?.status != 'INVALID' &&
                               moveForward &&
-                              secondcompanyaddressFormGroup2.status != 'INVALID'
+                              secondcompanyaddressFormGroup2?.status != 'INVALID'
                                 ? false
                                 : true
                             ">
@@ -2682,7 +2658,7 @@
                           <ng-template #noshareholder>
                             <button  class="stepper-btn btn transitionanimation" (click)="calculateType3()"
                               mat-raised-button matStepperNext [disabled]="
-                                secondcompanyaddressFormGroup.status != 'INVALID'
+                                secondcompanyaddressFormGroup?.status != 'INVALID'
                                   ? false
                                   : true ">
                               Weiter &nbsp;
@@ -2696,274 +2672,13 @@
                         <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form">
                           <ng-template matStepLabel>Dokumente hochladen</ng-template>
 
-                          <!-- <div
-                      fxLayout="column"
-                      fxFlex
-                      fxLayoutAlign="center"
-                      fxLayoutGap="10px"
-                    >
-                      <div class="row" id="docgroup">
-                        <div class="col-md-4" style="display:grid" id="div1">
-
-                          <div style="cursor: pointer"
-                          class="upload-file bg-white rounded-4 p-l-30 position-relative"  >
-                          <input style="height: 190px" #input1 type="file"
-                          accept="image/*,application/pdf"
-                                      class="upload-files w-100 position-absolute"    formControlName="DocOne" id="DocOne"
-                                      name="DocOne" (change)="handleImageChangecustomer(
-                                        $event,
-                                        'PerviewOne',
-                                        'Ausweisdokument Vertretungsberechtigte Person',
-                                        'DocOne'
-                                      )
-                                                                  "
-                                      />
-                                      <p style="
-                                      font-size: 14px;
-                                      font-weight: 700;
-                                      text-align: center;
-                                      margin: revert ;
-                                                                  " class="text-bodycolor font-18 m-b-0">
-                                    Ausweisdokument Vertretungsberechtigte Person<br>
-                                    Upload Ausweisdokument: <span *ngIf="companytypenew !='Einzelunternehmen' && companytypenew !='Eingetragener Kaufmann (e.K.)'">{{secondcompanyaddressFormGroup.controls.legalrepresentativeform.value[0].firstname}} {{secondcompanyaddressFormGroup.controls.legalrepresentativeform.value[0].lastname}}</span>
-                                    <span *ngIf="companytypenew =='Einzelunternehmen' || companytypenew =='Eingetragener Kaufmann (e.K.)'">{{livingaddressFormGroup.value.firstname}} {{livingaddressFormGroup.value.lastname}}</span>
-                                  </p>
-                          <div class="mt-3" style="text-align: center;">
-                            <div class="icons-img">
-                              <i class="fas fa-file-pdf"></i>
-                            </div>
-
-                            <div class="icons-img">
-                              <i class="far fa-file-image"></i>
-                            </div>
-
-                          </div>
-
-                          <div style="display: block; margin: 0 auto">
-                            <div class="up-file-wrap" style="text-align: center">
-                              <i style="font-size: 25px; padding: 0px 37px"
-                                class="fas fa-file-upload font-24 p-r-15 align-self-center"></i>
-                              <p style="
-                                  font-size: 12px;
-                                  font-weight: 600;
-                                  text-align: center;
-                                                              " class="text-bodycolor font-18 m-b-0">
-                                Dokumente für Upload wählen oder einfach hierhin ziehen.
-
-                              </p>
-                            </div>
-                          </div>
-
-                        </div>
-
-                        </div>
-
-
-
-
-                        <div class="col-md-4" style="display:grid" id="div2">
-                          <div style="cursor: pointer"
-                          class="upload-file bg-white rounded-4 p-l-30 position-relative"  >
-                          <input style="height: 190px" #input2 type="file"
-                          accept="image/*,application/pdf"
-                                      class="upload-files w-100 position-absolute"    formControlName="DocTwo" id="DocTwo"
-                                      name="DocTwo"  (change)="
-                                      handleImageChangecustomer(
-                                        $event,
-                                        'PerviewTwo',
-                                        'Geschäftsanmeldung',
-                                        'DocTwo'
-                                      )
-                                                                  "
-                                      />
-                                      <p style="
-                                      font-size: 14px;
-                                      font-weight: 700;
-                                      text-align: center;
-                                      margin: revert ;
-                                                                  " class="text-bodycolor font-18 m-b-0">
-                                   Gewerbeanmeldung
-
-                                  </p>
-                          <div class="mt-3" style="text-align: center">
-                            <div class="icons-img">
-                              <i class="fas fa-file-pdf"></i>
-                            </div>
-
-                            <div class="icons-img">
-                              <i class="far fa-file-image"></i>
-                            </div>
-
-                          </div>
-
-                          <div style="display: block; margin: 0 auto">
-                            <div class="up-file-wrap" style="text-align: center">
-                              <i style="font-size: 25px; padding: 0px 37px"
-                                class="fas fa-file-upload font-24 p-r-15 align-self-center"></i>
-                              <p style="
-                                  font-size: 12px;
-                                  font-weight: 600;
-                                  text-align: center;
-                                                              " class="text-bodycolor font-18 m-b-0">
-                                Dokumente für Upload wählen oder einfach hierhin ziehen.
-
-                              </p>
-                            </div>
-                          </div>
-
-                        </div>
-
-                        </div>
-
-
-
-
-
-
-
-
-                        <div
-                          *ngIf="companytypenew =='Einzelunternehmen'"
-                          class="col-md-4"
-                          id="div3"
-                        ></div>
-                        <div *ngIf="(companytypenew !='Einzelunternehmen')" class="col-md-4" style="display:grid" id="div3">
-                          <div style="cursor: pointer"
-                          class="upload-file bg-white rounded-4 p-l-30 position-relative"  >
-                          <input style="height: 190px" #input3 type="file"
-                          accept="image/*,application/pdf"
-                                      class="upload-files w-100 position-absolute"    formControlName="DocThree" id="DocThree"
-                                      name="DocThree"    (change)="
-                                      handleImageChangecustomer(
-                                        $event,
-                                        'PerviewThree',
-                                        'Aktueller Auszug aus dem Handelsregister',
-                                        'DocThree'
-                                      )
-                                                                  "
-                                      />
-                                      <p style="
-                                      font-size: 14px;
-                                      font-weight: 700;
-                                      text-align: center;
-                                      margin: revert ;
-                                                                  " class="text-bodycolor font-18 m-b-0">
-                                    Aktueller Auszug aus dem Handelsregister
-
-                                  </p>
-
-                          <div class="mt-3" style="text-align: center">
-                            <div class="icons-img">
-                              <i class="fas fa-file-pdf"></i>
-                            </div>
-
-                            <div class="icons-img">
-                              <i class="far fa-file-image"></i>
-                            </div>
-
-                          </div>
-
-                          <div style="display: block; margin: 0 auto">
-                            <div class="up-file-wrap" style="text-align: center">
-                              <i style="font-size: 25px; padding: 0px 37px"
-                                class="fas fa-file-upload font-24 p-r-15 align-self-center"></i>
-                              <p style="
-                                  font-size: 12px;
-                                  font-weight: 600;
-                                  text-align: center;
-                                                              " class="text-bodycolor font-18 m-b-0">
-                                Dokumente für Upload wählen oder einfach hierhin ziehen.
-
-                              </p>
-                            </div>
-                          </div>
-
-                        </div>
-
-                        </div>
-                        <div id="PerviewOne" class="col-md-4" style="text-align: center;">
-
-                        </div>
-                        <div id="PerviewTwo" class="col-md-4" style="text-align: center;"></div>
-                        <div
-                        *ngIf="(companytypenew !='Einzelunternehmen')"
-                          id="PerviewThree"
-                          class="col-md-4" style="text-align: center;"
-                        ></div>
-                        <ng-container *ngIf="companytypenew !='Einzelunternehmen' && companytypenew !='Eingetragener Kaufmann (e.K.)'">
-                          <div    *ngFor="
-                          let datanew of secondcompanyaddressFormGroup2.value
-                          .legalrepresentativeform2;
-
-                          let i = index
-                        " class="col-md-4" style="margin-top:10px" id="div{{i}}">
-                        <div style="cursor: pointer"
-                        class="upload-file bg-white rounded-4 p-l-30 position-relative"  >
-                        <input style="height: 190px" #input1 type="file"
-                        accept="image/*,application/pdf"
-                                    class="upload-files w-100 position-absolute"    formControlName="i" id="i"
-                                    name="i" (change)="handlepassportImageChange(
-                                      $event,
-                                      'passportPerview',
-                                      'passportpic',
-                                      i
-                                    )
-                                                                "
-                                    />
-                                    <p style="
-                                    font-size: 14px;
-                                    font-weight: 700;
-                                    text-align: center;
-                                    margin: revert ;
-                                                                " class="text-bodycolor font-18 m-b-0">Wirtschaftlich Berechtigte<br>
-                                 Upload Ausweisdokument: {{datanew.firstname}} {{datanew.lastname}}
-
-                                </p>
-                        <div class="mt-3" style="text-align: center;">
-                          <div class="icons-img">
-                            <i class="fas fa-file-pdf"></i>
-                          </div>
-
-                          <div class="icons-img">
-                            <i class="far fa-file-image"></i>
-                          </div>
-
-                        </div>
-
-                        <div style="display: block; margin: 0 auto">
-                          <div class="up-file-wrap" style="text-align: center">
-                            <i style="font-size: 25px; padding: 0px 37px"
-                              class="fas fa-file-upload font-24 p-r-15 align-self-center"></i>
-                            <p style="
-                                font-size: 12px;
-                                font-weight: 600;
-                                text-align: center;
-                                                            " class="text-bodycolor font-18 m-b-0">
-                              Dokumente für Upload wählen oder einfach hierhin ziehen.
-
-                            </p>
-                          </div>
-                        </div>
-
-                        </div>
-                        <div class="passPerview" id="passportPerview{{i}}"   style="text-align: center;">
-
-
-                                </div>
-
-                          </div>
-
-                        </ng-container>
-
-                      </div>
-                    </div> -->
+                          
 
                           <div
                             class="d-flex flex-column justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-2 my-5">
                             <div class="row">
                               <!------------------------------------------Multiple CEO documents code starts here------------------------------------->
 
-                              <!-- <div class="col-md-4" style="display:grid; margin-top: 10px;" *ngFor="let nextceo of addedpersonsFirst; let i = index;"> -->
                               <div class="col-md-4" style="margin-top: 10px" *ngFor="
                                   let nextceo of addedpersonsFirst;
                                   let i = index
@@ -3095,7 +2810,7 @@
                                   </div>
                                 </div>
 
-                                <div id="PerviewOne{{ i }}" class="col-md-4"></div>
+                                <div id="PerviewOne{{ i }}" class="col-md-12"></div>
                               </div>
 
                               <!------------------------------------------Multiple CEO documents code ends here------------------------------------->
@@ -3150,7 +2865,7 @@
                                   </div>
                                 </div>
 
-                                <div id="PerviewTwo" class="col-md-4"></div>
+                                <div id="PerviewTwo" class="col-md-12"></div>
                               </div>
 
                               <div *ngIf="companytypenew == 'Einzelunternehmen'" class="col-md-4" id="div3"></div>
@@ -3207,7 +2922,7 @@
                                   </div>
                                 </div>
 
-                                <div *ngIf="companytypenew != 'Einzelunternehmen'" id="PerviewThree" class="col-md-4">
+                                <div *ngIf="companytypenew != 'Einzelunternehmen'" id="PerviewThree" class="col-md-12">
                                 </div>
                               </div>
 
@@ -4060,11 +3775,7 @@
                             </button>
                           </div>
 
-                          <!-- <div class="row" style="padding: 0px"> -->
-
-                            <div *ngIf="i == 0" >
-
-                            </div>
+                            <div *ngIf="i == 0" > </div>
                             <div class="col-md-6  m-0 p-0 d-flex flex-raw justify-content-end "  style="text-align: end;">
                               <button *ngIf=" addedpersonsFirst.length == i;
                                 else openclose  " style="margin-top: auto" class="stepper-btn btn transitionanimation"
@@ -4157,17 +3868,7 @@
                               <mat-datepicker #picker format="dd\MM\yyyy">
                               </mat-datepicker>
                             </mat-form-field>
-                          </div>
-                          <!-- <div class="col-md-12" style="padding: 0px">
-                            <mat-form-field appearance="outline" style="width: 96%">
-                              <mat-label>Anschrift </mat-label>
-                              <input
-                                matInput
-                                placeholder="Anschrift "
-                                formControlName="address"
-                              />
-                            </mat-form-field>
-                          </div> -->
+                          </div> 
 
                           <p class=" col-md-12 " style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
                               Bitte geben Sie hier Ihre persönliche
@@ -4263,8 +3964,7 @@
                             </div>
                           </div>
                           </div>
-                        <!-- </div> -->
-                      </div>
+                       </div>
                     </div>
 
                       <button style="  margin-top: 20px !important;
@@ -4284,14 +3984,8 @@
                         style="color: #184397; cursor: pointer" data-toggle="modal" data-target="#myModal"
                         aria-hidden="true"></i>
                       </span>
-                      <!-- <button type="button" class="  button-primary -icon" data-toggle="modal" data-target="#myModal">
-                        ?
-                        </button> -->
-                      </div>
-                    <!-- Button to Open the Modal -->
-
-                    <!-- The Modal -->
-
+                       
+                      </div> 
                     <form *ngIf="secondcompanyaddressFormGroup2" [formGroup]="secondcompanyaddressFormGroup2"
                       #secondcompanyfso2="ngForm" novalidate="" class="Official-residence-form  col-md-12 p-0 m-0">
                       <div>
@@ -4508,22 +4202,14 @@
                     &nbsp; Zurück
                   </button>
                   &nbsp;
-                  <!-- <button
-              class="stepper-btn btn transitionanimation"
-
-              mat-raised-button
-
-              (click)="resetThirdStep()"
-            >
-              Reset
-            </button> -->
+                  
                   <button *ngIf="
                               legalrepresentativeform2().length > 0;
                               else noshareholder
                             " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext [disabled]="
-                            secondcompanyaddressForm.status != 'INVALID' &&
+                            secondcompanyaddressForm?.status != 'INVALID' &&
                               moveForward &&
-                              secondcompanyaddressForm2.status !=  'INVALID'
+                              secondcompanyaddressForm2?.status !=  'INVALID'
                                 ? false
                                 : true
                             ">
@@ -4719,9 +4405,9 @@
                             </div>
                           </div>
                         </div>
-                        <div id="PerviewOne" class="col-md-6" style="text-align: center"></div>
-                        <div id="PerviewTwo" class="col-md-6" style="text-align: center"></div>
-                        <div *ngIf="companytypenew != 'Einzelunternehmen'" id="PerviewThree" class="col-md-6"
+                        <div id="PerviewOne" class="col-md-12" style="text-align: center"></div>
+                        <div id="PerviewTwo" class="col-md-12" style="text-align: center"></div>
+                        <div *ngIf="companytypenew != 'Einzelunternehmen'" id="PerviewThree" class="col-md-12"
                           style="text-align: center"></div>
                         <ng-container *ngIf="
                                   companytypenew != 'Einzelunternehmen' &&
@@ -4731,8 +4417,7 @@
                           <div *ngFor="
                                     let datanew of secondcompanyaddressFormGroup2
                                       .value.legalrepresentativeform2;
-                                    let i = index
-                                                                " class="col-md-4" style="margin-top: 10px" id="div{{ i }}">
+                                    let i = index " class="col-md-4" style="margin-top: 10px" id="div{{ i }}">
                             <div style="cursor: pointer"
                               class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 15px;">
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
@@ -5498,18 +5183,7 @@
                           Weiter &nbsp;
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>
-                      </div>
-                      <!-- <div class=" d-flex justify-content-end">
-                              <button
-                              class="stepper-btn btn transitionanimation"
-                              (click)="saveFamilyMember()"
-                              mat-raised-button
-                             [disabled]="(familyRelation.value!='' && familyRelation.value!=null && familyRelation.value!=' ' && martialStatusControl.value!='' && martialStatusControl.value!=null && martialStatusControl.value!=' ' && livingfso.form.valid) ? false : true"
-
-                            >
-                            Speichern&nbsp; <i class="fas fa-save" aria-hidden="true"></i>
-                            </button>
-                            </div> -->
+                      </div> 
                     </div>
                   </form>
                 </div>
@@ -5596,17 +5270,6 @@
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>
                       </div>
-                      <!-- <div class=" d-flex justify-content-end">
-                              <button
-                              class="stepper-btn btn transitionanimation"
-                              (click)="saveFamilyMember()"
-                              mat-raised-button
-                             [disabled]="(familyRelation.value!='' && familyRelation.value!=null && familyRelation.value!=' ' && martialStatusControl.value!='' && martialStatusControl.value!=null && martialStatusControl.value!=' ' && livingfso.form.valid) ? false : true"
-
-                            >
-                            Speichern&nbsp; <i class="fas fa-save" aria-hidden="true"></i>
-                            </button>
-                            </div> -->
                     </div>
                   </form>
                 </div>
@@ -5629,90 +5292,7 @@
                                   padding: 0px;
                                   margin-top: 20px !important;
                                                               ">
-                        <!-- <div class="container">
-                            <br />
-
-                            <div class="row setup-content" id="step-1">
-                              <div class="custom-overlay-wrapper w-100">
-
-
-                                <form style="width: 100%">
-                                  <div class="col-md-12 card-center">
-                                    <div>
-                                      <div id="Success"></div>
-
-
-                                      <div
-                                        style="cursor: pointer"
-                                        class="
-                                          upload-file
-                                          bg-white
-                                          rounded
-                                          p-l-30
-                                          position-relative
-                                                                      "
-                                      >
-                                        <input
-                                          style="height: 253px"
-                                          #divone
-                                          type="file"
-                                          class="upload-files w-100 position-absolute"
-                                          id="organization_image"
-                                          multiple
-                                          name="organization_image"
-
-                                        />
-                                        <div class="mt-3" style="text-align: center">
-                                          <div class="icons-img">
-                                            <i class="fas fa-file-pdf"></i>
-                                          </div>
-                                          <div class="icons-img">
-                                            <i class="fas fa-file"></i>
-                                          </div>
-                                          <div class="icons-img">
-                                            <i class="far fa-file-image"></i>
-                                          </div>
-                                          <div class="icons-img">
-                                            <i class="fas fa-file-alt"></i>
-                                          </div>
-                                        </div>
-
-                                        <div style="display: block; margin: 0 auto">
-                                          <div
-                                            class="up-file-wrap"
-                                            style="text-align: center"
-                                          >
-                                            <i
-                                              style="font-size: 50px; padding: 0px 37px"
-                                              class="
-                                                fas
-                                                fa-file-upload
-                                                font-24
-                                                p-r-15
-                                                align-self-center
-                                                                            "
-                                            ></i>
-                                            <p
-                                              style="
-                                                font-size: 30px;
-                                                font-weight: 600;
-                                                text-align: center;
-                                                                            "
-                                              class="text-bodycolor font-18 m-b-0"
-                                            >
-                                              Dokumente für Upload wählen oder einfach
-                                              hierhin ziehen.
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                            <br />
-                          </div> -->
+                     
                         <div
                           class="d-flex flex-column justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-2">
                           <div class="row" id="docgroup">
@@ -5729,15 +5309,7 @@
                                               'DocOne'
                                             )
                                                                         " />
-                                <!-- <p style="
-                                          font-size: 14px;
-                                          font-weight: 700;
-                                          text-align: center;
-                                          margin: revert ;
-                                                                      " class="text-bodycolor font-18 m-b-0">
-                                        Ausweisdokument Vertretungsberechtigte Person<br>
-                                        Upload Ausweisdokument:
-                                      </p> -->
+                                
                                 <div class="mt-3" style="text-align: center">
                                   <div class="icons-img">
 
@@ -5863,9 +5435,9 @@
                                 </div>
                               </div>
                             </div>
-                            <div id="PerviewOneOffice" class="col-md-4" style="text-align: center"></div>
-                            <div id="PerviewTwoOffice" class="col-md-4" style="text-align: center"></div>
-                            <div id="PerviewThreeOffice" class="col-md-4" style="text-align: center"></div>
+                            <div id="PerviewOneOffice" class="col-md-12" style="text-align: center"></div>
+                            <div id="PerviewTwoOffice" class="col-md-12" style="text-align: center"></div>
+                            <div id="PerviewThreeOffice" class="col-md-12" style="text-align: center"></div>
                           </div>
                         </div>
                       </div>

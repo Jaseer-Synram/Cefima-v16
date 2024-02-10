@@ -5032,7 +5032,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       member.strassa +
       "  " +
       member.strno +
-      "<br>" +
+      "" +
       member.plz +
       " " +
       member.city;
@@ -9531,6 +9531,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("check previewid value");
     console.log(this.preview_id);
 
+
+    console.log('event:',event);
+    console.log('preview:',preview);
+    console.log('docName:',docName);
+    console.log('idname:',idname);
+    console.log('dynamicceo:',dynamicceo);
+    
+
     this.docuploaded = false;
     //this.showfifthstepsuccess=false;
     let that = this;
@@ -9578,11 +9586,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     };
 
-    const removeData = (j: any) => {
+    const removeData = (j: number) => {
       console.log("removeData" + j);
       console.log("removeData" + JSON.stringify(this.filearraynew.length));
       console.log("removeData" + JSON.stringify(this.filearraynew));
       console.log("removeData" + JSON.stringify(this.filearraynew[j]));
+
+      console.log("removeData" + JSON.stringify(this.filename));
+      console.log("removeData" + JSON.stringify(this.filename.length));
+
       this.filearraynew.splice(j, 1);
 
       this.filename.splice(j, 1);
@@ -9591,7 +9603,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log(this.filearraynew);
       console.log("filenames");
       console.log(this.filename);
-
+      console.log('idname:',idname)
       $("#" + idname).val("");
 
       console.log(this.filearraynew.length);
@@ -9801,7 +9813,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             showname = displayName;
           }
-
+          
           console.log("see times");
           console.log(that.previewsrc);
           console.log("ends here");
@@ -9812,7 +9824,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             that.addressFormGroupnew.controls["companyname"].value
           ) {
             StringTemple =
-              '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
+              '<div class="pip row" style="margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
               '<div class="col-md-1">' +
               '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
               ImageName +
@@ -9821,10 +9833,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               '"/>' +
               "</div>" +
               '<div class="col-md-10" style="font-size:14px;">' +
-              //'<span><b>Dokumentenname: ' + displayName +'</b></span><br>' +
+              //'<span><b>Dokumentenname: ' + displayName +'</b></span>' +
               "<span><b>Dokumentenname: " +
               showname +
-              "</b></span><br>" +
+              "</b></span>" +
               "<span><b>Dateigröße: " +
               Size +
               "</b></span>" +
@@ -9835,7 +9847,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               '" id="removepreviewid' +
               that.preview_id +
               '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-              '<br> <div class="previewImage" data-preview_src="' +
+              ' <div class="previewImage" data-preview_src="' +
               that.previewsrc +
               '" data-preview_id="' +
               that.preview_id +
@@ -9864,7 +9876,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               "</div>";
           } else {
             StringTemple =
-              '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
+              '<div class="pip row" style="margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
               '<div class="col-md-1">' +
               '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
               ImageName +
@@ -9873,10 +9885,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               '"/>' +
               "</div>" +
               '<div class="col-md-10" style="font-size:13.5px;">' +
-              //'<span><b>Dokumentenname: ' + displayName +'</b></span><br>' +
+              //'<span><b>Dokumentenname: ' + displayName +'</b></span>' +
               "<span><b>Dokumentenname: " +
               showname +
-              "</b></span><br>" +
+              "</b></span>" +
               "<span><b>Dateigröße: " +
               Size +
               "</b></span>" +
@@ -9887,7 +9899,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               '" id="removepreviewid' +
               that.preview_id +
               '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-              '<br> <div class="previewImage" data-preview_src="' +
+              ' <div class="previewImage" data-preview_src="' +
               that.previewsrc +
               '" data-preview_id="' +
               that.preview_id +
@@ -9938,8 +9950,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           $(".removepreview").click(function (event: any) {
             removeData(i);
-            // $("#pipremove" + i).remove();
 
+              console.log(i)
             that.saveddoc.forEach((value: any, index: any) => {
               //if(value.id == docName && value.index == idname) that.saveddoc.splice(index,1);
 
@@ -10128,7 +10140,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               }
             }
 
-            $(that).parent().parent().remove();
+            $(this).parent().parent().parent(".pip").remove();
             console.log("saved array" + JSON.stringify(that.saveddoc));
             // $(this).parent(".pip").remove();
             event.stopPropagation();
@@ -10661,6 +10673,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           console.log("see times in else");
           console.log(that.previewsrc);
           console.log("ends here");
+          console.log("showname:",showname);
+
+          debugger
 
           if (
             showname ==
@@ -10668,38 +10683,40 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             that.addressFormGroupnew.controls["companyname"].value
           ) {
             StringTemple =
-              '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
-              '<div class="col-md-1">' +
-              '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+              '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+              '<div class="d-flex flex-row col-md-12 p-0">' +
+              '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
+              '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
               ImageName +
               '" title="' +
               f.name +
               '"/>' +
               "</div>" +
-              '<div class="col-md-10" style="font-size:14px;">' +
-              //'<span><b>Dokumentenname: ' + displayName +'</b></span><br>' +
+              '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
               "<span><b>Dokumentenname: " +
               showname +
-              "</b></span><br>" +
+              "</b></span>" +
               "<span><b>Dateigröße: " +
               Size +
               "</b></span>" +
               "</div>" +
-              '<div class="col-md-1" style="margin-left:-20px;">' +
-              '<div class="removepreview" data-preview_id="' +
+              '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center " >' +
+              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' +
               that.preview_id +
               '" id="removepreviewid' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-              '<br> <div class="previewImage" data-preview_src="' +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+              ' <div class="previewImage btn links mt-1 " data-preview_src="' +
               that.previewsrc +
               '" data-preview_id="' +
               that.preview_id +
               '" id="previewimage' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center; color: white;padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">' +
+              '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
               '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
               "</div>" +
+              "</div>" +
+
               '<div class="col-md-12">' +
               '<div class="progress form-group progressnew' +
               Size_num +
@@ -10720,37 +10737,38 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               "</div>";
           } else {
             StringTemple =
-              '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
-              '<div class="col-md-1">' +
-              '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+            '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+              '<div class="d-flex flex-row col-md-12 p-0">' +
+              '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
+              '<img class="imageThumb" style="width: 50px;height:30px;"  src="' +
               ImageName +
               '" title="' +
               f.name +
               '"/>' +
               "</div>" +
-              '<div class="col-md-10" style="font-size:13.5px;">' +
-              //'<span><b>Dokumentenname: ' + displayName +'</b></span><br>' +
+              '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
               "<span><b>Dokumentenname: " +
               showname +
-              "</b></span><br>" +
+              "</b></span>" +
               "<span><b>Dateigröße: " +
               Size +
               "</b></span>" +
               "</div>" +
-              '<div class="col-md-1" style="margin-left:-20px;">' +
-              '<div class="removepreview" data-preview_id="' +
+              '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
+              '<div class="removepreview btn bg-danger links" data-preview_id="' +
               that.preview_id +
               '" id="removepreviewid' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-              '<br> <div class="previewImage" data-preview_src="' +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+              ' <div class="previewImage btn links mt-1" data-preview_src="' +
               that.previewsrc +
               '" data-preview_id="' +
               that.preview_id +
               '" id="previewimage' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center; color: white;padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">' +
+              '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
               '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+              "</div>" +
               "</div>" +
               '<div class="col-md-12">' +
               '<div class="progress form-group progressnew' +
@@ -10983,7 +11001,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               }
             }
 
-            $(that).parent().parent().remove();
+            $(this).parent().parent().parent(".pip").remove();
             console.log("saved array" + JSON.stringify(that.saveddoc));
             event.stopPropagation();
             event.stopImmediatePropagation();
@@ -11473,35 +11491,38 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         }
 
         StringTemple =
-          '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
-          '<div class="col-md-1">' +
-          '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+          '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+          '<div class="d-flex flex-row col-md-12 p-0">' +
+          '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
+          '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
           ImageName +
           '" title="' +
           f.name +
           '"/>' +
           "</div>" +
-          '<div class="col-md-10" style="font-size:13.5px;">' +
+          '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
           "<span><b>Dokumentenname: " +
           filename +
-          "</b></span><br>" +
+          "</b></span>" +
           "<span><b>Dateigröße: " +
           Size +
           "</b> </span>" +
           "</div>" +
-          '<div class="col-md-1" style="margin-left:-20px;">' +
-          '<div class="removepreview" data-preview_id="' +
+          '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
+          '<div class="removepreview btn bg-danger links mt-1"" data-preview_id="' +
           that.previewpassportid +
           '" id="removepreviewid' +
           that.previewpassportid +
-          '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-          '<br> <div class="previewImagee" data-preview_id="' +
+          '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' 
+          ' <div class="previewImagee btn links mt-1" data-preview_id="' +
           that.previewpassportid +
           '" id="previewimagee' +
           that.previewpassportid +
-          '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">' +
+          '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
           '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
           "</div>" +
+          "</div>";
+
           '<div class="col-md-12">' +
           '<div class="progress form-group progressnew' +
           Size_num +
@@ -11555,7 +11576,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               that.signeddoc.splice(index, 1);
           });
 
-          $(that).parent().parent().remove();
+          $(this).parent().parent().parent(".pip").remove();
 
           console.log("saved array" + JSON.stringify(that.saveddoc));
           console.log("singed array" + JSON.stringify(that.signeddoc));
@@ -12455,7 +12476,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             "</div>" +
             '<div class="col-md-9"> <b>Dokumentenname: ' +
             f.name +
-            "</b><br> <b>Dateigröße: " +
+            "</b> <b>Dateigröße: " +
             Size +
             "</b> </div><div class='col-md-12'>" +
             '   <div class="progress form-group " id="progressnew' +
@@ -12485,7 +12506,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             "</div>" +
             '<div class="col-md-9"> <b>Dokumentenname: ' +
             f.name +
-            "</b><br> <b>Dateigröße: " +
+            "</b> <b>Dateigröße: " +
             Size +
             "</b> </div><div class='col-md-12'>" +
             '   <div class="progress form-group " id="progressnew' +
@@ -12515,7 +12536,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             "</div>" +
             '<div class="col-md-9"> <b>Dokumentenname: ' +
             f.name +
-            "</b><br> <b>Dateigröße: " +
+            "</b> <b>Dateigröße: " +
             Size +
             "</b> </div><div class='col-md-12'>" +
             '   <div class="progress form-group " id="progressnew' +
@@ -12809,7 +12830,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             f.name +
             '"/>' +
             "</div>" +
-            '<div class="col-md-8 p-0" style="font-size:11px;padding:1px">' +
+            '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' + 
             "<div> <b class='limitword' title='" +
             f.name +
             "'>Dokumentenname: " +
@@ -12843,7 +12864,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             '<div class="col-md-2 text-right d-flex flex-column p-0 align-items-center justify-content-center ">' +
             '<div class=" p-0 ">' +
-            '<div class="removepreview btn bg-danger links " id="removepreviewid' + newsize + '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+            '<div class="removepreview btn bg-danger links mt-1" id="removepreviewid' + newsize + '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
             '</div>' +
 
             "<div class=' p-0 mt-1'>" +
