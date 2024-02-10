@@ -1103,6 +1103,25 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
+  isButtonDisabled(item:string){
+    console.log('item: ',item)
+
+    if(item == 'one'){
+      if(this.secondcompanyaddressFormGroup.status == "VALID"){
+        return false
+      } else {
+        return true
+      }
+    }
+    if(item == 'both'){
+      if(this.secondcompanyaddressFormGroup.status == "VALID" && this.secondcompanyaddressFormGroup2.status == "VALID"){
+        return false
+      } else {
+        return true
+      }
+    }
+  }
+
   legalrepresentativeform(): FormArray {
     return this.secondcompanyaddressFormGroup.get(
       "legalrepresentativeform"

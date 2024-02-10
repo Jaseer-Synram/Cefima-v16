@@ -1984,7 +1984,7 @@
                                   &nbsp; Zurück
                                 </button>
                                 &nbsp;
-                                
+
                                 <button class="stepper-btn btn transitionanimation" matStepperNext mat-raised-button
                                   [disabled]="!livingfso1.form.valid">
                                   Weiter &nbsp;
@@ -2011,9 +2011,9 @@
                           companytypenew ==
                             'Offene Handelsgesellschaft (OHG)' ||
                           companytypenew == 'eingetragene Genossenschaft (eG)'
-                        ">
+                        " #secondcompanyfsoparent #secondcompanyfso2parent >
                         <div class="row updateprofile gap-3">
-                          <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw ">
+                          <div  class="col-md-12 d-flex align-items-start justify-content-between flex-raw ">
                             <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
                             <form  [formGroup]="secondcompanyaddressFormGroup"
                               #secondcompanyfso="ngForm" novalidate="" class="Official-residence-form  col-md-12 p-0 m-0 ">
@@ -2199,7 +2199,7 @@
                                   </div>
 
 
-                                  
+
                                 </div>
                               </div>
                             </div>
@@ -2375,16 +2375,7 @@
                                         </button>
                                       </ng-template>
                                     </div>
-                                  </div>
-                                  <!-- <div class="col-md-12" style="padding: 0px">
-                              <button
-                                class="btn btn-danger transitionanimation"
-                                mat-raised-button
-                                (click)="removelegalrepresentativeform1(i); removeaddedpersonSecond(i)"
-                              >
-                                entfernen
-                              </button>
-                            </div> -->
+                                  </div> 
                                 </div>
                               </div>
                             </div>
@@ -2411,12 +2402,9 @@
                               &nbsp;<i class="fa fa-info-circle iconmove"
                                 style="color: #184397; cursor: pointer" data-toggle="modal" data-target="#myModal"
                                 aria-hidden="true"></i>
-                            </div>
-                            <!-- Button to Open the Modal -->
+                            </div> 
 
-                            <!-- The Modal -->
-
-                            <form *ngIf="secondcompanyaddressFormGroup2" [formGroup]="secondcompanyaddressFormGroup2"
+                            <form secondcompanyfso2parent="ngForm" *ngIf="secondcompanyaddressFormGroup2" [formGroup]="secondcompanyaddressFormGroup2"
                               #secondcompanyfso2="ngForm" novalidate="" class="Official-residence-form  col-md-12 p-0 m-0">
                                 <div id="companyThirdForm" *ngFor="
                                     let addedperson1 of addedpersons;
@@ -2641,26 +2629,18 @@
                             &nbsp; Zurück
                           </button>
                           &nbsp;
-                          
+
                           <button *ngIf="
-                              legalrepresentativeform2().length > 0;
+                              legalrepresentativeform2()?.length > 0;
                               else noshareholder
-                            " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext [disabled]="
-                            secondcompanyaddressFormGroup?.status != 'INVALID' &&
-                              moveForward &&
-                              secondcompanyaddressFormGroup2?.status != 'INVALID'
-                                ? false
-                                : true
-                            ">
+                            " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext 
+                             [disabled]="isButtonDisabled('both') == true && moveForward ? false : true">
                             Weiter &nbsp;
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                           </button>
                           <ng-template #noshareholder>
                             <button  class="stepper-btn btn transitionanimation" (click)="calculateType3()"
-                              mat-raised-button matStepperNext [disabled]="
-                                secondcompanyaddressFormGroup?.status != 'INVALID'
-                                  ? false
-                                  : true ">
+                              mat-raised-button matStepperNext [disabled]="isButtonDisabled('one')">
                               Weiter &nbsp;
                               <i class="fa fa-arrow-right" aria-hidden="true"></i>
                             </button>
@@ -2672,11 +2652,11 @@
                         <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form">
                           <ng-template matStepLabel>Dokumente hochladen</ng-template>
 
-                          
+
 
                           <div
                             class="d-flex flex-column justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-2 my-5">
-                            <div class="row">
+                            <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-end">
                               <!------------------------------------------Multiple CEO documents code starts here------------------------------------->
 
                               <div class="col-md-4" style="margin-top: 10px" *ngFor="
@@ -2756,7 +2736,7 @@
                                 </div>
 
                                 <div style="cursor: pointer" *ngIf="i != 0"
-                                  class="upload-file bg-white rounded-4 p-l-30 position-relative">
+                                  class="upload-file bg-white rounded-4 position-relative">
                                   <input style="height: 190px" multiple #input1 type="file"
                                     accept="image/*,application/pdf" class="upload-files w-100 position-absolute"
                                     formControlName="DocOne{{ i }}" id="DocOne{{ i }}" name="DocOne" (change)="
@@ -2816,11 +2796,9 @@
                               <!------------------------------------------Multiple CEO documents code ends here------------------------------------->
 
                               <div class="col-md-4" style="margin-top: 10px" id="div2">
-                                <div style="cursor: pointer"
-                                  class="upload-file bg-white rounded-4 p-l-30 position-relative" style="
-                                    padding-top: 10px;
-                                    padding-bottom: 10px;
-                                                                ">
+                                <div  
+                                  class="upload-file bg-white rounded-4  position-relative" style="
+                                     cursor: pointer;padding: 5px 3px 5px 3px ">
                                   <input style="height: 190px" multiple #input2 type="file"
                                     accept="image/*,application/pdf" class="upload-files w-100 position-absolute"
                                     formControlName="DocTwo" id="DocTwo" name="DocTwo" (change)="
@@ -2868,15 +2846,13 @@
                                 <div id="PerviewTwo" class="col-md-12"></div>
                               </div>
 
-                              <div *ngIf="companytypenew == 'Einzelunternehmen'" class="col-md-4" id="div3"></div>
+                              <div *ngIf="companytypenew == 'Einzelunternehmen'" id="div3"></div>
 
                               <div *ngIf="companytypenew != 'Einzelunternehmen'" class="col-md-4"
                                 style="margin-top: 10px" id="div3">
-                                <div style="cursor: pointer"
+                                <div  
                                   class="upload-file bg-white rounded-4 p-l-30 position-relative" style="
-                                    padding-top: 10px;
-                                    padding-bottom: 10px;
-                                                                ">
+                                    padding: 5px 3px 5px 3px;cursor: pointer">
                                   <input style="height: 190px" multiple #input3 type="file"
                                     accept="image/*,application/pdf" class="upload-files w-100 position-absolute"
                                     formControlName="DocThree" id="DocThree" name="DocThree" (change)="
@@ -3610,7 +3586,7 @@
                 <div class="row updateprofile gap-3">
                   <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw ">
                     <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
-                    <form *ngIf="secondcompanyaddressFormGroup" [formGroup]="secondcompanyaddressFormGroup"
+                    <form [formGroup]="secondcompanyaddressFormGroup"
                       #secondcompanyfso="ngForm" novalidate="" class="Official-residence-form  col-md-12 p-0 m-0 ">
 
                       <ng-template matStepLabel>Gesetzliche Vertreter </ng-template>
@@ -3868,7 +3844,7 @@
                               <mat-datepicker #picker format="dd\MM\yyyy">
                               </mat-datepicker>
                             </mat-form-field>
-                          </div> 
+                          </div>
 
                           <p class=" col-md-12 " style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
                               Bitte geben Sie hier Ihre persönliche
@@ -3984,8 +3960,8 @@
                         style="color: #184397; cursor: pointer" data-toggle="modal" data-target="#myModal"
                         aria-hidden="true"></i>
                       </span>
-                       
-                      </div> 
+
+                      </div>
                     <form *ngIf="secondcompanyaddressFormGroup2" [formGroup]="secondcompanyaddressFormGroup2"
                       #secondcompanyfso2="ngForm" novalidate="" class="Official-residence-form  col-md-12 p-0 m-0">
                       <div>
@@ -4202,24 +4178,19 @@
                     &nbsp; Zurück
                   </button>
                   &nbsp;
-                  
+
                   <button *ngIf="
                               legalrepresentativeform2().length > 0;
                               else noshareholder
-                            " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext [disabled]="
-                            secondcompanyaddressForm?.status != 'INVALID' &&
-                              moveForward &&
-                              secondcompanyaddressForm2?.status !=  'INVALID'
-                                ? false
-                                : true
-                            ">
+                            " class="stepper-btn btn transitionanimation" mat-raised-button matStepperNext 
+                            [disabled]="isButtonDisabled('both') == true && moveForward ? false : true" >
                     Weiter &nbsp;
                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
                   </button>
                   <!-- [disabled]=" secondcompanyfso.form.valid == true ? false : true  -->
                   <ng-template #noshareholder>
                     <button class="stepper-btn btn transitionanimation" (click)="calculateType3()" mat-raised-button
-                      matStepperNext >
+                      matStepperNext [disabled]="isButtonDisabled('one')" >
                       Weiter &nbsp;
                       <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
@@ -4235,11 +4206,11 @@
 
                   <div
                     class="d-flex flex-column justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-2 my-5">
-                    <div class="row" id="docgroup">
-                      <div class="d-flex flex-row">
+                    <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-end" id="docgroup">
+                      <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-end p-0">
                         <div class="col-md-4" style="display: grid" id="div1">
                           <div style="cursor: pointer"
-                            class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 15px;">
+                            class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 5px 3px 5px 3px;">
                             <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                               class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
                               name="DocOne" (change)="
@@ -4311,7 +4282,7 @@
 
                         <div class="col-md-4" style="display: grid" id="div2">
                           <div style="cursor: pointer"
-                            class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 15px;">
+                            class="upload-file bg-white rounded-4 p-l-30 position-relative"  style="padding: 5px 3px 5px 3px;">
                             <input style="height: 190px;" #input2 type="file" accept="image/*,application/pdf"
                               class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
                               name="DocTwo" (change)="
@@ -4359,7 +4330,7 @@
                         <div *ngIf="companytypenew != 'Einzelunternehmen'" class="col-md-4" style="display: grid"
                           id="div3">
                           <div style="cursor: pointer"
-                            class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 15px;">
+                            class="upload-file bg-white rounded-4 p-l-30 position-relative"  style="padding: 5px 3px 5px 3px;">
                             <input style="height: 190px" #input3 type="file" accept="image/*,application/pdf"
                               class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
                               name="DocThree" (change)="
@@ -4418,8 +4389,8 @@
                                     let datanew of secondcompanyaddressFormGroup2
                                       .value.legalrepresentativeform2;
                                     let i = index " class="col-md-4" style="margin-top: 10px" id="div{{ i }}">
-                            <div style="cursor: pointer"
-                              class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 15px;">
+                            <div 
+                              class="upload-file bg-white rounded-4 p-l-30 position-relative" style="padding: 5px 3px 5px 3px;cursor: pointer">
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i"
                                 (change)="
@@ -5183,7 +5154,7 @@
                           Weiter &nbsp;
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>
-                      </div> 
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -5292,10 +5263,10 @@
                                   padding: 0px;
                                   margin-top: 20px !important;
                                                               ">
-                     
+
                         <div
                           class="d-flex flex-column justify-content-center align-items-center flex-grow-0 flex-shrink-0 gap-2">
-                          <div class="row" id="docgroup">
+                          <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-end" id="docgroup">
                             <div class="col-md-4" style="display: grid" id="div1">
                               <div style="cursor: pointer"
                                 class="upload-file bg-white rounded-4 p-l-30 position-relative">
@@ -5309,7 +5280,7 @@
                                               'DocOne'
                                             )
                                                                         " />
-                                
+
                                 <div class="mt-3" style="text-align: center">
                                   <div class="icons-img">
 
@@ -7294,9 +7265,6 @@
       </div>
     </div>
 
-
-
-
       <div class="modal fade" id="exampleModalLongFamilyMember" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="z-index: 9999">
         <div style="max-width: 600px" class="modal-dialog modal-dialog-centered" role="document">
@@ -7591,9 +7559,6 @@
           </div>
         </div>
       </div>
-
-
-
 
       <div class="modal fade" id="exampleModalLongFamilyMemberesign" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -12008,13 +11973,12 @@
                                     </li>
                                   </ul>
                                   <div *ngIf="item._id === currentQuestionId">
-                                    <div class="card assigments-list mt-3" style="
-                                               background-color: #f1f1f1; ">
-                                      <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                                    <div class="card assigments-list mt-3 rounded-top-3"  >
+                                      <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px">
                                         <div class="accordion-main" id="accordion">
                                           <div class="accordion-head">
-                                            <ul
-                                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                            <ul style="background:#e5e5e5;"
+                                            class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
                                               <li class="tabsecondHushalt1 font-weight-bold" >
                                                 #
                                               </li>
@@ -12407,39 +12371,32 @@
                                   <p>
                                     <img src="assets/dwon.png" class="opened-arrow" *ngIf="opened_tab.more_info" />
                                     <img src="assets/dwon.png" class=" d-arrow" *ngIf="
-                                          !opened_tab.more_info
-                                                                      " />
+                                          !opened_tab.more_info " />
                                   </p>
                                 </div>
 
                                 <div [ngClass]="
                                       opened_tab.more_info
                                         ? ''
-                                        : 'd-none'
-                                                                  ">
+                                        : 'd-none' ">
                                   <button *ngIf="
                                         member.documents == '';
-                                        else showDocument
-                                                                    " style="width: 14%" (click)="bindValues(member)" data-toggle="modal"
+                                        else showDocument "  (click)="bindValues(member)" data-toggle="modal"
                                     data-target="#exampleModalLongnewfamilyPOAesign" [disabled]="
-                                        currentActiveRole == 'b2b'
-                                                                    " class="btn btn-primary makecolor"
+                                        currentActiveRole == 'b2b' " class="btn button-primary makecolor"
                                     (click)="open_modal('exampleModalLongnewfamilyPOA')">
                                     E-Sign Maklervollmacht
                                   </button>
                                   <ng-template #showDocument>
                                     <ng-container *ngFor="
                                           let document of member.documents;
-                                          let i = index
-                                                                      ">
+                                          let i = index ">
                                       <button *ngIf="
                                             document.document_name ==
-                                            'Maklervollmacht'
-                                                                        " style="width: 14%" (click)="
+                                            'Maklervollmacht' "  (click)="
                                             openpdfpopup(
                                               document.document_unique_id
-                                            )
-                                                                        " class="btn btn-primary makecolor">
+                                            ) " class="btn button-primary makecolor">
                                         Öffnen Maklervollmacht
                                       </button>
                                     </ng-container>
@@ -12454,42 +12411,41 @@
                     <mat-tab class="new-item  " *ngFor="let tab of tabList; let i = index" label="{{ tab.tab }}">
                       <div class="container-fluid row m-0">
                         <div class="col-md-6">
-                          <div class="card assigments-list mt-3">
-                            <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                          <div class="card assigments-list mt-3 rounded-top-3">
+                            <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px">
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
-                                  <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                                    <li class="tabsecond1 font-weight-bold" style="width: 15%">
+                                  <ul style="background:#e5e5e5;"
+                                  class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
+                                    <li class="tabsecondHushalt1 font-weight-bold" >
                                       #
                                     </li>
-                                    <li class="tabsecond2 font-weight-bold" style="width: 70%">
+                                    <li class="tabsecondHushalt2 font-weight-bold" style="width: 70%">
                                       Frage
                                       <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                           data-name="Sparte"></i> -->
                                     </li>
-                                    <li class="tabsecond10 font-weight-bold" style="width: 15%">
+                                    <li class="tabsecondHushalt5 font-weight-bold" >
                                       Interaktionen
                                     </li>
                                   </ul>
                                 </div>
-                                <hr />
                                 <div class="accordion-list-main">
                                   <div class="accordion-list-item" *ngFor="
                                         let item of tab.data;
                                         let j = index
                                                                     ">
-                                    <ul [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
+                                    <ul 
                                       class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
-                                      <li class="tabsecond1" style="width: 15%">
+                                      <li class="tabsecondHushalt1" >
                                         {{ j + 1 }}
                                       </li>
-                                      <li class="tabsecond2 limitword" style="width: 70%">
+                                      <li class="tabsecondHushalt3 limitword" style="width: 70%">
                                         {{ item.questionname }}
                                       </li>
 
-                                      <li class="tabsecond10 mb-2" style="width: 15%">
-                                        <span class="d-flex align-items-center">
+                                      <li class="tabsecondHushalt5 mb-2" >
+                                        <span class="d-flex align-items-center justify-content-center">
                                           <button type="button"
                                             class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1 click"
                                             (click)="
@@ -12506,61 +12462,43 @@
                                           item._id ===
                                           currentQuestionId
                                                                       ">
-                                      <div class="card assigments-list mt-3" style="
-                                            background-color: #f1f1f1;
-                                                                        ">
-                                        <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                                      <div class="card assigments-list mt-3  rounded-top-3"  >
+                                        <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px">
                                           <div class="accordion-main" id="accordion">
                                             <div class="accordion-head">
-                                              <ul
-                                                class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                                                <li class="tabsecond1 font-weight-bold" style="
-                                                      width: 15%;
-                                                                                  ">
+                                              <ul style="background:#e5e5e5;"
+                                                class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
+                                                <li class="tabsecondHushalt1 font-weight-bold">
                                                   #
                                                 </li>
-                                                <li class="tabsecond2 font-weight-bold" style="
-                                                      width: 35%;
-                                                                                  ">
+                                                <li class="tabsecondHushalt2 font-weight-bold" style=" width: 35%; ">
                                                   Antworten
                                                   <!-- <i class="fa fa-sort-desc" [appSort]="
                                                         pagedItems
                                                                                     " data-order="asc" data-name="Sparte"></i> -->
                                                 </li>
-                                                <li class="tabsecond10 font-weight-bold" style="
-                                                      width: 30%;
-                                                                                  ">
+                                                <li class="tabsecondHushalt3 font-weight-bold" >
                                                   Dokumentname
                                                 </li>
-                                                <li class="tabsecond10 font-weight-bold" style="
-                                                      width: 10%;
-                                                                                  ">
+                                                <li class="tabsecondHushalt4 font-weight-bold">
                                                   Answered On
                                                 </li>
-                                                <li class="tabsecond10 font-weight-bold" style="
-                                                      width: 10%;
-                                                                                  ">
+                                                <li class="tabsecondHushalt5 font-weight-bold" >
                                                   Interaktionen
                                                 </li>
                                               </ul>
                                             </div>
-                                            <hr />
                                             <div class="accordion-list-main">
                                               <div class="accordion-list-item" *ngFor="
                                                     let item of selectedAnswers;
                                                     let j = index
                                                                                 ">
                                                 <ul
-                                                  [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
                                                   class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
-                                                  <li class="tabsecond1" style="
-                                                        width: 15%;
-                                                                                    ">
+                                                  <li class="tabsecondHushalt1" >
                                                     {{ j + 1 }}
                                                   </li>
-                                                  <li class="tabsecond2 limitword" style="
-                                                        width: 35%;
-                                                                                    ">
+                                                  <li class="tabsecondHushalt2 limitword" style=" width: 35%; ">
                                                     {{
                                                     item
                                                     .answerKey
@@ -12573,9 +12511,7 @@
                                                     .textarea
                                                     }}
                                                   </li>
-                                                  <li class="tabsecond2 limitword" style="
-                                                        width: 30%;
-                                                                                    ">
+                                                  <li class="tabsecondHushalt2 limitword" >
                                                     {{
                                                     item
                                                     .answerKey
@@ -12591,19 +12527,15 @@
                                                     : "NA"
                                                     }}
                                                   </li>
-                                                  <li class="tabsecond2" style="
-                                                        width: 10%;
-                                                                                    ">
+                                                  <li class="tabsecondHushalt4" >
                                                     {{
                                                     item.answerDate
                                                     | date
                                                     : "dd.MM.yyyy"
                                                     }}
                                                   </li>
-                                                  <li class="tabsecond10 mb-2" style="
-                                                        width: 10%;
-                                                                                    ">
-                                                    <span class="d-flex align-items-center">
+                                                  <li class="tabsecondHushalt5 mb-2" >
+                                                    <span class="d-flex align-items-center justify-content-center">
                                                       <button type="button"
                                                         class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1"
                                                         data-toggle="modal" data-target="#viewAnswerModal" (click)="
@@ -12629,43 +12561,41 @@
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="card assigments-list mt-3">
-                            <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                          <div class="card assigments-list mt-3  rounded-top-3">
+                            <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px">
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
-                                  <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                                    <li class="tabsecond1 font-weight-bold" style="width: 10%">
+                                  <ul style="background:#e5e5e5;"
+                                    class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
+                                    <li class="tabsecondHushalt1 font-weight-bold" >
                                       #
                                     </li>
-                                    <li class="tabsecond2 font-weight-bold" style="width: 50%">
+                                    <li class="tabsecondHushalt2 font-weight-bold" >
                                       Dokumentname
                                       <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc"
                                           data-name="Sparte"></i> -->
                                     </li>
-                                    <li class="tabsecond10 font-weight-bold" style="width: 10%">
+                                    <li class="tabsecondHushalt3 font-weight-bold">
                                       Size
                                     </li>
-                                    <li class="tabsecond10 font-weight-bold" style="width: 15%">
+                                    <li class="tabsecondHushalt4 font-weight-bold" >
                                       CreatedAt
                                     </li>
-                                    <li class="tabsecond10 font-weight-bold" style="width: 15%">
+                                    <li class="tabsecondHushalt5 font-weight-bold" >
                                       Interaktionen
                                     </li>
                                   </ul>
                                 </div>
-                                <hr />
                                 <div class="accordion-list-main">
                                   <div class="accordion-list-item" *ngFor="
                                         let item of documentPdfList;
-                                        let j = index
-                                                                    ">
-                                    <ul [ngStyle]="{'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border': j % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': j % 2 === 0 ? '10px 10px' : null}"
+                                        let j = index ">
+                                    <ul 
                                       class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
-                                      <li class="tabsecond1" style="width: 10%">
+                                      <li class="tabsecondHushalt1" >
                                         {{ j + 1 }}
                                       </li>
-                                      <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
+                                      <li *ngIf="item.docName" class="tabsecondHushalt2" >
                                         {{
                                         item.docName.length
                                         ? item.docName[0]
@@ -12673,7 +12603,7 @@
                                         }}
                                       </li>
 
-                                      <li  *ngIf="item.docTags" class="tabsecond2" style="width: 10%">
+                                      <li  *ngIf="item.docTags" class="tabsecondHushalt3" >
                                         {{
                                         item.docTags?.length
                                         ? item?.docTags[0][0].split(
@@ -12683,15 +12613,15 @@
                                         }}
                                       </li>
 
-                                      <li class="tabsecond2" style="width: 15%">
+                                      <li class="tabsecondHushalt4" >
                                         {{
                                         item.createdAt
                                         | date : "dd-MM-yyyy"
                                         }}
                                       </li>
 
-                                      <li class="tabsecond10 mb-2" style="width: 15%">
-                                        <span class="d-flex align-items-center">
+                                      <li class="tabsecondHushalt5 mb-2" >
+                                        <span class="d-flex align-items-center justify-content-center">
                                           <button type="button"
                                             class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1 click"
                                             (click)="
@@ -12710,14 +12640,12 @@
                           </div>
                         </div>
                         <div class="mb-2 text-right">
-                          <button type="button"
-                            class="openclass offnen-cls btn  button-primary  btn-sm add-assigment py-1"
+                          <button type="button" style="font-weight:500"
+                            class="openclass offnen-cls btn  button-primary  btn-sm add-assigment p-2"
                             data-toggle="modal" data-target="#questionAnswerModal" (click)="
                                 setQuestionArray(i);;open_modal('questionAnswerModal');
-                                QAStepper.reset()
-                                                            " [disabled]="
-                                tabList[i].data?.length === 0
-                                                            ">
+                                QAStepper.reset() " [disabled]="
+                                tabList[i].data?.length === 0 ">
                             Beantworten Sie die Fragen
                           </button>
                         </div>
@@ -13008,45 +12936,44 @@
                           " class="styletab" label="{{ tab.tab }}">
                           <div class="container-fluid row m-0">
                             <div class="col-md-6">
-                              <div class="card assigments-list mt-3">
-                                <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                              <div class="card assigments-list mt-3  rounded-top-3">
+                                <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px">
                                   <div class="accordion-main" id="accordion">
                                     <div class="accordion-head">
-                                      <ul
-                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                                        <li class="tabsecond1 font-weight-bold" style="width: 15%">
+                                      <ul style="background:#e5e5e5;"
+                                      class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
+                                        <li class="tabsecondHushalt1 font-weight-bold" >
                                           #
                                         </li>
-                                        <li class="tabsecond2 font-weight-bold" style="width: 70%">
+                                        <li class="tabsecondHushalt2 font-weight-bold" style="width: 70%">
                                           Frage
                                           <!-- <i class="fa fa-sort-desc" [appSort]="
                                               pagedItems
                                                                           " data-order="asc" data-name="Sparte"></i> -->
                                         </li>
-                                        <li class="tabsecond10 font-weight-bold" style="width: 15%">
+                                        <li class="tabsecondHushalt5 font-weight-bold" >
                                           Interaktionen
                                         </li>
                                       </ul>
                                     </div>
-                                    <hr />
                                     <div class="accordion-list-main">
                                       <div class="accordion-list-item" *ngFor="
                                           let item of tab.data;
                                           let j = index
                                                                       ">
-                                        <ul [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
+                                        <ul 
                                           class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
-                                          <li class="tabsecond1" style="width: 15%">
+                                          <li class="tabsecondHushalt1" >
                                             {{ j + 1 }}
                                           </li>
-                                          <li class="tabsecond2 limitword" style="width: 70%">
+                                          <li class="tabsecondHushalt2 limitword" style="width: 70%">
                                             {{
                                             item.questionname
                                             }}
                                           </li>
 
-                                          <li class="tabsecond10 mb-2" style="width: 15%">
-                                            <span class="d-flex align-items-center">
+                                          <li class="tabsecondHushalt5 mb-2" >
+                                            <span class="d-flex align-items-center justify-content-center">
                                               <button type="button"
                                                 class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1 click"
                                                 (click)="
@@ -13065,66 +12992,43 @@
                                             item._id ===
                                             currentQuestionId
                                                                         ">
-                                          <div class="card assigments-list mt-3" style="
-                                              background-color: #f1f1f1;
-                                                                          ">
-                                            <div class="card-body" id="cardbodyid" style="
-                                                font-size: 14px;
-                                                                            ">
+                                          <div class="card assigments-list mt-3  rounded-top-3"  >
+                                            <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px; ">
                                               <div class="accordion-main" id="accordion">
                                                 <div class="accordion-head">
-                                                  <ul
-                                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                                                    <li class="tabsecond1 font-weight-bold" style="
-                                                        width: 15%;
-                                                                                    ">
+                                                  <ul style="background:#e5e5e5;"
+                                                  class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
+                                                    <li class="tabsecondHushalt1 font-weight-bold" >
                                                       #
                                                     </li>
-                                                    <li class="tabsecond2 font-weight-bold" style="
-                                                        width: 35%;
-                                                                                    ">
+                                                    <li class="tabsecondHushalt2 font-weight-bold" style=" width: 35%; ">
                                                       Antworten
                                                       <!-- <i class="fa fa-sort-desc" [appSort]="
                                                           pagedItems
                                                                                       " data-order="asc" data-name="Sparte"></i> -->
                                                     </li>
-                                                    <li class="tabsecond10 font-weight-bold" style="
-                                                        width: 30%;
-                                                                                    ">
+                                                    <li class="tabsecondHushalt2 font-weight-bold"  >
                                                       Dokumentname
                                                     </li>
-                                                    <li class="tabsecond10 font-weight-bold" style="
-                                                        width: 10%;
-                                                                                    ">
+                                                    <li class="tabsecondHushalt4 font-weight-bold"  >
                                                       Answered
                                                       On
                                                     </li>
-                                                    <li class="tabsecond10 font-weight-bold" style="
-                                                        width: 10%;
-                                                                                    ">
+                                                    <li class="tabsecondHushalt5 font-weight-bold" >
                                                       Interaktionen
                                                     </li>
                                                   </ul>
                                                 </div>
-                                                <hr />
                                                 <div class="accordion-list-main">
                                                   <div class="accordion-list-item" *ngFor="
                                                       let item of selectedAnswers;
-                                                      let j = index
-                                                                                  ">
-                                                    <ul
-                                                      [ngStyle]="{'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border': i % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': i % 2 === 0 ? '10px 10px' : null}"
+                                                      let j = index ">
+                                                    <ul 
                                                       class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
-                                                      <li class="tabsecond1" style="
-                                                          width: 15%;
-                                                                                      ">
-                                                        {{
-                                                        j + 1
-                                                        }}
+                                                      <li class="tabsecondHushalt1"  >
+                                                        {{ j + 1 }}
                                                       </li>
-                                                      <li class="tabsecond2 limitword" style="
-                                                          width: 35%;
-                                                                                      ">
+                                                      <li class="tabsecondHushalt2 limitword" style="  width: 35%; ">
                                                         {{
                                                         item
                                                         .answerKey
@@ -13137,9 +13041,7 @@
                                                         .textarea
                                                         }}
                                                       </li>
-                                                      <li class="tabsecond2 limitword" style="
-                                                          width: 30%;
-                                                                                      ">
+                                                      <li class="tabsecondHushalt2 limitword"  > 
                                                         {{
                                                         item
                                                         .answerKey
@@ -13155,26 +13057,21 @@
                                                         : "NA"
                                                         }}
                                                       </li>
-                                                      <li class="tabsecond2" style="
-                                                          width: 10%;
-                                                                                      ">
+                                                      <li class="tabsecondHushalt4" >
                                                         {{
                                                         item.answerDate
                                                         | date
                                                         : "dd.MM.yyyy"
                                                         }}
                                                       </li>
-                                                      <li class="tabsecond10 mb-2" style="
-                                                          width: 10%;
-                                                                                      ">
-                                                        <span class="d-flex align-items-center">
+                                                      <li class="tabsecondHushalt5 mb-2" >
+                                                        <span class="d-flex align-items-center justify-content-center">
                                                           <button type="button"
                                                             class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1"
                                                             data-toggle="modal" data-target="#viewAnswerModal" (click)="
                                                               setCurrentAnswer(
                                                                 item
-                                                              )
-                                                                                          ">
+                                                              ) ">
                                                             Öffnen
                                                           </button>
                                                         </span>
@@ -13193,44 +13090,42 @@
                               </div>
                             </div>
                             <div class="col-md-6">
-                              <div class="card assigments-list mt-3">
-                                <div class="card-body" id="cardbodyid" style="font-size: 14px">
+                              <div class="card assigments-list mt-3  rounded-top-3">
+                                <div class="card-body haushalt" id="cardbodyid" style="font-size: 14px">
                                   <div class="accordion-main" id="accordion">
                                     <div class="accordion-head">
-                                      <ul
-                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
-                                        <li class="tabsecond1 font-weight-bold" style="width: 10%">
+                                      <ul style="background:#e5e5e5;"
+                                      class="accordion-head-list rounded-top-3 list-unstyled px-3 py-3 d-flex justify-content-between align-items-center">
+                                        <li class="tabsecondHushalt1 font-weight-bold">
                                           #
                                         </li>
-                                        <li class="tabsecond2 font-weight-bold" style="width: 50%">
+                                        <li class="tabsecondHushalt2 font-weight-bold">
                                           Dokumentname
                                           <!-- <i class="fa fa-sort-desc" [appSort]="
                                               pagedItems
                                                                           " data-order="asc" data-name="Sparte"></i> -->
                                         </li>
-                                        <li class="tabsecond10 font-weight-bold" style="width: 10%">
+                                        <li class="tabsecondHushalt3 font-weight-bold" >
                                           Size
                                         </li>
-                                        <li class="tabsecond10 font-weight-bold" style="width: 15%">
+                                        <li class="tabsecondHushalt4 font-weight-bold" >
                                           CreatedAt
                                         </li>
-                                        <li class="tabsecond10 font-weight-bold" style="width: 15%">
+                                        <li class="tabsecondHushalt4 font-weight-bold" >
                                           Interaktionen
                                         </li>
                                       </ul>
                                     </div>
-                                    <hr />
                                     <div class="accordion-list-main">
                                       <div class="accordion-list-item" *ngFor="
                                           let item of documentPdfList;
-                                          let j = index
-                                                                      ">
-                                        <ul [ngStyle]="{'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border': j % 2 === 0 ? '1px solid #0592D42E' : null, 'border-radius': j % 2 === 0 ? '10px 10px' : null}"
+                                          let j = index ">
+                                        <ul 
                                           class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
-                                          <li class="tabsecond1" style="width: 10%">
+                                          <li class="tabsecondHushalt1" >
                                             {{ j + 1 }}
                                           </li>
-                                          <li *ngIf="item.docName" class="tabsecond2" style="width: 50%">
+                                          <li *ngIf="item.docName" class="tabsecondHushalt2" >
                                             {{
                                             item.docName
                                             .length
@@ -13240,18 +13135,17 @@
                                             }}
                                           </li>
 
-                                          <li *ngIf="item.docTags" class="tabsecond2" style="width: 10%">
+                                          <li *ngIf="item.docTags" class="tabsecondHushalt3" >
                                             {{
                                             item.docTags
                                             .length
-                                            ? item.docTags[0][0].split(
-                                                                          ","
+                                            ? item.docTags[0][0].split( ","
                                             )[0]
                                             : "NA"
                                             }}
                                           </li>
 
-                                          <li class="tabsecond2" style="width: 15%">
+                                          <li class="tabsecondHushalt4" >
                                             {{
                                             item.createdAt
                                             | date
@@ -13259,8 +13153,8 @@
                                             }}
                                           </li>
 
-                                          <li class="tabsecond10 mb-2" style="width: 15%">
-                                            <span class="d-flex align-items-center">
+                                          <li class="tabsecondHushalt5 mb-2" >
+                                            <span class="d-flex align-items-center justify-content-center">
                                               <button type="button"
                                                 class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1 click"
                                                 (click)="
@@ -16461,7 +16355,8 @@
                                       <!-- <h5 class="form-section-title border-bottom pb-3 mb-3 d-flex">
                                     <mat-icon class="mr-2">account_circle</mat-icon> Unternehmensdaten
                                   </h5> -->
-                                      <div class="col-12 d-flex flex-raw flex-wrap ">
+                                      <div class="col-12 d-flex flex-raw flex-wrap p-0 ">
+                                        <div class="col-12 d-flex flex-raw flex-wrap ">
                                         <div class="p-0 col-md-4 ">
                                           <mat-form-field appearance="outline" style="width:96%">
                                             <mat-label>
@@ -16494,6 +16389,7 @@
                                           </mat-form-field>
                                         </div>
                                       </div>
+                                    </div>
                                       <div class="col-12 px-3 py-2 mb-4 rounded graybox">
                                         <span>
                                         Gesetzlicher
@@ -16555,7 +16451,7 @@
                                           Firmensitz:
                                       </span>
                                     </div>
-                                        <div class="col-12 d-flex flex-raw flex-wrap ">
+                                        <div class="col-12 d-flex flex-raw flex-wrap p-0 ">
                                           <div class="p-0 col-md-4">
                                             <mat-form-field appearance="outline" style="width:96%">
                                               <mat-label>
@@ -16587,7 +16483,7 @@
                                             </mat-form-field>
                                           </div>
                                         </div>
-                                        <div class="col-12 d-flex flex-raw flex-wrap ">
+                                        <div class="col-12 d-flex flex-raw flex-wrap p-0 ">
                                           <div class="p-0 col-md-4">
                                             <mat-form-field appearance="outline" style="width:96%">
                                               <mat-label>
