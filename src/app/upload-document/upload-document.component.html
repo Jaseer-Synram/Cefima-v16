@@ -1,802 +1,730 @@
 <div class="app-background d-flex flex-column">
-    <div class="d-flex flex-column">
-        <div style="flex: unset">
+  <div class="d-flex flex-column">
+    <div style="flex: unset">
 
 
-            <div class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center">
-                <section style="width: 100%" class="main table-section table-min-height" id="documentupload">
-                    <div class="col-md-12 card border-0 " style="background-color: #F2F2F2;">
-                        <div class="d-flex flex-raw m-0 px-0 py-1 justify-content-between align-items-center  ">
-                            <span class="card-text">Um ein Dokument hochzuladen, wählen Sie bitte einen Kunden aus
-                                oder
-                                legen Sie einen an.</span>
-                            <button type="button" style="padding-bottom: 2px;" mat-raised-button (click)="OpenStpper()"
-                                class="btn upload-theme d-flex  flex-raw justify-content-enter align-items-center ">
-                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12.0303 0.72168C5.437 0.72168 0.0859375 6.07274 0.0859375 12.666C0.0859375 19.2593 5.437 24.6104 12.0303 24.6104C18.6235 24.6104 23.9746 19.2593 23.9746 12.666C23.9746 6.07274 18.6235 0.72168 12.0303 0.72168ZM18.0024 13.8604H13.2247V18.6382H10.8358V13.8604H6.05811V11.4716H10.8358V6.69385H13.2247V11.4716H18.0024V13.8604Z"
-                                        fill="white" />
-                                </svg>
-                                <span class="text-white" style="text-decoration: none">
-                                    Kunde anlegen
-                                </span>
+      <div class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center">
+        <section style="width: 100%" class="main table-section table-min-height" id="documentupload">
+          <div class="col-md-12 card border-0 " style="background-color: #F2F2F2;">
+            <div class="d-flex flex-raw m-0 px-0 py-1 justify-content-between align-items-center  ">
+              <span class="card-text">Um ein Dokument hochzuladen, wählen Sie bitte einen Kunden aus
+                oder
+                legen Sie einen an.</span>
+              <button type="button" style="padding-bottom: 2px;" mat-raised-button (click)="OpenStpper()"
+                class="btn upload-theme d-flex  flex-raw justify-content-enter align-items-center ">
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.0303 0.72168C5.437 0.72168 0.0859375 6.07274 0.0859375 12.666C0.0859375 19.2593 5.437 24.6104 12.0303 24.6104C18.6235 24.6104 23.9746 19.2593 23.9746 12.666C23.9746 6.07274 18.6235 0.72168 12.0303 0.72168ZM18.0024 13.8604H13.2247V18.6382H10.8358V13.8604H6.05811V11.4716H10.8358V6.69385H13.2247V11.4716H18.0024V13.8604Z"
+                    fill="white" />
+                </svg>
+                <span class="text-white" style="text-decoration: none">
+                  Kunde anlegen
+                </span>
 
-                            </button>
-                        </div>
-                    </div>
+              </button>
+            </div>
+          </div>
 
-                    <mat-horizontal-stepper linear #stepper (selectionChange)="onStepChange($event)"
-                        style="background: bottom" class="stepnewclass "
-                        ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}">
+          <mat-horizontal-stepper linear #stepper (selectionChange)="onStepChange($event)" style="background: bottom"
+            class="stepnewclass " ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}">
 
-                        <ng-template matStepperIcon="edit">
-                            <mat-icon>check</mat-icon>
-                        </ng-template>
-                        <mat-step [stepControl]="myControl">
+            <ng-template matStepperIcon="edit">
+              <mat-icon>check</mat-icon>
+            </ng-template>
+            <mat-step [stepControl]="myControl">
 
 
 
-                            <div class="container">
-                                <ng-template matStepLabel>
-                                    <span>Kunden</span>
-                                    <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderKunden}}</div>
-                                </ng-template>
-                                <div class="row setup-content" id="step-1">
-                                    <form style="width: 100%" (ngSubmit)="GoNext()">
-                                        <div>
-                                            <div style="padding: 0px;margin-bottom: 30px;"
-                                                class="col-md-12 card-center">
-                                                <div class="formstep1">
-                                                    <div class="row">
-                                                        <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
-                                                            style="margin-top: 40px;margin-bottom: 30vh;">
-                                                            <div class="col-md-12 d-flex justify-content-start p-0 ">
-                                                                <span class="second-text"> Bitte suchen Sie
-                                                                    einen Haushalt/Unternehmen und wählen
-                                                                    Sie es in
-                                                                    der Suchleiste aus.</span>
-                                                            </div>
-                                                            <div class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
-                                                                style="border-radius: 10px">
-                                                                <mat-form-field
-                                                                    class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                                                    appearance="outline"
-                                                                    style=" width: 100%;background: white;border-radius: 10px;">
-                                                                    <input type="text"
-                                                                        placeholder="Haushalt / Firma auswählen"
-                                                                        aria-label="Number" matInput
-                                                                        [formControl]="myControl" (keyup.enter)="
+              <div class="container">
+                <ng-template matStepLabel>
+                  <span>Kunden</span>
+                  <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderKunden}}</div>
+                </ng-template>
+                <div class="row setup-content" id="step-1">
+                  <form style="width: 100%" (ngSubmit)="GoNext()">
+                    <div>
+                      <div style="padding: 0px;margin-bottom: 30px;" class="col-md-12 card-center">
+                        <div class="formstep1">
+                          <div class="row">
+                            <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
+                              style="margin-top: 40px;margin-bottom: 30vh;">
+                              <div class="col-md-12 d-flex justify-content-start p-0 ">
+                                <span class="second-text"> Bitte suchen Sie
+                                  einen Haushalt/Unternehmen und wählen
+                                  Sie es in
+                                  der Suchleiste aus.</span>
+                              </div>
+                              <div class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
+                                style="border-radius: 10px">
+                                <mat-form-field
+                                  class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
+                                  appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
+                                  <input type="text" placeholder="Haushalt / Firma auswählen" aria-label="Number"
+                                    matInput [formControl]="myControl" (keyup.enter)="
                                                 patchnationalityValue($event)
                                               " (ngModelChange)="
                                                 patchnationalityValue($event)
                                               " [matAutocomplete]="auto" />
-                                                                    <mat-autocomplete #auto="matAutocomplete">
-                                                                        <mat-option
-                                                                            *ngFor=" let employee of filteredOptions | async"
-                                                                            [value]="employee.name">
-                                                                            {{ employee.name }}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </mat-form-field>
-                                                                <mat-icon class="ml-2" style="color: white">search
-                                                                </mat-icon>
-                                                            </div>
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor=" let employee of filteredOptions | async"
+                                      [value]="employee.name">
+                                      {{ employee.name }}
+                                    </mat-option>
+                                  </mat-autocomplete>
+                                </mat-form-field>
+                                <mat-icon class="ml-2" style="color: white">search
+                                </mat-icon>
+                              </div>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row p-0">
-
-                                                <div class="col-md-12 p-0">
-                                                    <div class="bottom-btn p-0 m-0 d-flex justify-content-end ">
-                                                        <!-- <button mat-raised-button matStepperPrevious
-                                                            class="btn upload-theme-bottom"> Zurück</button> -->
-                                                        <!--  -->
-                                                        <button mat-raised-button matStepperNext [disabled]="ShowButton"
-                                                            type="submit" (click)="GoNext()"
-                                                            [ngClass]="[ShowButton? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
-                                                            Weiter
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
-                        </mat-step>
+                          </div>
+                        </div>
+                      </div>
 
-                        <mat-step [stepControl]="myControlnew" *ngIf="kundetype != 'Firma' && myControl.value ">
-                            <ng-template matStepLabel>
-                                <span>Haushaltsmitglied</span>
-                                <div *ngIf="kundetype.includes('Haushalt') && myControlnew.value"
-                                    class="underKundenHead rounded-sm "> {{myControlnew.value.split('(')[0].trim()}}
-                                </div>
-                            </ng-template>
-                            <div class="row setup-content" id="step-1">
-                                <form style="width: 100%">
-                                    <div>
-                                        <div style="padding: 0px;margin-bottom: 30px;margin-bottom: 30vh;"
-                                            class="col-md-12 card-center">
-                                            <div class="formstep1">
-                                                <div class="row">
-                                                    <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
-                                                        style="margin-top: 40px;">
-                                                        <div class="col-md-12 d-flex justify-content-start p-0 ">
-                                                            <span class="second-text">Bitte suchen Sie einen
-                                                                Haushalt Mitglied men und wählen Sie es in der
-                                                                Suchleiste aus</span>
-                                                        </div>
-                                                        <div class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
-                                                            style="border-radius: 10px">
-                                                            <mat-form-field
-                                                                class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                                                appearance="outline"
-                                                                style=" width: 100%;background: white;border-radius: 10px;"
-                                                                *ngIf="showmembers">
-                                                                <input type="text"
-                                                                    placeholder="Haushaltsmitglied auswählen"
-                                                                    aria-label="Number" matInput
-                                                                    [formControl]="myControlnew"
-                                                                    (keyup.enter)="
-                                                                                                patchmembervalue($event) "
-                                                                    (ngModelChange)=" patchmembervalue($event) "
-                                                                    [matAutocomplete]="auto1" />
 
-                                                                <mat-autocomplete #auto1="matAutocomplete">
-                                                                    <mat-option *ngFor="
+                      <div class="row p-0">
+
+                        <div class="col-md-12 p-0">
+                          <div class="bottom-btn p-0 m-0 d-flex justify-content-end ">
+                            <!-- <button mat-raised-button matStepperPrevious
+                                                            class="btn upload-theme-bottom"> Zurück</button> -->
+                            <!--  -->
+                            <button mat-raised-button matStepperNext [disabled]="ShowButton" type="submit"
+                              (click)="GoNext()"
+                              [ngClass]="[ShowButton? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
+                              Weiter
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </mat-step>
+
+            <mat-step [stepControl]="step2Control">
+              <ng-template matStepLabel>
+                <div class="p-0" *ngIf="kundetype !== 'Firma'; else firmalabel">
+                  <span>Haushaltsmitglied</span>
+                  <div *ngIf="kundetype.includes('Haushalt') && myControlnew.value" class="underKundenHead rounded-sm ">
+                    {{myControlnew.value.split('(')[0].trim()}}
+                  </div>
+                </div>
+                <ng-template #firmalabel>
+                  <span>Ausgewählter Mitglied</span>
+                  <div *ngIf="kundetype == 'Firma' && myFirmaControlnew.value" class="underKundenHead rounded-sm ">
+                    {{myFirmaControlnew.value.split('(')[0].trim()}}
+                  </div>
+                </ng-template>
+              </ng-template>
+              <div class="row setup-content" id="step-1">
+                <form style="width: 100%">
+                  <div *ngIf="kundetype !== 'Firma'">
+                    <div style="padding: 0px;margin-bottom: 30px;margin-bottom: 30vh;" class="col-md-12 card-center">
+                      <div class="formstep1">
+                        <div class="row">
+                          <div class="col-md-12 d-flex flex-column cusotmer-select p-0" style="margin-top: 40px;">
+                            <div class="col-md-12 d-flex justify-content-start p-0 ">
+                              <span class="second-text">Bitte suchen Sie einen
+                                Haushalt Mitglied men und wählen Sie es in der
+                                Suchleiste aus</span>
+                            </div>
+                            <div class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
+                              style="border-radius: 10px">
+                              <mat-form-field
+                                class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
+                                appearance="outline" style=" width: 100%;background: white;border-radius: 10px;" >
+                                <input type="text" placeholder="Haushaltsmitglied auswählen" aria-label="Number"
+                                  matInput [formControl]="myControlnew" (keyup.enter)="patchmembervalue($event) "
+                                  (ngModelChange)=" patchmembervalue($event) " [matAutocomplete]="auto1" />
+
+                                <mat-autocomplete #auto1="matAutocomplete">
+                                  <mat-option *ngFor="
                                                                             let employee of filteredOptionsmembers | async
                                                                           " [value]="employee.name">
-                                                                        {{ employee.name }}
-                                                                    </mat-option>
-                                                                </mat-autocomplete>
-                                                            </mat-form-field>
-                                                            <mat-icon class="ml-2" style="color: white">search
-                                                            </mat-icon>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row p-0">
-                                            <div class="col-md-12 p-0">
-                                                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
-                                                    <button mat-raised-button matStepperPrevious
-                                                        class="btn button-primary">
-                                                        Zurück</button>
-                                                    <!--  -->
-                                                    <button mat-raised-button matStepperNext [disabled]="ShowButtonTwo"
-                                                        type="button"
-                                                        [ngClass]="[ShowButtonTwo? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
-                                                        Weiter
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                    {{ employee.name }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                              <mat-icon class="ml-2" style="color: white">search
+                              </mat-icon>
                             </div>
-                            <!--  -->
 
-                        </mat-step>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                        <mat-step [stepControl]="dokumenttypStep">
-                            <ng-template matStepLabel>
-                                <span>Dokumenttyp</span>
-                                <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderDokumenttyp}}</div>
-                            </ng-template>
 
-                            <!-- // newly added *********************************************************************************-->
-                            <div class="d-flex flex-row flex-wrap col-md-12 justify-content-center align-items-center "
-                                style="margin-top: 60px;margin-bottom: 11vh;">
-                                <div class="col-md-4 d-flex align-items-center   ">
-                                    <div *ngIf="kundetype != 'Firma' && myControl.value else firma" class="col-md-12 ">
-                                        <mat-card class="links1" aria-disabled="true" matTooltip="Um eine Bestandsübertragung durchzuführen 
+                  </div>
+
+                  <div *ngIf="kundetype == 'Firma'">
+                    <div style="padding: 0px;margin-bottom: 30px;margin-bottom: 30vh;" class="col-md-12 card-center">
+                      <div class="formstep1">
+                        <div class="row">
+                          <div class="col-md-12 d-flex flex-column cusotmer-select p-0" style="margin-top: 40px;">
+                            <div class="col-md-12 d-flex justify-content-start p-0 ">
+                              <span class="second-text"> Bitte wählen Sie ein Firma in der Suchleiste aus</span>
+                            </div>
+                            <div class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
+                              style="border-radius: 10px">
+                              <mat-form-field
+                                class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
+                                appearance="outline" style=" width: 100%;background: white;border-radius: 10px;" >
+                                <input type="text" placeholder="Firma auswählen" aria-label="Number" matInput
+                                  [formControl]="myFirmaControlnew" (keyup.enter)="setBranchList($event) "
+                                  (ngModelChange)="setBranchList($event) " [matAutocomplete]="auto1" />
+
+                                <mat-autocomplete #auto1="matAutocomplete">
+                                  <mat-option *ngFor=" let company of branchesOptions
+                                                 " [value]="company.name">
+                                    {{ company.name }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                              <mat-icon class="ml-2" style="color: white">search
+                              </mat-icon>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="row p-0">
+                    <div class="col-md-12 p-0">
+                      <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
+                        <button mat-raised-button matStepperPrevious class="btn button-primary">
+                          Zurück</button>
+                        <!--  -->
+                        <button mat-raised-button matStepperNext [disabled]="ShowButtonTwo" type="button"
+                          [ngClass]="[ShowButtonTwo? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
+                          Weiter
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </form>
+              </div>
+              <!--  -->
+
+            </mat-step>
+
+            <mat-step [stepControl]="dokumenttypStep">
+              <ng-template matStepLabel>
+                <span>Dokumenttyp</span>
+                <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderDokumenttyp}}</div>
+              </ng-template>
+
+              <!-- // newly added *********************************************************************************-->
+              <div class="d-flex flex-row flex-wrap col-md-12 justify-content-center align-items-center "
+                style="margin-top: 60px;margin-bottom: 11vh;">
+                <div class="col-md-4 d-flex align-items-center   ">
+                  <div *ngIf="kundetype != 'Firma' && myControl.value else firma" class="col-md-12 ">
+                    <mat-card class="links1" aria-disabled="true" matTooltip="Um eine Bestandsübertragung durchzuführen
                                         muss der Kunde die Maklervollmacht signieren."
-                                            matTooltipClass="upload mat-tooltip"
-                                            style="background-color: rgba(173, 173, 173, 0.5);text-align: start;">
-                                            <mat-card-title
-                                                class="  d-flex flex-column align-items-center justify-content-center">
-                                                <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
-                                                    src="../assets/icons/document-second-first.svg" />
-                                                <span style="text-align: center;"
-                                                    class="custom-heading flex-item ">BESTANDS
-                                                    UBERTRAGUNG</span>
-                                            </mat-card-title>
-                                        </mat-card>
-                                    </div>
-                                </div>
-                                <ng-template #firma>
-                                    <div class="col-md-4">
-                                        <mat-card (click)="GoNext2('bestandsübertragung')"
-                                            (mouseover)="hoverBestands = true" (mouseleave)="hoverBestands = false"
-                                            class="links1" style="text-align: start;">
-                                            <mat-card-title
-                                                class="  d-flex flex-column align-items-center justify-content-center">
-                                                <img *ngIf="!hoverBestands else hoverBestand" mat-card-image
-                                                    class="flex-item custom-margin" style="width: 40%;"
-                                                    src="../assets/icons/document-second-first.svg" />
-                                                <ng-template #hoverBestand>
-                                                    <img mat-card-image class="flex-item custom-margin"
-                                                        style="width: 40%;"
-                                                        src="../assets/icons/bestandsübertragung-white.svg" />
-                                                </ng-template>
-                                                <span style="text-align: center;"
-                                                    class="custom-heading flex-item">BESTANDS
-                                                    UBERTRAGUNG</span>
-                                            </mat-card-title>
-                                        </mat-card>
-                                    </div>
-                                </ng-template>
-                                <!-- routerLink="/upload-document/{{ user_id }}/fremdvertrag" -->
-                                <div class="col-md-4">
-                                    <mat-card (click)="GoNext2('fremdvertrag')" (mouseover)="hoverFremdvertrag = true"
-                                        (mouseleave)="hoverFremdvertrag = false" class="links1"
-                                        style="text-align: center;">
-                                        <mat-card-title
-                                            class="  d-flex flex-column align-items-center justify-content-center">
-                                            <!-- <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                      matTooltipClass="upload mat-tooltip"
+                      style="background-color: rgba(173, 173, 173, 0.5);text-align: start;">
+                      <mat-card-title class="  d-flex flex-column align-items-center justify-content-center">
+                        <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                          src="../assets/icons/document-second-first.svg" />
+                        <span style="text-align: center;" class="custom-heading flex-item ">BESTANDS
+                          UBERTRAGUNG</span>
+                      </mat-card-title>
+                    </mat-card>
+                  </div>
+                </div>
+                <ng-template #firma>
+                  <div class="col-md-4">
+                    <mat-card (click)="GoNext2('bestandsübertragung')" (mouseover)="hoverBestands = true"
+                      (mouseleave)="hoverBestands = false" class="links1" style="text-align: start;">
+                      <mat-card-title class="  d-flex flex-column align-items-center justify-content-center">
+                        <img *ngIf="!hoverBestands else hoverBestand" mat-card-image class="flex-item custom-margin"
+                          style="width: 40%;" src="../assets/icons/document-second-first.svg" />
+                        <ng-template #hoverBestand>
+                          <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                            src="../assets/icons/Allgemeines-white.svg" />
+                        </ng-template>
+                        <span style="text-align: center;" class="custom-heading flex-item">BESTANDS
+                          UBERTRAGUNG</span>
+                      </mat-card-title>
+                    </mat-card>
+                  </div>
+                </ng-template>
+                <!-- routerLink="/upload-document/{{ user_id }}/fremdvertrag" -->
+                <div class="col-md-4">
+                  <mat-card (click)="GoNext2('fremdvertrag')" (mouseover)="hoverFremdvertrag = true"
+                    (mouseleave)="hoverFremdvertrag = false" class="links1" style="text-align: center;">
+                    <mat-card-title class="  d-flex flex-column align-items-center justify-content-center">
+                      <!-- <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
                                                 src="../assets//icons/document-second-second.svg" /> -->
-                                            <img *ngIf="!hoverFremdvertrag else hoverFremdvertra" mat-card-image
-                                                class="flex-item custom-margin" style="width: 40%;"
-                                                src="../assets/icons/document-second-second.svg" />
-                                            <ng-template #hoverFremdvertra>
-                                                <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
-                                                    src="../assets/icons/fremdvertrag-white.svg" />
-                                            </ng-template>
-                                            <span style="margin-top: 10px;"
-                                                class="custom-heading flex-item">FREMDVERTRAG</span>
-                                        </mat-card-title>
-                                    </mat-card>
+                      <img *ngIf="!hoverFremdvertrag else hoverFremdvertra" mat-card-image
+                        class="flex-item custom-margin" style="width: 40%;"
+                        src="../assets/icons/document-second-second.svg" />
+                      <ng-template #hoverFremdvertra>
+                        <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                          src="../assets/icons/fremdvertrag-white.svg" />
+                      </ng-template>
+                      <span style="margin-top: 10px;" class="custom-heading flex-item">FREMDVERTRAG</span>
+                    </mat-card-title>
+                  </mat-card>
+                </div>
+                <!-- routerLink="/upload-document/{{ user_id }}/allgemeines" -->
+                <div class="col-md-4">
+                  <mat-card (click)="GoNext2('Allgemeines Dokument')" (mouseover)="hoverAllgemeines = true"
+                    (mouseleave)="hoverAllgemeines = false" class="links1" style="text-align: end;">
+                    <mat-card-title class="  d-flex flex-column align-items-center justify-content-center">
+                      <img *ngIf="!hoverAllgemeines else hoverAllgemeine" mat-card-image class="flex-item custom-margin"
+                        style="width: 40%;" src="../assets/icons/document-second-third.svg" />
+                      <ng-template #hoverAllgemeine>
+                        <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
+                          src="../assets/icons/bestandsübertragung-white.svg" />
+                      </ng-template>
+                      <span style="text-align: center;" class="custom-heading flex-item">ALLGEMEINES DOKUMENT</span>
+                    </mat-card-title>
+                  </mat-card>
+                </div>
+              </div>
+
+
+
+
+
+              <div class="col-md-12 p-0">
+                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
+                  <button mat-raised-button matStepperPrevious class="btn button-primary">
+                    Zurück</button>
+                  <!--  -->
+
+                  <button *ngIf="itemToDisplayUnderDokumenttyp !== ''else waiternot " mat-raised-button matStepperNext
+                    type="submit" (click)="GoNext()" class='btn button-primary nextBtn'>
+                    Weiter
+                  </button>
+                  <ng-template #waiternot>
+                    <button mat-raised-button matStepperNext disabled="true" type="submit" (click)="GoNext()"
+                      class='btn btn-secondary'>
+                      Weiter
+                    </button>
+                  </ng-template>
+
+                </div>
+              </div>
+              <button style="display: none;" mat-raised-button matStepperNext id="movetonextstep" type="submit"
+                (click)="GoNext()">
+                Weiter
+              </button>
+            </mat-step>
+
+
+
+            <mat-step [stepControl]="ProdukttypStep">
+              <ng-template matStepLabel>
+                <span>Produkttyp</span>
+                <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderProdukttyp}}</div>
+              </ng-template>
+
+              <!-- from here -->
+              <div class="col-md-12">
+
+                <div class="container">
+                  <div class="row setup-content" id="step-1">
+                    <form style="width: 100%">
+                      <div>
+                        <div class="col-md-12 card-center">
+                          <div class="formstep1">
+                            <div class="row">
+                              <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
+                                style="margin-top: 40px;margin-bottom: 28vh;">
+                                <div class="col-md-12 d-flex justify-content-start p-0 ">
+                                  <span class="second-text">
+                                    Wählen Sie denden Produkttyp
+                                    <ng-container *ngIf="kundetype.includes('Haushalt') && myControlnew.value">
+                                      für {{myControlnew.value.split('(')[0].trim()}}
+                                    </ng-container>
+                                  </span>
                                 </div>
-                                <!-- routerLink="/upload-document/{{ user_id }}/allgemeines" -->
-                                <div class="col-md-4">
-                                    <mat-card (click)="GoNext2('Allgemeines Dokument')"
-                                        (mouseover)="hoverAllgemeines = true" (mouseleave)="hoverAllgemeines = false"
-                                        class="links1" style="text-align: end;">
-                                        <mat-card-title
-                                            class="  d-flex flex-column align-items-center justify-content-center">
-                                            <img *ngIf="!hoverAllgemeines else hoverAllgemeine" mat-card-image
-                                                class="flex-item custom-margin" style="width: 40%;"
-                                                src="../assets/icons/document-second-third.svg" />
-                                            <ng-template #hoverAllgemeine>
-                                                <img mat-card-image class="flex-item custom-margin" style="width: 40%;"
-                                                    src="../assets/icons/Allgemeines-white.svg" />
-                                            </ng-template>
-                                            <span style="text-align: center;"
-                                                class="custom-heading flex-item">ALLGEMEINES DOKUMENT</span>
-                                        </mat-card-title>
-                                    </mat-card>
+                                <div *ngIf=" document_type == 'Allgemeines Dokument' "
+                                  class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
+                                  style="border-radius: 10px">
+                                  <mat-form-field
+                                    class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
+                                    appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
+                                    <input type="text" aria-label="Number" placeholder="Allgemeines Dokument" matInput
+                                      [formControl]="ThirdTypeDoc" (focus)="ThirdTypeDocValue()"
+                                      (keyup.enter)="ThirdTypeDocValue()" (ngModelChange)="ThirdTypeDocValue()"
+                                      [matAutocomplete]="auto" />
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                      <mat-option *ngFor="  let employee of ThirdTypeDocOptions | async   "
+                                        [value]="employee">
+                                        {{ employee }}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  </mat-form-field>
+                                  <mat-icon class="ml-2" style="color: white">search
+                                  </mat-icon>
                                 </div>
+
+                                <div *ngIf=" document_type != 'Allgemeines Dokument' "
+                                  class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
+                                  style="border-radius: 10px">
+                                  <mat-form-field
+                                    class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
+                                    appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
+                                    <input type="text" aria-label="Number" (focus)="callValueChange()"
+                                      placeholder="Produkttyp eingeben" matInput [formControl]="ProductsTypeControl"
+                                      [matAutocomplete]="auto" />
+                                    <mat-autocomplete #auto="matAutocomplete"
+                                      (optionSelected)="patchProductTypeValue($event)">
+                                      <mat-option *ngFor="  let employee of filteredProductsTypeOptions | async "
+                                        [value]="employee">
+                                        {{ employee.name }}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  </mat-form-field>
+                                  <mat-icon class="ml-2" style="color: white">search
+                                  </mat-icon>
+                                </div>
+
+                              </div>
                             </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <br />
+                </div>
+
+              </div>
+
+              <!-- to here -->
+              <div class="col-md-12 p-0">
+                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
+                  <button mat-raised-button matStepperPrevious class="btn button-primary">
+                    Zurück</button>
 
 
+                  <button *ngIf=" document_type == 'Allgemeines Dokument' else notAllgemeines" mat-raised-button
+                    matStepperNext [disabled]="ShowButtonStep3 " type="submit"
+                    [ngClass]="[ ShowButtonStep3  ? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
+                    Weiter
+                  </button>
+                  <ng-template #notAllgemeines>
+                    <button mat-raised-button matStepperNext
+                      [disabled]="! ShowProductsPartner && !(document_type != 'Allgemeines Dokument' ) " type="submit"
+                      [ngClass]="[ ShowProductsPartner && document_type != 'Allgemeines Dokument'  ? 'btn button-primary nextBtn' : 'btn btn-secondary' ]">
+                      Weiter
+                    </button>
+                  </ng-template>
+                </div>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="ProductsControl" *ngIf=" document_type != 'Allgemeines Dokument'">
+              <ng-template matStepLabel>
+                <span>Produktpartner</span>
+                <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderProduktPartner}}</div>
+              </ng-template>
 
+              <div class="col-md-12">
 
-
-                            <div class="col-md-12 p-0">
-                                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
-                                    <button mat-raised-button matStepperPrevious class="btn button-primary">
-                                        Zurück</button>
-                                    <!--  -->
-
-                                    <button *ngIf="itemToDisplayUnderDokumenttyp !== ''else waiternot "
-                                        mat-raised-button matStepperNext type="submit" (click)="GoNext()"
-                                        class='btn button-primary nextBtn'>
-                                        Weiter
-                                    </button>
-                                    <ng-template #waiternot>
-                                        <button mat-raised-button matStepperNext disabled="true" type="submit"
-                                            (click)="GoNext()" class='btn btn-secondary'>
-                                            Weiter
-                                        </button>
-                                    </ng-template>
-
-                                </div>
-                            </div>
-                            <button style="display: none;" mat-raised-button matStepperNext id="movetonextstep"
-                                type="submit" (click)="GoNext()">
-                                Weiter
-                            </button>
-                        </mat-step>
-
-
-
-                        <mat-step [stepControl]="ProdukttypStep">
-                            <ng-template matStepLabel>
-                                <span>Produkttyp</span>
-                                <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderProdukttyp}}</div>
-                            </ng-template>
-
-                            <!-- from here -->
-                            <div class="col-md-12">
-
-                                <div class="container">
-                                    <div class="row setup-content" id="step-1">
-                                        <form style="width: 100%">
-                                            <div>
-                                                <div class="col-md-12 card-center">
-                                                    <div class="formstep1">
-                                                        <div class="row">
-                                                            <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
-                                                                style="margin-top: 40px;margin-bottom: 28vh;">
-                                                                <div
-                                                                    class="col-md-12 d-flex justify-content-start p-0 ">
-                                                                    <span class="second-text">Bitte suchen Sie einen
-                                                                        Haushalt Mitglied men und wählen Sie es in der
-                                                                        Suchleiste aus</span>
-                                                                </div>
-                                                                <div *ngIf=" document_type == 'Allgemeines Dokument' "
-                                                                    class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
-                                                                    style="border-radius: 10px">
-                                                                    <mat-form-field
-                                                                        class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                                                        appearance="outline"
-                                                                        style=" width: 100%;background: white;border-radius: 10px;">
-                                                                        <input type="text" aria-label="Number"
-                                                                            placeholder="Allgemeines Dokument" matInput
-                                                                            [formControl]="ThirdTypeDoc"
-                                                                            (keyup.enter)="ThirdTypeDocValue()"
-                                                                            (ngModelChange)="ThirdTypeDocValue()"
-                                                                            [matAutocomplete]="auto" />
-                                                                        <mat-autocomplete #auto="matAutocomplete">
-                                                                            <mat-option
-                                                                                *ngFor="  let employee of ThirdTypeDocOptions | async   "
-                                                                                [value]="employee">
-                                                                                {{ employee }}
-                                                                            </mat-option>
-                                                                        </mat-autocomplete>
-                                                                    </mat-form-field>
-                                                                    <mat-icon class="ml-2" style="color: white">search
-                                                                    </mat-icon>
-                                                                </div>
-
-                                                                <div *ngIf=" document_type != 'Allgemeines Dokument' "
-                                                                    class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
-                                                                    style="border-radius: 10px">
-                                                                    <mat-form-field
-                                                                        class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                                                        appearance="outline"
-                                                                        style=" width: 100%;background: white;border-radius: 10px;">
-                                                                        <input type="text" aria-label="Number"
-                                                                            placeholder="Produkttyp eingeben" matInput
-                                                                            [formControl]="ProductsTypeControl"
-                                                                            [matAutocomplete]="auto" />
-                                                                        <mat-autocomplete #auto="matAutocomplete"
-                                                                            (optionSelected)="patchProductTpyeValue($event)">
-                                                                            <mat-option
-                                                                                *ngFor="  let employee of filteredProductsTypeOptions | async "
-                                                                                [value]="employee">
-                                                                                {{ employee.name }}
-                                                                            </mat-option>
-                                                                        </mat-autocomplete>
-                                                                    </mat-form-field>
-                                                                    <mat-icon class="ml-2" style="color: white">search
-                                                                    </mat-icon>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <br />
+                <div class="container">
+                  <div class="row setup-content" id="step-1">
+                    <form style="width: 100%">
+                      <div>
+                        <div class="col-md-12 card-center">
+                          <div class="formstep1">
+                            <div class="row">
+                              <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
+                                style="margin-top: 40px;margin-bottom: 28vh;">
+                                <div class="col-md-12 d-flex justify-content-start p-0 ">
+                                  <span class="second-text">
+                                    Wählen Sie den Produktpartner
+                                    <ng-container *ngIf="kundetype.includes('Haushalt') && myControlnew.value">
+                                      für {{myControlnew.value.split('(')[0].trim()}}
+                                    </ng-container>
+                                  </span>
                                 </div>
 
-                            </div>
-
-                            <!-- to here -->
-                            <div class="col-md-12 p-0">
-                                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
-                                    <button mat-raised-button matStepperPrevious class="btn button-primary">
-                                        Zurück</button>
-
-
-                                    <button *ngIf=" document_type == 'Allgemeines Dokument' else notAllgemeines"
-                                        mat-raised-button matStepperNext [disabled]="ShowButtonStep3 " type="submit"
-                                        [ngClass]="[ ShowButtonStep3  ? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
-                                        Weiter
-                                    </button>
-                                    <ng-template #notAllgemeines>
-                                        <button mat-raised-button matStepperNext
-                                            [disabled]="! ShowProductsPartner && !(document_type != 'Allgemeines Dokument' ) "
-                                            type="submit"
-                                            [ngClass]="[ ShowProductsPartner && document_type != 'Allgemeines Dokument'  ? 'btn button-primary nextBtn' : 'btn btn-secondary' ]">
-                                            Weiter
-                                        </button>
-                                    </ng-template>
-                                </div>
-                            </div>
-                        </mat-step>
-                        <mat-step [stepControl]="ProductsControl" *ngIf=" document_type != 'Allgemeines Dokument'" >
-                            <ng-template matStepLabel>
-                                <span>Produktpartner</span>
-                                <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderProduktPartner}}</div>
-                            </ng-template>
-
-                            <div class="col-md-12">
-
-                                <div class="container">
-                                    <div class="row setup-content" id="step-1">
-                                        <form style="width: 100%">
-                                            <div>
-                                                <div class="col-md-12 card-center">
-                                                    <div class="formstep1">
-                                                        <div class="row">
-                                                            <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
-                                                                style="margin-top: 40px;margin-bottom: 28vh;">
-                                                                <div
-                                                                    class="col-md-12 d-flex justify-content-start p-0 ">
-                                                                    <span class="second-text">Bitte suchen Sie einen
-                                                                        Haushalt Mitglied men und wählen Sie es in
-                                                                        der
-                                                                        Suchleiste aus</span>
-                                                                </div>
-
-                                                                <div *ngIf=" ShowProductsPartner && document_type != 'Allgemeines Dokument'  "
-                                                                    class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
-                                                                    style="border-radius: 10px">
-                                                                    <mat-form-field
-                                                                        class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                                                        appearance="outline"
-                                                                        style=" width: 100%;background: white;border-radius: 10px;">
-                                                                        <input type="text" aria-label="Number"
-                                                                            class="  p-0 mb-2" type="text"
-                                                                            style="color: black;"
-                                                                            placeholder="Produktpartner eingeben"
-                                                                            matInput [formControl]="ProductsControl"
-                                                                            [matAutocomplete]="auto" />
-                                                                        <mat-autocomplete #auto="matAutocomplete"
-                                                                            (optionSelected)="patchProductValue($event)">
-                                                                            <mat-option
-                                                                                *ngFor=" let employee of filteredProductsOptions | async  "
-                                                                                [value]="employee">
-                                                                                <img style=" height: 45px; max-width: 150px;
+                                <div *ngIf=" ShowProductsPartner && document_type != 'Allgemeines Dokument'  "
+                                  class="col-md-7 d-flex align-items-center pl-1 pr-2 gradient py-1"
+                                  style="border-radius: 10px">
+                                  <mat-form-field
+                                    class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
+                                    appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
+                                    <input type="text" aria-label="Number" class="  p-0 mb-2" type="text"
+                                      style="color: black;" (focus)="callValueChange()"
+                                      placeholder="Produktpartner eingeben" matInput [formControl]="ProductsControl"
+                                      [matAutocomplete]="auto" />
+                                    <mat-autocomplete #auto="matAutocomplete"
+                                      (optionSelected)="patchProductValue($event)">
+                                      <mat-option *ngFor=" let employee of filteredProductsOptions | async  "
+                                        [value]="employee">
+                                        <img style=" height: 45px; max-width: 150px;
                                                                                 float: left; margin-right: 22px "
-                                                                                    src="{{ employee.url }}" />
-                                                                                {{ employee.name }}
-                                                                            </mat-option>
-                                                                        </mat-autocomplete>
-                                                                    </mat-form-field>
-                                                                    <mat-icon class="ml-2" style="color: white">search
-                                                                    </mat-icon>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <br />
+                                          src="{{ employee.url }}" />
+                                        {{ employee.name }}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  </mat-form-field>
+                                  <mat-icon class="ml-2" style="color: white">search
+                                  </mat-icon>
                                 </div>
-
+                              </div>
                             </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <br />
+                </div>
+
+              </div>
 
 
 
-                            <div class="col-md-12 p-0">
-                                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
-                                    <button mat-raised-button matStepperPrevious class="btn button-primary">
-                                        Zurück</button>
-                                    <!--  -->
-                                    <button mat-raised-button matStepperNext [disabled]="ShowButtonStep3" type="submit"
-                                        [ngClass]="[ShowButtonStep3? 'btn btn-secondary' : 'btn button-primary nextBtn' ]"
-                                        (click)="GoToUploadSingleDocument()">
-                                        Weiter
-                                    </button>
-                                </div>
-                            </div>
-                        </mat-step>
-                        <mat-step>
-                            <ng-template matStepLabel>
-                                <span>Dokument hochladen</span>
-                                <!-- <div class="underKundenHead rounded-sm "></div> -->
-                            </ng-template>
+              <div class="col-md-12 p-0">
+                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
+                  <button mat-raised-button matStepperPrevious class="btn button-primary">
+                    Zurück</button>
+                  <!--  -->
+                  <button mat-raised-button matStepperNext [disabled]="ShowButtonStep3" type="submit"
+                    [ngClass]="[ShowButtonStep3? 'btn btn-secondary' : 'btn button-primary nextBtn' ]"
+                    (click)="GoToUploadSingleDocument()">
+                    Weiter
+                  </button>
+                </div>
+              </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>
+                <span>Dokument hochladen</span>
+                <!-- <div class="underKundenHead rounded-sm "></div> -->
+              </ng-template>
 
-                            <div
-                                class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center justify-content-lg-start align-items-lg-center justify-content-xl-center align-items-xl-center">
-                                <section class="main" style="width: 100%;margin-top: 2vh;">
-                                    <!-- {this.state.ShowPop?<PopUp/>:""} -->
-                                    <div class="container p-0 m-0">
-                                        <div class="row p-0 m-0">
-                                            <div class="col-md-12 p-0 m-0">
+              <div
+                class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center justify-content-lg-start align-items-lg-center justify-content-xl-center align-items-xl-center">
+                <section class="main" style="width: 100%;margin-top: 2vh;">
+                  <!-- {this.state.ShowPop?<PopUp/>:""} -->
+                  <div class="container p-0 m-0">
+                    <div class="row p-0 m-0">
+                      <div class="col-md-12 p-0 m-0">
 
-                                                <div class="container p-0 m-0">
+                        <div class="container p-0 m-0">
 
-                                                    <div class="row setup-content p-0 m-0" id="step-1">
-                                                        <div class="custom-overlay-wrapper w-100 p-0 m-0">
-                                                            <!-- <div *ngIf="showLoader" id="custom-overlay">
-          
+                          <div class="row setup-content p-0 m-0" id="step-1">
+                            <div class="custom-overlay-wrapper w-100 p-0 m-0">
+                              <!-- <div *ngIf="showLoader" id="custom-overlay">
+
                           <div class="form-loading">
                             <div class="sk-child sk-bounce1"></div>
                             <div class="sk-child sk-bounce2"></div>
                             <div class="sk-child sk-bounce3"></div>
                         </div>
-                      
-                         
+
+
                         </div> -->
 
-                                                            <form style="width: 100%" class="p-0 m-0">
-                                                                <div class="col-md-12 p-0 m-0 card-center">
-                                                                    <div>
-                                                                        <div id="Success"></div>
+                              <form style="width: 100%" class="p-0 m-0">
+                                <div class="col-md-12 p-0 m-0 card-center">
+                                  <div>
+                                    <div id="Success"></div>
 
-                                                                        <h5 *ngIf="document_sub_type">
-                                                                            Dokumenten Upload für {{
-                                                                            document_sub_typename }}
-                                                                        </h5>
-                                                                        <h5 *ngIf="document_sub_type == ''">
-                                                                            Dokumenten Upload für {{
-                                                                            document_sub_typename }}
-                                                                        </h5>
+                                    <h5 *ngIf="document_sub_type">
+                                      Dokumenten Upload für {{
+                                      document_sub_typename }}
+                                    </h5>
+                                    <h5 *ngIf="document_sub_type == ''">
+                                      Dokumenten Upload für {{
+                                      document_sub_typename }}
+                                    </h5>
 
-                                                                        <div style="cursor: pointer"
-                                                                            class=" upload-file bg-primary2 p-l-30 position-relative ">
-                                                                            <input style="height: 253px" #divone
-                                                                                type="file"
-                                                                                class="upload-files w-100 position-absolute"
-                                                                                id="organization_image" multiple
-                                                                                name="organization_image"
-                                                                                (change)="handleImageChange($event)" />
-                                                                            <div class="mt-3"
-                                                                                style="text-align: center">
-                                                                                <div class="icons-img">
-                                                                                    <svg width="71" height="76"
-                                                                                        viewBox="0 0 245 263"
-                                                                                        fill="none"
-                                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                                        <path
-                                                                                            d="M205.213 56.912C203.943 52.3565 201.537 48.1978 198.221 44.8254L162.438 9.04238C159.066 5.72663 154.907 3.32085 150.352 2.05029V38.2166C150.352 43.1749 152.321 47.9302 155.827 51.4363C159.333 54.9423 164.089 56.912 169.047 56.912H205.213Z"
-                                                                                            fill="#02A9ED" />
-                                                                                        <path fill-rule="evenodd"
-                                                                                            clip-rule="evenodd"
-                                                                                            d="M142.609 64.6576C149.621 71.6697 159.131 75.6091 169.048 75.6091H206.439V140.42C200.994 138.864 195.243 138.031 189.299 138.031C175.258 138.031 162.304 142.678 151.888 150.518C151.384 150.434 150.87 150.391 150.352 150.391H56.8753C54.3962 150.391 52.0186 151.376 50.2655 153.129C48.5125 154.882 47.5276 157.259 47.5276 159.739C47.5276 162.218 48.5125 164.595 50.2655 166.348C52.0186 168.101 54.3962 169.086 56.8753 169.086H135.408C132.089 174.804 129.655 181.098 128.291 187.782H56.8753C54.3962 187.782 52.0186 188.766 50.2655 190.52C48.5125 192.273 47.5276 194.65 47.5276 197.129C47.5276 199.609 48.5125 201.986 50.2655 203.739C52.0186 205.492 54.3962 206.477 56.8753 206.477H127.335C129.91 232.606 148.635 253.991 173.392 260.513C168.995 261.86 164.384 262.563 159.7 262.563H47.5276C35.1318 262.563 23.2437 257.639 14.4785 248.874C5.71329 240.109 0.789062 228.221 0.789062 215.825V47.566C0.789062 35.1701 5.71329 23.282 14.4785 14.5168C23.2437 5.75162 35.1318 0.827393 47.5276 0.827393H131.657V38.2182C131.657 48.1349 135.596 57.6454 142.609 64.6576ZM94.2662 75.6091H56.8753C54.3962 75.6091 52.0186 76.5939 50.2655 78.347C48.5125 80.1 47.5276 82.4776 47.5276 84.9568C47.5276 87.436 48.5125 89.8136 50.2655 91.5666C52.0186 93.3197 54.3962 94.3045 56.8753 94.3045H94.2662C96.7454 94.3045 99.123 93.3197 100.876 91.5666C102.629 89.8136 103.614 87.436 103.614 84.9568C103.614 82.4776 102.629 80.1 100.876 78.347C99.123 76.5939 96.7454 75.6091 94.2662 75.6091ZM56.8753 131.695H150.352C152.832 131.695 155.209 130.711 156.962 128.957C158.715 127.204 159.7 124.827 159.7 122.348C159.7 119.868 158.715 117.491 156.962 115.738C155.209 113.985 152.832 113 150.352 113H56.8753C54.3962 113 52.0186 113.985 50.2655 115.738C48.5125 117.491 47.5276 119.868 47.5276 122.348C47.5276 124.827 48.5125 127.204 50.2655 128.957C52.0186 130.711 54.3962 131.695 56.8753 131.695Z"
-                                                                                            fill="url(#paint0_linear_1718_128)" />
-                                                                                        <path
-                                                                                            d="M189.298 255.478C219.774 255.478 244.479 230.772 244.479 200.297C244.479 169.821 219.774 145.116 189.298 145.116C158.823 145.116 134.117 169.821 134.117 200.297C134.117 230.772 158.823 255.478 189.298 255.478Z"
-                                                                                            fill="url(#paint1_linear_1718_128)" />
-                                                                                        <path
-                                                                                            d="M217.615 192.899L196.573 171.858L196.491 171.775C196.245 171.529 195.998 171.365 195.752 171.118L195.669 171.036C195.423 170.871 195.258 170.707 195.012 170.543L194.765 170.378L194.19 170.049L193.861 169.885C193.614 169.721 193.368 169.638 193.039 169.556L192.71 169.474L192.135 169.228L191.806 169.145L191.149 168.981L190.902 168.899C190.245 168.817 189.669 168.734 189.012 168.734H188.93C188.601 168.734 188.354 168.734 188.108 168.734H187.943C187.286 168.817 186.71 168.899 186.053 169.145L185.888 169.228C185.642 169.31 185.395 169.392 185.149 169.474L184.902 169.556C184.656 169.638 184.327 169.803 184.08 169.967H183.998C183.751 170.132 183.423 170.296 183.176 170.46L183.012 170.625C182.847 170.789 182.601 170.871 182.436 171.036L182.19 171.2C181.943 171.447 181.697 171.611 181.45 171.858L160.655 192.817C156.628 197.008 156.71 203.666 160.902 207.693C165.012 211.639 171.505 211.639 175.532 207.693L178.656 204.57V221.337C178.656 227.173 183.34 231.858 189.176 231.858C195.012 231.858 199.697 227.173 199.697 221.337V204.652L202.82 207.776C206.847 211.967 213.505 212.05 217.697 208.022C221.889 203.995 221.971 197.337 217.943 193.145C217.779 192.981 217.697 192.899 217.615 192.899Z"
-                                                                                            fill="white" />
-                                                                                        <defs>
-                                                                                            <linearGradient
-                                                                                                id="paint0_linear_1718_128"
-                                                                                                x1="103.614"
-                                                                                                y1="0.827393"
-                                                                                                x2="103.614"
-                                                                                                y2="262.563"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1450A4" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#0498DF" />
-                                                                                            </linearGradient>
-                                                                                            <linearGradient
-                                                                                                id="paint1_linear_1718_128"
-                                                                                                x1="189.298"
-                                                                                                y1="145.116"
-                                                                                                x2="189.298"
-                                                                                                y2="255.478"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1259AB" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#0D71BF" />
-                                                                                            </linearGradient>
-                                                                                        </defs>
-                                                                                    </svg>
+                                    <div style="cursor: pointer"
+                                      class=" upload-file bg-primary2 p-l-30 position-relative ">
+                                      <input style="height: 253px" #divone type="file"
+                                        class="upload-files w-100 position-absolute" id="organization_image" multiple
+                                        name="organization_image" (change)="handleImageChange($event)" />
+                                      <div class="mt-3" style="text-align: center">
+                                        <div class="icons-img">
+                                          <svg width="71" height="76" viewBox="0 0 245 263" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                              d="M205.213 56.912C203.943 52.3565 201.537 48.1978 198.221 44.8254L162.438 9.04238C159.066 5.72663 154.907 3.32085 150.352 2.05029V38.2166C150.352 43.1749 152.321 47.9302 155.827 51.4363C159.333 54.9423 164.089 56.912 169.047 56.912H205.213Z"
+                                              fill="#02A9ED" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M142.609 64.6576C149.621 71.6697 159.131 75.6091 169.048 75.6091H206.439V140.42C200.994 138.864 195.243 138.031 189.299 138.031C175.258 138.031 162.304 142.678 151.888 150.518C151.384 150.434 150.87 150.391 150.352 150.391H56.8753C54.3962 150.391 52.0186 151.376 50.2655 153.129C48.5125 154.882 47.5276 157.259 47.5276 159.739C47.5276 162.218 48.5125 164.595 50.2655 166.348C52.0186 168.101 54.3962 169.086 56.8753 169.086H135.408C132.089 174.804 129.655 181.098 128.291 187.782H56.8753C54.3962 187.782 52.0186 188.766 50.2655 190.52C48.5125 192.273 47.5276 194.65 47.5276 197.129C47.5276 199.609 48.5125 201.986 50.2655 203.739C52.0186 205.492 54.3962 206.477 56.8753 206.477H127.335C129.91 232.606 148.635 253.991 173.392 260.513C168.995 261.86 164.384 262.563 159.7 262.563H47.5276C35.1318 262.563 23.2437 257.639 14.4785 248.874C5.71329 240.109 0.789062 228.221 0.789062 215.825V47.566C0.789062 35.1701 5.71329 23.282 14.4785 14.5168C23.2437 5.75162 35.1318 0.827393 47.5276 0.827393H131.657V38.2182C131.657 48.1349 135.596 57.6454 142.609 64.6576ZM94.2662 75.6091H56.8753C54.3962 75.6091 52.0186 76.5939 50.2655 78.347C48.5125 80.1 47.5276 82.4776 47.5276 84.9568C47.5276 87.436 48.5125 89.8136 50.2655 91.5666C52.0186 93.3197 54.3962 94.3045 56.8753 94.3045H94.2662C96.7454 94.3045 99.123 93.3197 100.876 91.5666C102.629 89.8136 103.614 87.436 103.614 84.9568C103.614 82.4776 102.629 80.1 100.876 78.347C99.123 76.5939 96.7454 75.6091 94.2662 75.6091ZM56.8753 131.695H150.352C152.832 131.695 155.209 130.711 156.962 128.957C158.715 127.204 159.7 124.827 159.7 122.348C159.7 119.868 158.715 117.491 156.962 115.738C155.209 113.985 152.832 113 150.352 113H56.8753C54.3962 113 52.0186 113.985 50.2655 115.738C48.5125 117.491 47.5276 119.868 47.5276 122.348C47.5276 124.827 48.5125 127.204 50.2655 128.957C52.0186 130.711 54.3962 131.695 56.8753 131.695Z"
+                                              fill="url(#paint0_linear_1718_128)" />
+                                            <path
+                                              d="M189.298 255.478C219.774 255.478 244.479 230.772 244.479 200.297C244.479 169.821 219.774 145.116 189.298 145.116C158.823 145.116 134.117 169.821 134.117 200.297C134.117 230.772 158.823 255.478 189.298 255.478Z"
+                                              fill="url(#paint1_linear_1718_128)" />
+                                            <path
+                                              d="M217.615 192.899L196.573 171.858L196.491 171.775C196.245 171.529 195.998 171.365 195.752 171.118L195.669 171.036C195.423 170.871 195.258 170.707 195.012 170.543L194.765 170.378L194.19 170.049L193.861 169.885C193.614 169.721 193.368 169.638 193.039 169.556L192.71 169.474L192.135 169.228L191.806 169.145L191.149 168.981L190.902 168.899C190.245 168.817 189.669 168.734 189.012 168.734H188.93C188.601 168.734 188.354 168.734 188.108 168.734H187.943C187.286 168.817 186.71 168.899 186.053 169.145L185.888 169.228C185.642 169.31 185.395 169.392 185.149 169.474L184.902 169.556C184.656 169.638 184.327 169.803 184.08 169.967H183.998C183.751 170.132 183.423 170.296 183.176 170.46L183.012 170.625C182.847 170.789 182.601 170.871 182.436 171.036L182.19 171.2C181.943 171.447 181.697 171.611 181.45 171.858L160.655 192.817C156.628 197.008 156.71 203.666 160.902 207.693C165.012 211.639 171.505 211.639 175.532 207.693L178.656 204.57V221.337C178.656 227.173 183.34 231.858 189.176 231.858C195.012 231.858 199.697 227.173 199.697 221.337V204.652L202.82 207.776C206.847 211.967 213.505 212.05 217.697 208.022C221.889 203.995 221.971 197.337 217.943 193.145C217.779 192.981 217.697 192.899 217.615 192.899Z"
+                                              fill="white" />
+                                            <defs>
+                                              <linearGradient id="paint0_linear_1718_128" x1="103.614" y1="0.827393"
+                                                x2="103.614" y2="262.563" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1450A4" />
+                                                <stop offset="1" stop-color="#0498DF" />
+                                              </linearGradient>
+                                              <linearGradient id="paint1_linear_1718_128" x1="189.298" y1="145.116"
+                                                x2="189.298" y2="255.478" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1259AB" />
+                                                <stop offset="1" stop-color="#0D71BF" />
+                                              </linearGradient>
+                                            </defs>
+                                          </svg>
 
-                                                                                </div>
-                                                                                <div class="icons-img">
-                                                                                    <svg width="57" height="72"
-                                                                                        viewBox="0 0 57 72" fill="none"
-                                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                                        <mask id="mask0_1718_207"
-                                                                                            style="mask-type:luminance"
-                                                                                            maskUnits="userSpaceOnUse"
-                                                                                            x="0" y="0" width="57"
-                                                                                            height="72">
-                                                                                            <path
-                                                                                                d="M0.0546875 0.765137H56.8375V71.1129H0.0546875V0.765137Z"
-                                                                                                fill="white" />
-                                                                                        </mask>
-                                                                                        <g mask="url(#mask0_1718_207)">
-                                                                                            <path
-                                                                                                d="M56.7986 11.863V68.7138C56.7986 70.0386 55.7239 71.1127 54.3986 71.1127H2.52566C1.19972 71.1127 0.125 70.0386 0.125 68.7138V3.16376C0.125 1.83901 1.19972 0.764893 2.52566 0.764893H45.0841L56.7986 11.863Z"
-                                                                                                fill="url(#paint0_linear_1718_207)" />
-                                                                                            <path
-                                                                                                d="M56.7988 11.863H47.4665C46.1411 11.863 45.0664 10.7888 45.0664 9.46468V0.764893L56.7988 11.863Z"
-                                                                                                fill="#02A9ED" />
-                                                                                            <mask id="mask1_1718_207"
-                                                                                                style="mask-type:luminance"
-                                                                                                maskUnits="userSpaceOnUse"
-                                                                                                x="0" y="45" width="57"
-                                                                                                height="19">
-                                                                                                <path
-                                                                                                    d="M0.0546875 45.2192H56.8375V63.8564H0.0546875V45.2192Z"
-                                                                                                    fill="white" />
-                                                                                            </mask>
-                                                                                            <g
-                                                                                                mask="url(#mask1_1718_207)">
-                                                                                                <path
-                                                                                                    d="M0.125 45.229H56.8165V63.72H0.125V45.229Z"
-                                                                                                    fill="#02A9ED" />
-                                                                                            </g>
-                                                                                            <path
-                                                                                                d="M16.3922 55.7904H14.0094V59.424C14.0094 59.9431 13.8841 60.337 13.6335 60.6055C13.3828 60.874 13.0779 60.9993 12.702 60.9993C12.3081 60.9993 12.0032 60.874 11.7526 60.6055C11.5198 60.337 11.3945 59.9431 11.3945 59.4419V49.5432C11.3945 48.9704 11.5198 48.5586 11.7884 48.3259C12.0575 48.0932 12.4692 47.95 13.0421 47.95H16.3743C17.3589 47.95 18.1114 48.0216 18.649 48.1827C19.1682 48.3259 19.6342 48.5765 20.0102 48.9167C20.3861 49.2568 20.6911 49.6685 20.888 50.1519C21.0849 50.6347 21.1923 51.1896 21.1923 51.7983C21.1923 53.1051 20.7985 54.0897 19.9923 54.77C19.1861 55.4503 17.9861 55.7904 16.3922 55.7904ZM15.765 49.9192H14.0094V53.8391H15.765C16.3743 53.8391 16.8934 53.7675 17.3052 53.6422C17.7175 53.5169 18.0219 53.3021 18.2367 53.0156C18.4515 52.7292 18.5595 52.3354 18.5595 51.8699C18.5595 51.297 18.3978 50.8495 18.0577 50.492C17.6996 50.0982 16.9292 49.9192 15.765 49.9192Z"
-                                                                                                fill="#F4F4F3" />
-                                                                                            <path
-                                                                                                d="M24.9656 47.9678H28.3508C29.228 47.9678 29.9805 48.0573 30.6077 48.2184C31.2343 48.3795 31.8077 48.6839 32.3269 49.1314C33.6707 50.2771 34.3331 52.013 34.3331 54.3403C34.3331 55.1101 34.2615 55.8083 34.1362 56.4527C34.0109 57.0787 33.796 57.6516 33.509 58.1707C33.2226 58.672 32.8645 59.1374 32.4343 59.5313C32.0942 59.8356 31.7182 60.0863 31.3059 60.2832C30.8941 60.4622 30.4645 60.6054 29.9984 60.677C29.533 60.7486 28.9953 60.7844 28.4045 60.7844H25.0193C24.5532 60.7844 24.1952 60.7128 23.9446 60.5696C23.7112 60.4264 23.5501 60.2295 23.4785 59.9609C23.4069 59.7103 23.3711 59.3702 23.3711 58.9584V49.5432C23.3711 48.9882 23.4964 48.5764 23.747 48.3258C23.9983 48.0931 24.41 47.9678 24.9656 47.9678ZM25.9681 50.0086V58.7078H27.9385C28.3687 58.7078 28.7089 58.6899 28.9595 58.672C29.2101 58.6541 29.4614 58.5825 29.712 58.493C29.9805 58.4035 30.1953 58.2602 30.3929 58.0991C31.2522 57.3651 31.7003 56.0947 31.7003 54.3045C31.7003 53.0335 31.5034 52.0846 31.1268 51.4581C30.7509 50.8315 30.267 50.4204 29.712 50.2592C29.1564 50.0802 28.4762 50.0086 27.6879 50.0086H25.9681Z"
-                                                                                                fill="#F4F4F3" />
-                                                                                            <path
-                                                                                                d="M44.2763 49.955H39.1539V53.2305H43.4349C43.8287 53.2305 44.1331 53.32 44.33 53.499C44.5275 53.678 44.617 53.9107 44.617 54.2151C44.617 54.5194 44.5096 54.7521 44.3121 54.9311C44.1151 55.1102 43.8108 55.1997 43.4349 55.1997H39.1539V59.424C39.1539 59.961 39.0286 60.3549 38.7953 60.6234C38.5446 60.874 38.2403 61.0172 37.8638 61.0172C37.4878 61.0172 37.1656 60.8919 36.9329 60.6234C36.6816 60.3549 36.5742 59.961 36.5742 59.4419V49.5432C36.5742 49.1673 36.6279 48.863 36.7353 48.6302C36.8433 48.3975 37.0224 48.2185 37.2551 48.1111C37.4878 48.0037 37.7922 47.95 38.1687 47.95H44.2942C44.7065 47.95 45.0108 48.0395 45.2257 48.2185C45.4405 48.3975 45.5306 48.6481 45.5306 48.9346C45.5306 49.2389 45.4226 49.4895 45.2257 49.6685C45.0287 49.8476 44.6886 49.955 44.2763 49.955Z"
-                                                                                                fill="#F4F4F3" />
-                                                                                            <path
-                                                                                                d="M38.8321 24.1151L31.5168 16.7997L31.4882 16.7712C31.4025 16.6854 31.3167 16.6283 31.231 16.5426L31.2024 16.514C31.1167 16.4568 31.0595 16.3997 30.9738 16.3425L30.8881 16.2854L30.6881 16.1711L30.5738 16.1139C30.488 16.0568 30.4023 16.0282 30.288 15.9996L30.1737 15.971L29.9737 15.8853L29.8594 15.8567L29.6308 15.7996L29.545 15.771C29.3164 15.7424 29.1164 15.7139 28.8878 15.7139H28.8592C28.7449 15.7139 28.6592 15.7139 28.5735 15.7139H28.5163C28.2877 15.7424 28.0877 15.771 27.8591 15.8567L27.8019 15.8853C27.7162 15.9139 27.6305 15.9425 27.5447 15.971L27.459 15.9996C27.3733 16.0282 27.259 16.0854 27.1732 16.1425H27.1447C27.0589 16.1997 26.9446 16.2568 26.8589 16.314L26.8018 16.3711C26.7446 16.4283 26.6589 16.4568 26.6017 16.514L26.516 16.5711C26.4303 16.6569 26.3445 16.714 26.2588 16.7997L19.0292 24.0866C17.6289 25.5439 17.6575 27.8586 19.1149 29.2588C20.5437 30.6304 22.8012 30.6304 24.2014 29.2588L25.2872 28.1729V34.0023C25.2872 36.0312 26.9161 37.66 28.9449 37.66C30.9738 37.66 32.6026 36.0312 32.6026 34.0023V28.2015L33.6885 29.2873C35.0887 30.7447 37.4034 30.7733 38.8607 29.3731C40.3181 27.9729 40.3467 25.6582 38.9465 24.2009C38.8893 24.1437 38.8607 24.1151 38.8321 24.1151Z"
-                                                                                                fill="white"
-                                                                                                fill-opacity="0.19" />
-                                                                                            <path
-                                                                                                d="M38.0431 23.5885L30.7277 16.2731L30.6991 16.2446C30.6134 16.1588 30.5277 16.1017 30.4419 16.016L30.4134 15.9874C30.3276 15.9302 30.2705 15.8731 30.1848 15.8159L30.099 15.7588L29.899 15.6445L29.7847 15.5873C29.699 15.5302 29.6132 15.5016 29.4989 15.473L29.3846 15.4444L29.1846 15.3587L29.0703 15.3301L28.8417 15.273L28.756 15.2444C28.5274 15.2158 28.3273 15.1873 28.0987 15.1873H28.0702C27.9558 15.1873 27.8701 15.1873 27.7844 15.1873H27.7272C27.4986 15.2158 27.2986 15.2444 27.07 15.3301L27.0129 15.3587C26.9271 15.3873 26.8414 15.4159 26.7557 15.4444L26.6699 15.473C26.5842 15.5016 26.4699 15.5587 26.3842 15.6159H26.3556C26.2699 15.673 26.1556 15.7302 26.0698 15.7873L26.0127 15.8445C25.9556 15.9016 25.8698 15.9302 25.8127 15.9874L25.7269 16.0445C25.6412 16.1303 25.5555 16.1874 25.4698 16.2731L18.2401 23.5599C16.8399 25.0173 16.8685 27.3319 18.3258 28.7322C19.7546 30.1038 22.0121 30.1038 23.4123 28.7322L24.4982 27.6463V33.4757C24.4982 35.5046 26.127 37.1334 28.1559 37.1334C30.1848 37.1334 31.8136 35.5046 31.8136 33.4757V27.6749L32.8995 28.7607C34.2997 30.2181 36.6143 30.2467 38.0717 28.8465C39.529 27.4462 39.5576 25.1316 38.1574 23.6743C38.1002 23.6171 38.0717 23.5885 38.0431 23.5885Z"
-                                                                                                fill="white" />
-                                                                                        </g>
-                                                                                        <defs>
-                                                                                            <linearGradient
-                                                                                                id="paint0_linear_1718_207"
-                                                                                                x1="0.124999"
-                                                                                                y1="5.12552"
-                                                                                                x2="46.9846"
-                                                                                                y2="77.0668"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1450A4" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#049CE2" />
-                                                                                            </linearGradient>
-                                                                                        </defs>
-                                                                                    </svg>
+                                        </div>
+                                        <div class="icons-img">
+                                          <svg width="57" height="72" viewBox="0 0 57 72" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <mask id="mask0_1718_207" style="mask-type:luminance"
+                                              maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="72">
+                                              <path d="M0.0546875 0.765137H56.8375V71.1129H0.0546875V0.765137Z"
+                                                fill="white" />
+                                            </mask>
+                                            <g mask="url(#mask0_1718_207)">
+                                              <path
+                                                d="M56.7986 11.863V68.7138C56.7986 70.0386 55.7239 71.1127 54.3986 71.1127H2.52566C1.19972 71.1127 0.125 70.0386 0.125 68.7138V3.16376C0.125 1.83901 1.19972 0.764893 2.52566 0.764893H45.0841L56.7986 11.863Z"
+                                                fill="url(#paint0_linear_1718_207)" />
+                                              <path
+                                                d="M56.7988 11.863H47.4665C46.1411 11.863 45.0664 10.7888 45.0664 9.46468V0.764893L56.7988 11.863Z"
+                                                fill="#02A9ED" />
+                                              <mask id="mask1_1718_207" style="mask-type:luminance"
+                                                maskUnits="userSpaceOnUse" x="0" y="45" width="57" height="19">
+                                                <path d="M0.0546875 45.2192H56.8375V63.8564H0.0546875V45.2192Z"
+                                                  fill="white" />
+                                              </mask>
+                                              <g mask="url(#mask1_1718_207)">
+                                                <path d="M0.125 45.229H56.8165V63.72H0.125V45.229Z" fill="#02A9ED" />
+                                              </g>
+                                              <path
+                                                d="M16.3922 55.7904H14.0094V59.424C14.0094 59.9431 13.8841 60.337 13.6335 60.6055C13.3828 60.874 13.0779 60.9993 12.702 60.9993C12.3081 60.9993 12.0032 60.874 11.7526 60.6055C11.5198 60.337 11.3945 59.9431 11.3945 59.4419V49.5432C11.3945 48.9704 11.5198 48.5586 11.7884 48.3259C12.0575 48.0932 12.4692 47.95 13.0421 47.95H16.3743C17.3589 47.95 18.1114 48.0216 18.649 48.1827C19.1682 48.3259 19.6342 48.5765 20.0102 48.9167C20.3861 49.2568 20.6911 49.6685 20.888 50.1519C21.0849 50.6347 21.1923 51.1896 21.1923 51.7983C21.1923 53.1051 20.7985 54.0897 19.9923 54.77C19.1861 55.4503 17.9861 55.7904 16.3922 55.7904ZM15.765 49.9192H14.0094V53.8391H15.765C16.3743 53.8391 16.8934 53.7675 17.3052 53.6422C17.7175 53.5169 18.0219 53.3021 18.2367 53.0156C18.4515 52.7292 18.5595 52.3354 18.5595 51.8699C18.5595 51.297 18.3978 50.8495 18.0577 50.492C17.6996 50.0982 16.9292 49.9192 15.765 49.9192Z"
+                                                fill="#F4F4F3" />
+                                              <path
+                                                d="M24.9656 47.9678H28.3508C29.228 47.9678 29.9805 48.0573 30.6077 48.2184C31.2343 48.3795 31.8077 48.6839 32.3269 49.1314C33.6707 50.2771 34.3331 52.013 34.3331 54.3403C34.3331 55.1101 34.2615 55.8083 34.1362 56.4527C34.0109 57.0787 33.796 57.6516 33.509 58.1707C33.2226 58.672 32.8645 59.1374 32.4343 59.5313C32.0942 59.8356 31.7182 60.0863 31.3059 60.2832C30.8941 60.4622 30.4645 60.6054 29.9984 60.677C29.533 60.7486 28.9953 60.7844 28.4045 60.7844H25.0193C24.5532 60.7844 24.1952 60.7128 23.9446 60.5696C23.7112 60.4264 23.5501 60.2295 23.4785 59.9609C23.4069 59.7103 23.3711 59.3702 23.3711 58.9584V49.5432C23.3711 48.9882 23.4964 48.5764 23.747 48.3258C23.9983 48.0931 24.41 47.9678 24.9656 47.9678ZM25.9681 50.0086V58.7078H27.9385C28.3687 58.7078 28.7089 58.6899 28.9595 58.672C29.2101 58.6541 29.4614 58.5825 29.712 58.493C29.9805 58.4035 30.1953 58.2602 30.3929 58.0991C31.2522 57.3651 31.7003 56.0947 31.7003 54.3045C31.7003 53.0335 31.5034 52.0846 31.1268 51.4581C30.7509 50.8315 30.267 50.4204 29.712 50.2592C29.1564 50.0802 28.4762 50.0086 27.6879 50.0086H25.9681Z"
+                                                fill="#F4F4F3" />
+                                              <path
+                                                d="M44.2763 49.955H39.1539V53.2305H43.4349C43.8287 53.2305 44.1331 53.32 44.33 53.499C44.5275 53.678 44.617 53.9107 44.617 54.2151C44.617 54.5194 44.5096 54.7521 44.3121 54.9311C44.1151 55.1102 43.8108 55.1997 43.4349 55.1997H39.1539V59.424C39.1539 59.961 39.0286 60.3549 38.7953 60.6234C38.5446 60.874 38.2403 61.0172 37.8638 61.0172C37.4878 61.0172 37.1656 60.8919 36.9329 60.6234C36.6816 60.3549 36.5742 59.961 36.5742 59.4419V49.5432C36.5742 49.1673 36.6279 48.863 36.7353 48.6302C36.8433 48.3975 37.0224 48.2185 37.2551 48.1111C37.4878 48.0037 37.7922 47.95 38.1687 47.95H44.2942C44.7065 47.95 45.0108 48.0395 45.2257 48.2185C45.4405 48.3975 45.5306 48.6481 45.5306 48.9346C45.5306 49.2389 45.4226 49.4895 45.2257 49.6685C45.0287 49.8476 44.6886 49.955 44.2763 49.955Z"
+                                                fill="#F4F4F3" />
+                                              <path
+                                                d="M38.8321 24.1151L31.5168 16.7997L31.4882 16.7712C31.4025 16.6854 31.3167 16.6283 31.231 16.5426L31.2024 16.514C31.1167 16.4568 31.0595 16.3997 30.9738 16.3425L30.8881 16.2854L30.6881 16.1711L30.5738 16.1139C30.488 16.0568 30.4023 16.0282 30.288 15.9996L30.1737 15.971L29.9737 15.8853L29.8594 15.8567L29.6308 15.7996L29.545 15.771C29.3164 15.7424 29.1164 15.7139 28.8878 15.7139H28.8592C28.7449 15.7139 28.6592 15.7139 28.5735 15.7139H28.5163C28.2877 15.7424 28.0877 15.771 27.8591 15.8567L27.8019 15.8853C27.7162 15.9139 27.6305 15.9425 27.5447 15.971L27.459 15.9996C27.3733 16.0282 27.259 16.0854 27.1732 16.1425H27.1447C27.0589 16.1997 26.9446 16.2568 26.8589 16.314L26.8018 16.3711C26.7446 16.4283 26.6589 16.4568 26.6017 16.514L26.516 16.5711C26.4303 16.6569 26.3445 16.714 26.2588 16.7997L19.0292 24.0866C17.6289 25.5439 17.6575 27.8586 19.1149 29.2588C20.5437 30.6304 22.8012 30.6304 24.2014 29.2588L25.2872 28.1729V34.0023C25.2872 36.0312 26.9161 37.66 28.9449 37.66C30.9738 37.66 32.6026 36.0312 32.6026 34.0023V28.2015L33.6885 29.2873C35.0887 30.7447 37.4034 30.7733 38.8607 29.3731C40.3181 27.9729 40.3467 25.6582 38.9465 24.2009C38.8893 24.1437 38.8607 24.1151 38.8321 24.1151Z"
+                                                fill="white" fill-opacity="0.19" />
+                                              <path
+                                                d="M38.0431 23.5885L30.7277 16.2731L30.6991 16.2446C30.6134 16.1588 30.5277 16.1017 30.4419 16.016L30.4134 15.9874C30.3276 15.9302 30.2705 15.8731 30.1848 15.8159L30.099 15.7588L29.899 15.6445L29.7847 15.5873C29.699 15.5302 29.6132 15.5016 29.4989 15.473L29.3846 15.4444L29.1846 15.3587L29.0703 15.3301L28.8417 15.273L28.756 15.2444C28.5274 15.2158 28.3273 15.1873 28.0987 15.1873H28.0702C27.9558 15.1873 27.8701 15.1873 27.7844 15.1873H27.7272C27.4986 15.2158 27.2986 15.2444 27.07 15.3301L27.0129 15.3587C26.9271 15.3873 26.8414 15.4159 26.7557 15.4444L26.6699 15.473C26.5842 15.5016 26.4699 15.5587 26.3842 15.6159H26.3556C26.2699 15.673 26.1556 15.7302 26.0698 15.7873L26.0127 15.8445C25.9556 15.9016 25.8698 15.9302 25.8127 15.9874L25.7269 16.0445C25.6412 16.1303 25.5555 16.1874 25.4698 16.2731L18.2401 23.5599C16.8399 25.0173 16.8685 27.3319 18.3258 28.7322C19.7546 30.1038 22.0121 30.1038 23.4123 28.7322L24.4982 27.6463V33.4757C24.4982 35.5046 26.127 37.1334 28.1559 37.1334C30.1848 37.1334 31.8136 35.5046 31.8136 33.4757V27.6749L32.8995 28.7607C34.2997 30.2181 36.6143 30.2467 38.0717 28.8465C39.529 27.4462 39.5576 25.1316 38.1574 23.6743C38.1002 23.6171 38.0717 23.5885 38.0431 23.5885Z"
+                                                fill="white" />
+                                            </g>
+                                            <defs>
+                                              <linearGradient id="paint0_linear_1718_207" x1="0.124999" y1="5.12552"
+                                                x2="46.9846" y2="77.0668" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1450A4" />
+                                                <stop offset="1" stop-color="#049CE2" />
+                                              </linearGradient>
+                                            </defs>
+                                          </svg>
 
-                                                                                </div>
-                                                                                <div class="icons-img">
-                                                                                    <svg width="81" height="72"
-                                                                                        viewBox="0 0 81 72" fill="none"
-                                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                                        <path fill-rule="evenodd"
-                                                                                            clip-rule="evenodd"
-                                                                                            d="M35.8846 17.647C35.8846 28.1279 27.3882 36.6244 16.9072 36.6244C12.2138 36.6244 7.91825 34.9206 4.60547 32.0977V59.5864C4.60547 66.0067 9.85842 71.2596 16.2787 71.2596H68.8082C75.2285 71.2596 80.4814 66.0067 80.4814 59.5864V18.7301C80.4814 12.3098 75.2285 7.05688 68.8082 7.05688H32.6573C34.6951 10.0817 35.8846 13.7255 35.8846 17.647Z"
-                                                                                            fill="url(#paint0_linear_1718_200)" />
-                                                                                        <path
-                                                                                            d="M16.2787 71.2594H68.8082C75.2285 71.2594 80.4814 66.0065 80.4814 59.5862V39.1581L68.8082 27.4849L38.4578 55.5006L25.0336 42.0764L4.60547 60.7535C5.48096 66.5902 10.1502 71.2594 16.2787 71.2594Z"
-                                                                                            fill="#02A9ED" />
-                                                                                        <path
-                                                                                            d="M16.9074 34.3827C26.1502 34.3827 33.643 26.89 33.643 17.6472C33.643 8.40438 26.1502 0.911621 16.9074 0.911621C7.66463 0.911621 0.171875 8.40438 0.171875 17.6472C0.171875 26.89 7.66463 34.3827 16.9074 34.3827Z"
-                                                                                            fill="url(#paint1_linear_1718_200)" />
-                                                                                        <path
-                                                                                            d="M25.6437 15.3646L19.1517 8.87259L19.1263 8.84724C19.0502 8.77116 18.9741 8.72044 18.8981 8.64436L18.8727 8.619C18.7966 8.56828 18.7459 8.51757 18.6698 8.46685L18.5937 8.41612L18.4162 8.31469L18.3148 8.26397C18.2387 8.21325 18.1626 8.18789 18.0612 8.16253L17.9598 8.13717L17.7822 8.06109L17.6808 8.03573L17.4779 7.98501L17.4018 7.95966C17.199 7.9343 17.0215 7.90894 16.8186 7.90894H16.7932C16.6918 7.90894 16.6157 7.90894 16.5396 7.90894H16.4889C16.286 7.93429 16.1085 7.95965 15.9056 8.03573L15.8549 8.06109C15.7788 8.08645 15.7028 8.11181 15.6267 8.13717L15.5506 8.16253C15.4745 8.18789 15.3731 8.23861 15.297 8.28933H15.2717C15.1956 8.34005 15.0941 8.39077 15.0181 8.44149L14.9673 8.4922C14.9166 8.54292 14.8405 8.56828 14.7898 8.619L14.7137 8.66972C14.6377 8.7458 14.5616 8.79651 14.4855 8.87259L8.06957 15.3392C6.82696 16.6326 6.85232 18.6867 8.14565 19.9293C9.41362 21.1466 11.417 21.1466 12.6596 19.9293L13.6233 18.9657V24.139C13.6233 25.9395 15.0688 27.385 16.8693 27.385C18.6698 27.385 20.1153 25.9395 20.1153 24.139V18.991L21.079 19.9547C22.3216 21.248 24.3757 21.2734 25.669 20.0307C26.9624 18.7881 26.9877 16.734 25.7451 15.4407C25.6944 15.39 25.669 15.3646 25.6437 15.3646Z"
-                                                                                            fill="white" />
-                                                                                        <defs>
-                                                                                            <linearGradient
-                                                                                                id="paint0_linear_1718_200"
-                                                                                                x1="9.78423"
-                                                                                                y1="10.6829"
-                                                                                                x2="42.5434"
-                                                                                                y2="78.9387"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1450A4" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#0597DE" />
-                                                                                            </linearGradient>
-                                                                                            <linearGradient
-                                                                                                id="paint1_linear_1718_200"
-                                                                                                x1="16.9074"
-                                                                                                y1="0.911621"
-                                                                                                x2="16.9074"
-                                                                                                y2="34.3827"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1259AB" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#0D71BF" />
-                                                                                            </linearGradient>
-                                                                                        </defs>
-                                                                                    </svg>
+                                        </div>
+                                        <div class="icons-img">
+                                          <svg width="81" height="72" viewBox="0 0 81 72" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M35.8846 17.647C35.8846 28.1279 27.3882 36.6244 16.9072 36.6244C12.2138 36.6244 7.91825 34.9206 4.60547 32.0977V59.5864C4.60547 66.0067 9.85842 71.2596 16.2787 71.2596H68.8082C75.2285 71.2596 80.4814 66.0067 80.4814 59.5864V18.7301C80.4814 12.3098 75.2285 7.05688 68.8082 7.05688H32.6573C34.6951 10.0817 35.8846 13.7255 35.8846 17.647Z"
+                                              fill="url(#paint0_linear_1718_200)" />
+                                            <path
+                                              d="M16.2787 71.2594H68.8082C75.2285 71.2594 80.4814 66.0065 80.4814 59.5862V39.1581L68.8082 27.4849L38.4578 55.5006L25.0336 42.0764L4.60547 60.7535C5.48096 66.5902 10.1502 71.2594 16.2787 71.2594Z"
+                                              fill="#02A9ED" />
+                                            <path
+                                              d="M16.9074 34.3827C26.1502 34.3827 33.643 26.89 33.643 17.6472C33.643 8.40438 26.1502 0.911621 16.9074 0.911621C7.66463 0.911621 0.171875 8.40438 0.171875 17.6472C0.171875 26.89 7.66463 34.3827 16.9074 34.3827Z"
+                                              fill="url(#paint1_linear_1718_200)" />
+                                            <path
+                                              d="M25.6437 15.3646L19.1517 8.87259L19.1263 8.84724C19.0502 8.77116 18.9741 8.72044 18.8981 8.64436L18.8727 8.619C18.7966 8.56828 18.7459 8.51757 18.6698 8.46685L18.5937 8.41612L18.4162 8.31469L18.3148 8.26397C18.2387 8.21325 18.1626 8.18789 18.0612 8.16253L17.9598 8.13717L17.7822 8.06109L17.6808 8.03573L17.4779 7.98501L17.4018 7.95966C17.199 7.9343 17.0215 7.90894 16.8186 7.90894H16.7932C16.6918 7.90894 16.6157 7.90894 16.5396 7.90894H16.4889C16.286 7.93429 16.1085 7.95965 15.9056 8.03573L15.8549 8.06109C15.7788 8.08645 15.7028 8.11181 15.6267 8.13717L15.5506 8.16253C15.4745 8.18789 15.3731 8.23861 15.297 8.28933H15.2717C15.1956 8.34005 15.0941 8.39077 15.0181 8.44149L14.9673 8.4922C14.9166 8.54292 14.8405 8.56828 14.7898 8.619L14.7137 8.66972C14.6377 8.7458 14.5616 8.79651 14.4855 8.87259L8.06957 15.3392C6.82696 16.6326 6.85232 18.6867 8.14565 19.9293C9.41362 21.1466 11.417 21.1466 12.6596 19.9293L13.6233 18.9657V24.139C13.6233 25.9395 15.0688 27.385 16.8693 27.385C18.6698 27.385 20.1153 25.9395 20.1153 24.139V18.991L21.079 19.9547C22.3216 21.248 24.3757 21.2734 25.669 20.0307C26.9624 18.7881 26.9877 16.734 25.7451 15.4407C25.6944 15.39 25.669 15.3646 25.6437 15.3646Z"
+                                              fill="white" />
+                                            <defs>
+                                              <linearGradient id="paint0_linear_1718_200" x1="9.78423" y1="10.6829"
+                                                x2="42.5434" y2="78.9387" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1450A4" />
+                                                <stop offset="1" stop-color="#0597DE" />
+                                              </linearGradient>
+                                              <linearGradient id="paint1_linear_1718_200" x1="16.9074" y1="0.911621"
+                                                x2="16.9074" y2="34.3827" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1259AB" />
+                                                <stop offset="1" stop-color="#0D71BF" />
+                                              </linearGradient>
+                                            </defs>
+                                          </svg>
 
-                                                                                </div>
-                                                                                <div class="icons-img">
-                                                                                    <svg width="72" height="72"
-                                                                                        viewBox="0 0 72 72" fill="none"
-                                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                                        <path fill-rule="evenodd"
-                                                                                            clip-rule="evenodd"
-                                                                                            d="M57.0999 39.013V21.8732L36.0059 0.765381H9.60741C4.75647 0.765381 0.8125 4.70935 0.8125 9.56029V62.3297C0.8125 67.1807 4.75647 71.1246 9.60741 71.1246H48.305C49.6036 71.1246 50.8373 70.842 51.9477 70.3349C45.5217 68.237 40.8789 62.1949 40.8789 55.0684C40.8789 46.2008 48.0675 39.0122 56.9351 39.0122C56.9901 39.0122 57.045 39.0125 57.0999 39.013Z"
-                                                                                            fill="url(#paint0_linear_1718_229)" />
-                                                                                        <path
-                                                                                            d="M57.1 21.8729H44.7871C39.9362 21.8729 35.9922 17.9289 35.9922 13.078V0.765137H36.0059L57.1 21.8729Z"
-                                                                                            fill="#02A9ED" />
-                                                                                        <path fill-rule="evenodd"
-                                                                                            clip-rule="evenodd"
-                                                                                            d="M31.5421 45.2608H11.1683C9.79369 45.2608 8.67969 44.1468 8.67969 42.7722V27.4997C8.67969 26.0759 9.8449 24.9106 11.2688 24.9106H31.6924C33.1222 24.9106 34.2815 26.0699 34.2815 27.4997V33.5148L41.5408 26.8144C42.2721 26.1199 43.4721 26.643 43.4721 27.6566V35.2105V43.0834C43.4721 44.1133 42.238 44.6287 41.5159 43.9006L34.2815 36.9872V42.5214C34.2815 44.028 33.0487 45.2608 31.5421 45.2608ZM19.8382 32.4599C19.8382 34.4539 18.2217 36.0704 16.2277 36.0704C14.2337 36.0704 12.6172 34.4539 12.6172 32.4599C12.6172 30.4658 14.2337 28.8494 16.2277 28.8494C18.2217 28.8494 19.8382 30.4658 19.8382 32.4599Z"
-                                                                                            fill="white" />
-                                                                                        <path
-                                                                                            d="M56.9367 69.8993C65.1278 69.8993 71.7679 63.2591 71.7679 55.068C71.7679 46.877 65.1278 40.2368 56.9367 40.2368C48.7456 40.2368 42.1055 46.877 42.1055 55.068C42.1055 63.2591 48.7456 69.8993 56.9367 69.8993Z"
-                                                                                            fill="url(#paint1_linear_1718_229)" />
-                                                                                        <path
-                                                                                            d="M64.4954 54.3049L58.8401 48.6495L58.818 48.6274C58.7517 48.5612 58.6854 48.517 58.6192 48.4507L58.5971 48.4286C58.5308 48.3844 58.4866 48.3402 58.4203 48.2961L58.3541 48.2519L58.1994 48.1635L58.1111 48.1193C58.0448 48.0752 57.9785 48.0531 57.8901 48.031L57.8018 48.0089L57.6471 47.9426L57.5588 47.9205L57.3821 47.8763L57.3158 47.8542C57.139 47.8322 56.9844 47.8101 56.8077 47.8101H56.7856C56.6972 47.8101 56.6309 47.8101 56.5647 47.8101H56.5205C56.3438 47.8321 56.1891 47.8542 56.0124 47.9205L55.9682 47.9426C55.9019 47.9647 55.8357 47.9868 55.7694 48.0089L55.7031 48.031C55.6368 48.0531 55.5485 48.0972 55.4822 48.1414H55.4601C55.3938 48.1856 55.3055 48.2298 55.2392 48.274L55.195 48.3182C55.1508 48.3623 55.0846 48.3844 55.0404 48.4286L54.9741 48.4728C54.9078 48.5391 54.8416 48.5832 54.7753 48.6495L49.1862 54.2828C48.1038 55.4094 48.1259 57.1988 49.2525 58.2813C50.3571 59.3416 52.1023 59.3416 53.1847 58.2813L54.0242 57.4418V61.9484C54.0242 63.5169 55.2834 64.776 56.8519 64.776C58.4203 64.776 59.6795 63.5169 59.6795 61.9484V57.4639L60.519 58.3033C61.6015 59.43 63.3908 59.4521 64.5175 58.3696C65.6441 57.2872 65.6662 55.4978 64.5838 54.3711C64.5396 54.3269 64.5175 54.3049 64.4954 54.3049Z"
-                                                                                            fill="white" />
-                                                                                        <defs>
-                                                                                            <linearGradient
-                                                                                                id="paint0_linear_1718_229"
-                                                                                                x1="28.9562"
-                                                                                                y1="0.765381"
-                                                                                                x2="28.9562"
-                                                                                                y2="71.1247"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1450A4" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#0498DF" />
-                                                                                            </linearGradient>
-                                                                                            <linearGradient
-                                                                                                id="paint1_linear_1718_229"
-                                                                                                x1="56.9367"
-                                                                                                y1="40.2368"
-                                                                                                x2="56.9367"
-                                                                                                y2="69.8993"
-                                                                                                gradientUnits="userSpaceOnUse">
-                                                                                                <stop
-                                                                                                    stop-color="#1259AB" />
-                                                                                                <stop offset="1"
-                                                                                                    stop-color="#0D71BF" />
-                                                                                            </linearGradient>
-                                                                                        </defs>
-                                                                                    </svg>
+                                        </div>
+                                        <div class="icons-img">
+                                          <svg width="72" height="72" viewBox="0 0 72 72" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M57.0999 39.013V21.8732L36.0059 0.765381H9.60741C4.75647 0.765381 0.8125 4.70935 0.8125 9.56029V62.3297C0.8125 67.1807 4.75647 71.1246 9.60741 71.1246H48.305C49.6036 71.1246 50.8373 70.842 51.9477 70.3349C45.5217 68.237 40.8789 62.1949 40.8789 55.0684C40.8789 46.2008 48.0675 39.0122 56.9351 39.0122C56.9901 39.0122 57.045 39.0125 57.0999 39.013Z"
+                                              fill="url(#paint0_linear_1718_229)" />
+                                            <path
+                                              d="M57.1 21.8729H44.7871C39.9362 21.8729 35.9922 17.9289 35.9922 13.078V0.765137H36.0059L57.1 21.8729Z"
+                                              fill="#02A9ED" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M31.5421 45.2608H11.1683C9.79369 45.2608 8.67969 44.1468 8.67969 42.7722V27.4997C8.67969 26.0759 9.8449 24.9106 11.2688 24.9106H31.6924C33.1222 24.9106 34.2815 26.0699 34.2815 27.4997V33.5148L41.5408 26.8144C42.2721 26.1199 43.4721 26.643 43.4721 27.6566V35.2105V43.0834C43.4721 44.1133 42.238 44.6287 41.5159 43.9006L34.2815 36.9872V42.5214C34.2815 44.028 33.0487 45.2608 31.5421 45.2608ZM19.8382 32.4599C19.8382 34.4539 18.2217 36.0704 16.2277 36.0704C14.2337 36.0704 12.6172 34.4539 12.6172 32.4599C12.6172 30.4658 14.2337 28.8494 16.2277 28.8494C18.2217 28.8494 19.8382 30.4658 19.8382 32.4599Z"
+                                              fill="white" />
+                                            <path
+                                              d="M56.9367 69.8993C65.1278 69.8993 71.7679 63.2591 71.7679 55.068C71.7679 46.877 65.1278 40.2368 56.9367 40.2368C48.7456 40.2368 42.1055 46.877 42.1055 55.068C42.1055 63.2591 48.7456 69.8993 56.9367 69.8993Z"
+                                              fill="url(#paint1_linear_1718_229)" />
+                                            <path
+                                              d="M64.4954 54.3049L58.8401 48.6495L58.818 48.6274C58.7517 48.5612 58.6854 48.517 58.6192 48.4507L58.5971 48.4286C58.5308 48.3844 58.4866 48.3402 58.4203 48.2961L58.3541 48.2519L58.1994 48.1635L58.1111 48.1193C58.0448 48.0752 57.9785 48.0531 57.8901 48.031L57.8018 48.0089L57.6471 47.9426L57.5588 47.9205L57.3821 47.8763L57.3158 47.8542C57.139 47.8322 56.9844 47.8101 56.8077 47.8101H56.7856C56.6972 47.8101 56.6309 47.8101 56.5647 47.8101H56.5205C56.3438 47.8321 56.1891 47.8542 56.0124 47.9205L55.9682 47.9426C55.9019 47.9647 55.8357 47.9868 55.7694 48.0089L55.7031 48.031C55.6368 48.0531 55.5485 48.0972 55.4822 48.1414H55.4601C55.3938 48.1856 55.3055 48.2298 55.2392 48.274L55.195 48.3182C55.1508 48.3623 55.0846 48.3844 55.0404 48.4286L54.9741 48.4728C54.9078 48.5391 54.8416 48.5832 54.7753 48.6495L49.1862 54.2828C48.1038 55.4094 48.1259 57.1988 49.2525 58.2813C50.3571 59.3416 52.1023 59.3416 53.1847 58.2813L54.0242 57.4418V61.9484C54.0242 63.5169 55.2834 64.776 56.8519 64.776C58.4203 64.776 59.6795 63.5169 59.6795 61.9484V57.4639L60.519 58.3033C61.6015 59.43 63.3908 59.4521 64.5175 58.3696C65.6441 57.2872 65.6662 55.4978 64.5838 54.3711C64.5396 54.3269 64.5175 54.3049 64.4954 54.3049Z"
+                                              fill="white" />
+                                            <defs>
+                                              <linearGradient id="paint0_linear_1718_229" x1="28.9562" y1="0.765381"
+                                                x2="28.9562" y2="71.1247" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1450A4" />
+                                                <stop offset="1" stop-color="#0498DF" />
+                                              </linearGradient>
+                                              <linearGradient id="paint1_linear_1718_229" x1="56.9367" y1="40.2368"
+                                                x2="56.9367" y2="69.8993" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#1259AB" />
+                                                <stop offset="1" stop-color="#0D71BF" />
+                                              </linearGradient>
+                                            </defs>
+                                          </svg>
 
-                                                                                </div>
-                                                                            </div>
+                                        </div>
+                                      </div>
 
-                                                                            <div style="display: block; margin: 0 auto">
-                                                                                <div class="up-file-wrap"
-                                                                                    style="text-align: center">
-                                                                                    <!-- <i style="font-size: 50px; padding: 0px 37px"
+                                      <div style="display: block; margin: 0 auto">
+                                        <div class="up-file-wrap" style="text-align: center">
+                                          <!-- <i style="font-size: 50px; padding: 0px 37px"
                                                                                         class=" fas  fa-file-upload font-24  p-r-15 align-self-center "></i> -->
-                                                                                    <p style=" font-size: 30px;  font-weight: 600; text-align: center; "
-                                                                                        class="text-bodycolor font-18 m-b-0">
-                                                                                        Dokumente für Upload wählen oder
-                                                                                        einfach hierhin ziehen.
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                    <br />
-                                                </div>
-                                            </div>
+                                          <p style=" font-size: 30px;  font-weight: 600; text-align: center; "
+                                            class="text-bodycolor font-18 m-b-0">
+                                            Dokumente für Upload wählen oder
+                                            einfach hierhin ziehen.
+                                          </p>
                                         </div>
+                                      </div>
                                     </div>
-                                    <div *ngIf="finalShowButton"
-                                        class="container  d-flex flex-wrap justify-content-center align-items-center   ">
-                                        <div
-                                            class="row col-md-12 px-4  d-flex flex-wrap justify-content-center align-items-center ">
-                                            <div class=" col-md-12  p-0" style="margin-right:-15px">
-                                                <div class="col-md-12 p-0 d-flex flex-raw "
-                                                    style=" display: inline-block" id="result"></div>
-                                            </div>
-                                        </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                          <br />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="finalShowButton"
+                    class="container  d-flex flex-wrap justify-content-center align-items-center   ">
+                    <div class="row col-md-12 px-4  d-flex flex-wrap justify-content-center align-items-center ">
+                      <div class=" col-md-12  p-0" style="margin-right:-15px">
+                        <div class="col-md-12 p-0 d-flex flex-raw " style=" display: inline-block" id="result"></div>
+                      </div>
+                    </div>
 
-                                        <!-- <div  style="margin-bottom: 16px; float: right;" class="row">
+                    <!-- <div  style="margin-bottom: 16px; float: right;" class="row">
                                             <div class="col-md-12 top-section" style="margin-right: 12px">
                                                 <div *ngIf="finalShowButton">
                                                      <button style="background-color: #184397; border-color: none"
@@ -815,74 +743,73 @@
                                                 </div>
                                             </div>
                                         </div>  -->
-                                    </div>
-                                </section>
-                            </div>
-
-
-                            <div class="col-md-12 p-0" style="margin-top: 7vh;">
-                                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
-                                    <button mat-raised-button matStepperPrevious class="btn button-primary">
-                                        Zurück</button>
-                                    <!--  -->
-
-                                    <button *ngIf="finalShowButton else noupload" mat-raised-button matStepperNext
-                                        type="submit" class='btn button-primary nextBtn' (click)="_handleImageUpload()">
-                                        Daten hochladen
-                                    </button>
-                                    <ng-template #noupload>
-                                        <button [disabled]="finalShowButton" disabled="true" class="btn btn-secondary ">
-                                            Daten hochladen
-                                        </button>
-                                    </ng-template>
-                                </div>
-                            </div>
-                        </mat-step>
-
-                    </mat-horizontal-stepper>
-
-
+                  </div>
                 </section>
-            </div>
-            <!-- </div> -->
-            <div *ngIf="StpperForm">
-                <!-- commented by Jaseer {not found this app name } -->
-                <!-- <app-create-customer [componentname]="componentname"></app-create-customer> -->
-            </div>
-        </div>
-    </div>
+              </div>
 
-    <button id="openpreviewmodel" type="button" data-toggle="modal" style="display: none"
-        data-target="#exampleModalpreview">
 
-    </button>
-    <div id="exampleModalpreview_parent">
+              <div class="col-md-12 p-0" style="margin-top: 7vh;">
+                <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
+                  <button mat-raised-button matStepperPrevious class="btn button-primary">
+                    Zurück</button>
+                  <!--  -->
 
-        <div class="modal fade" data-backdrop="static" data-keyboard="false" id="exampleModalpreview" role="dialog"
-            aria-labelledby="exampleModalpreviewTitle" aria-hidden="true">
-            <div style="max-width: 1000px;max-height: 800px;" class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <span id="showpreviewtitle" style="font-size:15px;"></span>
-                        <button (click)="close_modal('exampleModalpreview','exampleModalpreview_parent')" type="button"
-                            class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- <embed id="showpreviewpdf" style="width:100%;height:600px;display:none;" src=""> -->
-                        <img id="showpreviewimg" style="width:100%;height:100%;display:none;" src="">
-
-                        <div class="col-md-12 p-0" style="text-align: right;margin-top: 11px; margin-bottom: -4px;">
-                            <a id="showpreviewdownload" target="_blank" style="padding: 4px 14px;"
-                                class=" button-primary  " download>
-                                <!-- <i class="fa fa-download" aria-hidden="true" style="font-size:20px;"></i>  -->
-                                <span class=""><i class="fa fa-download " aria-hidden="true"></i></span>
-                            </a>
-                        </div>
-
-                    </div>
+                  <button *ngIf="finalShowButton else noupload" mat-raised-button matStepperNext type="submit"
+                    class='btn button-primary nextBtn' (click)="_handleImageUpload()">
+                    Daten hochladen
+                  </button>
+                  <ng-template #noupload>
+                    <button [disabled]="finalShowButton" disabled="true" class="btn btn-secondary ">
+                      Daten hochladen
+                    </button>
+                  </ng-template>
                 </div>
-            </div>
-        </div>
+              </div>
+            </mat-step>
+
+          </mat-horizontal-stepper>
+
+
+        </section>
+      </div>
+      <!-- </div> -->
+      <div *ngIf="StpperForm">
+        <!-- commented by Jaseer {not found this app name } -->
+        <!-- <app-create-customer [componentname]="componentname"></app-create-customer> -->
+      </div>
     </div>
+  </div>
+
+  <button id="openpreviewmodel" type="button" data-toggle="modal" style="display: none"
+    data-target="#exampleModalpreview">
+
+  </button>
+  <div id="exampleModalpreview_parent">
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="exampleModalpreview" role="dialog"
+      aria-labelledby="exampleModalpreviewTitle" aria-hidden="true">
+      <div style="max-width: 1000px;max-height: 800px;" class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span id="showpreviewtitle" style="font-size:15px;"></span>
+            <button (click)="close_modal('exampleModalpreview','exampleModalpreview_parent')" type="button"
+              class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- <embed id="showpreviewpdf" style="width:100%;height:600px;display:none;" src=""> -->
+            <img id="showpreviewimg" style="width:100%;height:100%;display:none;" src="">
+
+            <div class="col-md-12 p-0" style="text-align: right;margin-top: 11px; margin-bottom: -4px;">
+              <a id="showpreviewdownload" target="_blank" style="padding: 4px 14px;" class=" button-primary  " download>
+                <!-- <i class="fa fa-download" aria-hidden="true" style="font-size:20px;"></i>  -->
+                <span class=""><i class="fa fa-download " aria-hidden="true"></i></span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

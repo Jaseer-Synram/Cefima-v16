@@ -187,7 +187,7 @@
                                                             </mat-expansion-panel-header>
 
                                                             <mat-expansion-panel-header mat-panel-title
-                                                                
+
                                                                 *ngIf="i + 1 != companyData.length">
                                                                 <button class="stepper-btn1 transitionanimation" (click)=" change_account_name( 'Firma',
                                                         'Firma', '', member.companyname );  setCurrentTabUser(member, 'company');tabisclicked(member);
@@ -291,7 +291,7 @@
 
 
                                                         <ng-template #multiCompanyprivatecustomer>
-                                                            <mat-expansion-panel 
+                                                            <mat-expansion-panel
                                                                  [disabled]="
                                                                             currentActiveRole == 'b2b' &&
                                                                              member.poa == '0' ">
@@ -893,6 +893,7 @@
                                     </mat-accordion>
 
                                 </div>
+<!--
                                 <div class="menu1">
                                     <mat-accordion class="side">
                                         <mat-expansion-panel>
@@ -925,13 +926,6 @@
                                             </ng-template>
 
                                         </mat-expansion-panel>
-                                        <!-- <div class="col-md-12 px-1">
-                                        <button class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                            data-target="#runningcontracts" (click)="open_modal('runningcontracts')">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                                            Bestandsübertragung
-                                        </button>
-                                    </div> -->
                                         <mat-expansion-panel>
                                             <mat-expansion-panel-header mat-panel-title>
                                                 <span>Angebote/Fremdverträge</span>
@@ -963,13 +957,6 @@
                                             </ng-template>
 
                                         </mat-expansion-panel>
-                                        <!-- <div class="col-md-12 px-1">
-                                        <button class="stepper-btn1 transitionanimation" data-toggle="modal"
-                                            data-target="#externalcontracts" (click)="open_modal('externalcontracts')">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                                            Fremdvertrag
-                                        </button>
-                                    </div> -->
                                         <div class=" col-12 p-0">
                                             <button class="col-12  stepper-btn1 transitionanimation"
                                                 [ngClass]=" currentTab == 'Allgemeine' ? 'active-sub-item': ' sidebar-not-active-item'  "
@@ -979,7 +966,7 @@
                                         </div>
 
                                     </mat-accordion>
-                                </div>
+                                </div> -->
 
 
                             </div>

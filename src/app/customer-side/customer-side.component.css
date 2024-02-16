@@ -29,22 +29,21 @@
     padding: 10px 10px 10px 10px !important;
 } */
 
-:host ::ng-deep.bottom-selector>.form-control>.mat-mdc-select-trigger>.mat-mdc-select-arrow-wrapper {
-    height: 0px !important;
-    padding: 18px 10px 18px 10px !important;
-    margin-right: -12px !important;
-    margin-top: -8px !important;
-    margin-bottom: -8px;
-    flex-shrink: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    background: linear-gradient(to bottom, #17459b, #02a9ed) !important;
-    border-radius: 0px 5px 5px 0px !important;
+:host ::ng-deep.bottom-selector>.form-control>.mat-mdc-select-trigger>.mat-mdc-select-value>.mat-mdc-select-placeholder.mat-mdc-select-min-line {
+    position: relative  !important;
+    display: flex;
+    background-image:url("../../assets/icons/filter.svg") !important;
+    background-repeat: no-repeat  !important;
+    border: none  !important;
+    box-sizing: content-box  !important;
+    transition: all 450ms cubic-bezier(.25, .8, .25, 1) !important;
+    text-indent: 25px;
 }
 
-:host ::ng-deep.bottom-selector>.form-control>.mat-mdc-select-trigger>.mat-mdc-select-arrow-wrapper>.mat-mdc-select-arrow {
+
+/* :host ::ng-deep.bottom-selector>.form-control>.mat-mdc-select-trigger>.mat-mdc-select-arrow-wrapper>.mat-mdc-select-arrow {
     color: white !important;
-}
+} */
 
 .font-weight-bold {
     font-weight: 600 !important;
@@ -60,6 +59,16 @@
 }
 .accordion-button:after {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+}
+
+:host ::ng-deep.mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
 }
 
 .card-body.haushalt{
@@ -98,17 +107,37 @@
 
 /* my item ********************* */
 
-:host ::ng-deep .mat-mdc-tab-body-wrapper {
+:host ::ng-deep .mat-mdc-tab-group.company-tab>.mat-mdc-tab-body-wrapper {
     position: relative;
     overflow: hidden;
     display: flex;
     transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
-    box-shadow: 5px 3px 20px 1px #262d3424;
+    box-shadow: 5px 3px 20px 1px #262d3424  !important;
     background: #fff;
     margin-top: 30px;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 10px  !important;
     margin-bottom: 20px;
+}
+
+:host ::ng-deep .mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
+  /* background: linear-gradient(to right, transparent 10px, #02a9ed 10px) !important; */
+  background:#02a9ed;
+  height: 3px !important;
+  border-radius: 0px !important;
+  border: none;
+  width:90%
+  /* --mdc-tab-indicator-active-indicator-color: #02a9ed; */
+}
+
+:host ::ng-deep .mat-mdc-tab-body-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
+  background: #fff;
+  margin-top: 30px;
+  /* padding: 10px; */
 }
 
 :host ::ng-deep .mat-mdc-tab-header {
@@ -219,7 +248,7 @@
 }
 
 .tabsecond5 {
-    min-width: 10rem;
+    width: 10rem;
     text-align:center
 }
 
@@ -234,7 +263,7 @@
 }
 
 .tabsecond8 {
-    min-width: 9rem;
+    min-width: 8rem;
     text-align:center
 }
 
@@ -390,7 +419,7 @@
     line-height:1;
     letter-spacing: 0em;
     text-align: left;
-    color: #0094d8; 
+    color: #0094d8;
     background-color: #dcecf8;
     border:1px solid #0986D0;
     border-radius:3px;

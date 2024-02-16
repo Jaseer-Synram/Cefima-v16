@@ -120,7 +120,7 @@
   background: #ffffff38 !important;
 }
 
-/* 
+/*
     ::ng-deep .mat-horizontal-stepper-header {
       pointer-events: none !important;
     } */
@@ -142,7 +142,12 @@
   color: #fff;
 }
 
-.mat-expansion-indicator::after {
+
+::ng-deep.mat-expansion-panel-header.mat-expanded {
+  height: 3rem !important;
+}
+
+::ng-deep.mat-expansion-indicator::after {
   border-style: solid;
   border-width: 0 3px 3px 0 !important;
   content: "";
@@ -153,7 +158,7 @@
   color: white !important;
 }
 
-.mat-expansion-panel-header-description,
+::ng-deep.mat-expansion-panel-header-description,
 .mat-expansion-indicator::after {
   color: #fff;
 }
@@ -213,6 +218,10 @@
 .answered-question {
   font-size: 15px;
   color: white !important;
+}
+
+:host ::ng-deep .mat-accordion>.mat-expansion-panel.body-nopadding>.mat-expansion-panel-content>.mat-expansion-panel-body{
+  padding: 0 2px 0 0 !important;
 }
 
 /* :host ::ng-deep .mat-horizontal-stepper-header-container {
@@ -282,13 +291,13 @@
 /* ::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header {
       align-items: flex-start !important;
     }
-    
+
     ::ng-deep
       .mat-stepper-label-position-bottom
       .mat-horizontal-stepper-header:not(:last-child)::after {
       right: 60px !important;
     }
-    
+
     ::ng-deep .mat-stepper-horizontal-line {
       left: 60px !important;
     } */
@@ -341,7 +350,7 @@
 }
 
 /* .backdropBackground {
-      your css needs 
+      your css needs
       background: linear-gradient(#17459b, #02a9ed);
        opacity: 0 !important;
     } */

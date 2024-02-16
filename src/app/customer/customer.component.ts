@@ -728,6 +728,8 @@ export class CustomerComponent implements OnInit {
             console.log(this.customerList);
             console.log("this.customerList" + JSON.stringify(success));
             console.log("this.customerno" + this.customerno);
+            console.log(success);
+                      // debugger
             this.setPage(1);
             this.recordCount = success.length;
           }
@@ -1669,6 +1671,8 @@ export class CustomerComponent implements OnInit {
                       console.log(this.customerList);
                       console.log("this.customerList" + success);
                       console.log("this.customerno" + this.customerno);
+                      console.log(success);
+                      debugger
                       this.setPage(1);
                       this.recordCount = success.length;
                     }
@@ -2484,7 +2488,7 @@ export class CustomerComponent implements OnInit {
 
   open_modal(modal_id: any) {
     console.log(modal_id);
-    
+
     $('#' + modal_id).appendTo("body");
   }
   close_modal(modal_id: any, append_to: any) {

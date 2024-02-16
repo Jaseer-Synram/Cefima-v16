@@ -1395,7 +1395,8 @@ export class B2bCreateCustomerComponent {
 
     }
 
-    // console.log(data, "user data");
+    console.log( "user data",data);
+    debugger
     this.userService
       .registerUser(data)
       .pipe(first())
@@ -2085,7 +2086,7 @@ export class B2bCreateCustomerComponent {
   //Generate Customer Number
   /*genFiorettoGmbHCustomerNo(){
     //console.log('pp');
-     this.companyArr = this.companyArr; 
+     this.companyArr = this.companyArr;
     //console.log('in Generate Customer Number Function',this.companyArr);
     const fiorettoGroupGmbH = '-20-';
     const fiorettoMediaGmbH = '-30-';

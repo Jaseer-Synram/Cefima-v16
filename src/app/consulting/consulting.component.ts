@@ -654,8 +654,11 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
             this.company_kunde = false;
             this.showmembers = false;
             this.ShowButton = false;
+            console.log('',this.optionsValue[i])
+
             if (this.optionsValue[i]?.mainCompany === 0) {
               $("#loaderouterid").css("display", "block");
+              console.log('id',this.id);
               this.userService
                 .getMainCompanyBranch(this.id)
                 .subscribe((branches: any) => {
@@ -668,8 +671,9 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
                   selected_customer._id = selected_customer.id;
                   branches.unshift(selected_customer);
                   this.allBranches = branches;
-                  this.setBranchesOptions(this.allBranches);
                   console.log("all branches", this.allBranches);
+
+                  this.setBranchesOptions(this.allBranches);
                 });
             } else {
               $("#loaderouterid").css("display", "block");
@@ -685,6 +689,8 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
                   selected_customer._id = selected_customer.id;
                   branches.unshift(selected_customer);
                   this.allBranches = branches;
+                  console.log(branches);
+
                   this.setBranchesOptions(this.allBranches);
                 });
 
@@ -1468,6 +1474,10 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
 
       const formData = new FormData();
       formData.append("document", f);
+      formData.forEach((value, key) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+      });
+      debugger
       this.userService
         .uploaddocumentwithoutticketno(formData)
         .subscribe((event: HttpEvent<any>) => {
@@ -1990,7 +2000,9 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
             let context: any = canvas.getContext("2d");
             context.drawImage(image, 0, 0);
             await generateFooter(canvas.toDataURL("image/png").split(",")[1]);
-            await pdfnew.save("Test.pdf");
+
+            // await pdfnew.save("Test.pdf")
+
             that.pdfArray.push(pdfnew.output("blob"));
             that.questionList[nextk].tempList[nextj].pdfSaved = true;
             $("#questionPdf" + nextk + nextj).css("display", "none");
@@ -2011,6 +2023,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
                   }
                 }
               }
+
               // counter++;
               handlePdf("questionPdf", nextk, nextj, counter + 1);
 
@@ -2026,6 +2039,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
               console.log('here');
               // $("#loaderouterid").css("display", "none");
               // return;
+
               that.handlePdfUpload();
             }
           };
@@ -2038,26 +2052,41 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
     let counter = 1;
     console.log("pdf array", this.pdfArray);
     for (let i = 0; i < this.pdfArray.length; i++) {
+
       let currentPdf = this.pdfArray[i];
+      console.log('currentpdf',currentPdf,`:${JSON.stringify(currentPdf)}`);
+
       let that = this;
 
       const formData = new FormData();
       formData.append("document", currentPdf);
+
+      formData.forEach((value, key) => {
+        console.log(`Key: ${key}, Value: ${value}`,`:${JSON.stringify(value)}`);
+      });
+
       this.userService
         .uploaddocumentwithoutticketno(formData)
         .subscribe((event: HttpEvent<any>) => {
           switch (event.type) {
             case HttpEventType.Sent:
               console.log("Request has been made!");
+
               break;
             case HttpEventType.ResponseHeader:
+              console.log('ResponseHeader');
               console.log("Response header has been received!");
+
               break;
             case HttpEventType.UploadProgress:
+
+              console.log('UploadProgress');
               console.log(event.total);
               console.log(event.loaded);
+
               break;
             case HttpEventType.Response:
+              console.log('Response');
               let Size111 = currentPdf.size;
               let StringTypeCasting = this.dataconvert(Size111);
               let typeofimage = currentPdf.type;
@@ -2073,8 +2102,10 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
                 pdfData: data,
                 pdfId: event.body.document_unique_id,
               });
+
               if (counter === this.pdfArray.length) {
                 // console.log("uploaded pdf array", this.uploadedPdfArray);
+
                 this.handleTabData();
               }
               counter = counter + 1;
@@ -2100,6 +2131,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
         counter = counter + 1;
       }
     }
+
     console.log("uploaded pdf array", this.uploadedPdfArray);
     console.log("tab data array", this.tabDataArray);
 

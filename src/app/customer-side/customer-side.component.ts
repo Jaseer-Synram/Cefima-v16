@@ -15,6 +15,8 @@ import { AuthService } from '../auth.service';
 import { EventEmitterService } from '../event-emitter.service';
 import { UserService } from '../user.service';
 import { VideoChatComponent } from '../video-chat/video-chat.component';
+import * as lodash from 'lodash';
+
 
 
 type unit = "bytes" | "KB" | "MB" | "GB" | "TB" | "PB";
@@ -67,26 +69,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     hidemultiCompanycustomerMain: true,
     hidemultiCompanycustomerIn: true,
     hidedisabledfamilyMain: true,
-    hidedisabledfamilyIn:true,
+    hidedisabledfamilyIn: true,
     hideCompanyMain: true,
     hideCompanyIn: true,
     hidemultiCompanyMain: true,
     hidemultiCompanyIn: true
   };
 
-  Vertrage = {
-    Angebote: {
-      Versicherungsgesellschaft: true,
-      Geldanlagen: true,
-      Bank: true
-    },
-    Laufende: {
-      Versicherungsgesellschaft: true,
-      Geldanlagen: true,
-      Bank: true
-    },
-    Allgemeine: true
-  }
+  VertrageData = true
 
   addKunden = {
     exampleModalLongnewfamilyPOA: true,
@@ -604,6 +594,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   startRecordtype: any = [{ type1: "" }, { type2: "" }, { type3: "" }];
   endRecordtype: any = [{ type1: "" }, { type2: "" }, { type3: "" }];
   pagedItemstype: any[] = [{ type1: [] }, { type2: [] }, { type3: [] }];
+  pagedItemstypeSearch: any[] = [{ type1: [] }, { type2: [] }, { type3: [] }];
   pagertype: any = [{ type1: "" }, { type2: "" }, { type3: "" }];
   type1: any = [];
   type2: any = [];
@@ -698,17 +689,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   membertype2: any;
   membertype3: any;
   companyData: any = [];
+  companyDataSearch: any;
   brokername: any;
   pagerGDOC: any = {};
   customerCompanyId: any = "";
   alluserdetails: any = [];
-  pagedItems: any[];
+  pagedItems: any[] = []
+  pagedItemsSeacrh: any[] = []
   loginRole = localStorage.getItem("currentActiveRole");
   pagedItemssecond: any[];
 
   pagedItemssecondunique: any = [];
 
   pagedItemsGDOC: any[];
+  pagedItemsGDOCSearch: any[];
   sentence = "    My     string     with     a        lot   of Whitespace.  "
     .replace(/\s+/g, "#")
     .trim();
@@ -739,7 +733,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   selectedptid: any = "";
   showceodoc = false;
   selectedppid: any = "";
-  brokerformtype1: FormGroup;
+  brokerformtype1: FormGroup<any>;
   TimeLineData: any[] = [];
   OfferedDocWithTicket_No: any = [];
   Conversation: any[] = [];
@@ -768,6 +762,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   tokensession = localStorage.getItem("token");
   localData: any = JSON.parse(localStorage.getItem("currentUser"));
+  localDataSearch: any = JSON.parse(localStorage.getItem("currentUser"));
   currentActiveRole = localStorage.getItem("currentActiveRole");
   documents: any;
   signeddoc: any = [];
@@ -935,8 +930,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   isHoverUnternahman = false
   isHoverHaushalt = false
-  indexOfHideValues:any = -1
-  indexOfHideValuesj:any = -1
+  indexOfHideValues: any = -1
+  indexOfHideValuesj: any = -1
+
+  searchVariable: any
 
   constructor(
     private authService: AuthService,
@@ -975,24 +972,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.userService.selectCustomerSideItem.subscribe(data => {
       console.log('hiden?', data);
 
-      for (const key of Object.keys(this.Vertrage.Laufende)) {
-        this.Vertrage.Laufende[key] = true
-      }
-      for (const key of Object.keys(this.Vertrage.Angebote)) {
-        this.Vertrage.Angebote[key] = true
-      }
-      this.Vertrage.Allgemeine = true
-
       for (const key of Object.keys(this.addKunden)) {
         this.addKunden[key] = true
       }
 
       let itemString = `${data[0]}`
 
-        console.log('data1',data[1])
-        console.log('data2',data[2])
-        this.indexOfHideValues = data[1]
-        this.indexOfHideValuesj = data[2]
+      console.log('data1', data[1])
+      console.log('data2', data[2])
+      this.indexOfHideValues = data[1]
+      this.indexOfHideValuesj = data[2]
 
 
       for (const key of Object.keys(this.hideValues)) {
@@ -1002,57 +991,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.hideValues[key] = false
         }
       }
+      this.VertrageData = false
 
-      console.log(this.indexOfHideValues,this.indexOfHideValuesj,this.hideValues)
+      console.log(this.indexOfHideValues, this.indexOfHideValuesj, this.hideValues)
 
-
-    })
-
-    this.userService.selectVertrage.subscribe(data => {
-      console.log('hiden?', data);
-
-      for (const key of Object.keys(this.hideValues)) {
-        this.hideValues[key] = true
-      }
-
-      for (const key of Object.keys(this.Vertrage.Laufende)) {
-        this.Vertrage.Laufende[key] = true
-      }
-      for (const key of Object.keys(this.Vertrage.Angebote)) {
-        this.Vertrage.Angebote[key] = true
-      }
-      this.Vertrage.Allgemeine = true
-
-      for (const key of Object.keys(this.addKunden)) {
-        this.addKunden[key] = true
-      }
-
-      if (data[0] == 'Laufende') {
-
-        for (const key of Object.keys(this.Vertrage.Laufende)) {
-          console.log(this.Vertrage.Laufende[`${key}`], data[1], key);
-
-          if (key == data[1]) {
-            this.Vertrage.Laufende[key] = false
-
-          } else {
-            this.Vertrage.Laufende[key] = true
-          }
-        }
-      } else if (data[0] == 'Angebote') {
-        for (const key of Object.keys(this.Vertrage.Angebote)) {
-          if (key == data[1]) {
-            this.Vertrage.Angebote[key] = false
-          } else {
-            this.Vertrage.Angebote[key] = true
-          }
-        }
-      } else if (data[0] == 'Allgemeine') {
-        this.Vertrage.Allgemeine = false
-      }
-      console.log(this.Vertrage);
 
     })
+
 
     this.userService.modalIdfromSidebar.subscribe((data) => {
 
@@ -1061,13 +1006,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.hideValues[key] = true
       }
 
-      for (const key of Object.keys(this.Vertrage.Laufende)) {
-        this.Vertrage.Laufende[key] = true
-      }
-      for (const key of Object.keys(this.Vertrage.Angebote)) {
-        this.Vertrage.Angebote[key] = true
-      }
-      this.Vertrage.Allgemeine = true
+      this.VertrageData = true
 
       for (const key of Object.keys(this.addKunden)) {
         this.addKunden[key] = true
@@ -1103,18 +1042,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
-  isButtonDisabled(item:string){
-    console.log('item: ',item)
+  isButtonDisabled(item: string) {
+    console.log('item: ', item)
 
-    if(item == 'one'){
-      if(this.secondcompanyaddressFormGroup.status == "VALID"){
+    if (item == 'one') {
+      if (this.secondcompanyaddressFormGroup.status == "VALID") {
         return false
       } else {
         return true
       }
     }
-    if(item == 'both'){
-      if(this.secondcompanyaddressFormGroup.status == "VALID" && this.secondcompanyaddressFormGroup2.status == "VALID"){
+    if (item == 'both') {
+      if (this.secondcompanyaddressFormGroup.status == "VALID" && this.secondcompanyaddressFormGroup2.status == "VALID") {
         return false
       } else {
         return true
@@ -1981,6 +1920,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.api_url = environment.API_URL;
     this.legalrepresentativeform().push(this.newlegalrepresentativeform());
     console.log('customerid', this.customerid);
+    this.companyDataSearch = [];
 
     // this.legalrepresentativeform2().push(this.newlegalrepresentativeform2());
     this.userService
@@ -1988,8 +1928,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       .pipe(first())
       .subscribe((user: any) => {
         this.localData = user;
+        this.localDataSearch = user;
         console.log('localData', this.localData);
-
+        //debugger
         this.getTabList();
         console.log("brokername1");
         console.log("this is user local data", this.localData);
@@ -2516,7 +2457,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.customerDocList = data;
           console.log("innerloop");
           console.log(this.customerDocList);
-
+          //debugger
           for (let i = 0; i < this.customerDocList.length; i++) {
             let exists = 0;
             for (let j = 0; j < this.customerDocListunique.length; j++) {
@@ -2549,7 +2490,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           console.log(error);
         }
       );
-
     this.userService
       .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
       // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
@@ -2557,6 +2497,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       .subscribe(
         (data11) => {
           console.log(data11);
+          //debugger
           this.MetaDataLoopingDocListsecond();
           this.customerDocListsecond = data11;
 
@@ -2646,26 +2587,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanycustomerMain: true,
       hidemultiCompanycustomerIn: true,
       hidedisabledfamilyMain: true,
-      hidedisabledfamilyIn:true,
+      hidedisabledfamilyIn: true,
       hideCompanyMain: true,
       hideCompanyIn: true,
       hidemultiCompanyMain: true,
       hidemultiCompanyIn: true
     };
-
-    this.Vertrage = {
-      Angebote: {
-        Versicherungsgesellschaft: true,
-        Geldanlagen: true,
-        Bank: true
-      },
-      Laufende: {
-        Versicherungsgesellschaft: true,
-        Geldanlagen: true,
-        Bank: true
-      },
-      Allgemeine: true
-    }
 
   }
 
@@ -2692,9 +2619,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   tabClicked(event: any) {
-    console.log('companydata:',this.companyData)
-    console.log('officedata:',this.officeData)
-    console.log('familydata:',this.familyData)
+    this.searchVariable = ''
+    console.log('companydata:', this.companyData)
+    console.log('officedata:', this.officeData)
+    console.log('familydata:', this.familyData)
     $("#loaderouterid").css("display", "block");
     const value = event.tab.textLabel;
     let tab = this.tabList.find((item: any) => item.tab === value);
@@ -2824,7 +2752,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.selectedQuestionArray[answer_index].answerKey.to_date = date;
     }
 
-    console.log('question data:',this.selectedQuestionArray)
+    console.log('question data:', this.selectedQuestionArray)
   }
 
   async handleDocumentUpload(
@@ -3672,10 +3600,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.branchList = this.branchList.filter((obj: any) => obj !== data);
   }
 
-  deleteMemberFromList(index:number){
-    console.log(index,this.branchList)
+  deleteMemberFromList(index: number) {
+    console.log(index, this.branchList)
 
-   this.branchList.splice(index,1);
+    this.branchList.splice(index, 1);
     console.log(this.branchList)
 
   }
@@ -3919,10 +3847,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       .getCustomerCompanies(this.customerid)
       .pipe(first())
       .subscribe((companydata: any) => {
+        this.companyDataSearch = lodash.cloneDeep(companydata);
+
         this.companyData = companydata;
 
         console.log("company data received");
         console.log(this.companyData);
+        //debugger
 
         for (
           let com_count = 0;
@@ -3963,6 +3894,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         .subscribe((familydata11: any) => {
           console.log("familydata" + JSON.stringify(this.familyData));
           this.familyData = familydata11;
+          console.log(familydata11);
+          //debugger
           setTimeout(() => {
             if (this.familyData.length > 0) {
               console.log("querySelector1" + this.familyData.length);
@@ -3997,6 +3930,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       .pipe(first())
       .subscribe((userofficedata: any) => {
         this.userofficeData = userofficedata;
+        console.log('userofficedata', userofficedata);
+        // //debugger
+
         setTimeout(() => {
           if (this.userofficeData.length > 0) {
             console.log("querySelector1" + this.userofficeData.length);
@@ -4058,7 +3994,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanycustomerMain: false,
       hidemultiCompanycustomerIn: true,
       hidedisabledfamilyMain: true,
-      hidedisabledfamilyIn:true,
+      hidedisabledfamilyIn: true,
       hideCompanyMain: false,
       hideCompanyIn: true,
       hidemultiCompanyMain: false,
@@ -4348,17 +4284,17 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     });
   }
   editRecord(type: any, index: any, data: any, cardindex?: any) {
-    console.log("editRecord" + JSON.stringify(data) + "index" + index,type,cardindex);
+    console.log("editRecord" + JSON.stringify(data) + "index" + index, type, cardindex);
     console.log("editRecordcardindex" + cardindex);
     let modalid = ''
-    if(type.includes('type1')){
-      modalid= `collapsetype1modal`
-    } else if(type.includes('type2')){
-      modalid= `collapsetype2modal`
-    } else if(type.includes('type3')){
-      modalid= `collapsetype3modal`
-    } 
-    
+    if (type.includes('type1')) {
+      modalid = `collapsetype1modal`
+    } else if (type.includes('type2')) {
+      modalid = `collapsetype2modal`
+    } else if (type.includes('type3')) {
+      modalid = `collapsetype3modal`
+    }
+
     console.log(modalid)
     if (type == "type1" && index == 0) {
 
@@ -4400,7 +4336,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     let accordian: HTMLElement = document.getElementById(accordianId)!;
     if (element.innerHTML == "Schließen") {
       console.log("element", element1new);
-      element1new.after(accordian);
+      // element1new.after(accordian);
       // accordian.classList.add("collapse");
       // accordian.classList.add("collapse");
       // accordian.classList.remove("collapse-show");
@@ -4433,8 +4369,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         }
       }
       console.log(this.openid);
-      element1.after(accordian);
-      console.log(accordian);
+      // element1.after(accordian);
+      // console.log(accordian);
 
       $(`#${modalid}btn`).trigger("click");
       this.open_modal(modalid)
@@ -4448,7 +4384,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
 
       console.log(this.openid);
-      console.log(accordian);
+      // console.log(accordian);
 
       if (type == "type1company") {
         this.brokerformtype1.patchValue({
@@ -4689,6 +4625,211 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       additionalReference: this.localData.additionalReference,
       countryOfResidence: this.localData.current_country,
     });
+  }
+
+  searchMembers(event: any, from: string, type: string, data: string, index = 0) {
+
+    console.log(event, from, type, data, index);
+    console.log(this.searchVariable)
+
+    setTimeout(() => {
+
+      if (data == 'companyData') {
+        if (from == 'Vertretungsberechtigte') {
+          if (type == 'type1') {
+            this.companyData[index].type1.legalrepresentativeform = [];
+            for (let i = 0; i < this.companyDataSearch[index].type1.legalrepresentativeform.length; i++) {
+              const element = this.companyDataSearch[index].type1.legalrepresentativeform[i].firstname.toLowerCase();
+
+              if (element.includes(this.searchVariable)) {
+                this.companyData[index].type1.legalrepresentativeform.push(this.companyDataSearch[index].type1.legalrepresentativeform[i]);
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.companyData[index].type1.legalrepresentativeform = this.companyDataSearch[index].type1.legalrepresentativeform
+            }
+          }
+        }
+        if (from == 'Bevollmächtigte') {
+          if (type == 'type2') {
+            this.companyData[index].type2.legalrepresentativeform1 = [];
+            for (let i = 0; i < this.companyDataSearch[index].type2.legalrepresentativeform1.length; i++) {
+              const element = this.companyDataSearch[index].type2.legalrepresentativeform1[i].firstname.toLowerCase();
+
+              if (element.includes(this.searchVariable)) {
+                this.companyData[index].type2.legalrepresentativeform1.push(this.companyDataSearch[index].type2.legalrepresentativeform1[i]);
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.companyData[index].type2.legalrepresentativeform1 = this.companyDataSearch[index].type2.legalrepresentativeform1
+            }
+          }
+        }
+        if (from == 'Wirtschaftlicher') {
+          if (type == 'type3') {
+            this.companyData[index].type3.legalrepresentativeform2 = [];
+            for (let i = 0; i < this.companyDataSearch[index].type3.legalrepresentativeform2.length; i++) {
+              const element = this.companyDataSearch[index].type3.legalrepresentativeform2[i].firstname.toLowerCase();
+
+              if (element.includes(this.searchVariable)) {
+                this.companyData[index].type3.legalrepresentativeform2.push(this.companyDataSearch[index].type3.legalrepresentativeform2[i]);
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.companyData[index].type3.legalrepresentativeform2 = this.companyDataSearch[index].type3.legalrepresentativeform2
+            }
+          }
+        }
+      }
+
+      if (data == 'pagedItemstype') {
+        if (from == 'Vertretungsberechtigte') {
+          if (type == 'type1') {
+            this.pagedItemstype[0].type1 = []
+            for (let i = 0; i < this.pagedItemstypeSearch[0].type1.length; i++) {
+              const element = this.pagedItemstypeSearch[0].type1[i].firstname.toLowerCase();
+
+              if (element.includes(this.searchVariable)) {
+                this.pagedItemstype[0].type1.push(this.pagedItemstypeSearch[0].type1[i])
+              }
+            }
+
+          }
+        }
+
+        if (from == 'Bevollmächtigte') {
+          if (type == 'type2') {
+            this.pagedItemstype[0].type2 = []
+            for (let i = 0; i < this.pagedItemstypeSearch[0].type2.length; i++) {
+              const element = this.pagedItemstypeSearch[0].type2[i].firstname.toLowerCase();
+
+              if (element.includes(this.searchVariable)) {
+                this.pagedItemstype[0].type2.push(this.pagedItemstypeSearch[0].type2[i])
+              }
+            }
+          }
+        }
+
+        if (from == 'Wirtschaftlicher') {
+          if (type == 'type3') {
+            this.pagedItemstype[0].type3 = []
+            for (let i = 0; i < this.pagedItemstypeSearch[0].type3.length; i++) {
+              const element = this.pagedItemstypeSearch[0].type3[i].firstname.toLowerCase();
+
+              if (element.includes(this.searchVariable)) {
+                this.pagedItemstype[0].type3.push(this.pagedItemstypeSearch[0].type3[i])
+              }
+            }
+          }
+        }
+      }
+
+      if (from == 'Laufende') {
+        if (type == 'Versicherungsgesellschaft') {
+          if (data == 'pagedItems') {
+
+            for (let i = 0; i < this.pagedItemsSeacrh.length; i++) {
+
+              for (let j = 0; j < this.pagedItemsSeacrh[i].element?.inventorydata?.length; j++) {
+
+                const element = this.pagedItemsSeacrh[i].element?.producttype[0]?.product_typename?.toLowerCase();
+
+                if (element.includes(this.searchVariable)) {
+                  this.pagedItems[i] = this.pagedItemsSeacrh[i]
+                } else {
+                  this.pagedItems[i] = { element: {} }
+                }
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.pagedItems = this.pagedItemsSeacrh
+            }
+
+            console.log(this.pagedItems, this.pagedItemsSeacrh);
+
+          }
+        }
+
+        if (type == 'Geldanlagen') {
+          if (data == 'pagedItems') {
+
+            for (let i = 0; i < this.pagedItemsSeacrh.length; i++) {
+
+              for (let j = 0; j < this.pagedItemsSeacrh[i].element?.inventorydata?.length; j++) {
+
+                const element = this.pagedItemsSeacrh[i].element?.producttype[0]?.product_typename?.toLowerCase();
+
+                if (element.includes(this.searchVariable)) {
+                  this.pagedItems[i] = this.pagedItemsSeacrh[i]
+                } else {
+                  this.pagedItems[i] = { element: {} }
+                }
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.pagedItems = this.pagedItemsSeacrh
+            }
+
+            console.log(this.pagedItems, this.pagedItemsSeacrh);
+
+          }
+        }
+
+        if (type == 'Bank') {
+          if (data == 'pagedItems') {
+
+            for (let i = 0; i < this.pagedItemsSeacrh.length; i++) {
+
+              for (let j = 0; j < this.pagedItemsSeacrh[i].element?.inventorydata?.length; j++) {
+
+                const element = this.pagedItemsSeacrh[i].element?.producttype[0]?.product_typename?.toLowerCase();
+
+                if (element.includes(this.searchVariable)) {
+                  this.pagedItems[i] = this.pagedItemsSeacrh[i]
+                } else {
+                  this.pagedItems[i] = { element: {} }
+                }
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.pagedItems = this.pagedItemsSeacrh
+            }
+
+            console.log(this.pagedItems, this.pagedItemsSeacrh);
+
+          }
+        }
+
+      }
+
+      if (from == 'Allgemeine') {
+        if (data == 'pagedItemsGDOC') {
+
+          console.log(this.pagedItemsGDOC);
+
+          this.pagedItemsGDOC = []
+          for (let i = 0; i < this.pagedItemsGDOCSearch.length; i++) {
+            const element = this.pagedItemsGDOCSearch[i].element.document_name.toLowerCase();
+
+            if (element.includes(this.searchVariable)) {
+              this.pagedItemsGDOC.push(this.pagedItemsGDOCSearch[i])
+            }
+          }
+
+          if (this.searchVariable.trim() == '') {
+            this.pagedItemsGDOC = this.pagedItemsGDOCSearch
+          }
+
+        }
+      }
+
+    }, 100);
   }
 
   savecompanyId(companydata: any) {
@@ -5610,7 +5751,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagertype[0].type1.startIndex,
         this.pagertype[0].type1.endIndex + 1
       );
-      console.log("sadsadsad" + JSON.stringify(this.pagedItemstype[0].type1));
+      this.pagedItemstypeSearch[0].type1 = this.type1.slice(
+        this.pagertype[0].type1.startIndex,
+        this.pagertype[0].type1.endIndex + 1
+      );
+      console.log("sadsadsad" + JSON.stringify(this.pagedItemstype[0].type1),
+        "sadsadsadneelam" + JSON.stringify(this.pagedItemstypeSearch[0].type1));
       if (this.type1.length > 0) {
         this.startRecordtype[0].type1 =
           this.pagertype[0].type1.currentPage *
@@ -5648,8 +5794,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagertype[0].type2.startIndex,
         this.pagertype[0].type2.endIndex + 1
       );
+      this.pagedItemstypeSearch[0].type2 = this.type2.slice(
+        this.pagertype[0].type2.startIndex,
+        this.pagertype[0].type2.endIndex + 1
+      );
       console.log(
-        "sadsadsadneelam" + JSON.stringify(this.pagedItemstype[0].type2)
+        "sadsadsadneelam" + JSON.stringify(this.pagedItemstype[0].type2),
+
       );
       if (this.type2.length > 0) {
         this.startRecordtype[0].type2 =
@@ -5679,6 +5830,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log("sadsadsad" + this.pagertype[0].type3);
       // get current page of items
       this.pagedItemstype[0].type3 = this.type3.slice(
+        this.pagertype[0].type3.startIndex,
+        this.pagertype[0].type3.endIndex + 1
+      );
+      this.pagedItemstypeSearch[0].type3 = this.type3.slice(
         this.pagertype[0].type3.startIndex,
         this.pagertype[0].type3.endIndex + 1
       );
@@ -6614,14 +6769,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
-  elementforallgmei:HTMLElement ;
+  elementforallgmei: HTMLElement;
 
-  changebuttonname(){
+  changebuttonname() {
     this.elementforallgmei.innerHTML = "Öffnen"
   }
 
 
-  preViewData:any
+  preViewData: any
   preview(
     url: any,
     tags: any,
@@ -6733,18 +6888,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       );
       */
       this.preViewData = {
-        document_name:document_name,
-        metadata:metadata,
-        ticket_no:ticket_no,
-        date_of_document:date_of_document,
-        date_of_upload:date_of_upload,
-        created_byname:created_byname,
-        filetype:filetype,
-        companycode:companycode,
-        brand:brand,
-        url:url,
-        imagename:imagename,
-        href:`${environment.API_URL}document/downloaddocument/${imagename}`
+        document_name: document_name,
+        metadata: metadata,
+        ticket_no: ticket_no,
+        date_of_document: date_of_document,
+        date_of_upload: date_of_upload,
+        created_byname: created_byname,
+        filetype: filetype,
+        companycode: companycode,
+        brand: brand,
+        url: url,
+        imagename: imagename,
+        href: `${environment.API_URL}document/downloaddocument/${imagename}`
       }
       console.log(this.preViewData)
 
@@ -6845,6 +7000,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       this.pagedItemsGDOC.length = 0;
       this.pagedItemsGDOC = [];
+      this.pagedItemsGDOCSearch.length = 0
+      this.pagedItemsGDOCSearch = []
 
       if (this.values_document == "" || this.values_document == " ") {
         //this.setPage(1, true);
@@ -6876,6 +7033,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.pagerGDOC.endIndex + 1
         );
 
+        this.pagedItemsGDOCSearch = this.temporary_documents.slice(
+          this.pagerGDOC.startIndex,
+          this.pagerGDOC.endIndex + 1
+        );
+
         if (this.temporary_documents.length > 0) {
           this.startRecordGDOC = this.pagerGDOC.currentPage * 10 - 10 + 1;
           this.endRecordGDOC =
@@ -6893,6 +7055,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   // pagination
 
   setPage(page: number, Double?: any) {
+    console.log('page', page);
+
     // get pager object from service
     //this.getdivoutside();
     if (Double == "general") {
@@ -6906,6 +7070,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagerGDOC.startIndex,
         this.pagerGDOC.endIndex + 1
       );
+
+      this.pagedItemsGDOCSearch = this.documents.slice(
+        this.pagerGDOC.startIndex,
+        this.pagerGDOC.endIndex + 1
+      );
+
       console.log("AAAAAAAAA" + JSON.stringify(this.pagedItems));
       if (this.documents.length > 0) {
         this.startRecordGDOC =
@@ -6969,10 +7139,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pager.startIndex,
         this.pager.endIndex + 1
       );
+      this.pagedItemsSeacrh = this.customerDocListunique.slice(
+        this.pager.startIndex,
+        this.pager.endIndex + 1
+      );
 
       console.log("paged items doc");
       console.log(this.pagedItems);
-
+      // //debugger
       //if (this.customerDocList.length > 0) {
       if (this.customerDocListunique.length > 0) {
         this.startRecord =
@@ -7012,50 +7186,50 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         for (let i = 0; i < this.pagedItems.length; i++) {
           for (
             let j = 0;
-            j < this.pagedItems[i].element.inventorydata.length;
+            j < this.pagedItems[i].element.producttype.length;
             j++
           ) {
-            if (this.pagedItems[i].element.inventorydata[j].Sparte == "Sach") {
+            if (this.pagedItems[i].element.producttype[j].sparte == "Sach") {
               this.sach += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte ==
+              this.pagedItems[i].element.producttype[j].sparte ==
               "Renten/Leben"
             ) {
               this.renten += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte == "Kranken"
+              this.pagedItems[i].element.producttype[j].sparte == "Kranken"
             ) {
               this.kranken += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte ==
+              this.pagedItems[i].element.producttype[j].sparte ==
               "Gewerbesach"
             ) {
               this.gewerbesach += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte == "Investment"
+              this.pagedItems[i].element.producttype[j].sparte == "Investment"
             ) {
               this.investment += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte == "Sachwerte"
+              this.pagedItems[i].element.producttype[j].sparte == "Sachwerte"
             ) {
               this.sachwerte += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte ==
+              this.pagedItems[i].element.producttype[j].sparte ==
               "Immobilienfinanzierung"
             ) {
               this.immobilien += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte ==
+              this.pagedItems[i].element.producttype[j].sparte ==
               "Verbraucherkredite"
             ) {
               this.verbraucher += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte ==
+              this.pagedItems[i].element.producttype[j].sparte ==
               "Unternehmensfinanzierung"
             ) {
               this.unternehmen += 1;
             } else if (
-              this.pagedItems[i].element.inventorydata[j].Sparte ==
+              this.pagedItems[i].element.producttype[j].sparte ==
               "KFZ Kredite"
             ) {
               this.kfz += 1;
@@ -9037,7 +9211,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
   calculateType3() {
-    console.log("neelampiu" + this.companytypenew,this.secondcompanyaddressFormGroup);
+    console.log("neelampiu" + this.companytypenew, this.secondcompanyaddressFormGroup);
 
     if (
       this.companytypenew == "Einzelunternehmen" ||
@@ -9551,12 +9725,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log(this.preview_id);
 
 
-    console.log('event:',event);
-    console.log('preview:',preview);
-    console.log('docName:',docName);
-    console.log('idname:',idname);
-    console.log('dynamicceo:',dynamicceo);
-    
+    console.log('event:', event);
+    console.log('preview:', preview);
+    console.log('docName:', docName);
+    console.log('idname:', idname);
+    console.log('dynamicceo:', dynamicceo);
+
 
     this.docuploaded = false;
     //this.showfifthstepsuccess=false;
@@ -9622,7 +9796,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log(this.filearraynew);
       console.log("filenames");
       console.log(this.filename);
-      console.log('idname:',idname)
+      console.log('idname:', idname)
       $("#" + idname).val("");
 
       console.log(this.filearraynew.length);
@@ -9832,7 +10006,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
             showname = displayName;
           }
-          
+
           console.log("see times");
           console.log(that.previewsrc);
           console.log("ends here");
@@ -9970,7 +10144,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           $(".removepreview").click(function (event: any) {
             removeData(i);
 
-              console.log(i)
+            console.log(i)
             that.saveddoc.forEach((value: any, index: any) => {
               //if(value.id == docName && value.index == idname) that.saveddoc.splice(index,1);
 
@@ -10692,9 +10866,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           console.log("see times in else");
           console.log(that.previewsrc);
           console.log("ends here");
-          console.log("showname:",showname);
-
-          debugger
+          console.log("showname:", showname);
 
           if (
             showname ==
@@ -10756,7 +10928,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               "</div>";
           } else {
             StringTemple =
-            '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+              '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
               '<div class="d-flex flex-row col-md-12 p-0">' +
               '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
               '<img class="imageThumb" style="width: 50px;height:30px;"  src="' +
@@ -11532,8 +11704,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           that.previewpassportid +
           '" id="removepreviewid' +
           that.previewpassportid +
-          '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' 
-          ' <div class="previewImagee btn links mt-1" data-preview_id="' +
+          '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>'
+        ' <div class="previewImagee btn links mt-1" data-preview_id="' +
           that.previewpassportid +
           '" id="previewimagee' +
           that.previewpassportid +
@@ -11542,7 +11714,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           "</div>" +
           "</div>";
 
-          '<div class="col-md-12">' +
+        '<div class="col-md-12">' +
           '<div class="progress form-group progressnew' +
           Size_num +
           i +
@@ -12037,14 +12209,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     for (const key of Object.keys(this.hideValues)) {
       this.hideValues[key] = true
     }
+    this.VertrageData = true
 
-    for (const key of Object.keys(this.Vertrage.Laufende)) {
-      this.Vertrage.Laufende[key] = true
-    }
-    for (const key of Object.keys(this.Vertrage.Angebote)) {
-      this.Vertrage.Angebote[key] = true
-    }
-    this.Vertrage.Allgemeine = true
     console.log(id);
   }
 
@@ -12849,7 +13015,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             f.name +
             '"/>' +
             "</div>" +
-            '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' + 
+            '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
             "<div> <b class='limitword' title='" +
             f.name +
             "'>Dokumentenname: " +
@@ -13029,6 +13195,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               values.tags.push(Date);
               console.log("inside if handleimage upload");
               console.log(i);
+              console.log(values);
+              //debugger
+
               this.uploadDocument2(values, i);
               values.tags = [];
             }
@@ -13238,6 +13407,42 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       );
   }
 
+  vertrageStepperChange(event: any) {
+    this.searchVariable = ''
+    console.log(event);
+  }
+
+  laufendeStepperChange(event: any) {
+    this.searchVariable = ''
+    this.customerDocListunique = [];
+    let art = ''
+    if (event.index == 0) {
+      art = 'Versicherungsgesellschaft'
+    } else if (event.index == 1) {
+      art = 'Geldanlagen'
+    } else if (event.index == 2) {
+      art = 'Bank'
+    }
+
+    for (let i = 0; i < this.customerDocList.length; i++) {
+      for (let j = 0; j < this.customerDocList[i].element.producttype.length; j++) {
+        const element = this.customerDocList[i].element.producttype[j].art;
+        // const sparte = this.customerDocList[i].element.producttype[j].sparte ;
+        if (element == art) {
+          this.customerDocListunique.push(this.customerDocList[i])
+        }
+      }
+    }
+
+    console.log(this.customerDocListunique);
+    this.setPage(1);
+
+  }
+
+  angeboteStepperChange(event: any){
+    this.searchVariable = ''
+  }
+
   showspartedoc1(sparte: any) {
     console.log("sparte");
     console.log(sparte);
@@ -13251,14 +13456,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     if (sparte != "All") {
       for (let i = 0; i < this.customerDocList.length; i++) {
-        for (
-          let j = 0;
-          j < this.customerDocList[i].element.inventorydata.length;
-          j++
-        ) {
-          if (
-            this.customerDocList[i].element.inventorydata[j].Sparte == sparte
-          ) {
+        for (let j = 0; j < this.customerDocList[i].element.producttype.length; j++) {
+          if (this.customerDocList[i].element.producttype[j].sparte == sparte) {
             let exists = 0;
 
             for (let k = 0; k < this.customerDocListunique.length; k++) {
@@ -13266,16 +13465,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 this.customerDocListunique[k].element.ticket_no ==
                 this.customerDocList[i].element.ticket_no
               ) {
+
                 // this.customerDocListunique.push(this.customerDocList[i]);
                 exists = 1;
+                console.log('exists:', exists);
+
               }
             }
             console.log(exists);
 
             if (exists == 0) {
-              this.customerDocListunique.push(this.customerDocList[i]);
+              this.customerDocListunique.push(this.customerDocList[i])
             }
           }
+
         }
       }
     } else {
@@ -13297,7 +13500,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
 
     }
+    console.log(this.pagedItems);
 
+    // //debugger
     this.setPage(1);
 
     console.log("first");
@@ -13316,7 +13521,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     this.customerDocListsecondunique = [];
 
-    if (sparte != "all") {
+    if (sparte != "All") {
       for (let i = 0; i < this.customerDocListsecond.length; i++) {
         let exists = 0;
         for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
@@ -13374,16 +13579,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     let btnvalue = $("#" + btnid + id).html();
 
 
-    if (btnvalue == "Schließen") {
-      $("#" + btnid + id).html("Öffnen");
-      // this.open_modal('opencontract')
-      // $("#" + divid + id).css("display", "none");
-    } else {
-      $(".openclass").html("Öffnen");
-      $("#" + btnid + id).html("Schließen");
-      // $(".opencontract").css("display", "none");
-      // $("#" + divid + id).css("display", "block");
-    }
+    // if (btnvalue == "Schließen") {
+    //   $("#" + btnid + id).html("Öffnen");
+    // this.open_modal('opencontract')
+    // $("#" + divid + id).css("display", "none");
+    // } else {
+    // $(".openclass").html("Öffnen");
+    // $("#" + btnid + id).html("Schließen");
+    // $(".opencontract").css("display", "none");
+    // $("#" + divid + id).css("display", "block");
+    // }
   }
 
   closecontract(divid: any, btnid: any, id: any) {
@@ -13399,15 +13604,25 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log(tags);
     console.log(event);
 
-    if (event.target.innerHTML == "Öffnen") {
-      console.log('here');
+    if (event.target.innerHTML.includes("Öffnen")) {
+      console.log('here', embedid + index);
 
       $(".opencontractdocbtn").html("Öffnen");
       event.target.innerHTML = "Schließen";
-      $(".contractdocs").css("display", "none");
-      $("#" + embedid + index).css("display", "block");
-      $("#" + embedid + index).attr("src", url);
-      $("#" + embedid + index).attr("type", tags[0].split(",")[1]);
+      // $(".contractdocs").css("display", "none");
+
+      // contractdocs1img
+      if (tags[0].split(",")[1].includes('image')) {
+        $("#" + embedid + 'img' + index).css("display", "block");
+        $("#" + embedid + 'img' + index).attr("src", url);
+        // $("#" + embedid + 'img' +index).attr("type", tags[0].split(",")[1]);
+      } else {
+        $("#" + embedid + index).css("display", "block");
+        $("#" + embedid + index).attr("src", url);
+        $("#" + embedid + index).attr("type", tags[0].split(",")[1]);
+      }
+
+
     } else {
       console.log(' elsehere');
 

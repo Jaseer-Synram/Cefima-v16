@@ -47,6 +47,7 @@ export class UploadDocumentComponent implements OnInit {
   documentList: any;
   myControl = new FormControl('', Validators.required);
   myControlnew = new FormControl();
+  myFirmaControlnew = new FormControl()
   customerFormGroup!: FormGroup;
   recordCount!: Number;
   customerList!: any[];
@@ -61,7 +62,7 @@ export class UploadDocumentComponent implements OnInit {
   routeParams: any;
   year: any = new Date().getFullYear();
   ShowButton: boolean = true;
-  ShowButtonTwo: boolean = true
+  ShowButtonTwo: boolean = true;
   StpperForm: boolean = false;
   showmembers: boolean = false;
   status: boolean = false;
@@ -94,6 +95,15 @@ export class UploadDocumentComponent implements OnInit {
   hoverAllgemeines = false
   dokumenttypStep = new FormControl('', Validators.required)
   ProdukttypStep = new FormControl('', Validators.required)
+
+  currentBranch = new FormControl("");
+  allBranches: any = [];
+  branchesOptions: any = [];
+  selectedBranchList: any = [];
+  allCustomerData: any = [];
+  step2Control = new FormControl('', Validators.required)
+  currentUserInfo: any = {};
+  optionsValuecompany: any[];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -197,6 +207,7 @@ export class UploadDocumentComponent implements OnInit {
       const user_id = params['user_id']
       console.log(user_id);
     })
+    this.ShowButtonTwo = true
   }
 
 
@@ -295,6 +306,7 @@ export class UploadDocumentComponent implements OnInit {
       for (let count = 0; count < this.optionsValue.length; count++) {
         if (this.optionsValue[count].title == "Firma") {
 
+          console.log(this.optionsValue[count]);
 
           this.userService.getCustomerCompanies(this.optionsValue[count].id).
             subscribe((companydata: any) => {
@@ -322,7 +334,7 @@ export class UploadDocumentComponent implements OnInit {
                   //   temp_family_data.company_private_customer = "1";
 
                   //   this.optionsValue.push(temp_family_data);
-                  // }   
+                  // }
 
 
                   if (familydata11.length > 0) {
@@ -366,9 +378,24 @@ export class UploadDocumentComponent implements OnInit {
       startWith(""),
       map(value => {
         console.log(value);
+        if (value) {
+          this.stepper.next()
+        }
+
         return this._filtermember(value)
       })
-      // map(value => value.length >= 1 ? this._filter(value) : [])
+    );
+
+    this.branchesOptions = this.myFirmaControlnew.valueChanges.pipe(
+      startWith(""),
+      map(value => {
+        console.log('uoihhhiuhk',value);
+        if (value) {
+          this.stepper.next()
+        }
+
+        return this._filtermember(value)
+      })
     );
   }
 
@@ -387,28 +414,34 @@ export class UploadDocumentComponent implements OnInit {
     );
   }
 
+  private _filtercompany(value: string) {
+    const filterValue = value.toLowerCase();
+
+    return this.optionsValuecompany.filter(option =>
+      option.name.toLowerCase().includes(filterValue)
+    );
+  }
+
   GoNext() {
-
-
     if (this.kundetype == 'Firma' && this.myControl.value) {
       console.log('firma');
       this.kundevalue = this.myControl.value.split('(')[0].trim()
+      console.log(this.kundetype);
       this.userService.savelocaldata(this.kundetype, this.myControl.value.split('(')[0].trim());
     } else if (this.kundetype.includes('Haushalt') && this.myControlnew.value) {
       console.log('hauhsalt');
       this.kundevalue = this.myControlnew.value.split('(')[0].trim()
+      console.log(this.kundetype);
       this.userService.savelocaldata(this.kundetype, this.myControlnew.value.split('(')[0].trim());
     }
 
-    // this.router.navigate(["/upload-document/" + this.id], {
-    //   queryParams: { user_id: this.id }
-    // });
   }
 
   patchnationalityValue(event: any) {
     console.log(this.optionsValue);
     this.myControlnew.reset();
     this.stepper.next()
+    this.ShowButtonTwo = true
     if (this.myControl.value != "") {
 
       for (let i = 0; i < this.optionsValue.length; i++) {
@@ -419,6 +452,33 @@ export class UploadDocumentComponent implements OnInit {
             console.log("patchnationalityValue" + this.optionsValue[i].title + "if");
             this.showmembers = false;
             this.ShowButton = false;
+            console.log('', this.optionsValue[i])
+            // if (this.optionsValue[i]?.mainCompany === 0) {
+            $("#loaderouterid").css("display", "block");
+            console.log('id', this.id);
+
+            this.userService
+              .getMainCompanyBranch(this.id)
+              .subscribe((branches: any) => {
+                console.log("result of branch", branches);
+                $("#loaderouterid").css("display", "none");
+                for (let i = 0; i < branches.length; i++) {
+                  this.allCustomerData.push(branches[i]);
+                }
+                let selected_customer = this.optionsValue[i];
+                selected_customer._id = selected_customer.id;
+                branches.unshift(selected_customer);
+                this.allBranches = branches;
+                this.setBranchesOptions(this.allBranches);
+                console.log("all branches", this.allBranches);
+                // if (this.myFirmaControlnew.touched == true) {
+                //   console.log('toucheed');
+                // } else {
+                //   console.log('hh');
+                //   this.myFirmaControlnew.setValue(" ")
+                //   this.myFirmaControlnew.setValue("")
+                // }
+              })
           } else {
             this.kundetype = 'Haushalt ' + this.optionsValue[i].lastname;
             console.log("patchnationalityValue" + this.optionsValue[i].title + "else");
@@ -475,10 +535,61 @@ export class UploadDocumentComponent implements OnInit {
 
     console.log("patchnationalityValue" + this.myControl.value, this.id);
   }
+
+
+
+  setCurrentUserInfo(userId: any) {
+    console.log(
+      "all customer data in current user function",
+      this.allCustomerData
+    );
+    this.currentUserInfo = this.allCustomerData.find(
+      (item: any) => item._id === userId
+    );
+    console.log("current user info", this.currentUserInfo);
+  }
+
+  setBranchesOptions(data: any) {
+    this.branchesOptions = data.map((item: any) => {
+      return {
+        name: item.officename
+          ? item.officename
+          : `${item.firstname} ${item.lastname}`,
+        id: item._id,
+      };
+    });
+    console.log("branches options", this.branchesOptions);
+  }
+
+  setBranchList(event: any) {
+    console.log("all customer data", this.allCustomerData);
+    console.log('event value:',event.trim(),event.trim() != ( '' ||undefined || null),event == ( '' ||undefined || null))
+
+    if(event.trim() != ( '' ||undefined || null)){
+      console.log(this.step2Control.valid);
+      this.step2Control.setValue('value');
+      console.log(this.step2Control.valid);
+      this.ShowButtonTwo = false
+      this.stepper.next()
+    } else {
+      console.log('true2');
+      this.ShowButtonTwo = true
+    }
+
+    let branch = this.selectedBranchList?.find(
+      (item: any) => JSON.stringify(item) === JSON.stringify(event)
+    );
+    if (!branch) {
+      this.selectedBranchList.push(event);
+      this.setCurrentUserInfo(this.selectedBranchList[0]?.id);
+    }
+
+  }
+
   patchmembervalue(event: any) {
     console.log(this.optionsValue);
     if (this.myControlnew.value != "") {
-      for (let i = 0; i < this.optionsValuemembers.length; i++) {
+      for (let i = 0; i < this.optionsValuemembers?.length; i++) {
         if (this.optionsValuemembers[i].name === this.myControlnew.value) {
           this.id = this.optionsValuemembers[i].id;
           console.log("patchmembervalue" + JSON.stringify(this.optionsValuemembers[i]));
@@ -486,74 +597,16 @@ export class UploadDocumentComponent implements OnInit {
       }
       this.ShowButtonTwo = false
       this.ShowButton = false;
+      this.stepper.next()
     } else {
       console.log('true2');
-
+      this.ShowButtonTwo = true
       this.ShowButton = true;
     }
 
 
     console.log("patchmembervalue" + this.myControlnew.value, this.id);
   }
-  // logout() {
-  //   localStorage.removeItem("token");
-  //   this.router.navigate(["./"]);
-  //   document.body.classList.remove("modal-open");
-  // }
-  // isLoggedIn() {
-  //   let redirectionRoute = this.authService.checkRouteRedirect(this.loginRole);
-  //   this.router.navigate([redirectionRoute]);
-  // }
-  // navigateWithb2bID() {
-  //   console.log("sele" + JSON.stringify(this.selectedUser));
-
-  //   this.router.navigate(["/b2b-dashboard"], {
-  //     queryParams: { id: this.id },
-  //   });
-
-  //   // this.queryID = this.selectedUser.customerno;
-  //   // this.ngOnInit()
-  // }
-
-
-  // second step *************
-
-  // from oninit
-  // this.selectedUser.id = this.id;
-  //this.userService.getEditUser(this.user_id).subscribe((success: any) => {
-  //   console.log("slectedUserCompanyname" + JSON.stringify(success));
-  //   console.log("slectedUserCompanyname" + success.companyname);
-  //   console.log("slectedUserCompanyname" + success.title);
-  //   console.log("slectedUserCompanyname" + this.slectedUserTitle);
-  //   this.slectedUserTitle = success.title;
-  //   this.slectedUserFirstname = success.firstname;
-  //   this.slectedUserLastname = success.lastname;
-  //   this.slectedUserCompanyname = success.companyname;
-  // });
-  // this.userService
-  //     .getgeneraldocumentbycustomeridwithpoa(
-  //       this.user_id,
-  //       "Allgemeines Dokument",
-  //       "Power of attorney"
-  //     )
-  //     .subscribe((successdata: any) => {
-  //       console.log("ddddddd" + successdata.length);
-  //       if (successdata.length > 0) {
-  //         this.poa = "true";
-  //       } else {
-  //         this.poa = "false";
-  //// }
-  //// console.log(success.title);
-  //// this.slectedUserTitle = success.title;
-  //// this.slectedUserFirstname = success.firstname;
-  //// this.slectedUserLastname = success.lastname;
-  // });
-
-  //// this.activatedRoute.queryParams.subscribe((params) => {
-  ////   console.log(params); // { order: "popular" }
-  ////   console.log(params.user_id); // popular
-  //// });
-  // this.routeParams = this.activatedRoute.snapshot.routeConfig.path;
 
   GoNext2(document_type: string) {
     this.dokumenttypStep.setValue('value')
@@ -631,11 +684,35 @@ export class UploadDocumentComponent implements OnInit {
   product_partner = ''
   // from oninit-step3 found no use
 
+  callValueChange() {
+    if (this.ProductsTypeControl.touched == true) {
+      console.log('toucheed');
+    } else {
+      this.ProductsTypeControl.setValue(" ")
+      this.ProductsTypeControl.setValue("")
+    }
+  }
+
   initToProducctPartner() {
+    this.ThirdTypeDocOptions = this.ThirdTypeDoc.statusChanges.pipe(
+      map((value) => this._filterThirdTypeDoc(value))
+    );
     this.ThirdTypeDocOptions = this.ThirdTypeDoc.valueChanges.pipe(
       startWith(""),
       map((value) => this._filterThirdTypeDoc(value))
     );
+
+    this.filteredProductsOptions = this.ProductsControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => this._filterstep3(value))
+    );
+
+    this.filteredProductsTypeOptions = this.ProductsTypeControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => this._filterTypeProducts(value))
+    )
+
+
     const data = this.userService.getproductpartner().subscribe(
       (success: any) => {
         // if success and error give response
@@ -656,32 +733,15 @@ export class UploadDocumentComponent implements OnInit {
         console.log(rejected);
       }
     );
-    setTimeout(() => {
-      this.filteredProductsOptions = this.ProductsControl.valueChanges.pipe(
-        startWith(""),
-        map((value) => this._filterstep3(value))
-        // map(value => typeof value === 'string' ? value : value.name),
-        // map(name => name ? this._filterstep3(name): this.ReadyProductsOptions.slice())
-      );
-
-      // this.filteredProductsTypeOptions = this.ProductsTypeControl.valueChanges.pipe(
-      //   startWith(""),
-      //   map((value) => this._filterTypeProducts(value))
-      // );
 
 
-      this.filteredProductsTypeOptions =
-        this.ProductsTypeControl.valueChanges.pipe(
-          startWith(""),
-          map((value) => this._filterTypeProducts(value))
-        );
 
 
-      console.log(
-        "this.filteredProductsTypeOptions" +
-        JSON.stringify(this.filteredProductsTypeOptions)
-      );
-    }, 3000);
+
+
+    console.log(
+      "this.filteredProductsTypeOptions:" + this.filteredProductsTypeOptions
+    );
   }
 
 
@@ -754,26 +814,6 @@ export class UploadDocumentComponent implements OnInit {
     console.log(this.document_type, ':', this.kundetype, ':', this.kundevalue, ':', this.producttypeselected, ':', this.productpartnerselected);
     console.log(this.ThirdTypeDoc.value, ':', this.ProductsControl.value, ';', this.lastproducttypeid, ':', this.lastproductpartnerid, ':', this.ProductsTypeControl.value);
 
-    if (this.document_type == "Allgemeines Dokument") {
-      // this.router.navigate([this.Links], {
-      //   queryParams: {
-      //     document_sub_type: this.ThirdTypeDoc.value,
-      //     user_id: this.id,
-      //     document_type: this.document_type,
-      //     product_partner: this.ProductsControl.value,
-      //   },
-      // });
-    } else {
-      // this.router.navigate([this.Links], {
-      //   queryParams: {
-      //     document_sub_type: this.lastproducttypeid,
-      //     user_id: this.id,
-      //     document_type: this.document_type,
-      //     product_partner: this.lastproductpartnerid,
-      //     document_sub_typename: this.ProductsTypeControl.value,
-      //   },
-      // });
-    }
     setTimeout(() => {
       $('#movetonextstep').trigger("click");
     }, 100);
@@ -807,12 +847,14 @@ export class UploadDocumentComponent implements OnInit {
 
   private _filterTypeProducts(value: string): any {
     this.itemToDisplayUnderProdukttyp = value
+    console.log(value);
+    // debugger
     this.document_sub_type = value
     console.log("ProductsControl" + value);
     if (typeof value != 'object') {
       const filterValue = value.toLowerCase();
 
-      return this.ReadyProductsTypeOptions.filter((option: any) =>
+      return this.ReadyProductsTypeOptions?.filter((option: any) =>
         option.name.toLowerCase().includes(filterValue)
       );
     }
@@ -823,7 +865,6 @@ export class UploadDocumentComponent implements OnInit {
     console.log("ProductsControl" + this.ProductsControl.value.name);
     if (this.ProductsControl.value.name != "") {
       if (this.ProductsControl.value.name) {
-        this.stepper.next()
         this.lastproductpartnerid = this.ProductsControl.value.id;
 
         this.product_partner = this.ProductsControl.value
@@ -832,6 +873,8 @@ export class UploadDocumentComponent implements OnInit {
 
         this.ProductsControl.setValue(this.ProductsControl.value.name)
         this.ShowButtonStep3 = false;
+        this.stepper.next()
+        console.log( this.product_partner );
       }
     } else {
       this.ProductsControl.setValue("")
@@ -863,12 +906,14 @@ export class UploadDocumentComponent implements OnInit {
     this.Links = `/upload-document/${this.id}/${this.document_type}/${this.ProductsControl.value}`;
   }
 
-  patchProductTpyeValue(_event: any) {
+  patchProductTypeValue(_event: any) {
 
     this.ReadyProductsOptions = [];
     console.log("ProductsTypeControl" + this.ProductsTypeControl.value.name);
     this.document_sub_typename = this.ProductsTypeControl.value.name
-    this.document_sub_type = this.ProductsTypeControl.value.name
+    console.log(this.ProductsTypeControl);
+    // debugger
+    this.document_sub_type = this.ProductsTypeControl.value.id
     this.itemToDisplayUnderProdukttyp = this.ProductsTypeControl.value.name
     if (this.ProductsTypeControl.value != "") {
       this.ProdukttypStep.setValue('value')
@@ -972,6 +1017,11 @@ export class UploadDocumentComponent implements OnInit {
     if (values.image !== "") {
       formData.append("document", values.image);
     }
+    formData.forEach((value, key) => {
+      console.log(`Key: ${key}, Value: ${value}`);
+    });
+    debugger
+
     this.UploadDone = true;
     this.userService
       .callApiMultipart(formData)
@@ -1125,16 +1175,19 @@ export class UploadDocumentComponent implements OnInit {
               extension == "txt" ||
               extension == "TXT"
             ) {
+              console.log(this.document_sub_type);
+
+              let product_partnerid:any = this.product_partner
               let StringTypeCasting = Math.round(this.filearray[i].size / 1024);
               let MainType = this.filearray[i].type;
               let Date = this.filearray[i].lastModified;
               console.log("this.StringTypeCasting " + StringTypeCasting);
               values.image = this.filearray[i];
               values.document_type = this.document_type;
-              values.document_sub_type = this.document_sub_type;
+              values.document_sub_type = this.lastproducttypeid;
               values.user_id = this.id;
               values.product_partner = this.product_partner
-                ? this.product_partner
+                ? product_partnerid.id
                 : " ";
               values.companycode = "42140 DFG Finanzprofi GmbH";
               values.brand = "cefima";
@@ -1144,6 +1197,8 @@ export class UploadDocumentComponent implements OnInit {
               values.tags.push(StringTypeCasting.toString());
               values.tags.push(MainType);
               values.tags.push(Date);
+              console.log(values);
+              debugger
               this.uploadDocument(values, i);
               values.tags = [];
               this.showLoader = true;
@@ -1166,6 +1221,7 @@ export class UploadDocumentComponent implements OnInit {
                 let StringTypeCasting = Math.round(
                   this.filearray[i].size / 1024
                 );
+                let product_partnerid:any = this.product_partner
                 let MainType = this.filearray[i].type;
                 //let Date = this.filearray[i].lastModified;
                 let typeofimage = "application/pdf";
@@ -1174,10 +1230,10 @@ export class UploadDocumentComponent implements OnInit {
                 console.log("this.StringTypeCasting " + StringTypeCasting);
                 // values.image = this.filearray[i];
                 values.document_type = this.document_type;
-                values.document_sub_type = this.document_sub_type;
+                values.document_sub_type = this.lastproducttypeid;
                 values.user_id = this.id;
                 values.product_partner = this.product_partner
-                  ? this.product_partner
+                  ? product_partnerid.id
                   : " ";
                 values.companycode = "42140 DFG Finanzprofi GmbH";
                 values.brand = "cefima";
@@ -1189,6 +1245,8 @@ export class UploadDocumentComponent implements OnInit {
                 // values.tags.push(Date);
                 values.tags.push(typeofimage);
                 values.tags.push(dateofdocument);
+                console.log(values);
+                debugger
                 this.uploadDocument(values, i);
                 values.tags = [];
 
@@ -1417,6 +1475,10 @@ export class UploadDocumentComponent implements OnInit {
 
       const formData = new FormData();
       formData.append("document", f);
+      formData.forEach((value, key) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+      });
+      // debugger
       this.userService.uploaddocumentwithoutticketno(
         formData
       ).subscribe((event: HttpEvent<any>) => {
