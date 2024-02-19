@@ -1041,9 +1041,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       });
     }
   }
-
   isButtonDisabled(item: string) {
-    console.log('item: ', item)
 
     if (item == 'one') {
       if (this.secondcompanyaddressFormGroup.status == "VALID") {
@@ -1054,9 +1052,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
     if (item == 'both') {
       if (this.secondcompanyaddressFormGroup.status == "VALID" && this.secondcompanyaddressFormGroup2.status == "VALID") {
-        return false
-      } else {
         return true
+      } else {
+        return false
       }
     }
   }
@@ -2858,7 +2856,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             '" style="margin-bottom:-25px;background: #184297;border-radius: 3px;width:25px;height:25px;font-size: 14px; text-align: center; padding: 1px;color: white;margin-left: 260px;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
             "</div>" +
             '<div class="col-md-2">' +
-            '<img class="imageThumb" style="width: 170%;height:30px;margin-top: 20px;" src="' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
             ImageName +
             '" title="' +
             f.name +
@@ -2916,7 +2914,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             '" style="margin-bottom:-25px;background: #184297;border-radius: 3px;width:25px;height:25px;font-size: 14px; text-align: center; padding: 1px;color: white;margin-left: 260px;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
             "</div>" +
             '<div class="col-md-2">' +
-            '<img class="imageThumb" style="width: 170%;height:30px;margin-top: 20px;" src="' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
             ImageName +
             '" title="' +
             f.name +
@@ -3081,6 +3079,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     $('#' + modal_id).appendTo("#" + append_to);
   }
   preview_uploaded_document(filename: any, url: any, datatype: any) {
+    console.log(filename,'/n',url,'/n',datatype);
+
     $("#openpreviewmodel").trigger("click");
     this.open_modal('exampleModalpreview');
     $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + filename);
@@ -9291,23 +9291,34 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           let Size12 = Math.round(f.size / 1024);
           StringTemple =
-            '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;" id="div3">' +
+            '<div class="pip col-md-4 p-0"  style="width: 290px;display: inline-block;margin: 8px;" id="div3">' +
             "" +
-            '<div class="removepreview" id="removepreviewid' +
-            preview +
-            '" style="background: #184297;border-radius: 50%;width:30px;height:30px;font-size: 14px; text-align: center; padding: 6px;color: white;position: absolute;margin-left: 257px;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-            "" +
-            '<img class="imageThumb" style="width: 100%;height:210px" src="' +
+
+            '<div class="col-md-11 p-1 d-flex m-1 flex-column" style="border: 1px solid #cdcdcd;border-radius:9px;">' +
+
+            '<div class=" col-md-12 p-0 d-flex flex-row" >' +
+            '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center ">' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
             ImageName +
             '" title="' +
             f.name +
             '"/>' +
+            "</div>" +
+
+            '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
             "<div> <b>Dokumentenname: " +
             f.name +
             "</b> </div><div> <b>Dateigröße: " +
             Size +
             "</b> KB </div>" +
-            '   <div class="progress form-group " id="progressnew' +
+            "</div>" +
+
+            '<div class=" p-0 ">' +
+            '<div class="removepreview btn bg-danger links mt-1" id="removepreviewid' + preview + '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="progress form-group " id="progressnew' +
             idname +
             '" style="background-color: grey;width: 100%;"> <div class="percentageclass' +
             idname +
@@ -9315,7 +9326,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             idname +
             '" [style.width.%]=""> </div> </div>' +
             " </div>" +
-            "</div>";
+            "</div>" +
           $("#" + preview).html(StringTemple);
           // $(`<div> <b>  ${Math.round((f.size / 1024))} </b> KB </div>`).insertAfter(".pip")
           $("#removepreviewid" + preview).click(function () {
@@ -9326,7 +9337,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 that.saveddoc.splice(index, 1);
             });
             console.log("saved array" + JSON.stringify(that.saveddoc));
-            $(that).parent(".pip").remove();
+            $(this).parent().parent().parent().parent(".pip").remove();
           });
         };
         fileReader.readAsDataURL(f);
@@ -9458,22 +9469,31 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           let Size = Math.round(f.size / 1024);
           StringTemple =
-            '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;" id="div3">' +
-            "" +
-            '<div class="removepreview" id="removepreviewid' +
-            preview +
-            '" style="background: #184297;border-radius: 50%;width:30px;height:30px;font-size: 14px; text-align: center; padding: 6px;color: white;position: absolute;margin-left: 257px;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-            "" +
-            '<img class="imageThumb" style="width: 100%;height:210px" src="' +
+            '<div class="pip col-md-12 p-0"  style="display: inline-block;"  id="div3">' +
+
+            '<div class="col-md-11 p-1 d-flex m-1 flex-column" style="border: 1px solid #cdcdcd;border-radius:9px;">' +
+            '<div class=" col-md-12 p-0 d-flex flex-row" >' +
+            '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center ">' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
             ImageName +
             '" title="' +
             f.name +
             '"/>' +
+            "</div>" +
+
+            '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
             "<div> <b>Dokumentenname: " +
             f.name +
             "</b> </div><div> <b>Dateigröße: " +
             Size +
             "</b> KB </div>" +
+            "</div>" +
+
+            '<div class=" p-0 ">' +
+            '<div class="removepreview btn bg-danger links mt-1" id="removepreviewid' + preview + '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+            '</div>' +
+            '</div>' +
+
             '   <div class="progress form-group " id="progressnew' +
             idname +
             '" style="background-color: grey;width: 100%;"> <div class="percentageclass' +
@@ -9489,7 +9509,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             removeData(i);
 
             // $("#pipremove" + i).remove();
-            $(that).parent(".pip").remove();
+            $(this).parent().parent().parent().parent(".pip").remove();
             that.saveddoc.forEach((value: any, index: any) => {
               if (value.id == docName && value.index == idname)
                 that.saveddoc.splice(index, 1);
@@ -9744,31 +9764,49 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("includenote" + docName);
 
     const previewData = (j: any, modaltitle: any, src: any) => {
+      console.log(j,modaltitle,src);
+
       console.log("previewData" + j);
 
       console.log("the source");
       console.log(this.previewidandsrc.length);
       console.log(this.previewidandsrc[j]);
 
-      $("#openpreviewmodel").trigger("click");
 
-      //$('#showpreviewpdf').attr('src',this.previewidandsrc[j]);
+      if (src.indexOf("data:application/pdf;") != -1) {
+        // $("#showpreviewimg").attr("src", "");
+        // $("#showpreviewimg").css("display", "none");
 
-      $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
+        // $("#showpreviewpdf").attr("src", "");
+        // $("#showpreviewpdf").css("display", "block");
+        // //$('#showpreviewpdf').attr('src',this.previewidandsrc[j]);
+        // $("#showpreviewpdf").attr("src", src);
+        const base64 = src.replace(/^data:.+;base64,/, "");
+
+        const blob = base64ToBlob(base64, 'application/pdf');
+        const url = URL.createObjectURL(blob);
+        const pdfWindow = window.open("");
+        pdfWindow.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
+
+        function base64ToBlob(base64, type = "application/octet-stream") {
+          console.log(base64);
+          const binStr = atob(base64 as string);
+          const len = binStr.length;
+          const arr = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            arr[i] = binStr.charCodeAt(i);
+          }
+          return new Blob([arr], { type: type });
+        }
+      } else {
+        $("#openpreviewmodel").trigger("click");
+        this.open_modal('exampleModalpreview')
+
+        $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
 
       //$('#showpreviewdownload').attr('href',this.previewidandsrc[j]);
-      $("#showpreviewdownload").attr("href", src);
+       $("#showpreviewdownload").attr("href", src);
 
-      //if(this.previewidandsrc[j].indexOf('data:application/pdf;') != -1){
-      if (src.indexOf("data:application/pdf;") != -1) {
-        $("#showpreviewimg").attr("src", "");
-        $("#showpreviewimg").css("display", "none");
-
-        $("#showpreviewpdf").attr("src", "");
-        $("#showpreviewpdf").css("display", "block");
-        //$('#showpreviewpdf').attr('src',this.previewidandsrc[j]);
-        $("#showpreviewpdf").attr("src", src);
-      } else {
         $("#showpreviewpdf").attr("src", "");
         $("#showpreviewpdf").css("display", "none");
 
@@ -9777,6 +9815,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         // $('#showpreviewimg').attr('src',this.previewidandsrc[j]);
         $("#showpreviewimg").attr("src", src);
       }
+
     };
 
     const removeData = (j: number) => {
@@ -10017,15 +10056,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             that.addressFormGroupnew.controls["companyname"].value
           ) {
             StringTemple =
-              '<div class="pip row" style="margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
-              '<div class="col-md-1">' +
-              '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+              '<div class="pip col-md-12 p-0" >' +
+
+              '<div class="col-md-12 p-1 d-flex ms-0 my-1 flex-column" style="border: 1px solid #cdcdcd;border-radius:9px;">' +
+              '<div class=" col-md-12 p-0 d-flex flex-row" >' +
+
+              '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center ">' +
+              '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
               ImageName +
               '" title="' +
               f.name +
               '"/>' +
               "</div>" +
-              '<div class="col-md-10" style="font-size:14px;">' +
+
+              '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
               //'<span><b>Dokumentenname: ' + displayName +'</b></span>' +
               "<span><b>Dokumentenname: " +
               showname +
@@ -10034,21 +10078,29 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               Size +
               "</b></span>" +
               "</div>" +
-              '<div class="col-md-1" style="margin-left:-20px;">' +
-              '<div class="removepreview" data-preview_id="' +
+
+              '<div class="col-md-2 text-right d-flex flex-column p-0 align-items-center justify-content-center ">' +
+              '<div class=" p-0 ">' +
+              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' +
               that.preview_id +
               '" id="removepreviewid' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-              ' <div class="previewImage" data-preview_src="' +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+              "</div>" +
+
+              '<div class=" p-0 mt-1">' +
+              '<div class="previewImage  btn links " data-preview_src="' +
               that.previewsrc +
               '" data-preview_id="' +
               that.preview_id +
               '" id="previewimage' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">' +
+              '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
               '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
               "</div>" +
+              "</div>" +
+              "</div>" +
+
               '<div class="col-md-12">' +
               '<div class="progress form-group progressnew' +
               Size_num +
@@ -10064,20 +10116,26 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               Size_num +
               i +
               '" [style.width.%]=""> </div>' +
+              "</div>" +
               "</div>" +
               "</div>" +
               "</div>";
           } else {
             StringTemple =
-              '<div class="pip row" style="margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
-              '<div class="col-md-1">' +
-              '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+              '<div class="pip col-md-12 p-0" >' +
+
+              '<div class="col-md-12 p-1 d-flex ms-0 my-1 flex-column" style="border: 1px solid #cdcdcd;border-radius:9px;">' +
+              '<div class=" col-md-12 p-0 d-flex flex-row" >' +
+
+              '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center ">' +
+              '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
               ImageName +
               '" title="' +
               f.name +
               '"/>' +
               "</div>" +
-              '<div class="col-md-10" style="font-size:13.5px;">' +
+
+              '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
               //'<span><b>Dokumentenname: ' + displayName +'</b></span>' +
               "<span><b>Dokumentenname: " +
               showname +
@@ -10086,21 +10144,31 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               Size +
               "</b></span>" +
               "</div>" +
-              '<div class="col-md-1" style="margin-left:-20px;">' +
-              '<div class="removepreview" data-preview_id="' +
+
+              '<div class="col-md-2 text-right d-flex flex-column p-0 align-items-center justify-content-center ">' +
+
+              '<div class=" p-0 ">' +
+              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' +
               that.preview_id +
               '" id="removepreviewid' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 11px; text-align: center; padding: 3px;color: white;position: absolute;margin-top: 2px;margin-right: 0 !important;cursor: pointer;">X</div>' +
-              ' <div class="previewImage" data-preview_src="' +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
+              '</div>' +
+
+              "<div class=' p-0 mt-1'>" +
+              ' <div class="previewImage btn links  " data-preview_src="' +
               that.previewsrc +
               '" data-preview_id="' +
               that.preview_id +
               '" id="previewimage' +
               that.preview_id +
-              '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">' +
+              '"style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
               '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+              '</div>' +
+
               "</div>" +
+              '</div>' +
+
               '<div class="col-md-12">' +
               '<div class="progress form-group progressnew' +
               Size_num +
@@ -10116,6 +10184,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               Size_num +
               i +
               '" [style.width.%]=""> </div>' +
+              "</div>" +
               "</div>" +
               "</div>" +
               "</div>";
@@ -10133,9 +10202,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           $(".previewImage").click(function (event: any) {
             //previewData($(this).data('preview_id'),displayName);
             previewData(
-              $(that).data("preview_id"),
+              $(this).data("preview_id"),
               showname,
-              $(that).data("preview_src")
+              $(this).data("preview_src")
             );
             event.stopPropagation();
             event.stopImmediatePropagation();
@@ -10333,7 +10402,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               }
             }
 
-            $(this).parent().parent().parent(".pip").remove();
+            $(this).parent().parent().parent().parent(".pip").remove();
+            $(this).parent().parent().parent().parent().parent(".pip").remove();
             console.log("saved array" + JSON.stringify(that.saveddoc));
             // $(this).parent(".pip").remove();
             event.stopPropagation();
@@ -10993,9 +11063,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           $(".previewImage").click(function (event: any) {
             previewData(
-              $(that).data("preview_id"),
+              $(this).data("preview_id"),
               showname,
-              $(that).data("preview_src")
+              $(this).data("preview_src")
             );
             event.stopPropagation();
             event.stopImmediatePropagation();
@@ -12653,7 +12723,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             '" style="background: #184297;border-radius: 50%;width:30px;height:30px;font-size: 14px;padding: 10px;padding-top:5px;color: white;position: relative;margin-top: 2px;   margin-left: auto;cursor: pointer;">X</div></div>' +
             "" +
             '<div class="col-md-3 text-center">' +
-            '<img class="imageThumb" style="width: 40%;height:50px;    margin-top: 10px;" src="' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;"src="' +
             ImageName +
             '" title="' +
             f.name +
@@ -12683,7 +12753,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             '" style="background: #184297;border-radius: 50%;width:30px;height:30px;font-size: 14px;padding: 10px;padding-top:5px;color: white;position: relative;margin-top: 2px;   margin-left: auto;cursor: pointer;">X</div></div>' +
             "" +
             '<div class="col-md-3">' +
-            '<img class="imageThumb" style="width: 100%;height:50px;    margin-top: 10px;" src="' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
             ImageName +
             '" title="' +
             f.name +
@@ -12713,7 +12783,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             '" style="background: #184297;border-radius: 50%;width:30px;height:30px;font-size: 14px;padding: 10px;padding-top:5px;color: white;position: relative;margin-top: 2px;   margin-left: auto;cursor: pointer;">X</div></div>' +
             "" +
             '<div class="col-md-3">' +
-            '<img class="imageThumb" style="width: 100%;height:40%;    margin-top: 10px;" src="' +
+            '<img class="imageThumb"  style="width: 50px;height:30px;" src="' +
             ImageName +
             '" title="' +
             f.name +
@@ -13605,6 +13675,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log(event);
 
     if (event.target.innerHTML.includes("Öffnen")) {
+      setTimeout(() => {
+
+
       console.log('here', embedid + index);
 
       $(".opencontractdocbtn").html("Öffnen");
@@ -13612,16 +13685,20 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       // $(".contractdocs").css("display", "none");
 
       // contractdocs1img
+      console.log(tags[0].split(",")[1].includes('image'),tags);
+      console.log(embedid, 'is image?',index);
+
+
       if (tags[0].split(",")[1].includes('image')) {
         $("#" + embedid + 'img' + index).css("display", "block");
         $("#" + embedid + 'img' + index).attr("src", url);
         // $("#" + embedid + 'img' +index).attr("type", tags[0].split(",")[1]);
       } else {
-        $("#" + embedid + index).css("display", "block");
-        $("#" + embedid + index).attr("src", url);
-        $("#" + embedid + index).attr("type", tags[0].split(",")[1]);
+        $("#" + embedid + 'pdf'+ index).css("display", "block");
+        $("#" + embedid + 'pdf'+ index).attr("type", tags[0].split(",")[1]);
+        $("#" + embedid + 'pdf'+ index).attr("src", url);
       }
-
+    }, 200);
 
     } else {
       console.log(' elsehere');
