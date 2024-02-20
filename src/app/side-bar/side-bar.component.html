@@ -52,7 +52,7 @@
                 <!-- HAUSHALT TAB START HERE -->
                 <div class="menu1">
                   <mat-accordion class="side">
-                    <mat-expansion-panel [expanded]="true" (opened)="clikeditem('hideHaushaltMain',localData.lastname)"
+                    <mat-expansion-panel [expanded]="true" (opened)="clikeditem(localData._id,'hideHaushaltMain',localData.lastname)"
                       *ngIf="!localData.hasOwnProperty('companytype') ||
                                     localData.companytype == ' ' || localData.companytype == '' ||
                                     localData.companytype == null;else company">
@@ -73,7 +73,7 @@
                               (click)=" change_account_name(
                                                     'Haushalt', localData.title, localData.firstname,
                                                     localData.lastname, localData._id  );
-                                                  setCurrentTabUser(localData, 'haushalt');clikeditem('hideHaushaltMain',localData.lastname)">
+                                                  setCurrentTabUser(localData, 'haushalt');clikeditem(localData._id,'hideHaushaltMain',localData.lastname)">
                               <span class="col-12"
                                 [ngClass]=" currentTab == 'hideHaushaltMain' ? 'active-sub-item': ' sidebar-not-active-item'  ">
                                 <i class="fa fa-user" aria-hidden="true"></i>
@@ -103,7 +103,7 @@
                               <button class="col-12 p-0 stepper-btn1 transitionanimation "
                                 (click)="change_account_name( 'Haushalt',
                                                     member.title, member.firstname, member.lastname, member._id );
-                                                    setCurrentTabUser(member, 'haushalt');clikeditem('hideHaushaltIn1',member.lastname,i)">
+                                                    setCurrentTabUser(member, 'haushalt');clikeditem( localData._id,'hideHaushaltIn1',member.lastname,i,member._id)">
                                 <span class="col-12 "
                                   [ngClass]=" currentTab == 'hideHaushaltIn1' && indexOfHideValues == i  ? 'active-sub-item': ' sidebar-not-active-item'  ">
                                   <i class="fa fa-user" aria-hidden="true"></i>
@@ -114,7 +114,7 @@
                             </div>
 
                             <div class="col-12 p-0 " *ngIf="i + 1 != familyData.length">
-                              <button class="col-12 p-0 stepper-btn1 transitionanimation " (click)="clikeditem('hideHaushaltIn1',member.lastname,i);change_account_name( 'Haushalt',
+                              <button class="col-12 p-0 stepper-btn1 transitionanimation " (click)="clikeditem( localData._id,'hideHaushaltIn1',member.lastname,i,member._id);change_account_name( 'Haushalt',
                                                     member.title, member.firstname, member.lastname, member._id );
                                                     setCurrentTabUser(member, 'haushalt') ">
                                 <span class="col-12"
@@ -172,7 +172,7 @@
 
                               <mat-expansion-panel-header mat-panel-title *ngIf="i + 1 == companyData.length">
                                 <button class="stepper-btn1" (click)="tabisclicked(member); change_account_name( 'Firma', 'Firma', '',  member.companyname );
-                                                      clikeditem('hideContainerMain',member.companyname,i);
+                                                      clikeditem( member._id,'hideContainerMain',member.companyname,i );
                                                       setCurrentTabUser(member, 'company') ">
                                   <span>
                                     <img src="assets/images/company.svg">
@@ -184,7 +184,7 @@
                               <mat-expansion-panel-header mat-panel-title *ngIf="i + 1 != companyData.length">
                                 <button class="stepper-btn1 transitionanimation" (click)=" change_account_name( 'Firma',
                                                         'Firma', '', member.companyname );  setCurrentTabUser(member, 'company');tabisclicked(member);
-                                                        clikeditem('hideContainerMain',member.companyname,i) ">
+                                                        clikeditem(member._id,'hideContainerMain',member.companyname,i) ">
                                   <span>
                                     <img src="assets/images/company.svg">
                                     {{ member.companyname }}
@@ -196,7 +196,7 @@
                                 <div>
                                   <div class="col-12 p-0">
                                     <button class="col-12 p-0 stepper-btn1 transitionanimation"
-                                      (click)=" setCurrentTabUser(member, 'company');clikeditem('hideContainerMain','Stammdaten',i) ">
+                                      (click)=" setCurrentTabUser(member, 'company');clikeditem(member._id,'hideContainerMain','Stammdaten',i) ">
                                       <span class="col-12"
                                         [ngClass]=" currentTab == 'hideContainerMain'  && indexOfHideValues == i ? 'active-sub-item': ' sidebar-not-active-item'  ">
                                         Stammdaten
@@ -220,7 +220,7 @@
                                                                 let office of officeData; let j = index ">
                                     <div class="col-12 p-0" *ngIf="j + 1 == officeData.length">
                                       <button class="stepper-btn1 col-12 p-0 "
-                                        (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideContainerIn',office.officename,i,j) ">
+                                        (click)=" setCurrentTabUser(office, 'branch');clikeditem(member._id,'hideContainerIn',office.officename,i,office._id,j) ">
                                         <span class="col-12"
                                           [ngClass]=" currentTab == 'hideContainerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-sub-item': 'sidebar-not-active-item'  "
                                           *ngIf="office.hasOwnProperty('officename'); else noname ">
@@ -241,12 +241,12 @@
                                     </div>
 
                                     <button class="col-12 p-0 stepper-btn1 transitionanimation"
-                                      (click)="clikeditem('hideContainerIn',office.officename,i,j);setCurrentTabUser(office, 'branch')"
+                                      (click)="clikeditem(member._id,'hideContainerIn',office.officename,i,office._id,j);setCurrentTabUser(office, 'branch')"
                                       *ngIf="i + 1 != officeData.length">
                                       <span class="col-12 "
                                         [ngClass]=" currentTab == 'hideContainerIn' && indexOfHideValues == i  && indexOfHideValuesj == j  ? 'active-sub-item': ' sidebar-not-active-item'  "
                                         *ngIf="  office.hasOwnProperty('officename');
-                                                                        else noname ">
+                                            else noname ">
                                         {{ office.officename }}
                                       </span>
                                       <ng-template #noname>
@@ -303,7 +303,7 @@
                                   <div class="col-12 p-0">
                                     <div class="col-12 p-0">
                                       <button class="col-12 p-0 stepper-btn1" role="button"
-                                        (click)="clikeditem('hidemultiCompanyprivatecustomerMain','Stammdaten',i)">
+                                        (click)="clikeditem(member._id,'hidemultiCompanyprivatecustomerMain','Stammdaten',i)">
                                         <span class="col-12"
                                           [ngClass]=" currentTab == 'hidemultiCompanyprivatecustomerMain' && indexOfHideValues == i  ? 'active-sub-item': ' sidebar-not-active-item'  ">
                                           Stammdaten
@@ -324,10 +324,10 @@
                                                                         let j = index" ;>
                                       <div class="col-12 p-0 " *ngIf="j + 1 == officeData.length">
                                         <span class="col-12"
-                                          (click)="clikeditem('hidemultiCompanyprivatecustomerIn',office.officename,i,j)"
+                                          (click)="clikeditem(member._id,'hidemultiCompanyprivatecustomerIn',office.officename,i,office._id,j)"
                                           [ngClass]=" currentTab == 'hidemultiCompanyprivatecustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-sub-item': ' sidebar-not-active-item'  "
                                           *ngIf=" office.hasOwnProperty( 'officename' );
-                                                                                    else noname ">
+                                            else noname ">
                                           {{ office.officename }}
                                         </span>
                                         <ng-template #noname>
@@ -346,12 +346,12 @@
                                       </div>
 
                                       <div class=" col-12 p-0 "
-                                        (click)="clikeditem('hidemultiCompanyprivatecustomerIn',office.officename,i,j)"
+                                        (click)="clikeditem(member._id,'hidemultiCompanyprivatecustomerIn',office.officename,i,office._id,j)"
                                         *ngIf="j + 1 != officeData.length">
                                         <span class="col-12"
                                           [ngClass]=" currentTab == 'hidemultiCompanyprivatecustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j  ? 'active-sub-item': ' sidebar-not-active-item'  "
                                           *ngIf=" office.hasOwnProperty( 'officename' );
-                                                                                else noname ">
+                                            else noname ">
                                           {{ office.officename }}
                                         </span>
                                         <ng-template #noname>
@@ -415,7 +415,7 @@
                               <div class="col-12 p-0">
                                 <div class="col-12 p-0 ">
                                   <button
-                                    (click)=" setCurrentTabUser(member, 'company');clikeditem('hideCompanyCustomerMain','Stammdaten',i) "
+                                    (click)=" setCurrentTabUser(member, 'company');clikeditem(member._id,'hideCompanyCustomerMain','Stammdaten',i) "
                                     class="col-12 p-0 stepper-btn1 transitionanimation">
                                     <span class="col-12"
                                       [ngClass]="currentTab == 'hideCompanyCustomerMain' && indexOfHideValues == i  ? 'active-sub-item': ' sidebar-not-active-item'  ">
@@ -437,7 +437,7 @@
                                 <div class="col-12 p-0" *ngFor="let office of officeData; let j = index">
                                   <div class="col-12 p-0" *ngIf="j + 1 == officeData.length">
                                     <button
-                                      (click)="setCurrentTabUser(office, 'branch');clikeditem('hideCompanyCustomerIn',office.officename,i,j)"
+                                      (click)="setCurrentTabUser(office, 'branch');clikeditem(member._id,'hideCompanyCustomerIn',office.officename,i,office._id,j)"
                                       class="col-12 p-0 stepper-btn1 transitionanimation">
                                       <span class="col-12"
                                         [ngClass]="currentTab == 'hideCompanyCustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-sub-item': ' sidebar-not-active-item'  "
@@ -462,7 +462,7 @@
 
                                   <div class="col-12 p-0" *ngIf="j + 1 != officeData.length">
                                     <button
-                                      (click)=" setCurrentTabUser(office, 'branch');clikeditem('hideCompanyCustomerIn',office.officename,i,j) "
+                                      (click)=" setCurrentTabUser(office, 'branch');clikeditem(member._id,'hideCompanyCustomerIn',office.officename,i,office._id,j) "
                                       class="col-12 p-0 stepper-btn1 transitionanimation">
                                       <span class="col-12"
                                         [ngClass]=" currentTab == 'hideCompanyCustomerIn' && indexOfHideValues == i  && indexOfHideValuesj == j ? 'active-sub-item': ' sidebar-not-active-item'  "
@@ -517,10 +517,11 @@
                               <ng-template [matExpansionPanelContent]>
                                 <div class="col-12 p-0">
                                   <div class="stepper-btn1 col-12 p-0" role="button"
-                                    (click)="clikeditem('hidemultiCompanycustomerMain','Stammdaten',i)">
+                                    (click)="clikeditem(member._id,'hidemultiCompanycustomerMain','Stammdaten',i)">
                                     <span class="col-12 "
                                       [ngClass]=" currentTab == 'hidemultiCompanycustomerMain' &&
-                                                                        indexOfHideValues  == i ? 'active-sub-item': ' sidebar-not-active-item'  ">Stammdaten</span>
+                                        indexOfHideValues  == i ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                                         Stammdaten</span>
                                   </div>
                                   <div *ngIf="officeData.length == 0" class="stepper-btn1">
                                     <button
@@ -539,7 +540,7 @@
                                                                 let i = index">
                                     <div class="col-12 p-0" *ngIf="i + 1 == officeData.length">
                                       <button class="stepper-btn1 transitionanimation col-12 p-0"
-                                        (click)="clikeditem('hidemultiCompanycustomerIn',office.officename,i,j)">
+                                        (click)="clikeditem(member._id,'hidemultiCompanycustomerIn',office.officename,i,office._id,j)">
                                         <span class="col-12"
                                           [ngClass]=" currentTab == 'hidemultiCompanycustomerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-sub-item': ' sidebar-not-active-item'  "
                                           *ngIf=" office.hasOwnProperty('officename'); else noname ">
@@ -559,7 +560,7 @@
                                     </div>
 
                                     <div class="col-12 p-0 "
-                                      (click)="clikeditem('hidemultiCompanycustomerIn',office.officename,i,j)"
+                                      (click)="clikeditem(member._id,'hidemultiCompanycustomerIn',office.officename,i,office._id,j)"
                                       *ngIf="i + 1 != officeData.length">
                                       <span class=" col-12 stepper-btn1 transitionanimation "
                                         [ngClass]=" currentTab == 'hidemultiCompanycustomerIn' && indexOfHideValues == i && indexOfHideValuesj == j  ? 'active-sub-item': ' sidebar-not-active-item'  "
@@ -596,9 +597,11 @@
                                                 currentActiveRole == 'b2b' &&
                                                 familyData[0].documents == ''
                                               ">
-                            <mat-expansion-panel-header mat-panel-title>
+                            <mat-expansion-panel-header mat-panel-title [disabled]="
+                            currentActiveRole == 'b2b' &&
+                            familyData[0].documents == '' ">
                               <button
-                                (click)=" setCurrentTabUser(familyData[0], 'haushalt');clikeditem('hidedisabledfamilyMain',familyData[0].lastname)"
+                                (click)=" setCurrentTabUser(familyData[0], 'haushalt');clikeditem(familyData[0]._id,'hidedisabledfamilyMain',familyData[0].lastname)"
                                 class="stepper-btn1 transitionanimation">
                                 <span>
                                   <img src="assets/images/haushalt.svg">
@@ -614,7 +617,7 @@
                                   <div>
                                     <div *ngIf="i + 1 == officeData.length">
                                       <button class="col-12 p-0 stepper-btn1 transitionanimation"
-                                        (click)="clikeditem('hidedisabledfamilyIn',member.lastname,i)">
+                                        (click)="clikeditem(familyData[0]._id,'hidedisabledfamilyIn',member.lastname,i,member._id)">
                                         <span class=" col-12 "
                                           [ngClass]=" currentTab == 'hidedisabledfamilyIn' && i == indexOfHideValues ? 'active-sub-item': ' sidebar-not-active-item'  "
                                           (click)="setCurrentTabUser(member, 'haushalt')">
@@ -633,7 +636,7 @@
                                     </div>
 
                                     <button class="stepper-btn1 col-12 p-0 transitionanimation"
-                                      (click)="clikeditem('hidedisabledfamilyIn',member.lastname,i)"
+                                      (click)="clikeditem(familyData[0]._id,'hidedisabledfamilyIn',member.lastname,i,member._id)"
                                       *ngIf="i + 1 != officeData.length">
                                       <span
                                         [ngClass]=" currentTab == 'hidedisabledfamilyIn' && i == indexOfHideValues ? 'active-sub-item': ' sidebar-not-active-item'  "
@@ -670,12 +673,12 @@
                     <!-- Benutzer 3RD BLOCK START -->
                     <ng-template #company>
 
-                      <mat-expansion-panel [expanded]="true" (opened)="clikeditem('hideCompanyMain','Stammdaten')"
+                      <mat-expansion-panel [expanded]="true" (opened)="clikeditem(localData._id,'hideCompanyMain','Stammdaten')"
                         *ngIf=" localData.companytype ==
                                         'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
                                             else multiCompany " id="secondtabnew">
                         <mat-expansion-panel-header mat-panel-title
-                          (click)="clikeditem('hideCompanyMain','Stammdaten');change_account_name( 'Firma', 'Firma', '', localData.companyname )">
+                          (click)="clikeditem(localData._id,'hideCompanyMain','Stammdaten');change_account_name( 'Firma', 'Firma', '', localData.companyname )">
                           <button class="stepper-btn1 transitionanimation">
                             <span>
                               <img src="assets/images/company.svg">
@@ -686,7 +689,7 @@
                         <ng-template [matExpansionPanelContent]>
                           <div class=" col-12 p-0">
                             <div class="col-12 p-0">
-                              <button (click)="clikeditem('hideCompanyMain','Stammdaten')" role="button"
+                              <button (click)="clikeditem(localData._id,'hideCompanyMain','Stammdaten')" role="button"
                                 class="stepper-btn1 col-12 p-0 transitionanimation">
                                 <span class="col-12"
                                   [ngClass]=" currentTab == 'hideCompanyMain' ? 'active-sub-item': ' sidebar-not-active-item'  ">Stammdaten</span>
@@ -706,7 +709,7 @@
                             <div *ngFor="let office of userofficeData; let i = index">
                               <div *ngIf="i + 1 == userofficeData.length">
                                 <button class="stepper-btn1 col-12 p-0"
-                                  (click)="clikeditem('hideCompanyIn',office.officename,i)">
+                                  (click)="clikeditem(localData._id,'hideCompanyIn',office.officename,i,office._id)">
                                   <span class=" col-12 transitionanimation "
                                     [ngClass]=" currentTab == 'hideCompanyIn' && indexOfHideValues == i  ? 'active-sub-item': ' sidebar-not-active-item'  "
                                     *ngIf="office.hasOwnProperty('officename'); else noname ">
@@ -725,7 +728,7 @@
                                 </button>
                               </div>
 
-                              <div class="col-12 p-0" (click)="clikeditem('hideCompanyIn',office.officename,i)"
+                              <div class="col-12 p-0" (click)="clikeditem(localData._id,'hideCompanyIn',office.officename,i,office._id)"
                                 *ngIf="i + 1 != userofficeData.length">
                                 <button class="stepper-btn1 col-12 p-0">
                                   <span class="col-12"
@@ -761,8 +764,8 @@
                       </div>
 
                       <ng-template #multiCompany>
-                        <mat-expansion-panel [expanded]=true (opened)="clikeditem('hidemultiCompanyMain','Stammdaten')">
-                          <mat-expansion-panel-header role="tabpanel" (click)="clikeditem('hidemultiCompanyMain','Stammdaten');
+                        <mat-expansion-panel [expanded]=true (opened)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten')">
+                          <mat-expansion-panel-header role="tabpanel" (click)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten');
                                                         change_account_name('Firma','Firma','',localData.companyname);
                                                         setCurrentTabUser(localData, 'company')" mat-panel-title>
                             <button role="button" class="stepper-btn1 transitionanimation">
@@ -779,7 +782,7 @@
                                 id="Stammdaten6Btn">
                                 <span role="button" class="col-12"
                                   [ngClass]=" currentTab == 'hidemultiCompanyMain' ? 'active-sub-item': ' sidebar-not-active-item'  "
-                                  (click)="setCurrentTabUser(localData, 'company');clikeditem('hidemultiCompanyMain','Stammdaten')">
+                                  (click)="setCurrentTabUser(localData, 'company');clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten')">
                                   Stammdaten
                                 </span>
                               </div>
@@ -798,7 +801,7 @@
                                                                 let i = index">
                                 <div class="col-12 p-0" *ngIf="i + 1 == userofficeData.length">
                                   <button class="stepper-btn1 col-12 p-0"
-                                    (click)="clikeditem('hidemultiCompanyIn',office.officename,i);setCurrentTabUser(office, 'branch')">
+                                    (click)="clikeditem(localData._id,'hidemultiCompanyIn',office.officename,i,office._id);setCurrentTabUser(office, 'branch')">
                                     <span class="col-12"
                                       [ngClass]=" currentTab == 'hidemultiCompanyIn'  && indexOfHideValues == i  ? 'active-sub-item': ' sidebar-not-active-item'  "
                                       *ngIf="office.hasOwnProperty('officename'); else noname ">
@@ -820,7 +823,7 @@
 
                                 <div class="col-12 p-0" *ngIf="i + 1 != userofficeData.length">
                                   <button class="stepper-btn1 col-12 p-0"
-                                    (click)="clikeditem('hidemultiCompanyIn',office.officename,i)">
+                                    (click)="clikeditem(localData._id,'hidemultiCompanyIn',office.officename,i,office._id)">
                                     <span class="col-12 "
                                       [ngClass]=" currentTab == 'hidemultiCompanyIn' && indexOfHideValues == i ? 'active-sub-item': ' sidebar-not-active-item'  "
                                       (click)="setCurrentTabUser(office, 'branch')"
@@ -858,81 +861,6 @@
                   </mat-accordion>
 
                 </div>
-
-                              <!--<div class="menu1">
-                                    <mat-accordion class="side">
-                                        <mat-expansion-panel>
-                                            <mat-expansion-panel-header mat-panel-title>
-                                                <span>Laufende Verträge</span>
-                                            </mat-expansion-panel-header>
-                                            <ng-template [matExpansionPanelContent]>
-                                                <div class="col-12 p-0">
-                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
-                                                        (click)="clikedVertrage('Laufende','Versicherungsgesellschaft')">
-                                                        <span [ngClass]=" currentTab == 'Versicherungsgesellschaft1' ? 'active-sub-item': ' sidebar-not-active-item'  " class="col-12 ">
-                                                            Versicherungsgesellschaft
-                                                        </span>
-                                                    </button>
-                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
-
-                                                        (click)="clikedVertrage('Laufende','Geldanlagen')">
-                                                        <span class="col-12" [ngClass]=" currentTab == 'Geldanlagen1' ? 'active-sub-item': ' sidebar-not-active-item'  ">
-                                                            Geldanlagen
-                                                        </span>
-                                                    </button>
-                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
-
-                                                        (click)="clikedVertrage('Laufende','Bank')">
-                                                        <span class="col-12" [ngClass]=" currentTab == 'Bank1' ? 'active-sub-item': ' sidebar-not-active-item'  ">
-                                                            Bank
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </ng-template>
-
-                                        </mat-expansion-panel>
-                                        <mat-expansion-panel>
-                                            <mat-expansion-panel-header mat-panel-title>
-                                                <span>Angebote/Fremdverträge</span>
-                                            </mat-expansion-panel-header>
-                                            <ng-template [matExpansionPanelContent]>
-                                                <div class="col-12 p-0">
-                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
-
-                                                        (click)="clikedVertrage('Angebote','Versicherungsgesellschaft')">
-                                                        <span class="col-12" [ngClass]=" currentTab == 'Versicherungsgesellschaft2' ? 'active-sub-item': ' sidebar-not-active-item'  ">
-                                                            Versicherungsgesellschaft
-                                                        </span>
-                                                    </button>
-                                                    <button class="col-12 p-0 stepper-btn1 transitionanimation"
-                                                        [ngClass]=" currentTab == 'Geldanlagen2' ? 'active-sub-item': ' sidebar-not-active-item'  "
-                                                        (click)="clikedVertrage('Angebote','Geldanlagen')">
-                                                        <span>
-                                                            Geldanlagen
-                                                        </span>
-                                                    </button>
-                                                    <button class=" col-12 p-0 stepper-btn1 transitionanimation"
-
-                                                        (click)="clikedVertrage('Angebote','Bank')">
-                                                        <span class="col-12" [ngClass]=" currentTab == 'Bank2' ? 'active-sub-item': ' sidebar-not-active-item'  ">
-                                                            Bank
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </ng-template>
-
-                                        </mat-expansion-panel>
-                                        <div class=" col-12 p-0">
-                                            <button class="col-12  stepper-btn1 transitionanimation"
-                                                [ngClass]=" currentTab == 'Allgemeine' ? 'active-sub-item': ' sidebar-not-active-item'  "
-                                                (click)="clikedVertrage('Allgemeine','')">
-                                                Allgemeine Dokumente
-                                            </button>
-                                        </div>
-
-                                    </mat-accordion>
-                                </div> -->
-
 
               </div>
             </div>

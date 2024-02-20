@@ -5437,17 +5437,6 @@
                           </button>
                         </ng-template>
                       </div>
-                      <!-- <div class=" d-flex justify-content-end">
-                              <button
-                              class="stepper-btn btn transitionanimation"
-                              (click)="saveFamilyMember()"
-                              mat-raised-button
-                             [disabled]="(familyRelation.value!='' && familyRelation.value!=null && familyRelation.value!=' ' && martialStatusControl.value!='' && martialStatusControl.value!=null && martialStatusControl.value!=' ' && livingfso.form.valid) ? false : true"
-
-                            >
-                            Speichern&nbsp; <i class="fas fa-save" aria-hidden="true"></i>
-                            </button>
-                            </div> -->
                     </div>
                   </form>
                 </div>
@@ -22222,7 +22211,8 @@
                                 <form>
                                   <mat-icon class="position-absolute has-icon">search
                                   </mat-icon>
-                                  <input class="form-control pl-5 mr-4" name="search"
+                                  <input class="form-control pl-5 mr-4" name="search"  [(ngModel)]="searchVariable"
+                                  (ngModelChange)="searchMembers($event,'Fremdverträge','Versicherungsgesellschaft','pagedItems')"
                                     placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                 </form>
                               </div>
@@ -22395,7 +22385,8 @@
                                 <form>
                                   <mat-icon class="position-absolute has-icon">search
                                   </mat-icon>
-                                  <input class="form-control pl-5 mr-4" name="search"
+                                  <input class="form-control pl-5 mr-4" name="search"  [(ngModel)]="searchVariable"
+                                  (ngModelChange)="searchMembers($event,'Fremdverträge','Geldanlagen','pagedItems')"
                                     placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                 </form>
                               </div>
@@ -22556,7 +22547,8 @@
                                 <form>
                                   <mat-icon class="position-absolute has-icon">search
                                   </mat-icon>
-                                  <input class="form-control pl-5 mr-4" name="search"
+                                  <input class="form-control pl-5 mr-4" name="search"  [(ngModel)]="searchVariable"
+                                  (ngModelChange)="searchMembers($event,'Fremdverträge','Bank','pagedItems')"
                                     placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                 </form>
                               </div>

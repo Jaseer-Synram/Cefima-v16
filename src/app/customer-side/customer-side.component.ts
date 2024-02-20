@@ -844,6 +844,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   ShowProductsPartner: any = false;
 
   customerList: [] = [];
+  sub_customer_id = ''
+  sub_sub_customer_id = ''
 
   lastproducttypeid: any = "";
 
@@ -970,18 +972,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.routeParamsActive = this.route.snapshot.routeConfig?.path;
 
     this.userService.selectCustomerSideItem.subscribe(data => {
-      console.log('hiden?', data);
 
       for (const key of Object.keys(this.addKunden)) {
         this.addKunden[key] = true
       }
+      console.log(data[0], data[3], data[1]);
+      this.sub_customer_id = data[0] as string
+      this.sub_sub_customer_id = data[3] as string
 
-      let itemString = `${data[0]}`
+      let itemString = `${data[1]}`
 
-      console.log('data1', data[1])
-      console.log('data2', data[2])
-      this.indexOfHideValues = data[1]
-      this.indexOfHideValuesj = data[2]
+      this.indexOfHideValues = data[2]
+      this.indexOfHideValuesj = data[4]
 
 
       for (const key of Object.keys(this.hideValues)) {
@@ -993,7 +995,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
       this.VertrageData = false
 
-      console.log(this.indexOfHideValues, this.indexOfHideValuesj, this.hideValues)
+      console.log(this.hideValues)
 
 
     })
@@ -2495,7 +2497,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       .subscribe(
         (data11) => {
           console.log(data11);
-          //debugger
+          // debugger
           this.MetaDataLoopingDocListsecond();
           this.customerDocListsecond = data11;
 
@@ -3073,13 +3075,15 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   open_modal(modal_id: any) {
+    console.log(this.sub_sub_customer_id);
+    console.log(this.sub_customer_id);
     $('#' + modal_id).appendTo("body");
   }
   close_modal(modal_id: any, append_to: any) {
     $('#' + modal_id).appendTo("#" + append_to);
   }
   preview_uploaded_document(filename: any, url: any, datatype: any) {
-    console.log(filename,'/n',url,'/n',datatype);
+    console.log(filename, '/n', url, '/n', datatype);
 
     $("#openpreviewmodel").trigger("click");
     this.open_modal('exampleModalpreview');
@@ -3643,6 +3647,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
 
     console.log("office data", office);
+
   }
 
   show_next_question(current_question_index: any) {
@@ -4808,6 +4813,87 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       }
 
+      if (from == 'Fremdverträge') {
+        if (type == 'Versicherungsgesellschaft') {
+          if (data == 'pagedItems') {
+
+            for (let i = 0; i < this.pagedItemsSeacrh.length; i++) {
+
+              for (let j = 0; j < this.pagedItemsSeacrh[i].element?.inventorydata?.length; j++) {
+
+                const element = this.pagedItemsSeacrh[i].element?.producttype[0]?.product_typename?.toLowerCase();
+
+                if (element.includes(this.searchVariable)) {
+                  this.pagedItems[i] = this.pagedItemsSeacrh[i]
+                } else {
+                  this.pagedItems[i] = { element: {} }
+                }
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.pagedItems = this.pagedItemsSeacrh
+            }
+
+            console.log(this.pagedItems, this.pagedItemsSeacrh);
+
+          }
+        }
+
+        if (type == 'Geldanlagen') {
+          if (data == 'pagedItems') {
+
+            for (let i = 0; i < this.pagedItemsSeacrh.length; i++) {
+
+              for (let j = 0; j < this.pagedItemsSeacrh[i].element?.inventorydata?.length; j++) {
+
+                const element = this.pagedItemsSeacrh[i].element?.producttype[0]?.product_typename?.toLowerCase();
+
+                if (element.includes(this.searchVariable)) {
+                  this.pagedItems[i] = this.pagedItemsSeacrh[i]
+                } else {
+                  this.pagedItems[i] = { element: {} }
+                }
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.pagedItems = this.pagedItemsSeacrh
+            }
+
+            console.log(this.pagedItems, this.pagedItemsSeacrh);
+
+          }
+        }
+
+        if (type == 'Bank') {
+          if (data == 'pagedItems') {
+
+            for (let i = 0; i < this.pagedItemsSeacrh.length; i++) {
+
+              for (let j = 0; j < this.pagedItemsSeacrh[i].element?.inventorydata?.length; j++) {
+
+                const element = this.pagedItemsSeacrh[i].element?.producttype[0]?.product_typename?.toLowerCase();
+
+                if (element.includes(this.searchVariable)) {
+                  this.pagedItems[i] = this.pagedItemsSeacrh[i]
+                } else {
+                  this.pagedItems[i] = { element: {} }
+                }
+              }
+            }
+
+            if (this.searchVariable.trim() == '') {
+              this.pagedItems = this.pagedItemsSeacrh
+            }
+
+            console.log(this.pagedItems, this.pagedItemsSeacrh);
+
+          }
+        }
+
+      }
+
       if (from == 'Allgemeine') {
         if (data == 'pagedItemsGDOC') {
 
@@ -4834,12 +4920,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   savecompanyId(companydata: any) {
     if (companydata == "user") {
-      console.log("savecompanyId" + companydata);
+      console.log("savecompanyId", companydata);
       this.customerCompanyId = companydata;
-      console.log("savecompanyId" + this.customerCompanyId);
+      console.log("savecompanyId", this.customerCompanyId);
     } else {
-      console.log("savecompanyId" + JSON.stringify(this.branchlist));
-      console.log("savecompanyId" + JSON.stringify(companydata));
+      console.log("savecompanyId", this.branchlist);
+      console.log("savecompanyId", companydata);
       this.customerCompanyId = companydata._id;
       console.log("savecompanyId" + this.customerCompanyId);
     }
@@ -4854,7 +4940,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.header_lastname = "";
 
     this.officeData = [];
-    console.log("tabisclicked" + JSON.stringify(event));
+    console.log(event);
+
+    // debugger
     this.userService
       .getCompanyOffices(event._id)
       .pipe(first())
@@ -4884,7 +4972,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             };
           };
         }, 100);
-        console.log("officeData" + JSON.stringify(officeData));
+        console.log(officeData);
+
       });
   }
   mactive(event: any) {
@@ -8952,6 +9041,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         document_type: "",
         document_sub_type: "",
         user_id: "",
+        sub_customers: {
+          sub_customer_id: "",
+        },
         product_partner: "",
         companycode: "",
         brand: "",
@@ -8961,6 +9053,27 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         created_by: "",
         document_name: "",
       };
+
+      if (this.sub_sub_customer_id != undefined) {
+        values = {
+          image: "",
+          document_type: "",
+          document_sub_type: "",
+          user_id: "",
+          sub_customers: {
+            sub_customer_id: "",
+            sub_sub_customer_id:""
+          },
+          product_partner: "",
+          companycode: "",
+          brand: "",
+          tags: [],
+          upload_by: "",
+          ticket_no: "",
+          created_by: "",
+          document_name: "",
+        };
+      }
 
       $("#bodydivfamily").css("display", "block");
       let pdfnew = new jsPDF("portrait", "pt", "a4");
@@ -8977,8 +9090,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.document_sub_type = "Power of attorney";
           values.document_name = "Maklervollmacht";
           values.user_id = that.id;
-          values.product_partner = " ";
-
+          values.product_partner = "";
+          if (this.sub_sub_customer_id != undefined) {
+            values.sub_customers.sub_sub_customer_id = this.sub_sub_customer_id;
+          }
+          values.sub_customers.sub_customer_id = this.sub_customer_id;
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
@@ -8987,9 +9103,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           values.tags.push("application/pdf");
           values.tags.push(new Date().getTime());
+          // debugger
           let data = await that.uploadDocument(values);
           console.log("apidocument" + data);
-
+          // debugger
           values.tags = [];
 
           $("#bodydivfamily").css("display", "none");
@@ -9010,6 +9127,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       formData.append("document_sub_type", values.document_sub_type); // product_type
       formData.append("product_partner", values.product_partner);
       formData.append("user", values.user_id);
+      formData.append("sub_customers", values.sub_customers);
       formData.append("companycode", values.companycode);
       formData.append("brand", values.brand);
       formData.append("tags", values.tags);
@@ -9055,6 +9173,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         document_type: "",
         document_sub_type: "",
         user_id: "",
+        sub_customers: {
+          sub_customer_id: "",
+          sub_sub_customer_id: ""
+        },
         product_partner: "",
         companycode: "",
         brand: "",
@@ -9064,6 +9186,27 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         created_by: "",
         document_name: "",
       };
+
+      if (this.sub_sub_customer_id != undefined) {
+        values = {
+          image: "",
+          document_type: "",
+          document_sub_type: "",
+          user_id: "",
+          sub_customers: {
+            sub_customer_id: "",
+            sub_sub_customer_id:""
+          },
+          product_partner: "",
+          companycode: "",
+          brand: "",
+          tags: [],
+          upload_by: "",
+          ticket_no: "",
+          created_by: "",
+          document_name: "",
+        };
+      }
 
       $("#bodydivfamilyesign").css("display", "block");
       let pdfnew = new jsPDF("portrait", "pt", "a4");
@@ -9081,7 +9224,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.document_name = "Maklervollmacht";
           values.user_id = that.id;
           values.product_partner = " ";
-
+          if (this.sub_sub_customer_id != undefined) {
+            values.sub_customers.sub_sub_customer_id = this.sub_sub_customer_id;
+          }
+          values.sub_customers.sub_customer_id = this.sub_customer_id;
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
@@ -9092,9 +9238,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           // values.tags.push(Date);
           values.tags.push("application/pdf");
           values.tags.push(new Date().getTime());
+          // debugger
           let data = await that.uploadDocument(values);
-          console.log("apidocument" + data);
 
+          console.log("apidocument" + data);
+          // debugger
           values.tags = [];
 
           $("#bodydivfamilyesign").css("display", "none");
@@ -9327,7 +9475,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             '" [style.width.%]=""> </div> </div>' +
             " </div>" +
             "</div>" +
-          $("#" + preview).html(StringTemple);
+            $("#" + preview).html(StringTemple);
           // $(`<div> <b>  ${Math.round((f.size / 1024))} </b> KB </div>`).insertAfter(".pip")
           $("#removepreviewid" + preview).click(function () {
             removeData(i);
@@ -9764,7 +9912,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("includenote" + docName);
 
     const previewData = (j: any, modaltitle: any, src: any) => {
-      console.log(j,modaltitle,src);
+      console.log(j, modaltitle, src);
 
       console.log("previewData" + j);
 
@@ -9804,8 +9952,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
         $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
 
-      //$('#showpreviewdownload').attr('href',this.previewidandsrc[j]);
-       $("#showpreviewdownload").attr("href", src);
+        //$('#showpreviewdownload').attr('href',this.previewidandsrc[j]);
+        $("#showpreviewdownload").attr("href", src);
 
         $("#showpreviewpdf").attr("src", "");
         $("#showpreviewpdf").css("display", "none");
@@ -13217,6 +13365,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           document_type: "",
           document_sub_type: "",
           user_id: "",
+          sub_customers: {
+            sub_customer_id: ""
+          },
           product_partner: "",
           companycode: "",
           brand: "",
@@ -13224,6 +13375,26 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           upload_by: "",
           ticket_no: "",
         };
+
+        if (this.sub_sub_customer_id != undefined) {
+          values = {
+            image: "",
+            document_type: "",
+            document_sub_type: "",
+            user_id: "",
+            sub_customers: {
+              sub_customer_id: "",
+              sub_sub_customer_id: ""
+            },
+            product_partner: "",
+            companycode: "",
+            brand: "",
+            tags: [],
+            upload_by: "",
+            ticket_no: "",
+          };
+        }
+
         var doc = new jsPDF("p", "pt", "a4", true);
         var width = doc.internal.pageSize.width;
         var height = doc.internal.pageSize.height;
@@ -13252,6 +13423,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               values.document_type = doctype;
               values.document_sub_type = this.lastproducttypeid;
               values.user_id = this.customerid;
+              if (this.sub_sub_customer_id != undefined) {
+                values.sub_customers.sub_sub_customer_id = this.sub_sub_customer_id;
+              }
+              values.sub_customers.sub_customer_id = this.sub_customer_id;
               values.product_partner = this.lastproductpartnerid
                 ? this.lastproductpartnerid
                 : " ";
@@ -13266,7 +13441,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               console.log("inside if handleimage upload");
               console.log(i);
               console.log(values);
-              //debugger
+              // debugger
 
               this.uploadDocument2(values, i);
               values.tags = [];
@@ -13289,6 +13464,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     formData.append("document_sub_type", values.document_sub_type); // product_type
     formData.append("product_partner", values.product_partner);
     formData.append("user", values.user_id);
+    formData.append("sub_customers", values.sub_customers);
     formData.append("companycode", values.companycode);
     formData.append("brand", values.brand);
     formData.append("tags", values.tags);
@@ -13317,7 +13493,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           // this.UploadError = true;
           this.error = error;
 
-          console.log("Error", error["error"]);
+          console.log("Error", error);
         },
         () => {
           console.log(length, index);
@@ -13509,7 +13685,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   }
 
-  angeboteStepperChange(event: any){
+  angeboteStepperChange(event: any) {
     this.searchVariable = ''
   }
 
@@ -13678,27 +13854,27 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       setTimeout(() => {
 
 
-      console.log('here', embedid + index);
+        console.log('here', embedid + index);
 
-      $(".opencontractdocbtn").html("Öffnen");
-      event.target.innerHTML = "Schließen";
-      // $(".contractdocs").css("display", "none");
+        $(".opencontractdocbtn").html("Öffnen");
+        event.target.innerHTML = "Schließen";
+        // $(".contractdocs").css("display", "none");
 
-      // contractdocs1img
-      console.log(tags[0].split(",")[1].includes('image'),tags);
-      console.log(embedid, 'is image?',index);
+        // contractdocs1img
+        console.log(tags[0].split(",")[1].includes('image'), tags);
+        console.log(embedid, 'is image?', index);
 
 
-      if (tags[0].split(",")[1].includes('image')) {
-        $("#" + embedid + 'img' + index).css("display", "block");
-        $("#" + embedid + 'img' + index).attr("src", url);
-        // $("#" + embedid + 'img' +index).attr("type", tags[0].split(",")[1]);
-      } else {
-        $("#" + embedid + 'pdf'+ index).css("display", "block");
-        $("#" + embedid + 'pdf'+ index).attr("type", tags[0].split(",")[1]);
-        $("#" + embedid + 'pdf'+ index).attr("src", url);
-      }
-    }, 200);
+        if (tags[0].split(",")[1].includes('image')) {
+          $("#" + embedid + 'img' + index).css("display", "block");
+          $("#" + embedid + 'img' + index).attr("src", url);
+          // $("#" + embedid + 'img' +index).attr("type", tags[0].split(",")[1]);
+        } else {
+          $("#" + embedid + 'pdf' + index).css("display", "block");
+          $("#" + embedid + 'pdf' + index).attr("type", tags[0].split(",")[1]);
+          $("#" + embedid + 'pdf' + index).attr("src", url);
+        }
+      }, 200);
 
     } else {
       console.log(' elsehere');

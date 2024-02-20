@@ -76,10 +76,10 @@ export class SideBarComponent implements OnInit {
         this.route.queryParams.subscribe((params) => {
           this.customerid = params["id"];
         });
-        console.log('customerid', this.customerid);
+        // console.log('customerid', this.customerid);
         this.userService.getEditUser(this.customerid).pipe(first()).subscribe((data: any) => {
           this.localData = data
-          console.log('localData', data);
+          // console.log('localData', data);
         })
       } else {
         this.localData = ''
@@ -130,7 +130,7 @@ export class SideBarComponent implements OnInit {
             .pipe(first())
             .subscribe((familydata11: any) => {
               this.familyData = familydata11;
-              console.log('familyData',this.familyData);
+              // console.log('familyData', this.familyData);
             });
         }, 500);
 
@@ -139,17 +139,12 @@ export class SideBarComponent implements OnInit {
           .pipe(first())
           .subscribe((userofficedata: any) => {
             this.userofficeData = userofficedata;
-            console.log('officedata',this.userofficeData);
+            // console.log('officedata', this.userofficeData);
           });
 
       }
 
-      console.log(!this.localData.hasOwnProperty('companytype') ||
-        this.localData.companytype == ' ' ||
-        this.localData.companytype == '' ||
-        this.localData.companytype == null);
-
-      console.log(this.localData.lastname);
+      // console.log(this.localData.lastname);
       this.currentActiveRole = localStorage.getItem("currentActiveRole")
 
 
@@ -177,20 +172,6 @@ export class SideBarComponent implements OnInit {
 
   }
 
-
-  clicker(id:string,btnid:string): void {
-    setTimeout(() => {
-      const stammdatenid = document.getElementById(id)
-      const StammdatenBtn = document.getElementById(btnid)
-
-      if(stammdatenid){
-        StammdatenBtn.click()
-      }
-
-
-    }, 1000);
-  }
-
   mouseenter() {
     if (!this.isExpanded) {
       this.isShowing = true;
@@ -203,28 +184,16 @@ export class SideBarComponent implements OnInit {
     }
   }
 
-  indexOfHideValuesj:any = -1
-  indexOfHideValues:any = -1
-  clikeditem(item: string,data:string,index?:number,indexj?:number) {
-    console.log(item,index,indexj);
+  indexOfHideValuesj: any = -1
+  indexOfHideValues: any = -1
+  clikeditem(id:string,item: string, data: string, index?: number,subid?:string, indexj?: number) {
+    // console.log(item, index, indexj);
     this.indexOfHideValues = index
     this.currentTab = item
     this.indexOfHideValuesj = indexj
 
-    this.userService.heeaderData.next(['Kunden',data])
-    this.userService.selectCustomerSideItem.next([item,index,indexj])
-  }
-
-
-  clikedVertrage(item: string, subitem: string) {
-    if(item == 'Laufende'){
-      this.currentTab = `${subitem}1`
-    }else if( item == 'Angebote'){
-      this.currentTab = `${subitem}2`
-    } else {
-      this.currentTab = item
-    }
-    this.userService.selectVertrage.next([item, subitem])
+    this.userService.heeaderData.next(['Kunden', data])
+    this.userService.selectCustomerSideItem.next([id,item, index,subid, indexj])
   }
 
   setCurrentTabUser(office: any, type: any) {
@@ -261,7 +230,8 @@ export class SideBarComponent implements OnInit {
       this.currentTabUser = { id, name, email, strno, city, country };
     }
     this.userService.invokeFunctionInCustomerSide.next(['setCurrentTabUser', office, type])
-    console.log("office data", office);
+    // console.log("office data", office);
+    // debugger
   }
 
 
@@ -274,7 +244,7 @@ export class SideBarComponent implements OnInit {
     user_id: any = ""
   ) {
     // console.log("tab clicked");
-    console.log("current tab User", this.currentTabUser);
+    // console.log("current tab User", this.currentTabUser);
 
     if (type == "Haushalt") {
       this.header_title = title;
@@ -303,7 +273,7 @@ export class SideBarComponent implements OnInit {
     this.header_lastname = "";
 
     this.officeData = [];
-    console.log("tabisclicked" + JSON.stringify(event));
+    // console.log("tabisclicked" + JSON.stringify(event));
     setTimeout(() => {
       this.userService
         .getCompanyOffices(event._id)
@@ -311,7 +281,8 @@ export class SideBarComponent implements OnInit {
         .subscribe((officeData: any) => {
           this.officeData = officeData;
 
-          console.log("officeData" + JSON.stringify(officeData));
+          // console.log("officeData" + JSON.stringify(officeData));
+          // debugger
         });
     }, 300);
 
@@ -328,20 +299,20 @@ export class SideBarComponent implements OnInit {
     this.userService.invokeFunctionInCustomerSide.next(['remove_border', btnid])
   }
 
-  DateRender(id: string,item:string) {
+  DateRender(id: string, item: string) {
     this.currentTab = item
-    console.log(item);
+    // console.log(item);
     let headerData = ''
-    if(item.includes('Betriebsstätte')){
+    if (item.includes('Betriebsstätte')) {
       headerData = 'Betriebsstätte hinzufügen'
-    } else if (item.includes('Unternehmen')){
+    } else if (item.includes('Unternehmen')) {
       headerData = 'Unternehmen hinzufügen'
-    } else if (item.includes('Mitglied')){
+    } else if (item.includes('Mitglied')) {
       headerData = 'Mitglied zum Haushalt hinzufügen'
-    } else if(item.includes('Kundentyp')){
+    } else if (item.includes('Kundentyp')) {
       headerData = 'Kundentyp hinzufügen'
     }
-    this.userService.heeaderData.next(['Kunden',headerData])
+    this.userService.heeaderData.next(['Kunden', headerData])
 
     this.userService.modalIdfromSidebar.next(id)
   }
