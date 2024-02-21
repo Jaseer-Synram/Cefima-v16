@@ -995,9 +995,59 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
       this.VertrageData = false
 
-      console.log(this.hideValues)
+      console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
 
+      this.userService
+        .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
+        ?.pipe(first())
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.MetaDataLoopingDocList();
+            this.customerDocList = data;
+            console.log('data :', data);
 
+            console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
+            console.log("innerloop");
+            this.customerDocListunique = [];
+            console.log(this.customerDocList);
+
+            //debugger
+
+            for (let i = 0; i < this.customerDocList.length; i++) {
+              let exists = 0;
+              for (let j = 0; j < this.customerDocListunique.length; j++) {
+                if (
+                  this.customerDocListunique[j].element.ticket_no ==
+                  this.customerDocList[i].element.ticket_no
+                ) {
+                  exists = 1;
+                }
+              }
+              console.log('exists******************');
+
+              if (exists == 0) {
+                console.log('here');
+                //debugger
+                this.customerDocListunique.push(this.customerDocList[i]);
+              }
+            }
+
+            console.log("customer doc list unique");
+            console.log(this.customerDocListunique);
+
+            this.userService.dashboard_positions_list().subscribe((result) => {
+              console.log("Dashboard Positions fetched");
+              console.log(result);
+            });
+
+            this.setPage(1);
+            this.show_doc_count();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     })
 
 
@@ -1925,12 +1975,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     // this.legalrepresentativeform2().push(this.newlegalrepresentativeform2());
     this.userService
       .getEditUser(this.customerid)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe((user: any) => {
         this.localData = user;
         this.localDataSearch = user;
         console.log('localData', this.localData);
-        //debugger
+        ////debugger
         this.getTabList();
         console.log("brokername1");
         console.log("this is user local data", this.localData);
@@ -2013,7 +2063,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           console.log("brokername5" + this.brokername);
           this.userService
             .getUser1(this.brokername)
-            .pipe(first())
+            ?.pipe(first())
             .subscribe((brokerdata: any) => {
               console.log("brokername6" + JSON.stringify(brokerdata));
               this.brokertitle = brokerdata[0].title;
@@ -2394,7 +2444,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     ).companies_with_roles;
     this.userService
       .getusertimeline(this.id)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe(
         (data: any[]) => {
           this.TimeLineData = data;
@@ -2411,7 +2461,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           "Allgemeines Dokument",
           "cefima_document"
         )
-        .pipe(first())
+        ?.pipe(first())
         .subscribe(
           (result: any) => {
             console.log(result[0]?.element.ticket_no);
@@ -2432,7 +2482,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           "Allgemeines Dokument",
           "cefima_document"
         )
-        .pipe(first())
+        ?.pipe(first())
         .subscribe(
           (result: any) => {
             console.log(result[0]?.element.ticket_no);
@@ -2447,9 +2497,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           }
         );
     }
+
+    console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
     this.userService
-      .getDocumentsBYID(this.customerid, "bestandsübertragung")
-      .pipe(first())
+      .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
+      ?.pipe(first())
       .subscribe(
         (data) => {
           console.log(data);
@@ -2457,7 +2509,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.customerDocList = data;
           console.log("innerloop");
           console.log(this.customerDocList);
-          //debugger
+          // //debugger
           for (let i = 0; i < this.customerDocList.length; i++) {
             let exists = 0;
             for (let j = 0; j < this.customerDocListunique.length; j++) {
@@ -2493,11 +2545,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.userService
       .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
       // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
-      .pipe(first())
+      ?.pipe(first())
       .subscribe(
         (data11) => {
           console.log(data11);
-          // debugger
+          // //debugger d
           this.MetaDataLoopingDocListsecond();
           this.customerDocListsecond = data11;
 
@@ -3850,7 +3902,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     this.userService
       .getCustomerCompanies(this.customerid)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe((companydata: any) => {
         this.companyDataSearch = lodash.cloneDeep(companydata);
 
@@ -3858,7 +3910,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
         console.log("company data received");
         console.log(this.companyData);
-        //debugger
+        ////debugger
 
         for (
           let com_count = 0;
@@ -3895,12 +3947,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     setTimeout(() => {
       this.userService
         .getfamilyMembers(this.customerid)
-        .pipe(first())
+        ?.pipe(first())
         .subscribe((familydata11: any) => {
           console.log("familydata" + JSON.stringify(this.familyData));
           this.familyData = familydata11;
           console.log(familydata11);
-          //debugger
+          ////debugger
           setTimeout(() => {
             if (this.familyData.length > 0) {
               console.log("querySelector1" + this.familyData.length);
@@ -3932,11 +3984,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     this.userService
       .getUserCompanyOffices(this.customerid)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe((userofficedata: any) => {
         this.userofficeData = userofficedata;
         console.log('userofficedata', userofficedata);
-        // //debugger
+        // ////debugger
 
         setTimeout(() => {
           if (this.userofficeData.length > 0) {
@@ -4037,7 +4089,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("checkemailnew" + datanew);
     this.userService
       .checkemail(datanew)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe((data11: any) => {
         console.log("checkemailnew" + datanew);
         if (data11["status"] == "200") {
@@ -4268,7 +4320,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   ngOnDestroy() {
-    this.responseobserve.unsubscribe();
+    // this.responseobserve.unsubscribe();
     this.userService.invokeSideBarRouteFether.next(null)
   }
   getcurrentUser(T_N: any) {
@@ -4942,10 +4994,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.officeData = [];
     console.log(event);
 
-    // debugger
+    // //debugger
     this.userService
       .getCompanyOffices(event._id)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe((officeData: any) => {
         this.officeData = officeData;
         setTimeout(() => {
@@ -5061,7 +5113,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
                 this.userService
                   .getCompanyOffices(this.customerCompanyId)
-                  .pipe(first())
+                  ?.pipe(first())
                   .subscribe((officeData: any) => {
                     this.officeData = officeData;
                     setTimeout(() => {
@@ -5202,7 +5254,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
                 this.userService
                   .getUserCompanyOffices(this.customerid)
-                  .pipe(first())
+                  ?.pipe(first())
                   .subscribe((userofficeData: any) => {
                     this.userofficeData = userofficeData;
                     setTimeout(() => {
@@ -5344,7 +5396,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
                 this.userService
                   .getfamilyMembers(this.customerid)
-                  .pipe(first())
+                  ?.pipe(first())
                   .subscribe((familydata: any) => {
                     this.familyData = familydata;
                     setTimeout(() => {
@@ -5555,7 +5607,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
                     this.userService
                       .getfamilyMembers(this.customerid)
-                      .pipe(first())
+                      ?.pipe(first())
                       .subscribe((familydata: any) => {
                         this.familyData = familydata;
                         setTimeout(() => {
@@ -5704,7 +5756,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
                   this.userService
                     .getfamilyMembers(this.customerid)
-                    .pipe(first())
+                    ?.pipe(first())
                     .subscribe((familydata: any) => {
                       this.familyData = familydata;
                       setTimeout(() => {
@@ -7235,7 +7287,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       console.log("paged items doc");
       console.log(this.pagedItems);
-      // //debugger
+      // ////debugger
       //if (this.customerDocList.length > 0) {
       if (this.customerDocListunique.length > 0) {
         this.startRecord =
@@ -9041,9 +9093,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         document_type: "",
         document_sub_type: "",
         user_id: "",
-        sub_customers: {
-          sub_customer_id: "",
-        },
+        sub_customer_id: "",
         product_partner: "",
         companycode: "",
         brand: "",
@@ -9060,10 +9110,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           document_type: "",
           document_sub_type: "",
           user_id: "",
-          sub_customers: {
-            sub_customer_id: "",
-            sub_sub_customer_id:""
-          },
+          sub_customer_id: "",
+          sub_sub_customer_id: "",
           product_partner: "",
           companycode: "",
           brand: "",
@@ -9092,9 +9140,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.user_id = that.id;
           values.product_partner = "";
           if (this.sub_sub_customer_id != undefined) {
-            values.sub_customers.sub_sub_customer_id = this.sub_sub_customer_id;
+            values.sub_sub_customer_id = this.sub_sub_customer_id;
           }
-          values.sub_customers.sub_customer_id = this.sub_customer_id;
+          values.sub_customer_id = this.sub_customer_id;
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
@@ -9105,10 +9153,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           values.tags.push("application/pdf");
           values.tags.push(new Date().getTime());
-          // debugger
+          // //debugger
           let data = await that.uploadDocument(values);
           console.log("apidocument" + data);
-          debugger
           values.tags = [];
 
           $("#bodydivfamily").css("display", "none");
@@ -9121,6 +9168,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   };
   uploadDocument(values: any) {
     console.log("apidocument");
+
+
     // let length = this.filearray.length;
     $("#loaderouterid").css("display", "block");
     return new Promise(async (resolve) => {
@@ -9129,7 +9178,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       formData.append("document_sub_type", values.document_sub_type); // product_type
       formData.append("product_partner", values.product_partner);
       formData.append("user", values.user_id);
-      formData.append("sub_customers", values.sub_customers);
+      formData.append("sub_customer_id", values.sub_customer_id);
+      if (values.sub_sub_customer_id != undefined) {
+        formData.append("sub_sub_customer_id", values.sub_sub_customer_id);
+      }
       formData.append("companycode", values.companycode);
       formData.append("brand", values.brand);
       formData.append("tags", values.tags);
@@ -9144,7 +9196,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       this.userService
         .callApi2(formData)
-        .pipe(first())
+        ?.pipe(first())
         .subscribe(
           (data) => {
             console.log("apidocument" + JSON.stringify(data));
@@ -9175,10 +9227,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         document_type: "",
         document_sub_type: "",
         user_id: "",
-        sub_customers: {
-          sub_customer_id: "",
-          sub_sub_customer_id: ""
-        },
+        sub_customer_id: "",
+        sub_sub_customer_id: "",
         product_partner: "",
         companycode: "",
         brand: "",
@@ -9195,10 +9245,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           document_type: "",
           document_sub_type: "",
           user_id: "",
-          sub_customers: {
-            sub_customer_id: "",
-            sub_sub_customer_id:""
-          },
+          sub_customer_id: "",
+          sub_sub_customer_id: "",
           product_partner: "",
           companycode: "",
           brand: "",
@@ -9227,9 +9275,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.user_id = that.id;
           values.product_partner = " ";
           if (this.sub_sub_customer_id != undefined) {
-            values.sub_customers.sub_sub_customer_id = this.sub_sub_customer_id;
+            values.sub_sub_customer_id = this.sub_sub_customer_id;
           }
-          values.sub_customers.sub_customer_id = this.sub_customer_id;
+          values.sub_customer_id = this.sub_customer_id;
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
@@ -9241,12 +9289,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           // values.tags.push(Date);
           values.tags.push("application/pdf");
           values.tags.push(new Date().getTime());
-          debugger
 
           let data = await that.uploadDocument(values);
 
           console.log("apidocument" + data);
-          // debugger
+          // //debugger
           values.tags = [];
 
           $("#bodydivfamilyesign").css("display", "none");
@@ -9281,7 +9328,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       this.userService
         .callApi2(formData)
-        .pipe(first())
+        ?.pipe(first())
         .subscribe(
           (data) => {
             console.log("apidocument" + JSON.stringify(data));
@@ -9846,7 +9893,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       // this.UploadDone = true;
       this.userService
         .callApi2(formData)
-        .pipe(first())
+        ?.pipe(first())
         .subscribe(
           (data) => {
             console.log(length, index);
@@ -12424,7 +12471,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   addCustomer() {
     let id: any
-    this.userService.modalIdfromSidebar.pipe(first()).subscribe((data) => {
+    this.userService.modalIdfromSidebar?.pipe(first()).subscribe((data) => {
       id = data
     })
 
@@ -12674,12 +12721,25 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   open_runningcont_modal() {
+    $("#resetBestandsübertragungreset").trigger("click");
+    this.ProductsTypeControl.reset()
+    this.ProductsControl.reset()
+    console.log('runningconract');
+    this.ShowButton = false
+    this.ShowProductsPartner = false
     $("#openrunningmodal").trigger("click");
+    this.open_modal('runningcontracts')
   }
 
   open_extcont_modal() {
+    $("#stepperFremdvertragreset").trigger("click");
+    this.ProductsTypeControl.reset()
+    this.ProductsControl.reset()
     console.log("came inside function");
+    this.uploadingdata = false;
+    this.ShowProductsPartner = false;
     $("#openexternalmodal").trigger("click");
+    this.open_modal('externalcontracts')
   }
 
   private _filter2(value: any): string[] {
@@ -12689,9 +12749,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     );
     let filterValue = "";
     if (typeof value == "object") {
-      filterValue = value.name.toLowerCase();
+      filterValue = value?.name?.toLowerCase();
     } else {
-      filterValue = value.toLowerCase();
+      filterValue = value?.toLowerCase();
     }
     return this.ReadyProductsOptions.filter((option: any) =>
       option.name.toLowerCase().includes(filterValue)
@@ -13361,7 +13421,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   _handleImageUpload2 = (doctype: any) => {
     this.userService
       .getLastdocument()
-      .pipe(first())
+      ?.pipe(first())
       .subscribe((data: any) => {
         console.log("ticket_no" + data);
         let values: any = {
@@ -13369,9 +13429,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           document_type: "",
           document_sub_type: "",
           user_id: "",
-          sub_customers: {
-            sub_customer_id: ""
-          },
+          sub_customer_id: "",
           product_partner: "",
           companycode: "",
           brand: "",
@@ -13386,10 +13444,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             document_type: "",
             document_sub_type: "",
             user_id: "",
-            sub_customers: {
-              sub_customer_id: "",
-              sub_sub_customer_id: ""
-            },
+            sub_customer_id: "",
+            sub_sub_customer_id: "",
             product_partner: "",
             companycode: "",
             brand: "",
@@ -13428,9 +13484,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               values.document_sub_type = this.lastproducttypeid;
               values.user_id = this.customerid;
               if (this.sub_sub_customer_id != undefined) {
-                values.sub_customers.sub_sub_customer_id = this.sub_sub_customer_id;
+                values.sub_sub_customer_id = this.sub_sub_customer_id;
               }
-              values.sub_customers.sub_customer_id = this.sub_customer_id;
+              values.sub_customer_id = this.sub_customer_id;
               values.product_partner = this.lastproductpartnerid
                 ? this.lastproductpartnerid
                 : " ";
@@ -13445,7 +13501,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               console.log("inside if handleimage upload");
               console.log(i);
               console.log(values);
-              // debugger
+              // //debugger
 
               this.uploadDocument2(values, i);
               values.tags = [];
@@ -13468,7 +13524,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     formData.append("document_sub_type", values.document_sub_type); // product_type
     formData.append("product_partner", values.product_partner);
     formData.append("user", values.user_id);
-    formData.append("sub_customers", values.sub_customers);
+    formData.append("sub_customer_id", values.sub_customer_id);
+    if (values.sub_sub_customer_id != undefined) {
+      formData.append("sub_sub_customer_id", values.sub_sub_customer_id);
+    }
     formData.append("companycode", values.companycode);
     formData.append("brand", values.brand);
     formData.append("tags", values.tags);
@@ -13478,10 +13537,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     if (values.image !== "") {
       formData.append("document", values.image);
     }
+
+    formData.forEach((value:any, key) => {
+      console.log(`Key: ${key}, Value: ${value}`);
+    });
+    //debugger
+
     //this.UploadDone = true;
     this.userService
       .callApiMultipart(formData)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe(
         (data: any) => {
           $("#Success").html(`<div class="alert alert-success" role="alert">
@@ -13506,7 +13571,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               this.userService
                 .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
                 // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
-                .pipe(first())
+                ?.pipe(first())
                 .subscribe(
                   (data11) => {
                     console.log(data11);
@@ -13558,9 +13623,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                       }).then((result) => {
                         if (result.value) {
                           if (values.document_type == "fremdvertrag") {
-                            $("#openexternalmodal").trigger("click");
+                            this.open_extcont_modal();
+                            // $("#openexternalmodal").trigger("click");
                           } else {
-                            $("#openrunningmodal").trigger("click");
+                            this.open_runningcont_modal()
+                            // $("#openrunningmodal").trigger("click");
                           }
                         }
                       });
@@ -13575,8 +13642,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 );
             } else {
               this.userService
-                .getDocumentsBYID(this.customerid, "bestandsübertragung")
-                .pipe(first())
+                .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
+                ?.pipe(first())
                 .subscribe(
                   (data) => {
                     console.log(data);
@@ -13633,9 +13700,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                       }).then((result) => {
                         if (result.value) {
                           if (values.document_type == "fremdvertrag") {
-                            $("#openexternalmodal").trigger("click");
+                            this.open_extcont_modal()
+                            // $("#openexternalmodal").trigger("click");
                           } else {
-                            $("#openrunningmodal").trigger("click");
+                            this.open_runningcont_modal()
+                            // $("#openrunningmodal").trigger("click");
                           }
                         }
                       });
@@ -13650,8 +13719,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 );
             }
 
-            // .then((result) => {})
-            // .catch((err) => {});
           }
         }
       );
@@ -13752,7 +13819,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
     console.log(this.pagedItems);
 
-    // //debugger
+    // ////debugger
     this.setPage(1);
 
     console.log("first");
@@ -14044,7 +14111,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       this.userService
         .callApiuploaddocumentnew(formData)
-        .pipe(first())
+        ?.pipe(first())
         .subscribe(
           (data: any) => {
             console.log("apidocument" + JSON.stringify(data));
@@ -14134,7 +14201,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     // this.UploadDone = true;
     this.userService
       .callApiuploaddocumentnew(formData)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe(
         (data: any) => {
           console.log(length, index);
@@ -14250,7 +14317,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     // this.UploadDone = true;
     this.userService
       .callApiuploaddocumentnew(formData)
-      .pipe(first())
+      ?.pipe(first())
       .subscribe(
         (data: any) => {
           console.log(length, index);

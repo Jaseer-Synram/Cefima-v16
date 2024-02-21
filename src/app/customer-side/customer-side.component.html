@@ -20732,8 +20732,7 @@
                   <span>
                     Laufende Verträge
                   </span>
-                  <button class=" button-primary" style="height: 38px" data-toggle="modal"
-                    data-target="#runningcontracts" (click)="open_modal('runningcontracts')">
+                  <button class=" button-primary" style="height: 38px"(click)="open_runningcont_modal()">
                     Bestandsübertragung
                   </button>
                 </div>
@@ -22191,8 +22190,8 @@
                   <span>
                     Angebote/Fremdverträge
                   </span>
-                  <button class=" button-primary" style="height: 38px" data-toggle="modal"
-                    data-target="#externalcontracts" (click)="open_modal('externalcontracts')">
+                  <button class=" button-primary" style="height: 38px"
+                  (click)="open_extcont_modal()">
                     Fremdvertrag
                   </button>
                 </div>
@@ -23029,7 +23028,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <mat-horizontal-stepper linear #stepper style="width: 100% !important; overflow: auto !important"
+        <mat-horizontal-stepper linear #stepperFremdvertrag style="width: 100% !important; overflow: auto !important"
           class="stepnewclass">
           <ng-template matStepperIcon="edit">
             <mat-icon>check</mat-icon>
@@ -23173,6 +23172,9 @@
                       matStepperNext>
                       Senden
                     </button>
+                    <button  mat-raised-button id="stepperFremdvertragreset" style="display:none" type="button" (click)="stepperFremdvertrag.reset()">
+                      reset button
+                    </button>
                   </div>
                 </div>
               </div>
@@ -23199,7 +23201,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <mat-horizontal-stepper linear #stepper style="width: 100% !important; overflow: auto !important"
+        <mat-horizontal-stepper linear #stepperBestandsubertragung style="width: 100% !important; overflow: auto !important"
           class="stepnewclass">
           <ng-template matStepperIcon="edit">
             <mat-icon>check</mat-icon>
@@ -23339,9 +23341,12 @@
                   <div class="col-md-10"></div>
                   <div class="col-md-1">
                     <button type="button" style="margin-left: -12px" [disabled]="uploadingdata"
-                      (click)="_handleImageUpload2('bestandsübertragung')" class="stepper-btn btn links2"
+                      (click)="_handleImageUpload2('bestandsübertragung');stepperBestandsubertragung.reset()" class="stepper-btn btn links2"
                       mat-raised-button matStepperNext>
                       Senden
+                    </button>
+                    <button  mat-raised-button id="resetBestandsübertragungreset" style="display:none" type="button" (click)="stepperBestandsubertragung.reset()">
+                      reset button
                     </button>
                   </div>
                 </div>

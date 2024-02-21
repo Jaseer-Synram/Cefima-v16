@@ -1477,7 +1477,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       formData.forEach((value, key) => {
         console.log(`Key: ${key}, Value: ${value}`);
       });
-      debugger
+      // debugger
       this.userService
         .uploaddocumentwithoutticketno(formData)
         .subscribe((event: HttpEvent<any>) => {

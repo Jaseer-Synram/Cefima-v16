@@ -27,7 +27,7 @@ interface VideoElement {
   styleUrls: ['./video-chat.component.css']
 })
 export class VideoChatComponent implements OnInit, OnDestroy {
- 
+
 
   constructor(
     public dialog: MatDialog,
@@ -50,7 +50,7 @@ export class VideoChatComponent implements OnInit, OnDestroy {
   settingMode: boolean = false;
   infoMode: boolean = false;
 
-  mediaCall!: Peer.MediaConnection; 
+  mediaCall!: Peer.MediaConnection;
   mediaCall2!: Peer.MediaConnection;
 
   isScreenShare: boolean = false;

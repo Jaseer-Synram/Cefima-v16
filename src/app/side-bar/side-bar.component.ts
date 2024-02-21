@@ -187,7 +187,7 @@ export class SideBarComponent implements OnInit {
   indexOfHideValuesj: any = -1
   indexOfHideValues: any = -1
   clikeditem(id:string,item: string, data: string, index?: number,subid?:string, indexj?: number) {
-    // console.log(item, index, indexj);
+    console.log(`id :${id},    item :${item},   subid : ${subid}`);
     this.indexOfHideValues = index
     this.currentTab = item
     this.indexOfHideValuesj = indexj

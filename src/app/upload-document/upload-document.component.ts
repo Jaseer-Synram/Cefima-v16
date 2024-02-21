@@ -1020,7 +1020,7 @@ export class UploadDocumentComponent implements OnInit {
     formData.forEach((value, key) => {
       console.log(`Key: ${key}, Value: ${value}`);
     });
-    debugger
+    // debugger
 
     this.UploadDone = true;
     this.userService
@@ -1198,7 +1198,7 @@ export class UploadDocumentComponent implements OnInit {
               values.tags.push(MainType);
               values.tags.push(Date);
               console.log(values);
-              debugger
+              // debugger
               this.uploadDocument(values, i);
               values.tags = [];
               this.showLoader = true;
@@ -1246,7 +1246,7 @@ export class UploadDocumentComponent implements OnInit {
                 values.tags.push(typeofimage);
                 values.tags.push(dateofdocument);
                 console.log(values);
-                debugger
+                // debugger
                 this.uploadDocument(values, i);
                 values.tags = [];
 
@@ -1478,7 +1478,7 @@ export class UploadDocumentComponent implements OnInit {
       formData.forEach((value, key) => {
         console.log(`Key: ${key}, Value: ${value}`);
       });
-      debugger
+      // debugger
       this.userService.uploaddocumentwithoutticketno( formData )
       .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {

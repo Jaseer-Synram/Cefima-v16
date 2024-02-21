@@ -1672,7 +1672,7 @@ export class CustomerComponent implements OnInit {
                       console.log("this.customerList" + success);
                       console.log("this.customerno" + this.customerno);
                       console.log(success);
-                      debugger
+                      // debugger
                       this.setPage(1);
                       this.recordCount = success.length;
                     }
