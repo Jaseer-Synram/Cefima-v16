@@ -2643,8 +2643,8 @@ export class MainDataComponent {
         this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.logged_out = "1";
         this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(), 'dd.MM.yyyy HH:mm');
 
-        const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
-        this.socketAlertService.updateData(newData);
+        // const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
+        // this.socketAlertService.updateData(newData);
       }
     });
   }
