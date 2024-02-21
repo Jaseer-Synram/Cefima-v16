@@ -9098,6 +9098,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
+          console.log(that.pdffile.size);
+
 
           values.tags.push(Math.round(that.pdffile.size / 1024));
 
@@ -9106,7 +9108,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           // debugger
           let data = await that.uploadDocument(values);
           console.log("apidocument" + data);
-          // debugger
+          debugger
           values.tags = [];
 
           $("#bodydivfamily").css("display", "none");
@@ -9233,12 +9235,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.upload_by = "cefima_document";
           // values.ticket_no = "40-ce-" + data;
           //values.created_by = this.id.toString()
+          console.log(that.pdffile.size);
           values.tags.push(Math.round(that.pdffile.size / 1024));
           //values.tags.push(MainType);
           // values.tags.push(Date);
           values.tags.push("application/pdf");
           values.tags.push(new Date().getTime());
-          // debugger
+          debugger
+
           let data = await that.uploadDocument(values);
 
           console.log("apidocument" + data);

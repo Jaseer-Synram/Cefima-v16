@@ -1478,10 +1478,9 @@ export class UploadDocumentComponent implements OnInit {
       formData.forEach((value, key) => {
         console.log(`Key: ${key}, Value: ${value}`);
       });
-      // debugger
-      this.userService.uploaddocumentwithoutticketno(
-        formData
-      ).subscribe((event: HttpEvent<any>) => {
+      debugger
+      this.userService.uploaddocumentwithoutticketno( formData )
+      .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
 
           case HttpEventType.Sent:
