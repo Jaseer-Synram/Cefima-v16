@@ -32,6 +32,8 @@ import { TabsModule } from "ngx-bootstrap/tabs";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTableModule } from '@angular/material/table';
 import {  } from 'ngx-intl-tel-input'
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 
 
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule, } from "@angular-material-components/datetime-picker";
@@ -81,7 +83,8 @@ import { GooglePlaceModule } from "@barkhub/ngx-google-places-autocomplete"
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
     GooglePlaceModule,
-    MatTableModule
+    MatTableModule,
+    PdfViewerModule
   ], exports: [
     CommonModule,
     // AngularFullpageModule,
@@ -121,6 +124,7 @@ import { GooglePlaceModule } from "@barkhub/ngx-google-places-autocomplete"
     MatTableModule,
     SortPipe,
     SortDirective,
+    PdfViewerModule
   ]
 })
 export class SharedModule { }

@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // API_URL: "http://ec2-18-197-17-51.eu-central-1.compute.amazonaws.com",
-  API_URL: "https://fiorettosystems.com/api/",
-  //API_URL: "http://localhost:3000/",
+  // API_URL: "https://fiorettosystems.com/api/",
+  API_URL: "http://localhost:3000/",
   // API_URL: 'https://theadvisorpoint.com/api/',
   brand_id: "64f2fb7142a97fa8cc9064f2",
   socket_url: "https://fiorettosystems.com",

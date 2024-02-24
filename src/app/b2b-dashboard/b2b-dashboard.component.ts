@@ -736,7 +736,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ceoDocListunique.push(this.ceoDocList[0]);
       this.showceodoc = true;
     } /*else{
-  this.showceodoc=false; 
+  this.showceodoc=false;
 }*/
 
     // console.log("printing ceo doc lists");
@@ -1413,32 +1413,32 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get_unread_chat() {
-    let message = {
-      broker_id: this.queryID,
-      case_no: this.lastcase_no,
-    };
-    console.log("case no in b2b");
-    this.userService.getchatunreadmessage(message).subscribe(
-      (success: any) => {
-        for (let i = 0; i < success.result.length; i++) {
-          if (
-            this.messagelist.findIndex(
-              (x: any) => x._id == success.result[i]._id
-            ) == -1
-          ) {
-            this.messagelist.push(success.result[i]);
-          }
-        }
-        //success.result.map((result) => this.messagelist.push(result));
-        console.log("Message list after pushing", this.messagelist);
-        console.log("success_result", success);
-      },
-      (err) => {
-        console.log("error5");
-        console.log(err);
-      },
-      () => { }
-    );
+    // let message = {
+    //   broker_id: this.queryID,
+    //   case_no: this.lastcase_no,
+    // };
+    // console.log("case no in b2b");
+    // this.userService.getchatunreadmessage(message).subscribe(
+    //   (success: any) => {
+    //     for (let i = 0; i < success.result.length; i++) {
+    //       if (
+    //         this.messagelist.findIndex(
+    //           (x: any) => x._id == success.result[i]._id
+    //         ) == -1
+    //       ) {
+    //         this.messagelist.push(success.result[i]);
+    //       }
+    //     }
+    //     //success.result.map((result) => this.messagelist.push(result));
+    //     console.log("Message list after pushing", this.messagelist);
+    //     console.log("success_result", success);
+    //   },
+    //   (err) => {
+    //     console.log("error5");
+    //     console.log(err);
+    //   },
+    //   () => { }
+    // );
   }
 
   getcompanydatacheckup() {

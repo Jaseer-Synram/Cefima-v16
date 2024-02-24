@@ -1002,7 +1002,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         ?.pipe(first())
         .subscribe(
           (data) => {
+            console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
+
             console.log(data);
+            
             this.MetaDataLoopingDocList();
             this.customerDocList = data;
             console.log('data :', data);
@@ -1012,7 +1015,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             this.customerDocListunique = [];
             console.log(this.customerDocList);
 
-            //debugger
+            //
 
             for (let i = 0; i < this.customerDocList.length; i++) {
               let exists = 0;
@@ -1028,7 +1031,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
               if (exists == 0) {
                 console.log('here');
-                //debugger
+                //
                 this.customerDocListunique.push(this.customerDocList[i]);
               }
             }
@@ -1048,6 +1051,47 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             console.log(error);
           }
         );
+
+      this.userService
+        // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
+        .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
+        ?.pipe(first())
+        .subscribe(
+          (data11) => {
+            console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
+
+            console.log(data11);
+
+            this.MetaDataLoopingDocListsecond();
+            this.customerDocListsecondunique = [];
+            this.customerDocListsecond = data11;
+
+            for (let i = 0; i < this.customerDocListsecond.length; i++) {
+              let exists = 0;
+              for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
+                if (
+                  this.customerDocListsecondunique[j].element.ticket_no ==
+                  this.customerDocListsecond[i].element.ticket_no
+                ) {
+                  exists = 1;
+                }
+              }
+
+              if (exists == 0) {
+                this.customerDocListsecondunique.push(
+                  this.customerDocListsecond[i]
+                );
+              }
+            }
+
+            this.setPage(1, "second");
+            this.show_doc_count();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+
     })
 
 
@@ -1980,7 +2024,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.localData = user;
         this.localDataSearch = user;
         console.log('localData', this.localData);
-        ////debugger
+        ////
         this.getTabList();
         console.log("brokername1");
         console.log("this is user local data", this.localData);
@@ -2466,6 +2510,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           (result: any) => {
             console.log(result[0]?.element.ticket_no);
             this.documents = result;
+            console.log('Result : :', result);
+
             this.MetaDataLooping();
             this.setPage(1, "general");
             this.show_doc_count();
@@ -2487,6 +2533,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           (result: any) => {
             console.log(result[0]?.element.ticket_no);
             this.documents = result;
+            console.log('Result : :', result);
+
             this.MetaDataLooping();
             this.setPage(1, "general");
             this.show_doc_count();
@@ -2505,11 +2553,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       .subscribe(
         (data) => {
           console.log(data);
+
           this.MetaDataLoopingDocList();
           this.customerDocList = data;
           console.log("innerloop");
           console.log(this.customerDocList);
-          // //debugger
+
           for (let i = 0; i < this.customerDocList.length; i++) {
             let exists = 0;
             for (let j = 0; j < this.customerDocListunique.length; j++) {
@@ -2543,13 +2592,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         }
       );
     this.userService
-      .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
       // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
+      .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
       ?.pipe(first())
       .subscribe(
         (data11) => {
           console.log(data11);
-          // //debugger d
+
           this.MetaDataLoopingDocListsecond();
           this.customerDocListsecond = data11;
 
@@ -2646,6 +2695,24 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       hidemultiCompanyIn: true
     };
 
+  }
+
+  callValueChange(item: string) {
+    if (item == 'Produkttyp') {
+      if (this.ProductsTypeControl.touched == true) {
+        console.log('toucheed');
+      } else {
+        this.ProductsTypeControl.setValue(" ")
+        this.ProductsTypeControl.setValue("")
+      }
+    } else {
+      if (this.ProductsControl.touched == true) {
+        console.log('toucheed');
+      } else {
+        this.ProductsControl.setValue(" ")
+        this.ProductsControl.setValue("")
+      }
+    }
   }
 
   getTabList() {
@@ -2807,6 +2874,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log('question data:', this.selectedQuestionArray)
   }
 
+  source = ''
+
+
   async handleDocumentUpload(
     event: any,
     option_index: any = "",
@@ -2815,21 +2885,33 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     event.preventDefault();
 
     const previewData = (source: any, modaltitle: any) => {
-      $("#openpreviewmodel").trigger("click");
 
-      $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
-
-      $("#showpreviewdownload").attr("href", source);
 
       if (source.indexOf("data:application/pdf;") != -1) {
-        $("#showpreviewimg").attr("src", "");
-        $("#showpreviewimg").css("display", "none");
+        $("#openpreviewmodel").trigger("click");
+        this.open_modal('exampleModalpreview')
 
-        $("#showpreviewpdf").attr("src", "");
-        $("#showpreviewpdf").css("display", "block");
-        //  $('#showpreviewvideo').attr('src',source);
-        $("#showpreviewpdf").attr("src", source);
+        $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
+
+        $("#showpreviewdownload").attr("href", source);
+        this.source = source
+        setTimeout(() => {
+          $("#showpreviewimg").attr("src", "");
+          $("#showpreviewimg").css("display", "none");
+
+          $("#showpreviewpdf").attr("src", "");
+          $("#showpreviewpdf").css("display", "block");
+          //  $('#showpreviewvideo').attr('src',source);
+          $("#showpreviewpdf").attr("src", source);
+        }, 1000);
+
       } else {
+        $("#openpreviewmodel").trigger("click");
+        this.open_modal('exampleModalpreview')
+
+        $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
+
+        $("#showpreviewdownload").attr("href", source);
         $("#showpreviewpdf").attr("src", "");
         $("#showpreviewpdf").css("display", "none");
 
@@ -2867,6 +2949,16 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     var filesLength = files.length;
     for (let i = 0; i < filesLength; i++) {
       let f = files[i];
+      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+      console.log('extension : ', extension);
+      if (extension == 'svg') {
+        Swal.fire({
+          title: 'File Format Error',
+          text: 'Please upload a Valid document',
+          icon: 'warning',
+        })
+        return
+      }
 
       let newsize: any = this.l;
       this.l = this.l + 1;
@@ -2875,8 +2967,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       let Size1 = f.size;
       let Size = this.dataconvert(Size1);
-
-      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
 
       var fileReader = new FileReader();
       let typeofimage = f.type;
@@ -2889,7 +2979,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         let ImageName = (e.target as any).result;
 
         let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-
+        console.log('extension : ', extension);
 
         if (typeofimage.indexOf("pdf") != -1) {
           ImageName = "../assets/icons/file-upload-blue-pdf.svg";
@@ -3137,17 +3227,27 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   preview_uploaded_document(filename: any, url: any, datatype: any) {
     console.log(filename, '/n', url, '/n', datatype);
 
-    $("#openpreviewmodel").trigger("click");
-    this.open_modal('exampleModalpreview');
+
     $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + filename);
     if (datatype.indexOf("application/pdf") != -1) {
-      $("#showpreviewimg").attr("src", "");
-      $("#showpreviewimg").css("display", "none");
-      $("#showpreviewpdf").attr("src", "");
-      $("#showpreviewpdf").css("display", "block");
-      //  $('#showpreviewvideo').attr('src',source);
-      $("#showpreviewpdf").attr("src", url);
+      $("#openpreviewmodel").trigger("click");
+      this.open_modal('exampleModalpreview');
+      this.source = url
+      setTimeout(() => {
+        $("#showpreviewimg").attr("src", "");
+        $("#showpreviewimg").css("display", "none");
+        $("#showpreviewpdf").attr("src", "");
+        $("#showpreviewpdf").css("display", "block");
+        //  $('#showpreviewvideo').attr('src',source);
+        $("#showpreviewpdf").attr("src", url);
+      }, 1000);
+
+
     } else {
+
+      $("#openpreviewmodel").trigger("click");
+      this.open_modal('exampleModalpreview');
+
       $("#showpreviewpdf").attr("src", "");
       $("#showpreviewpdf").css("display", "none");
       $("#showpreviewimg").attr("src", "");
@@ -3759,24 +3859,24 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       case_no: this.lastcase_no,
     };
     // console.log("case no in customer side");
-    this.userService.getchatunreadmessage(message).subscribe(
-      (success: any) => {
-        for (let i = 0; i < success.result.length; i++) {
-          if (
-            this.messagelist.findIndex(
-              (x: any) => x._id == success.result[i]._id
-            ) == -1
-          ) {
-            this.messagelist.push(success.result[i]);
-          }
-        }
-      },
-      (err) => {
-        console.log("error5");
-        console.log(err);
-      },
-      () => { }
-    );
+    // this.userService.getchatunreadmessage(message).subscribe(
+    //   (success: any) => {
+    //     for (let i = 0; i < success.result.length; i++) {
+    //       if (
+    //         this.messagelist.findIndex(
+    //           (x: any) => x._id == success.result[i]._id
+    //         ) == -1
+    //       ) {
+    //         this.messagelist.push(success.result[i]);
+    //       }
+    //     }
+    //   },
+    //   (err) => {
+    //     console.log("error5");
+    //     console.log(err);
+    //   },
+    //   () => { }
+    // );
   }
 
 
@@ -3909,8 +4009,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.companyData = companydata;
 
         console.log("company data received");
-        console.log(this.companyData);
-        ////debugger
 
         for (
           let com_count = 0;
@@ -3951,8 +4049,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         .subscribe((familydata11: any) => {
           console.log("familydata" + JSON.stringify(this.familyData));
           this.familyData = familydata11;
-          console.log(familydata11);
-          ////debugger
+
           setTimeout(() => {
             if (this.familyData.length > 0) {
               console.log("querySelector1" + this.familyData.length);
@@ -3987,8 +4084,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       ?.pipe(first())
       .subscribe((userofficedata: any) => {
         this.userofficeData = userofficedata;
-        console.log('userofficedata', userofficedata);
-        // ////debugger
+
 
         setTimeout(() => {
           if (this.userofficeData.length > 0) {
@@ -4073,6 +4169,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("startloader");
     $("#loaderouterid").css("display", "block");
   }
+
   checkmessage() {
     let inputmessage: any = $("#inputmessage").val();
     if (inputmessage == "") {
@@ -4081,6 +4178,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.editsendbutton = false;
     }
   }
+
   checkemailnewcompany() {
     $("#checkemailerrorcompany").html("");
     $("#checkemailerrorcompany").css("background-color", "transparent");
@@ -4105,6 +4203,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         }
       });
   }
+
   sendmessage() {
     // $('#inputmessage').attr("disabled","true");
     $("#inputmessage").attr("disabled", "true");
@@ -4273,6 +4372,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           });
       });
   }
+
   CurrentChat(user: any, i: number) {
     this.lastcase_no = user.Activity_No;
     $(".nesteslist").removeClass("activediv");
@@ -4314,6 +4414,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       () => { }
     );
   }
+
   getnotidata(notidata: any) {
     this.unreadcount = notidata;
     // console.log("sdfsfdsfsfsfsf" + notidata);
@@ -4323,6 +4424,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     // this.responseobserve.unsubscribe();
     this.userService.invokeSideBarRouteFether.next(null)
   }
+
   getcurrentUser(T_N: any) {
     console.log("getcurrentUser");
     this.userService.GetDocByInsurance(T_N).subscribe((success: any) => {
@@ -4340,6 +4442,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     });
   }
+
   editRecord(type: any, index: any, data: any, cardindex?: any) {
     console.log("editRecord" + JSON.stringify(data) + "index" + index, type, cardindex);
     console.log("editRecordcardindex" + cardindex);
@@ -4994,7 +5097,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.officeData = [];
     console.log(event);
 
-    // //debugger
+    // //
     this.userService
       .getCompanyOffices(event._id)
       ?.pipe(first())
@@ -7101,7 +7204,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
       );  */
       const someInput: any = document.getElementById("previewimg");
-      someInput.addEventListener(
+      someInput?.addEventListener(
         "click",
         function () {
           removepreview();
@@ -7287,7 +7390,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       console.log("paged items doc");
       console.log(this.pagedItems);
-      // ////debugger
+      // ////
       //if (this.customerDocList.length > 0) {
       if (this.customerDocListunique.length > 0) {
         this.startRecord =
@@ -7412,49 +7515,102 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     if (this.pagedItemssecond) {
       if (this.pagedItemssecond.length > 0) {
+
+        // for (let i = 0; i < this.pagedItemssecond.length; i++) {
+        //   if (this.pagedItemssecond[i].element.protype?.sparte == "Sach") {
+        //     this.sach2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte == "Renten/Leben"
+        //   ) {
+        //     this.renten2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte == "Kranken"
+        //   ) {
+        //     this.kranken2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte == "Gewerbesach"
+        //   ) {
+        //     console.log("gew see" + i);
+        //     this.gewerbesach2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype.sparte == "Investment"
+        //   ) {
+        //     this.investment2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte == "Sachwerte"
+        //   ) {
+        //     this.sachwerte2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte ==
+        //     "Immobilienfinanzierung"
+        //   ) {
+        //     this.immobilien2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte ==
+        //     "Verbraucherkredite"
+        //   ) {
+        //     this.verbraucher2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte ==
+        //     "Unternehmensfinanzierung"
+        //   ) {
+        //     this.unternehmen2 += 1;
+        //   } else if (
+        //     this.pagedItemssecond[i].element.protype?.sparte == "KFZ Kredite"
+        //   ) {
+        //     this.kfz2 += 1;
+        //   }
+        // }
+
         for (let i = 0; i < this.pagedItemssecond.length; i++) {
-          if (this.pagedItemssecond[i].element.protype.sparte == "Sach") {
-            this.sach2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte == "Renten/Leben"
+          for (
+            let j = 0;
+            j < this.pagedItemssecond[i].element.producttype.length;
+            j++
           ) {
-            this.renten2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte == "Kranken"
-          ) {
-            this.kranken2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte == "Gewerbesach"
-          ) {
-            console.log("gew see" + i);
-            this.gewerbesach2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte == "Investment"
-          ) {
-            this.investment2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte == "Sachwerte"
-          ) {
-            this.sachwerte2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte ==
-            "Immobilienfinanzierung"
-          ) {
-            this.immobilien2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte ==
-            "Verbraucherkredite"
-          ) {
-            this.verbraucher2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte ==
-            "Unternehmensfinanzierung"
-          ) {
-            this.unternehmen2 += 1;
-          } else if (
-            this.pagedItemssecond[i].element.protype.sparte == "KFZ Kredite"
-          ) {
-            this.kfz2 += 1;
+            if (this.pagedItemssecond[i].element.producttype?.sparte == "Sach") {
+              this.sach2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte == "Renten/Leben"
+            ) {
+              this.renten2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte == "Kranken"
+            ) {
+              this.kranken2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte == "Gewerbesach"
+            ) {
+              console.log("gew see" + i);
+              this.gewerbesach2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype.sparte == "Investment"
+            ) {
+              this.investment2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte == "Sachwerte"
+            ) {
+              this.sachwerte2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte ==
+              "Immobilienfinanzierung"
+            ) {
+              this.immobilien2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte ==
+              "Verbraucherkredite"
+            ) {
+              this.verbraucher2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte ==
+              "Unternehmensfinanzierung"
+            ) {
+              this.unternehmen2 += 1;
+            } else if (
+              this.pagedItemssecond[i].element.producttype?.sparte == "KFZ Kredite"
+            ) {
+              this.kfz2 += 1;
+            }
           }
         }
       }
@@ -7585,6 +7741,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     for (let i = 0; i < filesLength; i++) {
       let f = files[i];
+
+      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+      console.log('extension : ', extension);
+      if (extension == 'svg') {
+        Swal.fire({
+          title: 'File Format Error',
+          text: 'Please upload a Valid document',
+          icon: 'warning',
+        })
+        return
+      }
+
       let newsize = this.l;
       this.l = this.l + 1;
       this.filearraynew.push(f);
@@ -7599,7 +7767,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
         console.log(f.name.split("."));
         let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-        console.log(extension);
+        console.log('extension : ', extension);
         let ImageName;
         if (extension == "doc" || extension == "docx") {
           ImageName = "../assets/docx.png";
@@ -9104,24 +9272,24 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         document_name: "",
       };
 
-      if (this.sub_sub_customer_id != undefined) {
-        values = {
-          image: "",
-          document_type: "",
-          document_sub_type: "",
-          user_id: "",
-          sub_customer_id: "",
-          sub_sub_customer_id: "",
-          product_partner: "",
-          companycode: "",
-          brand: "",
-          tags: [],
-          upload_by: "",
-          ticket_no: "",
-          created_by: "",
-          document_name: "",
-        };
-      }
+      // if (this.sub_sub_customer_id != undefined) {
+      //   values = {
+      //     image: "",
+      //     document_type: "",
+      //     document_sub_type: "",
+      //     user_id: "",
+      //     sub_customer_id: "",
+      //     sub_sub_customer_id: "",
+      //     product_partner: "",
+      //     companycode: "",
+      //     brand: "",
+      //     tags: [],
+      //     upload_by: "",
+      //     ticket_no: "",
+      //     created_by: "",
+      //     document_name: "",
+      //   };
+      // }
 
       $("#bodydivfamily").css("display", "block");
       let pdfnew = new jsPDF("portrait", "pt", "a4");
@@ -9139,10 +9307,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.document_name = "Maklervollmacht";
           values.user_id = that.id;
           values.product_partner = "";
-          if (this.sub_sub_customer_id != undefined) {
-            values.sub_sub_customer_id = this.sub_sub_customer_id;
-          }
-          values.sub_customer_id = this.sub_customer_id;
+          // if (this.sub_sub_customer_id != undefined) {
+          //   values.sub_sub_customer_id = this.sub_sub_customer_id;
+          // }
+          // values.sub_customer_id = this.sub_customer_id;
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
@@ -9153,7 +9321,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           values.tags.push("application/pdf");
           values.tags.push(new Date().getTime());
-          // //debugger
+          // //
           let data = await that.uploadDocument(values);
           console.log("apidocument" + data);
           values.tags = [];
@@ -9178,10 +9346,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       formData.append("document_sub_type", values.document_sub_type); // product_type
       formData.append("product_partner", values.product_partner);
       formData.append("user", values.user_id);
-      formData.append("sub_customer_id", values.sub_customer_id);
-      if (values.sub_sub_customer_id != undefined) {
-        formData.append("sub_sub_customer_id", values.sub_sub_customer_id);
-      }
+      // formData.append("sub_customer_id", values.sub_customer_id);
+      // if (values.sub_sub_customer_id != undefined) {
+      //   formData.append("sub_sub_customer_id", values.sub_sub_customer_id);
+      // }
       formData.append("companycode", values.companycode);
       formData.append("brand", values.brand);
       formData.append("tags", values.tags);
@@ -9274,10 +9442,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           values.document_name = "Maklervollmacht";
           values.user_id = that.id;
           values.product_partner = " ";
-          if (this.sub_sub_customer_id != undefined) {
-            values.sub_sub_customer_id = this.sub_sub_customer_id;
-          }
-          values.sub_customer_id = this.sub_customer_id;
+          // if (this.sub_sub_customer_id != undefined) {
+          //   values.sub_sub_customer_id = this.sub_sub_customer_id;
+          // }
+          // values.sub_customer_id = this.sub_customer_id;
           values.companycode = "42140 DFG Finanzprofi GmbH";
           values.brand = "cefima";
           values.upload_by = "cefima_document";
@@ -9293,7 +9461,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           let data = await that.uploadDocument(values);
 
           console.log("apidocument" + data);
-          // //debugger
+          // //
           values.tags = [];
 
           $("#bodydivfamilyesign").css("display", "none");
@@ -9467,6 +9635,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       var filesLength = files.length;
       for (let i = 0; i < filesLength; i++) {
         let f = files[i];
+
+        let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+        console.log('extension : ', extension);
+        if (extension == 'svg') {
+          Swal.fire({
+            title: 'File Format Error',
+            text: 'Please upload a Valid document',
+            icon: 'warning',
+          })
+          return
+        }
+
         this.filearraynew[index] = f;
         this.filearray = this.filearraynew;
 
@@ -9478,7 +9658,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           console.log(f.name.split("."));
           let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-          console.log(extension);
+          console.log('extension : ', extension);
           let ImageName;
           if (extension == "doc" || extension == "docx") {
             ImageName = "../assets/docx.png";
@@ -9645,6 +9825,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       for (let i = 0; i < filesLength; i++) {
         let f = files[i];
+
+        let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+        console.log('extension : ', extension);
+        if (extension == 'svg') {
+          Swal.fire({
+            title: 'File Format Error',
+            text: 'Please upload a Valid document',
+            icon: 'warning',
+          })
+          return
+        }
+
         this.filearraynew.push(f);
         this.filename.push(docName);
         this.filearray = this.filearraynew;
@@ -9656,7 +9848,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           console.log(f.name.split("."));
           let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-          console.log(extension);
+          console.log('extension : ', extension);
           let ImageName;
           if (extension == "doc" || extension == "docx") {
             ImageName = "../assets/docx.png";
@@ -9973,30 +10165,38 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
 
       if (src.indexOf("data:application/pdf;") != -1) {
-        // $("#showpreviewimg").attr("src", "");
-        // $("#showpreviewimg").css("display", "none");
 
-        // $("#showpreviewpdf").attr("src", "");
-        // $("#showpreviewpdf").css("display", "block");
-        // //$('#showpreviewpdf').attr('src',this.previewidandsrc[j]);
-        // $("#showpreviewpdf").attr("src", src);
-        const base64 = src.replace(/^data:.+;base64,/, "");
+        // const base64 = src.replace(/^data:.+;base64,/, "");
 
-        const blob = base64ToBlob(base64, 'application/pdf');
-        const url = URL.createObjectURL(blob);
-        const pdfWindow = window.open("");
-        pdfWindow.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
+        // const blob = base64ToBlob(base64, 'application/pdf');
+        // const url = URL.createObjectURL(blob);
+        // const pdfWindow = window.open("");
+        // pdfWindow.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
 
-        function base64ToBlob(base64, type = "application/octet-stream") {
-          console.log(base64);
-          const binStr = atob(base64 as string);
-          const len = binStr.length;
-          const arr = new Uint8Array(len);
-          for (let i = 0; i < len; i++) {
-            arr[i] = binStr.charCodeAt(i);
-          }
-          return new Blob([arr], { type: type });
-        }
+        // function base64ToBlob(base64, type = "application/octet-stream") {
+        //   console.log(base64);
+        //   const binStr = atob(base64 as string);
+        //   const len = binStr.length;
+        //   const arr = new Uint8Array(len);
+        //   for (let i = 0; i < len; i++) {
+        //     arr[i] = binStr.charCodeAt(i);
+        //   }
+        //   return new Blob([arr], { type: type });
+        // }
+        this.source = src
+
+        setTimeout(() => {
+          $("#openpreviewmodel").trigger("click");
+          this.open_modal('exampleModalpreview')
+
+          $("#showpreviewimg").attr("src", "");
+          $("#showpreviewimg").css("display", "none");
+
+          $("#showpreviewpdf").attr("src", "");
+          $("#showpreviewpdf").css("display", "block");
+          $("#showpreviewpdf").attr("src", src);
+        }, 1000);
+
       } else {
         $("#openpreviewmodel").trigger("click");
         this.open_modal('exampleModalpreview')
@@ -10062,6 +10262,17 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         //this.document_progressbar+=1;
 
         let f = files[i];
+
+        let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+        console.log('extension : ', extension);
+        if (extension == 'svg') {
+          Swal.fire({
+            title: 'File Format Error',
+            text: 'Please upload a Valid document',
+            icon: 'warning',
+          })
+          return
+        }
         this.filearraynew.push(f);
         this.filename.push(docName);
         this.filearray = this.filearraynew;
@@ -10082,7 +10293,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           console.log(f.name.split("."));
           let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-          console.log(extension);
+          console.log('extension : ', extension);
           let ImageName;
           if (extension == "doc" || extension == "docx") {
             ImageName = "../assets/docx.png";
@@ -10941,6 +11152,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log("fileslength" + filesLength);
       for (let i = 0; i < filesLength; i++) {
         let f = files[i];
+
+        let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+        console.log('extension : ', extension);
+        if (extension == 'svg') {
+          Swal.fire({
+            title: 'File Format Error',
+            text: 'Please upload a Valid document',
+            icon: 'warning',
+          })
+          return
+        }
+
         this.filearraynew.push(f);
         this.filename.push(docName);
         this.filearray = this.filearraynew;
@@ -10966,7 +11189,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
           console.log(f.name.split("."));
           let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-          console.log(extension);
+          console.log('extension : ', extension);
           let ImageName;
           if (extension == "doc" || extension == "docx") {
             ImageName = "../assets/docx.png";
@@ -11829,24 +12052,41 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log(this.previewpassportidandsrc.length);
       console.log(this.previewpassportidandsrc[j]);
 
-      $("#openpreviewmodel").trigger("click");
+
 
       //$('#showpreviewpdf').attr('src',this.previewidandsrc[j]);
 
-      $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
 
-      $("#showpreviewdownload").attr("href", this.previewpassportidandsrc[j]);
 
       if (
         this.previewpassportidandsrc[j].indexOf("data:application/pdf;") != -1
       ) {
-        $("#showpreviewimg").attr("src", "");
-        $("#showpreviewimg").css("display", "none");
+        this.source = this.previewpassportidandsrc[j]
 
-        $("#showpreviewpdf").attr("src", "");
-        $("#showpreviewpdf").css("display", "block");
-        $("#showpreviewpdf").attr("src", this.previewpassportidandsrc[j]);
+        setTimeout(() => {
+          $("#openpreviewmodel").trigger("click");
+          this.open_modal('exampleModalpreview')
+
+          $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
+
+          $("#showpreviewdownload").attr("href", this.previewpassportidandsrc[j]);
+
+          $("#showpreviewimg").attr("src", "");
+          $("#showpreviewimg").css("display", "none");
+
+          $("#showpreviewpdf").attr("src", "");
+          $("#showpreviewpdf").css("display", "block");
+          $("#showpreviewpdf").attr("src", this.previewpassportidandsrc[j]);
+        }, 1000);
+
       } else {
+        $("#openpreviewmodel").trigger("click");
+        this.open_modal('exampleModalpreview')
+
+        $("#showpreviewtitle").html("<b>Dokumentenname: </b>" + modaltitle);
+
+        $("#showpreviewdownload").attr("href", this.previewpassportidandsrc[j]);
+
         $("#showpreviewpdf").attr("src", "");
         $("#showpreviewpdf").css("display", "none");
 
@@ -11878,6 +12118,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       //this.document_progressbar += 1;
 
       let f = files[i];
+
+      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+      console.log('extension : ', extension);
+      if (extension == 'svg') {
+        Swal.fire({
+          title: 'File Format Error',
+          text: 'Please upload a Valid document',
+          icon: 'warning',
+        })
+        return
+      }
+
       this.filearraypassport.push(f);
       console.log("events" + JSON.stringify(this.filearraypassport));
       //this.documentpassid[idname] = f;
@@ -11900,7 +12152,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
         console.log(f.name.split("."));
         let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-        console.log(extension);
+        console.log('extension : ', extension);
         let ImageName;
         if (extension == "doc" || extension == "docx") {
           ImageName = "../assets/docx.png";
@@ -12724,6 +12976,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     $("#resetBestandsübertragungreset").trigger("click");
     this.ProductsTypeControl.reset()
     this.ProductsControl.reset()
+    this.filearraynew = []
+    console.log(this.filearraynew);
     console.log('runningconract');
     this.ShowButton = false
     this.ShowProductsPartner = false
@@ -12901,6 +13155,18 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     for (let i = 0; i < filesLength; i++) {
       let f = files[i];
+
+      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+      console.log('extension : ', extension);
+      if (extension == 'svg') {
+        Swal.fire({
+          title: 'File Format Error',
+          text: 'Please upload a Valid document',
+          icon: 'warning',
+        })
+        return
+      }
+
       this.filearraynew.push(f);
 
       this.filearray = this.filearraynew;
@@ -12913,7 +13179,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         let that = this;
         console.log(f.name.split("."));
         let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-        console.log(extension);
+        console.log('extension : ', extension);
         let ImageName;
         if (extension == "doc" || extension == "docx") {
           ImageName = "../assets/docx.png";
@@ -13125,37 +13391,49 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       //$('#showpreviewpdf').attr('src',this.previewidandsrc[j]);
 
 
-      $('#showpreviewtitle').html("<b>Dokumentenname: </b>" + modaltitle);
-      $('#showpreviewdownload').attr('href', source);
+
 
       if (source.indexOf("data:application/pdf;") != -1) {
 
-        const base64 = source.replace(/^data:.+;base64,/, "");
+        // const base64 = source.replace(/^data:.+;base64,/, "");
 
-        const blob = base64ToBlob(base64, 'application/pdf');
-        const url = URL.createObjectURL(blob);
-        const pdfWindow = window.open("");
-        pdfWindow?.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
+        // const blob = base64ToBlob(base64, 'application/pdf');
+        // const url = URL.createObjectURL(blob);
+        // const pdfWindow = window.open("");
+        // pdfWindow?.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
 
-        function base64ToBlob(base64: string, type = "application/octet-stream") {
-          console.log(base64);
-          const binStr = atob(base64 as string);
-          const len = binStr.length;
-          const arr = new Uint8Array(len);
-          for (let i = 0; i < len; i++) {
-            arr[i] = binStr.charCodeAt(i);
-          }
-          return new Blob([arr], { type: type });
-        }
-        // $("#showpreviewimg").attr("src", "");
-        // $("#showpreviewimg").css("display", "none");
+        // function base64ToBlob(base64: string, type = "application/octet-stream") {
+        //   console.log(base64);
+        //   const binStr = atob(base64 as string);
+        //   const len = binStr.length;
+        //   const arr = new Uint8Array(len);
+        //   for (let i = 0; i < len; i++) {
+        //     arr[i] = binStr.charCodeAt(i);
+        //   }
+        //   return new Blob([arr], { type: type });
+        // }
+        this.source = source
+        setTimeout(() => {
+          $("#openpreviewmodel").trigger("click");
+          this.open_modal('exampleModalpreview')
 
-        // $("#showpreviewpdf").attr("src", "");
-        // $("#showpreviewpdf").css("display", "block");
-        // $("#showpreviewpdf").attr("src", source);
+          $('#showpreviewtitle').html("<b>Dokumentenname: </b>" + modaltitle);
+          $('#showpreviewdownload').attr('href', source);
+
+          $("#showpreviewimg").attr("src", "");
+          $("#showpreviewimg").css("display", "none");
+
+          $("#showpreviewpdf").attr("src", "");
+          $("#showpreviewpdf").css("display", "block");
+          $("#showpreviewpdf").attr("src", source);
+        }, 1000);
+
       } else {
         $("#openpreviewmodel").trigger("click");
         this.open_modal('exampleModalpreview')
+
+        $('#showpreviewtitle').html("<b>Dokumentenname: </b>" + modaltitle);
+        $('#showpreviewdownload').attr('href', source);
 
         $("#showpreviewpdf").attr("src", "");
         $("#showpreviewpdf").css("display", "none");
@@ -13200,6 +13478,19 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     var filesLength = files.length;
     for (let i = 0; i < filesLength; i++) {
       let f = files[i];
+
+      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+      console.log('extension : ', extension);
+      if (extension == 'svg') {
+        Swal.fire({
+          title: 'File Format Error',
+          text: 'Please upload a Valid document',
+          icon: 'warning',
+        })
+        return
+      }
+      //
+
       let newsize: any = this.l;
 
       this.l = this.l + 1;
@@ -13209,8 +13500,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       this.filearray = this.filearraynew;
 
-      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-      console.log(extension);
       let ImageName;
       let newkey;
 
@@ -13228,7 +13517,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         ImageName = (e.target as any).result;
 
         let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
-        console.log(extension);
+        console.log('extension : ', extension);
         if (extension == "doc" || extension == "docx") {
           ImageName = "../assets/docx.png";
         } else if (extension == "pdf" || extension == "pdfx") {
@@ -13469,6 +13758,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           let url = this.filearray[i];
           let reader = new FileReader();
           let extension = url.name.substr(url.name.lastIndexOf(".") + 1);
+          console.log('extension : ', extension);
 
           reader.readAsDataURL(url);
           reader.onload = () => {
@@ -13501,7 +13791,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               console.log("inside if handleimage upload");
               console.log(i);
               console.log(values);
-              // //debugger
+              // //
 
               this.uploadDocument2(values, i);
               values.tags = [];
@@ -13538,10 +13828,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       formData.append("document", values.image);
     }
 
-    formData.forEach((value:any, key) => {
+    formData.forEach((value: any, key) => {
       console.log(`Key: ${key}, Value: ${value}`);
     });
-    //debugger
+    //
 
     //this.UploadDone = true;
     this.userService
@@ -13575,9 +13865,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 .subscribe(
                   (data11) => {
                     console.log(data11);
+
                     this.MetaDataLoopingDocListsecond();
                     this.customerDocListsecond = data11;
-
                     this.customerDocListsecondunique = [];
 
                     for (
@@ -13647,6 +13937,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 .subscribe(
                   (data) => {
                     console.log(data);
+
                     this.MetaDataLoopingDocList();
                     this.customerDocList = data;
                     console.log("innerloop");
@@ -13758,6 +14049,30 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   angeboteStepperChange(event: any) {
     this.searchVariable = ''
+    this.customerDocListsecondunique = [];
+    let art = ''
+    if (event.index == 0) {
+      art = 'Versicherungsgesellschaft'
+    } else if (event.index == 1) {
+      art = 'Geldanlagen'
+    } else if (event.index == 2) {
+      art = 'Bank'
+    }
+
+    for (let i = 0; i < this.customerDocList.length; i++) {
+      for (let j = 0; j < this.customerDocListsecond[i].element.producttype.length; j++) {
+        const element = this.customerDocListsecond[i].element.producttype[j].art;
+        // const sparte = this.customerDocListsecond[i].element.producttype[j].sparte ;
+        if (element == art) {
+          console.log(this.customerDocListsecond);
+
+          this.customerDocListsecondunique.push(this.customerDocListsecond[i])
+        }
+      }
+    }
+
+    console.log(this.customerDocListsecondunique);
+    this.setPage(1, "second");
   }
 
   showspartedoc1(sparte: any) {
@@ -13819,7 +14134,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
     console.log(this.pagedItems);
 
-    // ////debugger
+    // ////
     this.setPage(1);
 
     console.log("first");
@@ -13831,8 +14146,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("sparte");
     console.log(sparte);
 
-    let index = sparte.indexOf(" ");
-    if (index >= 0) sparte = sparte.slice(0, index); // or index + 1 to keep the character
+    // let index = sparte.indexOf(" ");
+    // if (index >= 0) sparte = sparte.slice(0, index); // or index + 1 to keep the character
 
     console.log(sparte);
 
@@ -13840,23 +14155,27 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     if (sparte != "All") {
       for (let i = 0; i < this.customerDocListsecond.length; i++) {
-        let exists = 0;
-        for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
-          if (
-            this.customerDocListsecondunique[j].element.ticket_no ==
-            this.customerDocListsecond[i].element.ticket_no
-          ) {
-            exists = 1;
+        for (let j = 0; j < this.customerDocListsecond[i].element.producttype.length; j++) {
+          if (this.customerDocListsecond[i].element.producttype[j].sparte == sparte) {
+            let exists = 0;
+
+            for (let k = 0; k < this.customerDocListsecondunique.length; k++) {
+              if (
+                this.customerDocListsecondunique[k].element.ticket_no ==
+                this.customerDocListsecond[i].element.ticket_no
+              ) {
+                exists = 1;
+              }
+            }
+
+            if (exists == 0) {
+              this.customerDocListsecondunique.push(
+                this.customerDocListsecond[i]
+              );
+            }
           }
         }
 
-        if (exists == 0) {
-          if (this.customerDocListsecond[i].element.protype.sparte == sparte) {
-            this.customerDocListsecondunique.push(
-              this.customerDocListsecond[i]
-            );
-          }
-        }
       }
     } else {
       for (let i = 0; i < this.customerDocListsecond.length; i++) {

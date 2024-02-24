@@ -376,15 +376,31 @@ export class UserService {
   }
 
   //get Document By Id kunde
-  getDocumentsBYIDnew(id: any, document_type: any) {
-    return this.http.post(
-      // `${this.API_URL}document/get_documentsbyidwithkundesecond`,
-      `${this.API_URL}document/get_documentsbyidwithkunde`,
-      {
-        user: id,
-        document_type: document_type
-      }
-    );
+  getDocumentsBYIDnew(id: any, document_type: any, sub_customer_id?: any, sub_sub_customer_id?: any) {
+    if (sub_customer_id && sub_sub_customer_id) {
+      console.log(sub_customer_id, sub_sub_customer_id);
+
+      return this.http.post(
+        `${this.API_URL}document/get_documentsbyidwithkundesecond`,
+        {
+          user: id,
+          document_type: document_type,
+          sub_customer_id: sub_customer_id,
+          sub_sub_customer_id: sub_sub_customer_id
+        }
+      );
+    } else if (sub_customer_id) {
+      console.log(sub_customer_id);
+
+      return this.http.post(
+        `${this.API_URL}document/get_documentsbyidwithkundesecond`,
+        {
+          user: id,
+          document_type: document_type,
+          sub_customer_id: sub_customer_id,
+        }
+      );
+    }
   }
 
   getLastdocument(): any {

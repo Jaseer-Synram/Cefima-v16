@@ -67,6 +67,7 @@ export class SideBarComponent implements OnInit {
     private route: ActivatedRoute) {
     this.route.queryParams.subscribe((params) => {
       this.customerid = params["id"];
+      
     });
 
     this.userService.invokeSideBarRouteFether.subscribe(data => {

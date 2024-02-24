@@ -789,6 +789,7 @@ export class MainDataComponent {
       event_title: ["", Validators.required],
       event_desc: ["", Validators.required],
     });
+    console.log(this.currentUser._id);
 
     this.getUserData(this.currentUser._id);
 
@@ -1044,6 +1045,8 @@ export class MainDataComponent {
 
   getUserData(id: any) {
     this.userService.getEditUser(id).subscribe((data1: any) => {
+      console.log(data1);
+
       const that = this;
       this.customerFormGroup.patchValue({
         title: data1.title,
@@ -1077,7 +1080,10 @@ export class MainDataComponent {
       that.userService
         .get_user_email_configuration(data1._id)
         .subscribe((result: any) => {
+          console.log(result);
+
           if (result) {
+
             that.initial_emails_data = JSON.parse(JSON.stringify(result));
 
             that.opened_emails = [];
@@ -1833,6 +1839,7 @@ export class MainDataComponent {
     if (this.opened_case_details?.Activity_No == case_details.Activity_No) {
       return;
     }
+    console.log('case_details :',case_details);
 
     $("#loaderouterid").css("display", "flex");
 
@@ -1877,8 +1884,13 @@ export class MainDataComponent {
   }
 
   get_chat(message: any) {
+    console.log('get chat',message);
+
     this.userService.getchatmessage(message).subscribe((success: any) => {
+      console.log(this.initial_emails_data);
       if (this.initial_emails_data?.emails) {
+        console.log(this.initial_emails_data.emails);
+
         let index: any = this.initial_emails_data?.emails?.findIndex(
           (email: any) => email.main_receiver == "1"
         );
@@ -1914,49 +1926,51 @@ export class MainDataComponent {
 
               let first_time: any = true;
               this.chat_interval = interval(1000).subscribe((result) => {
-                this.userService.getchatunreadmessage(message).subscribe(
-                  (success: any) => {
-                    success.result.map((result: any) =>
-                      this.chat_messages.push(result)
-                    );
+                // this.userService.getchatunreadmessage(message).subscribe(
+                //   (success: any) => {
+                //     success.result.map((result: any) =>
+                //       this.chat_messages.push(result)
+                //     );
 
-                    if (first_time) {
-                      this.get_unread_emails(email_imap_data);
-                      first_time = false;
-                    }
-                  },
-                  (err) => {
-                    console.log(err);
-                  }
-                );
+                //     if (first_time) {
+                //       this.get_unread_emails(email_imap_data);
+                //       first_time = false;
+                //     }
+                //   },
+                //   (err) => {
+                //     console.log(err);
+                //   }
+                // );
               });
             });
         } else {
           this.chat_messages = success.result;
           $("#loaderouterid").css("display", "none");
           this.chat_interval = interval(1000).subscribe((result) => {
-            this.userService.getchatunreadmessage(message).subscribe(
-              (success: any) => {
-                success.result.map((result: any) => this.chat_messages.push(result));
-              },
-              (err) => {
-                console.log(err);
-              }
-            );
+            // this.userService.getchatunreadmessage(message).subscribe(
+            //   (success: any) => {
+            //     success.result.map((result: any) => this.chat_messages.push(result));
+            //   },
+            //   (err) => {
+            //     console.log(err);
+            //   }
+            // );
           });
         }
       } else {
+        console.log(success);
+
         this.chat_messages = success.result;
         $("#loaderouterid").css("display", "none");
         this.chat_interval = interval(1000).subscribe((result) => {
-          this.userService.getchatunreadmessage(message).subscribe(
-            (success: any) => {
-              success.result.map((result: any) => this.chat_messages.push(result));
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
+          // this.userService.getchatunreadmessage(message).subscribe(
+          //   (success: any) => {
+          //     success.result.map((result: any) => this.chat_messages.push(result));
+          //   },
+          //   (err) => {
+          //     console.log(err);
+          //   }
+          // );
         });
       }
     });
@@ -2643,8 +2657,8 @@ export class MainDataComponent {
         this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.logged_out = "1";
         this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(), 'dd.MM.yyyy HH:mm');
 
-        // const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
-        // this.socketAlertService.updateData(newData);
+        const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
+        this.socketAlertService.updateData(newData);
       }
     });
   }

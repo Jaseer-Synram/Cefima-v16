@@ -42,22 +42,22 @@ export class AppComponent implements OnInit {
   logged_in(){
     let user_info = JSON.parse(localStorage.getItem("currentUser"));
       // this.socket.emit("logged-in", user_info._id);
-      // this.socket.on("session-removed",(data)=>{
-      //   if(data.token_to_remove == localStorage.getItem("token")){
-      //     localStorage.clear();
-      //     this.router.navigate(['./']).then(() => {
-      //       Swal.fire({
-      //         title: "Die Sitzung dieses Geräts wurde abgemeldet.",
-      //         icon:"info"
-      //       });
-      //     });
-      //   }
-      // });
+      this.socket.on("session-removed",(data)=>{
+        if(data.token_to_remove == localStorage.getItem("token")){
+          localStorage.clear();
+          this.router.navigate(['./']).then(() => {
+            Swal.fire({
+              title: "Die Sitzung dieses Geräts wurde abgemeldet.",
+              icon:"info"
+            });
+          });
+        }
+      });
   }
 
   socketAlerts(param){
     if(param.socketName == "logged-in"){
-      // this.logged_in();
+      this.logged_in();
     }else if(param.socketName == "remove-session"){
       let user_info = JSON.parse(localStorage.getItem("currentUser"));
       // this.socket.emit("remove-session", {user_id: user_info._id, token_to_remove: param.token_to_remove});

@@ -185,6 +185,11 @@ h2 {
     --mdc-tab-indicator-active-indicator-color: white;
 }
 
+.graybox {
+  background: #f2f2f2;
+  font-weight: 500;
+  font-size: medium;
+}
 
 
 :host ::ng-deep .mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab>.mdc-tab__content>.mdc-tab__text-label {

@@ -1,3 +1,6 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 <mat-sidenav-container class="example-container " autosize>
   <!-- <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()"> -->
   <mat-sidenav #sidenav class="example-sidenav hidden_scrollbar" mode="side" opened="true">
@@ -13,7 +16,7 @@
       <button mat-icon-button *ngIf="isExpanded" (click)="isExpanded = !isExpanded"><img src="assets/arrow.svg"
           class="arrow"></button>
 
-      <p class="parent-box-title">Beratungswelt</p>
+      <p class="parent-box-title inter-font">Beratungswelt</p>
       <div class="new-side-bar1">
         <mat-nav-list>
           <mat-list-item
@@ -23,14 +26,23 @@
             <img *ngIf="router.url != '/cefima/consulting'" src="assets/images/beratung-icon.svg">
             <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Beratung</span>
           </mat-list-item>
-          <mat-list-item class="parent"
+          <mat-list-item class="parent" *ngIf="router.url == '/cefima/customer'; else newUserRouter "
             [ngClass]="router.url == '/cefima/customer' ? 'active text-dark parent' : 'not-active parent '"
             (click)="router.navigate(['cefima/customer'])">
             <img *ngIf="router.url == '/cefima/customer'" src="assets/images/kunden-icon-active.svg">
             <img *ngIf="router.url != '/cefima/customer'" src="assets/images/kunden-icon.svg">
             <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Kunden</span>
-
           </mat-list-item>
+          <ng-template #newUserRouter >
+            <mat-list-item class="parent"
+              [ngClass]="router.url == '/cefima/new-user?OnlyNewUser=false' ? 'active text-dark parent' : 'not-active parent '"
+              (click)="router.navigate(['cefima/customer'])">
+              <img *ngIf="router.url == '/cefima/new-user?OnlyNewUser=false'" src="assets/images/kunden-icon-active.svg">
+              <img *ngIf="router.url != '/cefima/new-user?OnlyNewUser=false'" src="assets/images/kunden-icon.svg">
+              <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Kunden</span>
+            </mat-list-item>
+          </ng-template>
+
           <div *ngIf="router.url.startsWith('/cefima/kunde-home') ">
             <div class="main-child-box">
 
@@ -52,8 +64,8 @@
                 <!-- HAUSHALT TAB START HERE -->
                 <div class="menu1">
                   <mat-accordion class="side">
-                    <mat-expansion-panel [expanded]="true" (opened)="clikeditem(localData._id,'hideHaushaltMain',localData.lastname)"
-                      *ngIf="!localData.hasOwnProperty('companytype') ||
+                    <mat-expansion-panel [expanded]="true"
+                      (opened)="clikeditem(localData._id,'hideHaushaltMain',localData.lastname)" *ngIf="!localData.hasOwnProperty('companytype') ||
                                     localData.companytype == ' ' || localData.companytype == '' ||
                                     localData.companytype == null;else company">
                       <mat-expansion-panel-header mat-panel-title>
@@ -182,7 +194,8 @@
                               </mat-expansion-panel-header>
 
                               <mat-expansion-panel-header mat-panel-title *ngIf="i + 1 != companyData.length">
-                                <button class="stepper-btn1 transitionanimation" (click)=" change_account_name( 'Firma',
+                                <button class="stepper-btn1 transitionanimation"
+                                  (click)=" change_account_name( 'Firma',
                                                         'Firma', '', member.companyname );  setCurrentTabUser(member, 'company');tabisclicked(member);
                                                         clikeditem(member._id,'hideContainerMain',member.companyname,i) ">
                                   <span>
@@ -518,10 +531,9 @@
                                 <div class="col-12 p-0">
                                   <div class="stepper-btn1 col-12 p-0" role="button"
                                     (click)="clikeditem(member._id,'hidemultiCompanycustomerMain','Stammdaten',i)">
-                                    <span class="col-12 "
-                                      [ngClass]=" currentTab == 'hidemultiCompanycustomerMain' &&
+                                    <span class="col-12 " [ngClass]=" currentTab == 'hidemultiCompanycustomerMain' &&
                                         indexOfHideValues  == i ? 'active-sub-item': ' sidebar-not-active-item'  ">
-                                         Stammdaten</span>
+                                      Stammdaten</span>
                                   </div>
                                   <div *ngIf="officeData.length == 0" class="stepper-btn1">
                                     <button
@@ -673,8 +685,8 @@
                     <!-- Benutzer 3RD BLOCK START -->
                     <ng-template #company>
 
-                      <mat-expansion-panel [expanded]="true" (opened)="clikeditem(localData._id,'hideCompanyMain','Stammdaten')"
-                        *ngIf=" localData.companytype ==
+                      <mat-expansion-panel [expanded]="true"
+                        (opened)="clikeditem(localData._id,'hideCompanyMain','Stammdaten')" *ngIf=" localData.companytype ==
                                         'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
                                             else multiCompany " id="secondtabnew">
                         <mat-expansion-panel-header mat-panel-title
@@ -728,7 +740,8 @@
                                 </button>
                               </div>
 
-                              <div class="col-12 p-0" (click)="clikeditem(localData._id,'hideCompanyIn',office.officename,i,office._id)"
+                              <div class="col-12 p-0"
+                                (click)="clikeditem(localData._id,'hideCompanyIn',office.officename,i,office._id)"
                                 *ngIf="i + 1 != userofficeData.length">
                                 <button class="stepper-btn1 col-12 p-0">
                                   <span class="col-12"
@@ -764,7 +777,8 @@
                       </div>
 
                       <ng-template #multiCompany>
-                        <mat-expansion-panel [expanded]=true (opened)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten')">
+                        <mat-expansion-panel [expanded]=true
+                          (opened)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten')">
                           <mat-expansion-panel-header role="tabpanel" (click)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten');
                                                         change_account_name('Firma','Firma','',localData.companyname);
                                                         setCurrentTabUser(localData, 'company')" mat-panel-title>

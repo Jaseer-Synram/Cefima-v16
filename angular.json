@@ -56,7 +56,9 @@
               "sdp",
               "jquery",
               "core-js",
-              "moment"
+              "moment",
+              "pdfjs-dist",
+              "lodash"
             ]
           },
           "configurations": {

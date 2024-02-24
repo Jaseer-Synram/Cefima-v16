@@ -71,9 +71,12 @@ export class UploadDocumentComponent implements OnInit {
   selectedUser = {
     id: "",
   };
-  currentid: any
+  currentid: any;
 
-  companytype: any
+  sub_customer_id = '';
+  sub_sub_customer_id = '';
+
+  companytype: any;
 
   askquestion!: FormGroup;
   itemToDisplayUnderKunden = ''
@@ -214,7 +217,11 @@ export class UploadDocumentComponent implements OnInit {
   OpenStpper() {
     console.log("ddddddddddd");
     this.StpperForm = true;
-    this.router.navigate(['./cefima/new-user'])
+    this.router.navigate(["./cefima/new-user"], {
+      queryParams: {
+        OnlyNewUser: false,
+      },
+    });
   }
 
   LoopingBroker(data: any) {
@@ -389,7 +396,7 @@ export class UploadDocumentComponent implements OnInit {
     this.branchesOptions = this.myFirmaControlnew.valueChanges.pipe(
       startWith(""),
       map(value => {
-        console.log('uoihhhiuhk',value);
+        console.log('myFirmaControlnew', value);
         if (value) {
           this.stepper.next()
         }
@@ -423,15 +430,16 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   GoNext() {
+
     if (this.kundetype == 'Firma' && this.myControl.value) {
       console.log('firma');
       this.kundevalue = this.myControl.value.split('(')[0].trim()
-      console.log(this.kundetype);
+      console.log(this.myControl.value);
       this.userService.savelocaldata(this.kundetype, this.myControl.value.split('(')[0].trim());
     } else if (this.kundetype.includes('Haushalt') && this.myControlnew.value) {
       console.log('hauhsalt');
       this.kundevalue = this.myControlnew.value.split('(')[0].trim()
-      console.log(this.kundetype);
+      console.log(this.myControl.value);
       this.userService.savelocaldata(this.kundetype, this.myControlnew.value.split('(')[0].trim());
     }
 
@@ -439,16 +447,16 @@ export class UploadDocumentComponent implements OnInit {
 
   patchnationalityValue(event: any) {
     console.log(this.optionsValue);
-    this.myControlnew.reset();
-    this.stepper.next()
+    // this.myControlnew.reset();
     this.ShowButtonTwo = true
-    if (this.myControl.value != "") {
+    if (this.myControl.value != "" || null || undefined) {
 
       for (let i = 0; i < this.optionsValue.length; i++) {
         if (this.optionsValue[i].name === this.myControl.value) {
           this.id = this.optionsValue[i].id;
           if (this.optionsValue[i].title == 'Firma') {
             this.kundetype = 'Firma';
+
             console.log("patchnationalityValue" + this.optionsValue[i].title + "if");
             this.showmembers = false;
             this.ShowButton = false;
@@ -520,6 +528,7 @@ export class UploadDocumentComponent implements OnInit {
 
         }
       }
+      this.stepper.next()
 
     } else {
       console.log('true1');
@@ -528,6 +537,10 @@ export class UploadDocumentComponent implements OnInit {
       this.familymembers = [];
       this.kundetype = '';
     }
+
+    this.myControl.valueChanges.subscribe((data:any) => {
+      this.resetStepper()
+    })
 
     let words = this.myControl.value.split(' ');
     words.pop();
@@ -563,10 +576,14 @@ export class UploadDocumentComponent implements OnInit {
 
   setBranchList(event: any) {
     console.log("all customer data", this.allCustomerData);
-    console.log('event value:',event.trim(),event.trim() != ( '' ||undefined || null),event == ( '' ||undefined || null))
+    console.log('event value:', event.trim(), event.trim() != ('' || undefined || null), event == ('' || undefined || null))
+    console.log(`subcustomer: ${this.sub_customer_id}`);
+    if (event.trim() != ('' || undefined || null)) {
+      const filterArray = this.branchesOptions.find(data => data.name == this.myFirmaControlnew.value)
+      this.sub_sub_customer_id = filterArray?.id
+      console.log(filterArray);
+      console.log(`sub_sub_customer_id: ${this.sub_sub_customer_id}`);
 
-    if(event.trim() != ( '' ||undefined || null)){
-      console.log(this.step2Control.valid);
       this.step2Control.setValue('value');
       console.log(this.step2Control.valid);
       this.ShowButtonTwo = false
@@ -587,8 +604,13 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   patchmembervalue(event: any) {
+    console.log(`subcustomer: ${this.sub_customer_id}`);
     console.log(this.optionsValue);
-    if (this.myControlnew.value != "") {
+    console.log(this.myControlnew.value);
+    console.log(this.myControlnew.value != null || "");
+    console.log(this.myControlnew.value != null && "");
+
+    if (this.myControlnew.value != "" || null || undefined) {
       for (let i = 0; i < this.optionsValuemembers?.length; i++) {
         if (this.optionsValuemembers[i].name === this.myControlnew.value) {
           this.id = this.optionsValuemembers[i].id;
@@ -597,31 +619,64 @@ export class UploadDocumentComponent implements OnInit {
       }
       this.ShowButtonTwo = false
       this.ShowButton = false;
+      this.filteredOptionsmembers?.subscribe(data => {
+        const filterArray = data.find((opt: any) => opt.name !== this.myControlnew.value);
+        console.log(filterArray);
+        this.sub_sub_customer_id = filterArray?.id
+      })
+      console.log(`sub_sub_customer_id: ${this.sub_sub_customer_id}`);
+      this.step2Control.setValue('value');
+      console.log(this.step2Control.valid);
       this.stepper.next()
+
     } else {
       console.log('true2');
       this.ShowButtonTwo = true
       this.ShowButton = true;
     }
+    this.filteredOptions.subscribe(data => {
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        if (element.name == this.myControl.value) {
+          this.sub_customer_id = element.id
+          console.log(element);
+        }
+      }
+    })
 
+    console.log(`subcustomer: ${this.sub_customer_id}`);
 
     console.log("patchmembervalue" + this.myControlnew.value, this.id);
+  }
+
+  resetStepper(){
+    // this.stepper.reset();
+    this.myFirmaControlnew.setValue('');
+    this.myControlnew.setValue('');
+    this.itemToDisplayUnderDokumenttyp = '';
+    this.itemToDisplayUnderProduktPartner = '';
+    this.itemToDisplayUnderProdukttyp = '';
+    this.step2Control.setValue('');
+    this.ThirdTypeDoc.setValue("");
+    this.ProductsControl.setValue("");
+    this.ProductsTypeControl.setValue("");
+    this.dokumenttypStep.setValue('');
+    this.ProdukttypStep.setValue('')
   }
 
   GoNext2(document_type: string) {
     this.dokumenttypStep.setValue('value')
     this.itemToDisplayUnderDokumenttyp = document_type
     console.log(document_type);
+    this.itemToDisplayUnderProduktPartner = ""
+    this.itemToDisplayUnderProdukttyp = ""
     this.document_type = document_type
     setTimeout(() => {
       $('#movetonextstep').trigger("click");
     }, 100);
 
     this.initToProducctPartner()
-    // this.router.navigate(
-    //   ["/upload-document/" + this.id + "/" + document_type],
-    //   { queryParams: { document_type: document_type, user_id: this.id } }
-    // );
+
   }
 
   //step 3 : product type *************
@@ -684,12 +739,28 @@ export class UploadDocumentComponent implements OnInit {
   product_partner = ''
   // from oninit-step3 found no use
 
-  callValueChange() {
-    if (this.ProductsTypeControl.touched == true) {
-      console.log('toucheed');
-    } else {
-      this.ProductsTypeControl.setValue(" ")
-      this.ProductsTypeControl.setValue("")
+  callValueChange(item: string) {
+    if (item == 'Produkttyp') {
+      if (this.ProductsTypeControl.touched == true) {
+        console.log('toucheed');
+      } else {
+        this.ProductsTypeControl.setValue(" ")
+        this.ProductsTypeControl.setValue("")
+      }
+    } else if (item == 'ThirdTypeDoc'){
+      if (this.ThirdTypeDoc.touched == true) {
+        console.log('toucheed');
+      } else {
+        this.ThirdTypeDoc.setValue(" ")
+        this.ThirdTypeDoc.setValue("")
+      }
+    } else if(item = 'ProductsControl') {
+      if (this.ProductsControl.touched == true) {
+        console.log('toucheed');
+      } else {
+        this.ProductsControl.setValue(" ")
+        this.ProductsControl.setValue("")
+      }
     }
   }
 
@@ -850,7 +921,7 @@ export class UploadDocumentComponent implements OnInit {
     console.log(value);
     // debugger
     this.document_sub_type = value
-    console.log("ProductsControl" + value);
+    console.log("ProductsControl" , JSON.stringify(value));
     if (typeof value != 'object') {
       const filterValue = value.toLowerCase();
 
@@ -863,7 +934,7 @@ export class UploadDocumentComponent implements OnInit {
   patchProductValue(event: any) {
     this.itemToDisplayUnderProduktPartner = this.ProductsControl.value.name
     console.log("ProductsControl" + this.ProductsControl.value.name);
-    if (this.ProductsControl.value.name != "") {
+    if (this.ProductsControl.value.name != "" || null || undefined) {
       if (this.ProductsControl.value.name) {
         this.lastproductpartnerid = this.ProductsControl.value.id;
 
@@ -873,8 +944,9 @@ export class UploadDocumentComponent implements OnInit {
 
         this.ProductsControl.setValue(this.ProductsControl.value.name)
         this.ShowButtonStep3 = false;
-        this.stepper.next()
-        console.log( this.product_partner );
+        this.GoToUploadSingleDocument()
+        // this.stepper.next()
+        console.log(this.product_partner);
       }
     } else {
       this.ProductsControl.setValue("")
@@ -890,20 +962,21 @@ export class UploadDocumentComponent implements OnInit {
     this.producttypeselected = this.ThirdTypeDoc.value;
 
     console.log("ThirdTypeDoc" + this.ThirdTypeDoc.value);
-    if (this.ThirdTypeDoc.value != "") {
-      this.ProdukttypStep.setValue('value')
-      this.stepper.next()
+    if (this.ThirdTypeDoc.value?.trim() != "" || null || undefined) {
       if (this.ThirdTypeDoc.value) {
         console.log("ThirdTypeDoc" + this.ThirdTypeDoc.value);
         this.ShowButtonStep3 = false;
         this.itemToDisplayUnderProdukttyp = this.ThirdTypeDoc.value
         this.document_sub_typename = this.ThirdTypeDoc.value
+        this.ProdukttypStep.setValue('value')
+        this.stepper.next()
+
       }
     } else {
       this.ShowButtonStep3 = true;
     }
 
-    this.Links = `/upload-document/${this.id}/${this.document_type}/${this.ProductsControl.value}`;
+    // this.Links = `/upload-document/${this.id}/${this.document_type}/${this.ProductsControl.value}`;
   }
 
   patchProductTypeValue(_event: any) {
@@ -915,7 +988,7 @@ export class UploadDocumentComponent implements OnInit {
     // debugger
     this.document_sub_type = this.ProductsTypeControl.value.id
     this.itemToDisplayUnderProdukttyp = this.ProductsTypeControl.value.name
-    if (this.ProductsTypeControl.value != "") {
+    if (this.ProductsTypeControl.value != "" || null || undefined) {
       this.ProdukttypStep.setValue('value')
       this.stepper.next()
       if (this.ProductsTypeControl.value) {
@@ -997,9 +1070,6 @@ export class UploadDocumentComponent implements OnInit {
         this.ln = userData.lastname;
       });
 
-
-
-
     let length = this.filearray.length;
     if (length) this.finalShowButton = false;
     $("#loaderouterid").css("display", "block");
@@ -1008,6 +1078,10 @@ export class UploadDocumentComponent implements OnInit {
     formData.append("document_sub_type", values.document_sub_type); // product_type
     formData.append("product_partner", values.product_partner);
     formData.append("user", values.user_id);
+    formData.append("sub_customer_id", values.sub_customer_id);
+    if (values.sub_sub_customer_id != undefined) {
+      formData.append("sub_sub_customer_id", values.sub_sub_customer_id);
+    }
     formData.append("companycode", values.companycode);
     formData.append("brand", values.brand);
     formData.append("tags", values.tags);
@@ -1129,6 +1203,8 @@ export class UploadDocumentComponent implements OnInit {
           document_type: string;
           document_sub_type: string;
           user_id: string;
+          sub_customer_id:string;
+          sub_sub_customer_id:string;
           product_partner: string;
           companycode: string;
           brand: string;
@@ -1140,6 +1216,8 @@ export class UploadDocumentComponent implements OnInit {
           document_type: "",
           document_sub_type: "",
           user_id: "",
+          sub_customer_id: "" ,
+          sub_sub_customer_id:"",
           product_partner: "",
           companycode: "",
           brand: "",
@@ -1160,7 +1238,14 @@ export class UploadDocumentComponent implements OnInit {
           let url = this.filearray[i];
           let reader = new FileReader();
           let extension = url.name.substr(url.name.lastIndexOf(".") + 1);
-
+          if (extension == 'svg') {
+            Swal.fire({
+              title: 'File Format Error',
+              text: 'Please upload a Valid document',
+              icon: 'warning',
+            })
+            return
+          }
           reader.readAsDataURL(url);
           reader.onload = () => {
             // this.fileName = url.name + " " + url.type;
@@ -1177,7 +1262,7 @@ export class UploadDocumentComponent implements OnInit {
             ) {
               console.log(this.document_sub_type);
 
-              let product_partnerid:any = this.product_partner
+              let product_partnerid: any = this.product_partner
               let StringTypeCasting = Math.round(this.filearray[i].size / 1024);
               let MainType = this.filearray[i].type;
               let Date = this.filearray[i].lastModified;
@@ -1186,6 +1271,12 @@ export class UploadDocumentComponent implements OnInit {
               values.document_type = this.document_type;
               values.document_sub_type = this.lastproducttypeid;
               values.user_id = this.id;
+              values.sub_customer_id = this.sub_customer_id
+              if (this.myControlnew != undefined) {
+                values.sub_sub_customer_id = this.sub_sub_customer_id
+              } else {
+                values.sub_sub_customer_id = this.sub_sub_customer_id
+              }
               values.product_partner = this.product_partner
                 ? product_partnerid.id
                 : " ";
@@ -1198,7 +1289,7 @@ export class UploadDocumentComponent implements OnInit {
               values.tags.push(MainType);
               values.tags.push(Date);
               console.log(values);
-              // debugger
+              debugger
               this.uploadDocument(values, i);
               values.tags = [];
               this.showLoader = true;
@@ -1221,7 +1312,7 @@ export class UploadDocumentComponent implements OnInit {
                 let StringTypeCasting = Math.round(
                   this.filearray[i].size / 1024
                 );
-                let product_partnerid:any = this.product_partner
+                let product_partnerid: any = this.product_partner
                 let MainType = this.filearray[i].type;
                 //let Date = this.filearray[i].lastModified;
                 let typeofimage = "application/pdf";
@@ -1232,6 +1323,12 @@ export class UploadDocumentComponent implements OnInit {
                 values.document_type = this.document_type;
                 values.document_sub_type = this.lastproducttypeid;
                 values.user_id = this.id;
+                values.sub_customer_id = this.sub_customer_id
+                if (this.myControlnew != undefined) {
+                  values.sub_sub_customer_id = this.sub_sub_customer_id
+                } else {
+                  values.sub_sub_customer_id = this.sub_sub_customer_id
+                }
                 values.product_partner = this.product_partner
                   ? product_partnerid.id
                   : " ";
@@ -1246,7 +1343,7 @@ export class UploadDocumentComponent implements OnInit {
                 values.tags.push(typeofimage);
                 values.tags.push(dateofdocument);
                 console.log(values);
-                // debugger
+                debugger
                 this.uploadDocument(values, i);
                 values.tags = [];
 
@@ -1285,6 +1382,7 @@ export class UploadDocumentComponent implements OnInit {
     }
     return `${bytes.toFixed(precision[unit])} ${unit}`;
   }
+  source = ''
 
   handleImageChange(event: any) {
     $("#result").html("");
@@ -1302,23 +1400,36 @@ export class UploadDocumentComponent implements OnInit {
       $('#showpreviewdownload').attr('href', source);
 
       if (source.indexOf('data:application/pdf;') != -1) {
-        const base64 = source.replace(/^data:.+;base64,/, "");
+        this.source = source
+        // const base64 = source.replace(/^data:.+;base64,/, "");
 
-        const blob = base64ToBlob(base64, 'application/pdf');
-        const url = URL.createObjectURL(blob);
-        const pdfWindow = window.open("");
-        pdfWindow?.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
+        // const blob = base64ToBlob(base64, 'application/pdf');
+        // const url = URL.createObjectURL(blob);
+        // const pdfWindow = window.open("");
+        // pdfWindow?.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
 
-        function base64ToBlob(base64: string, type = "application/octet-stream") {
-          console.log(base64);
-          const binStr = atob(base64 as string);
-          const len = binStr.length;
-          const arr = new Uint8Array(len);
-          for (let i = 0; i < len; i++) {
-            arr[i] = binStr.charCodeAt(i);
-          }
-          return new Blob([arr], { type: type });
-        }
+        // function base64ToBlob(base64: string, type = "application/octet-stream") {
+        //   console.log(base64);
+        //   const binStr = atob(base64 as string);
+        //   const len = binStr.length;
+        //   const arr = new Uint8Array(len);
+        //   for (let i = 0; i < len; i++) {
+        //     arr[i] = binStr.charCodeAt(i);
+        //   }
+        //   return new Blob([arr], { type: type });
+        // }
+        setTimeout(() => {
+          $('#openpreviewmodel').trigger('click');
+          this.open_modal('exampleModalpreview')
+
+          $('#showpreviewimg').attr('src', '');
+          $('#showpreviewimg').css('display', 'none');
+
+          $('#showpreviewpdf').attr('src', '');
+          $('#showpreviewpdf').css('display', 'block');
+          $('#showpreviewpdf').attr('src', source);
+        }, 500);
+
 
       } else {
 
@@ -1369,11 +1480,22 @@ export class UploadDocumentComponent implements OnInit {
 
     for (let i = 0; i < filesLength; i++) {
       let f = files[i];
+      let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
+      console.log(extension);
+      if (extension == 'svg') {
+        Swal.fire({
+          title: 'File Format Error',
+          text: 'Please upload a Valid document',
+          icon: 'warning',
+        })
+        return
+      }
       let newsize = this.l;
       this.l = this.l + 1;
       this.filearraynew.push(f);
       let Size1 = f.size;
       let Size = this.dataconvert(Size1);
+
       this.filearray = this.filearraynew;
       console.log("this.filearraynew" + this.filearraynew);
       console.log("this.filearray " + this.filearray);
@@ -1386,6 +1508,7 @@ export class UploadDocumentComponent implements OnInit {
         console.log(f.name.split("."));
         let extension = f.name.substr(f.name.lastIndexOf(".") + 1);
         console.log(extension);
+
         let ImageName;
         if (extension == "doc" || extension == "docx") {
           ImageName = "../assets/docx.png";
@@ -1479,32 +1602,32 @@ export class UploadDocumentComponent implements OnInit {
         console.log(`Key: ${key}, Value: ${value}`);
       });
       // debugger
-      this.userService.uploaddocumentwithoutticketno( formData )
-      .subscribe((event: HttpEvent<any>) => {
-        switch (event.type) {
+      this.userService.uploaddocumentwithoutticketno(formData)
+        .subscribe((event: HttpEvent<any>) => {
+          switch (event.type) {
 
-          case HttpEventType.Sent:
-            console.log('Request has been made!');
+            case HttpEventType.Sent:
+              console.log('Request has been made!');
 
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
-            break;
-          case HttpEventType.UploadProgress:
-            if (event.total) {
-              $('div.percentageclass' + newsize + i).width(Math.round((event.loaded / event.total) * 100) + "%");
-              $('div.percentageclass' + newsize + i).html(Math.round((event.loaded / event.total) * 100) + "%");
-            }
-            break;
-          case HttpEventType.Response:
+              break;
+            case HttpEventType.ResponseHeader:
+              console.log('Response header has been received!');
+              break;
+            case HttpEventType.UploadProgress:
+              if (event.total) {
+                $('div.percentageclass' + newsize + i).width(Math.round((event.loaded / event.total) * 100) + "%");
+                $('div.percentageclass' + newsize + i).html(Math.round((event.loaded / event.total) * 100) + "%");
+              }
+              break;
+            case HttpEventType.Response:
 
-            setTimeout(() => {
-              $('div.percentageclass' + newsize + i).width("0%");
-              $('#progressnew' + newsize + i).css("display", "none");
-            }, 500);
+              setTimeout(() => {
+                $('div.percentageclass' + newsize + i).width("0%");
+                $('#progressnew' + newsize + i).css("display", "none");
+              }, 500);
 
-        }
-      })
+          }
+        })
 
     }
     console.log(this.filearraynew);

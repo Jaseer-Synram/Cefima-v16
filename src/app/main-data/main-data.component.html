@@ -665,7 +665,7 @@
                                                             <li class="customer-Unternehmensname">
                                                                 {{login.createdAt | date: 'dd.MM.yyyy HH:mm'}}
                                                             </li>
-                                                            <li class="customer-Unternehmensname">
+                                                            <li class="customer-Unternehmensname customer-Unternehmensname  d-flex justify-content-center align-items-center flex-wrap gap-2 ">
                                                                 <!-- (click)="opened_login_details?._id == login?._id ? opened_login_details = {} : opened_login_details = login;" -->
                                                                 <button type="button"
                                                                     class="btn btn-sm button-primary botton-hover"
@@ -673,14 +673,14 @@
                                                                     {{opened_login_details?._id == login?._id ?
                                                                     'Schließen':'Öffnen'}}
                                                                 </button>
-                                                                <button type="button" class="btn btn-sm btn-danger ml-2"
+                                                                <button type="button" class="btn btn-sm btn-danger"
                                                                     *ngIf="login.jwt_token == current_jwt_token || login?.log_out?.logged_out == '0'"
                                                                     (click)="login.jwt_token == current_jwt_token ? logout(): logoutOtherSession(login);">Logout</button>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                     <!-- <div class="w-100 opened-list-item-collapse p-3 border-radius"
-                                                        *ngIf="opened_login_details?._id == login?._id"> 
+                                                        *ngIf="opened_login_details?._id == login?._id">
 
 
                                                         <div class="row m-0 bg-white p-3"
@@ -800,7 +800,7 @@
                                                                     *ngIf="opened_login_details?.jwt_token == current_jwt_token"
                                                                     (click)="logout()">Logout</button>
                                                             </div>
-                                                        </div> 
+                                                        </div>
 
 
                                                      </div> -->
@@ -1020,8 +1020,7 @@
                                 </div> -->
                             </div>
                             <div class="w-100 p-2">
-                                <div class="overflow-auto" style="height: 460px" #scrollMe
-                                    [scrollTop]="scrollMe.scrollHeight">
+                                <div class="overflow-auto" style="height: 460px" #scrollMe [scrollTop]="scrollMe.scrollHeight">
                                     <ng-container *ngFor="let message of chat_messages;let msg_i = index;">
                                         <div style="margin-bottom: 5px" *ngIf="message.mid"
                                             [ngClass]="message.mid == currentUser._id ? 'd-flex flex-row justify-content-end mr-1' : 'd-flex flex-row justify-content-start ml-1'">
@@ -1306,7 +1305,7 @@
 <div id="exampleModalpreview1_parent">
     <div class="modal fade" id="exampleModalpreview1" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalpreviewTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div style="max-width: 1000px;max-height: 800px;" class="modal-dialog" role="document">
+        <div style="max-width: 80%;max-height: 800px;" class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <span id="showpreviewtitle" style="font-size:15px;"></span>
@@ -1341,21 +1340,22 @@
         <div style="max-width: 80%;max-height: 800px;" class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span style="font-size:15px;font-weight:500;">E-Mail senden</span>
+                    <span style="font-size:21px;font-weight:500;">E-Mail senden</span>
                     <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         id="close_email_modal"
                         (click)="close_modal('emailModal','emailModal_parent');custom_emails = [];"></button> -->
-                    <button type="button" class="close" id="close_email_modal" data-dismiss="modal" aria-label="Close"
-                        (click)="close_modal('emailModal','emailModal_parent')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" style="border: none;width: 30px;background: transparent;padding:0;"
+                    (click)="close_modal('emailModal','emailModal_parent')" data-dismiss="modal"
+                    aria-label="Close">
+                    <img width="70%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
+                  </button>
                 </div>
-                <div class="modal-body px-0">
+                <div class="modal-body ">
                     <form [formGroup]="sendEmailFormGroup" *ngIf="opened_case_details?._id">
-                        <div class="row m-0">
-                            <div class="col-md-4">
+                        <div class="d-flex flex-row flex-wrap p-0 m-0">
+                            <div class="col-md-4 p-0">
                                 <h4>Absender:</h4>
-                                <mat-form-field appearance="outline" class="w-100">
+                                <mat-form-field appearance="outline" style="width:96%">
                                     <mat-select formControlName="from_email">
                                         <ng-container *ngFor="let email of initial_emails_data.emails;">
                                             <mat-option *ngIf="email.type != 2"
@@ -1364,16 +1364,16 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 p-0">
                                 <h4>Empfänger:</h4>
-                                <mat-form-field appearance="outline" class="w-100">
+                                <mat-form-field appearance="outline" style="width:96%">
                                     <mat-label>E-Mail</mat-label>
                                     <input type="text" placeholder="E-Mail" matInput
                                         (keyup.enter)="custom_emails.push($any($event).target.value);$any($event).target.value = '';">
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-4">
-                                <h4>Hinzugefügte Empfänger</h4>
+                            <div class="col-sm-4 p-0">
+                                <h4>Hinzugefügte Empfänger:</h4>
                                 <div class="selected-email-div">
                                     <ng-container *ngFor="let user of opened_case_details?.userinfo;">
                                         <label class="neoloop-div-bg py-1 px-2 border-radius text-white mb-1 mr-1"
@@ -1387,18 +1387,23 @@
                                     </ng-container>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt-3">
-                                <h4>Bitte geben Sie den E-Mail Betreff ein:</h4>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <mat-form-field appearance="outline" class="w-100">
+                            <div class="col-12 px-3 py-2 mb-4 rounded graybox">
+                              <span>
+                                Bitte geben Sie den E-Mail Betreff ein:
+                              </span>
+                            </div>
+                            <div class="col-md-12 mt-3 p-0">
+                                <!-- <h4></h4> -->
+                                <div class="col-md-12 d-flex flex-row flex-wrap p-0">
+                                    <div class="col-md-3 p-0">
+                                        <mat-form-field appearance="outline" style="width:99%">
                                             <mat-label>Vorgangsnummer</mat-label>
                                             <input type="text" placeholder="Vorgangsnummer" matInput
                                                 value="{{opened_case_details?.Activity_No}}" readonly>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-9">
-                                        <mat-form-field appearance="outline" class="w-100">
+                                    <div class="col-md-9 p-0 text-right">
+                                        <mat-form-field appearance="outline"  style="width:99%">
                                             <mat-label>E-Mail Betreff</mat-label>
                                             <input type="text" placeholder="E-Mail Betreff" matInput
                                                 formControlName="subject">
@@ -1406,15 +1411,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt-3">
-                                <h4>Bitte geben Sie den E-Mail Text ein:</h4>
-                                <mat-form-field appearance="outline" class="w-100">
+                            <div class="col-12 px-3 py-2 mb-4 rounded graybox">
+                              <span>
+                                Bitte geben Sie den E-Mail Text ein:
+                              </span>
+                            </div>
+                            <div class="col-md-12 mt-3 p-0">
+                                <!-- <h4></h4> -->
+                                <mat-form-field appearance="outline"  style="width:100%">
                                     <mat-label>E-Mail Text</mat-label>
                                     <textarea placeholder="E-Mail Text" matInput formControlName="text"
                                         rows="8"></textarea>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-12 text-end">
+                            <div class="col-md-12 text-end p-0">
                                 <button type="button" class="btn button-primary botton-hover"
                                     [disabled]="!sendEmailFormGroup.valid" (click)="send_email();"><i
                                         class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Senden</button>

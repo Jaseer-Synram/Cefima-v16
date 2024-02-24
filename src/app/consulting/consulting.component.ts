@@ -1193,7 +1193,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       questionArray[uIndex].tempList[tabIndex].list[questionIndex]
     );
   }
-
+  source = ''
   async handleDocumentUpload(
     event: any,
     option_index: any = "",
@@ -1212,24 +1212,19 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
       $("#showpreviewdownload").attr("href", source);
 
       if (source.indexOf("data:application/pdf;") != -1) {
+        this.source = source
 
-        const base64 = source.replace(/^data:.+;base64,/, "");
+        setTimeout(() => {
+          $('#openpreviewmodel').trigger('click');
+          this.open_modal('exampleModalpreview')
 
-        const blob = base64ToBlob(base64, 'application/pdf');
-        const url = URL.createObjectURL(blob);
-        const pdfWindow = window.open("");
-        pdfWindow.document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
+          $('#showpreviewimg').attr('src', '');
+          $('#showpreviewimg').css('display', 'none');
 
-        function base64ToBlob(base64, type = "application/octet-stream") {
-          console.log(base64);
-          const binStr = atob(base64 as string);
-          const len = binStr.length;
-          const arr = new Uint8Array(len);
-          for (let i = 0; i < len; i++) {
-            arr[i] = binStr.charCodeAt(i);
-          }
-          return new Blob([arr], { type: type });
-        }
+          $('#showpreviewpdf').attr('src', '');
+          $('#showpreviewpdf').css('display', 'block');
+          $('#showpreviewpdf').attr('src', source);
+        }, 500);
 
       } else {
         $("#openpreviewmodel").trigger("click");

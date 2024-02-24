@@ -1,10 +1,10 @@
-<div class="app-background d-flex flex-column">
+<div class="app-background d-flex flex-column main table-section table-min-height">
   <div class="d-flex flex-column">
     <div style="flex: unset">
 
 
       <div class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center">
-        <section style="width: 100%" class="main table-section table-min-height" id="documentupload">
+        <section style="width: 100%" class="" id="documentupload">
           <div class="col-md-12 card border-0 " style="background-color: #F2F2F2;">
             <div class="d-flex flex-raw m-0 px-0 py-1 justify-content-between align-items-center  ">
               <span class="card-text">Um ein Dokument hochzuladen, wählen Sie bitte einen Kunden aus
@@ -86,9 +86,6 @@
 
                         <div class="col-md-12 p-0">
                           <div class="bottom-btn p-0 m-0 d-flex justify-content-end ">
-                            <!-- <button mat-raised-button matStepperPrevious
-                                                            class="btn upload-theme-bottom"> Zurück</button> -->
-                            <!--  -->
                             <button mat-raised-button matStepperNext [disabled]="ShowButton" type="submit"
                               (click)="GoNext()"
                               [ngClass]="[ShowButton? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
@@ -105,16 +102,16 @@
 
             <mat-step [stepControl]="step2Control">
               <ng-template matStepLabel>
-                <div class="p-0" *ngIf="kundetype !== 'Firma'; else firmalabel">
-                  <span>Haushaltsmitglied</span>
-                  <div *ngIf="kundetype.includes('Haushalt') && myControlnew.value" class="underKundenHead rounded-sm ">
-                    {{myControlnew.value.split('(')[0].trim()}}
-                  </div>
-                </div>
-                <ng-template #firmalabel>
+                <div class="p-0" *ngIf="kundetype == 'Firma'; else kundenlabel">
                   <span>Ausgewählter Mitglied</span>
                   <div *ngIf="kundetype == 'Firma' && myFirmaControlnew.value" class="underKundenHead rounded-sm ">
                     {{myFirmaControlnew.value.split('(')[0].trim()}}
+                  </div>
+                </div>
+                <ng-template #kundenlabel>
+                  <span>Haushaltsmitglied</span>
+                  <div *ngIf="kundetype.includes('Haushalt') && myControlnew.value" class="underKundenHead rounded-sm ">
+                    {{myControlnew.value.split('(')[0].trim()}}
                   </div>
                 </ng-template>
               </ng-template>
@@ -134,15 +131,14 @@
                               style="border-radius: 10px">
                               <mat-form-field
                                 class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                appearance="outline" style=" width: 100%;background: white;border-radius: 10px;" >
+                                appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
                                 <input type="text" placeholder="Haushaltsmitglied auswählen" aria-label="Number"
                                   matInput [formControl]="myControlnew" (keyup.enter)="patchmembervalue($event) "
                                   (ngModelChange)=" patchmembervalue($event) " [matAutocomplete]="auto1" />
 
                                 <mat-autocomplete #auto1="matAutocomplete">
-                                  <mat-option *ngFor="
-                                                                            let employee of filteredOptionsmembers | async
-                                                                          " [value]="employee.name">
+                                  <mat-option *ngFor=" let employee of filteredOptionsmembers | async"
+                                    [value]="employee.name">
                                     {{ employee.name }}
                                   </mat-option>
                                 </mat-autocomplete>
@@ -171,7 +167,7 @@
                               style="border-radius: 10px">
                               <mat-form-field
                                 class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
-                                appearance="outline" style=" width: 100%;background: white;border-radius: 10px;" >
+                                appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
                                 <input type="text" placeholder="Firma auswählen" aria-label="Number" matInput
                                   [formControl]="myFirmaControlnew" (keyup.enter)="setBranchList($event) "
                                   (ngModelChange)="setBranchList($event) " [matAutocomplete]="auto1" />
@@ -199,8 +195,9 @@
                       <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
                         <button mat-raised-button matStepperPrevious class="btn button-primary">
                           Zurück</button>
-                        <!--  -->
-                        <button mat-raised-button matStepperNext [disabled]="ShowButtonTwo" type="button"
+
+                        <button id="mitgliednextstep" mat-raised-button matStepperNext [disabled]="ShowButtonTwo"
+                          type="button"
                           [ngClass]="[ShowButtonTwo? 'btn btn-secondary' : 'btn button-primary nextBtn' ]">
                           Weiter
                         </button>
@@ -211,7 +208,7 @@
 
                 </form>
               </div>
-              <!--  -->
+
 
             </mat-step>
 
@@ -342,10 +339,22 @@
                                 style="margin-top: 40px;margin-bottom: 28vh;">
                                 <div class="col-md-12 d-flex justify-content-start p-0 ">
                                   <span class="second-text">
-                                    Wählen Sie denden Produkttyp
-                                    <ng-container *ngIf="kundetype.includes('Haushalt') && myControlnew.value">
-                                      für {{myControlnew.value.split('(')[0].trim()}}
+                                    <ng-conatiner *ngIf="  document_type != 'Allgemeines Dokument' ;else allgemeineslabel ">
+                                      Wählen Sie denden Produkttyp
+                                      <ng-container *ngIf="kundetype.includes('Haushalt') && myControlnew.value">
+                                        für {{myControlnew.value.split('(')[0].trim()}}
                                     </ng-container>
+                                  </ng-conatiner>
+
+                                    <ng-template #allgemeineslabel>
+                                      Wählen Sie ein allgemeines Dokument von
+                                      <ng-container *ngIf="myControlnew.value ; else firmnameprodukttype">
+                                        für {{myControlnew.value.split('(')[0].trim()}}
+                                      </ng-container>
+                                      <ng-template #firmnameprodukttype>
+                                        für {{myFirmaControlnew.value.split('(')[0].trim()}}
+                                      </ng-template>
+                                    </ng-template>
                                   </span>
                                 </div>
                                 <div *ngIf=" document_type == 'Allgemeines Dokument' "
@@ -355,7 +364,7 @@
                                     class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
                                     appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
                                     <input type="text" aria-label="Number" placeholder="Allgemeines Dokument" matInput
-                                      [formControl]="ThirdTypeDoc" (focus)="ThirdTypeDocValue()"
+                                      [formControl]="ThirdTypeDoc" (focus)="callValueChange('ThirdTypeDoc')"
                                       (keyup.enter)="ThirdTypeDocValue()" (ngModelChange)="ThirdTypeDocValue()"
                                       [matAutocomplete]="auto" />
                                     <mat-autocomplete #auto="matAutocomplete">
@@ -375,7 +384,7 @@
                                   <mat-form-field
                                     class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
                                     appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
-                                    <input type="text" aria-label="Number" (focus)="callValueChange()"
+                                    <input type="text" aria-label="Number" (focus)="callValueChange('Produkttyp')"
                                       placeholder="Produkttyp eingeben" matInput [formControl]="ProductsTypeControl"
                                       [matAutocomplete]="auto" />
                                     <mat-autocomplete #auto="matAutocomplete"
@@ -457,7 +466,7 @@
                                     class="mat-form-field-remove-padding-bottom mat-form-field-remove-margin input-border-gradient my-mat-field"
                                     appearance="outline" style=" width: 100%;background: white;border-radius: 10px;">
                                     <input type="text" aria-label="Number" class="  p-0 mb-2" type="text"
-                                      style="color: black;" (focus)="callValueChange()"
+                                      style="color: black;" (focus)="callValueChange('ProductsControl')"
                                       placeholder="Produktpartner eingeben" matInput [formControl]="ProductsControl"
                                       [matAutocomplete]="auto" />
                                     <mat-autocomplete #auto="matAutocomplete"
@@ -535,14 +544,14 @@
                                   <div>
                                     <div id="Success"></div>
 
-                                    <h5 *ngIf="document_sub_type">
+                                    <h2 *ngIf="document_sub_type">
                                       Dokumenten Upload für {{
                                       document_sub_typename }}
-                                    </h5>
-                                    <h5 *ngIf="document_sub_type == ''">
+                                    </h2>
+                                    <h2 *ngIf="document_sub_type == ''">
                                       Dokumenten Upload für {{
                                       document_sub_typename }}
-                                    </h5>
+                                    </h2>
 
                                     <div style="cursor: pointer"
                                       class=" upload-file bg-primary2 p-l-30 position-relative ">
@@ -723,36 +732,14 @@
                         <div class="col-md-12 p-0 d-flex flex-raw " style=" display: inline-block" id="result"></div>
                       </div>
                     </div>
-
-                    <!-- <div  style="margin-bottom: 16px; float: right;" class="row">
-                                            <div class="col-md-12 top-section" style="margin-right: 12px">
-                                                <div *ngIf="finalShowButton">
-                                                     <button style="background-color: #184397; border-color: none"
-                                                        (click)="_handleImageUpload()"
-                                                        class="btn btn-primary nextBtn next-bt">
-                                                        Daten hochladen
-                                                    </button>
-                                                </div>
-
-                                                <div *ngIf="!finalShowButton">
-                                                    <button [disabled]="finalShowButton"
-                                                        style="background-color: gray; border-color: none"
-                                                        class="btn btn-primary nextBtn next-bt">
-                                                        Daten hochladen
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>  -->
                   </div>
                 </section>
               </div>
-
 
               <div class="col-md-12 p-0" style="margin-top: 7vh;">
                 <div class="bottom-btn p-0 m-0 d-flex justify-content-between ">
                   <button mat-raised-button matStepperPrevious class="btn button-primary">
                     Zurück</button>
-                  <!--  -->
 
                   <button *ngIf="finalShowButton else noupload" mat-raised-button matStepperNext type="submit"
                     class='btn button-primary nextBtn' (click)="_handleImageUpload()">
@@ -788,17 +775,18 @@
 
     <div class="modal fade" data-backdrop="static" data-keyboard="false" id="exampleModalpreview" role="dialog"
       aria-labelledby="exampleModalpreviewTitle" aria-hidden="true">
-      <div style="max-width: 1000px;max-height: 800px;" class="modal-dialog" role="document">
+      <div style="max-width: 80%;max-height: 800px;" class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <span id="showpreviewtitle" style="font-size:15px;"></span>
-            <button (click)="close_modal('exampleModalpreview','exampleModalpreview_parent')" type="button"
-              class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class=" " style="border: none;background: transparent;opacity:1" data-dismiss="modal"
+            aria-label="Close" (click)="close_modal('exampleModalpreview','exampleModalpreview_parent')">
+            <img width="50%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
+          </button>
           </div>
-          <div class="modal-body">
-            <!-- <embed id="showpreviewpdf" style="width:100%;height:600px;display:none;" src=""> -->
+          <div class="modal-body p-2">
+            <pdf-viewer id="showpreviewpdf" [src]="source"  [render-text]="true" [original-size]="false" style="width:100%;height:600px;display:none;"></pdf-viewer>
+            <!-- <embed id="showpreviewpdf" type="application/pdf" style="width:100%;height:600px;display:none;" src=""> -->
             <img id="showpreviewimg" style="width:100%;height:100%;display:none;" src="">
 
             <div class="col-md-12 p-0" style="text-align: right;margin-top: 11px; margin-bottom: -4px;">

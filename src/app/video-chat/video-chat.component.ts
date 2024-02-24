@@ -192,25 +192,25 @@ export class VideoChatComponent implements OnInit, OnDestroy {
     };
 
     console.log('case no in video chat', this.data.chat_data.user.Activity_No);
-    this.userService.getchatunreadmessage(message).subscribe(
-      (success: any) => {
-        console.log('unread chat data', success);
-        for (let i = 0; i < success.result.length; i++) {
-          if (
-            this.messagelist.findIndex(
-              (x: any) => x._id == success.result[i]._id
-            ) == -1
-          ) {
-            this.messagelist.push(success.result[i]);
-          }
-        }
-      },
-      (err) => {
-        console.log('error5');
-        console.log(err);
-      },
-      () => {}
-    );
+    // this.userService.getchatunreadmessage(message).subscribe(
+    //   (success: any) => {
+    //     console.log('unread chat data', success);
+    //     for (let i = 0; i < success.result.length; i++) {
+    //       if (
+    //         this.messagelist.findIndex(
+    //           (x: any) => x._id == success.result[i]._id
+    //         ) == -1
+    //       ) {
+    //         this.messagelist.push(success.result[i]);
+    //       }
+    //     }
+    //   },
+    //   (err) => {
+    //     console.log('error5');
+    //     console.log(err);
+    //   },
+    //   () => {}
+    // );
   }
 
   ngOnDestroy(): void {

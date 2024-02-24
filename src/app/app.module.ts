@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,7 @@ import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { DEFAULT_PSM_OPTIONS } from 'angular-password-strength-meter/zxcvbn';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { environment } from 'src/environments/environment.prod';
+import * as de from '@angular/common/locales/de';
 
 
 export const MY_FORMATS = {
@@ -106,7 +107,8 @@ export function tokenGetter() {
       useClass: JwtInterceptorService,
       multi: true,
     },
-    { provide: MAT_DATE_LOCALE, useValue: "de" },
+    // { provide: MAT_DATE_LOCALE, useValue: "de" },
+    { provide:  LOCALE_ID, useValue: 'de-DE' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
