@@ -386,7 +386,7 @@ $Frontend-theme: mat.define-light-theme((color:(primary:$Frontend-primary,
 //   border: 1px solid;
 //   border-color: #b0daf9;
 //   color: #049FE5;
-// }  
+// }
 
 
 
@@ -396,9 +396,9 @@ $Frontend-theme: mat.define-light-theme((color:(primary:$Frontend-primary,
 }
 
 #updateprofilestepper .mat-step-header[aria-selected="true"] {
-  background-image: linear-gradient(to right, #154FA3, #049FE5);
-  border-radius: 5px;
-  margin: 10px;
+  background-image: transparent;
+  // border-radius: 5px;
+  // margin: 10px;
 }
 
 

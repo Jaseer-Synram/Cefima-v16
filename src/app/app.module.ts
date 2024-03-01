@@ -43,7 +43,11 @@ import { DEFAULT_PSM_OPTIONS } from 'angular-password-strength-meter/zxcvbn';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { environment } from 'src/environments/environment.prod';
 import * as de from '@angular/common/locales/de';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
 
+registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 export const MY_FORMATS = {
   parse: {
