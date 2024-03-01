@@ -2658,7 +2658,7 @@
                                   let nextceo of addedpersonsFirst;
                                   let i = index
                                                               ">
-                        <div style="cursor: pointer;height: 235px;" *ngIf="i == 0"
+                        <div style="cursor: pointer;height: 250px;" *ngIf="i == 0"
                           class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                           <input style="height: 190px" multiple #input1 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
@@ -2730,7 +2730,7 @@
                           </div>
                         </div>
 
-                        <div style="cursor: pointer;height: 235px;" *ngIf="i != 0"
+                        <div style="cursor: pointer;height: 250px;" *ngIf="i != 0"
                           class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                           <input style="height: 190px" multiple #input1 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocOne{{ i }}"
@@ -2792,8 +2792,8 @@
 
                       <div class="col-md-4" style="margin-top: 10px;" id="div2">
                         <div
-                          class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
-                          style=" cursor: pointer;padding: 5px 3px 5px 3px;height: 235px; ">
+                          class="upload-file bg-white rounded-4 position-relative p-1 d-flex flex-column justify-content-center align-items-center"
+                          style=" cursor: pointer ;height: 250px; ">
                           <input style="height: 190px" multiple #input2 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
                             name="DocTwo" (change)="
@@ -2846,8 +2846,8 @@
                       <div *ngIf="companytypenew != 'Einzelunternehmen'" class="col-md-4" style="margin-top: 10px;"
                         id="div3">
                         <div
-                          class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-start"
-                          style=" padding: 5px 3px 5px 3px;cursor: pointer;height: 235px;">
+                          class="upload-file bg-white rounded-4 position-relative p-1 d-flex flex-column justify-content-center align-items-start"
+                          style=" cursor: pointer;height: 250px;">
                           <input style="height: 190px" multiple #input3 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
                             name="DocThree" (change)="
@@ -2908,7 +2908,7 @@
                                     let i = index
                                                                 " class="col-md-4" style="margin-top: 10px"
                           id="div{{ i }}">
-                          <div style="cursor: pointer;height: 235px;"
+                          <div style="cursor: pointer;height: 250px;"
                             class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                             <input style="height: 190px" multiple #input1 type="file" accept="image/*,application/pdf"
                               class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i" (change)="
@@ -4215,8 +4215,8 @@
                         <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start p-0">
                           <div class="col-md-4" style="display: grid;" id="div1">
                             <div
-                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
-                              style="padding: 5px 3px 5px 3px;cursor:pointer;">
+                              class="upload-file bg-white p-1 rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                              style="cursor:pointer;height: 250px;">
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
                                 name="DocOne" (change)="
@@ -4287,8 +4287,8 @@
 
                           <div class="col-md-4" style="display: grid;" id="div2">
                             <div
-                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
-                              style="padding: 5px 3px 5px 3px;height: 235px;cursor:pointer;">
+                              class="upload-file bg-white p-1 rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                              style="height: 250px;;cursor:pointer;">
                               <input style="height: 190px;" #input2 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
                                 name="DocTwo" (change)="
@@ -4336,8 +4336,8 @@
                           <div *ngIf="companytypenew != 'Einzelunternehmen'" class="col-md-4" style="display: grid;"
                             id="div3">
                             <div
-                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
-                              style="padding: 5px 3px 5px 3px;height: 235px;cursor:pointer;">
+                              class="upload-file bg-white rounded-4 p-1 position-relative d-flex flex-column justify-content-center align-items-center"
+                              style="height: 250px;cursor:pointer;">
                               <input style="height: 190px" #input3 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
                                 name="DocThree" (change)="
@@ -4399,7 +4399,7 @@
                                     let i = index " class="col-md-4" style="margin-top: 10px" id="div{{ i }}">
                             <div
                               class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
-                              style="padding: 5px 3px 5px 3px;cursor: pointer;height: 235px;">
+                              style="cursor: pointer;height: 250px;">
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i"
                                 (change)="
@@ -5275,7 +5275,7 @@
                           <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start"
                             id="docgroup">
                             <div class="col-md-4" style="display: grid;" id="div1">
-                              <div style="cursor: pointer;height: 235px;"
+                              <div style="cursor: pointer;height: 250px;"
                                 class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                                 <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                   class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
@@ -5316,7 +5316,7 @@
                             </div>
 
                             <div class="col-md-4" style="display: grid" id="div2">
-                              <div style="cursor: pointer;height: 235px;"
+                              <div style="cursor: pointer;height: 250px;"
                                 class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                                 <input style="height: 190px" #input2 type="file" accept="image/*,application/pdf"
                                   class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
@@ -5365,7 +5365,7 @@
                             </div>
 
                             <div class="col-md-4" style="display: grid;" id="div3">
-                              <div style="cursor: pointer;height: 235px;"
+                              <div style="cursor: pointer;height: 250px;"
                                 class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                                 <input style="height: 190px" #input3 type="file" accept="image/*,application/pdf"
                                   class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
@@ -5668,10 +5668,10 @@
 
               <mat-step [stepControl]="agreementFromGroupFamily" *ngIf="currentActiveRole == 'customer'">
                 <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroupFamily"
-                  novalidate="" class="more-info-form">
+                  novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2">
+                  <div class="d-flex flex-column col-12 justify-content-center align-items-center gap-2">
                     <div class="row">
                       <div class="col-md-12" style="margin-top: 40px">
                         <div>
@@ -6419,7 +6419,7 @@
 
                       <mat-step [stepControl]="agreementFromGroupFamily">
                         <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroupFamily"
-                          novalidate="" class="more-info-form">
+                          novalidate="" class="more-info-form col-12">
                           <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                           <div class="d-flex flex-column justify-content-center align-items-center gap-2">
@@ -6619,7 +6619,7 @@
 
 
                     <form #fs2="ngForm" *ngIf="agreementFromGroup" [formGroup]="agreementFromGroup" novalidate=""
-                      class="more-info-form">
+                      class="more-info-form col-12">
 
                       <div class="d-flex flex-column justify-content-center align-items-center gap-2">
                         <div class="row">

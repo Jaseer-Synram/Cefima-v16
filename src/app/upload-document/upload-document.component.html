@@ -2,14 +2,12 @@
   <div class="d-flex flex-column">
     <div style="flex: unset">
 
-
       <div class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center">
         <section style="width: 100%" class="" id="documentupload">
           <div class="col-md-12 card border-0 " style="background-color: #F2F2F2;">
             <div class="d-flex flex-raw m-0 px-0 py-1 justify-content-between align-items-center  ">
               <span class="card-text">Um ein Dokument hochzuladen, wählen Sie bitte einen Kunden aus
-                oder
-                legen Sie einen an.</span>
+                oder legen Sie einen an.</span>
               <button type="button" style="padding-bottom: 2px;" mat-raised-button (click)="OpenStpper()"
                 class="btn upload-theme d-flex  flex-raw justify-content-enter align-items-center ">
                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,19 +30,16 @@
               <mat-icon>check</mat-icon>
             </ng-template>
             <mat-step [stepControl]="myControl">
-
-
-
               <div class="container">
                 <ng-template matStepLabel>
                   <span>Kunden</span>
                   <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderKunden}}</div>
                 </ng-template>
                 <div class="row setup-content" id="step-1">
-                  <form style="width: 100%" (ngSubmit)="GoNext()">
-                    <div>
+                  <form class="col-12" style="width: 100%" (ngSubmit)="GoNext()">
+                    <div class="col-12 p-0">
                       <div style="padding: 0px;margin-bottom: 30px;" class="col-md-12 card-center">
-                        <div class="formstep1">
+                        <div class="formstep1 col-12">
                           <div class="row">
                             <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
                               style="margin-top: 40px;margin-bottom: 30vh;">
@@ -116,10 +111,10 @@
                 </ng-template>
               </ng-template>
               <div class="row setup-content" id="step-1">
-                <form style="width: 100%">
-                  <div *ngIf="kundetype !== 'Firma'">
+                <form class="col-12 p-0" style="width: 100%">
+                  <div class="col-12 p-0"  *ngIf="kundetype !== 'Firma'">
                     <div style="padding: 0px;margin-bottom: 30px;margin-bottom: 30vh;" class="col-md-12 card-center">
-                      <div class="formstep1">
+                      <div class="formstep1 col-12 p-0">
                         <div class="row">
                           <div class="col-md-12 d-flex flex-column cusotmer-select p-0" style="margin-top: 40px;">
                             <div class="col-md-12 d-flex justify-content-start p-0 ">
@@ -317,8 +312,6 @@
               </button>
             </mat-step>
 
-
-
             <mat-step [stepControl]="ProdukttypStep">
               <ng-template matStepLabel>
                 <span>Produkttyp</span>
@@ -328,12 +321,12 @@
               <!-- from here -->
               <div class="col-md-12">
 
-                <div class="container">
+                <div class="container ">
                   <div class="row setup-content" id="step-1">
-                    <form style="width: 100%">
-                      <div>
+                    <form  class="col-12 p-0"  style="width: 100%">
+                      <div class="col-12 p-0" >
                         <div class="col-md-12 card-center">
-                          <div class="formstep1">
+                          <div class="formstep1 col-12 p-0">
                             <div class="row">
                               <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
                                 style="margin-top: 40px;margin-bottom: 28vh;">
@@ -433,6 +426,7 @@
                 </div>
               </div>
             </mat-step>
+
             <mat-step [stepControl]="ProductsControl" *ngIf=" document_type != 'Allgemeines Dokument'">
               <ng-template matStepLabel>
                 <span>Produktpartner</span>
@@ -444,9 +438,9 @@
                 <div class="container">
                   <div class="row setup-content" id="step-1">
                     <form style="width: 100%">
-                      <div>
+                      <div  class="col-12 p-0" >
                         <div class="col-md-12 card-center">
-                          <div class="formstep1">
+                          <div class="formstep1 col-12 p-0">
                             <div class="row">
                               <div class="col-md-12 d-flex flex-column cusotmer-select p-0"
                                 style="margin-top: 40px;margin-bottom: 28vh;">
@@ -510,15 +504,15 @@
                 </div>
               </div>
             </mat-step>
+
             <mat-step>
               <ng-template matStepLabel>
                 <span>Dokument hochladen</span>
                 <!-- <div class="underKundenHead rounded-sm "></div> -->
               </ng-template>
 
-              <div
-                class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center justify-content-lg-start align-items-lg-center justify-content-xl-center align-items-xl-center">
-                <section class="main" style="width: 100%;margin-top: 2vh;">
+              <div class="container logo-sec-main p-0 m-0 d-flex flex-wrap justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center justify-content-lg-start align-items-lg-center justify-content-xl-center align-items-xl-center">
+                <section class="main col-12 p-0" style="width: 100%;margin-top: 2vh;">
                   <!-- {this.state.ShowPop?<PopUp/>:""} -->
                   <div class="container p-0 m-0">
                     <div class="row p-0 m-0">
@@ -527,19 +521,9 @@
                         <div class="container p-0 m-0">
 
                           <div class="row setup-content p-0 m-0" id="step-1">
-                            <div class="custom-overlay-wrapper w-100 p-0 m-0">
-                              <!-- <div *ngIf="showLoader" id="custom-overlay">
+                            <div class="custom-overlay-wrapper w-100 p-0 m-0 col-12">
 
-                          <div class="form-loading">
-                            <div class="sk-child sk-bounce1"></div>
-                            <div class="sk-child sk-bounce2"></div>
-                            <div class="sk-child sk-bounce3"></div>
-                        </div>
-
-
-                        </div> -->
-
-                              <form style="width: 100%" class="p-0 m-0">
+                              <form style="width: 100%" class="p-0 m-0 col-12 ">
                                 <div class="col-md-12 p-0 m-0 card-center">
                                   <div>
                                     <div id="Success"></div>
@@ -752,6 +736,7 @@
                   </ng-template>
                 </div>
               </div>
+
             </mat-step>
 
           </mat-horizontal-stepper>
