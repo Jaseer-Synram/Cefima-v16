@@ -891,8 +891,7 @@ export class MainDataComponent {
         });
     } else if (event.index == 2) {
       this.currentPage = 1;
-      // Commented by jaseer
-      // this.getLoginHistory();
+      this.getLoginHistory();
     }
   }
 
