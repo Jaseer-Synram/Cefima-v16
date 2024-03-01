@@ -896,8 +896,103 @@
       <p class="parent-box-title inter-font mt-2">Verwaltung</p>
       <div class="new-side-bar1 sidebar-broker ">
         <mat-nav-list>
-          <mat-list-item class="not-active parent" (click)="router.navigate(['cefima/b2b-dashboard']);clickedBroker('Unternehmensdaten','Unternehmensdaten') ">
-            <!-- <img *ngIf="currentTab == 'Verwaltung'" src="assets/images/broker-icon-active.svg"> -->
+          <mat-accordion class="side">
+            <mat-expansion-panel class="p-0 broker">
+              <mat-expansion-panel-header mat-panel-title class="p-0 broker" >
+                <mat-list-item class="not-active parent" (click)="router.navigate(['cefima/b2b-dashboard']);clickedBroker('Unternehmensdaten','Unternehmensdaten') ">
+                  <!-- <img *ngIf="currentTab == 'Verwaltung'" src="assets/images/broker-icon-active.svg"> -->
+                  <img *ngIf="currentTab != 'Verwaltung'" src="assets/images/broker-icon.svg">
+                  <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Firma Broker’s co.</span>
+                </mat-list-item>
+              </mat-expansion-panel-header>
+
+              <ng-template [matExpansionPanelContent] class="p-0">
+              <div *ngIf="router.url == '/cefima/b2b-dashboard' ">
+                <div class="main-child-box">
+                  <div class="main-child-menu ">
+                    <div class="main-child-box-title">
+                      <span>
+                        Stammdaten
+                      </span>
+                    </div>
+                    <div class="menu1 py-1">
+
+                      <div class="side  ">
+                        <button id="unternehmen-broker-btn"
+                          [ngClass]=" currentTab == 'Verwaltung.Unternehmensdaten' ? 'stepper-btn1-focus py-0 ms-0': ' sidebar-not-active-button '  "
+                          class="stepper-btn2 px-0 transitionanimation col-12" (click)="clickedBroker('Unternehmensdaten','Unternehmensdaten')">
+                          <span class="col-12"
+                            [ngClass]=" currentTab == 'Verwaltung.Unternehmensdaten' ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                            <img *ngIf="currentTab == 'Verwaltung.Unternehmensdaten' "
+                              src="assets/images/arrow-right-broker-focus.svg" alt="">
+                            Unternehmensdaten
+                          </span>
+                        </button>
+                        <button
+                          [ngClass]=" currentTab == 'Verwaltung.Vermittlervertrag' ? 'stepper-btn1-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                          class="stepper-btn2 px-0 transitionanimation col-12" (click)="clickedBroker('Vermittlervertrag','Vermittlervertrag')">
+                          <span class="col-12"
+                            [ngClass]=" currentTab == 'Verwaltung.Vermittlervertrag' ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                            <img *ngIf="currentTab == 'Verwaltung.Vermittlervertrag' "
+                              src="assets/images/arrow-right-broker-focus.svg" alt="">
+                            Vermittlervertrag
+                          </span>
+                        </button>
+                        <button
+                          [ngClass]=" currentTab == 'Verwaltung.Vertretungsberechtigte' ? 'stepper-btn1-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                          class="stepper-btn2 px-0 transitionanimation col-12"
+                          (click)="clickedBroker('Vertretungsberechtigte','Vertretungsberechtigte Person')">
+                          <span class="col-12"
+                            [ngClass]=" currentTab == 'Verwaltung.Vertretungsberechtigte' ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                            <img *ngIf="currentTab == 'Verwaltung.Vertretungsberechtigte' "
+                              src="assets/images/arrow-right-broker-focus.svg" alt="">
+                            Vertretungsberechtigte Person
+                          </span>
+                        </button>
+                        <button
+                          [ngClass]=" currentTab == 'Verwaltung.Bevollmachtigte' ? 'stepper-btn1-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                          class="stepper-btn2 px-0 transitionanimation col-12" (click)="clickedBroker('Bevollmachtigte','Bevollmächtigte/Prokuristen')">
+                          <span class="col-12"
+                            [ngClass]=" currentTab == 'Verwaltung.Bevollmachtigte' ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                            <img *ngIf="currentTab == 'Verwaltung.Bevollmachtigte' "
+                              src="assets/images/arrow-right-broker-focus.svg" alt="">
+                            Bevollmächtigte/Prokuristen
+                          </span>
+                        </button>
+                        <button
+                          [ngClass]=" currentTab == 'Verwaltung.Wirtschaftlicher' ? 'stepper-btn1-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                          class="stepper-btn2 px-0 transitionanimation col-12" (click)="clickedBroker('Wirtschaftlicher','Wirtschaftlicher Eigentümer')">
+                          <span class="col-12"
+                            [ngClass]=" currentTab == 'Verwaltung.Wirtschaftlicher' ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                            <img *ngIf="currentTab == 'Verwaltung.Wirtschaftlicher' "
+                              src="assets/images/arrow-right-broker-focus.svg" alt="">
+                            Wirtschaftlicher Eigentümer
+                          </span>
+                        </button>
+                        <button
+                          [ngClass]=" currentTab == 'Verwaltung.Marketing' ? 'stepper-btn1-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                          class="stepper-btn2 px-0 transitionanimation col-12  " (click)="clickedBroker('Marketing','Marketing')">
+                          <span class="col-12"
+                            [ngClass]=" currentTab == 'Verwaltung.Marketing' ? 'active-sub-item': ' sidebar-not-active-item'  ">
+                            <img *ngIf="currentTab == 'Verwaltung.Marketing' "
+                              src="assets/images/arrow-right-broker-focus.svg" alt="">
+                            Marketing
+                          </span>
+                        </button>
+                      </div>
+                      <!-- </mat-expansion-panel-header> -->
+                      <!-- </mat-expansion-panel>
+                      </mat-accordion> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </ng-template>
+
+            </mat-expansion-panel>
+          </mat-accordion>
+
+          <!-- <mat-list-item class="not-active parent" (click)="router.navigate(['cefima/b2b-dashboard']);clickedBroker('Unternehmensdaten','Unternehmensdaten') ">
             <img *ngIf="currentTab != 'Verwaltung'" src="assets/images/broker-icon.svg">
             <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Firma Broker’s co.</span>
           </mat-list-item>
@@ -975,13 +1070,10 @@
                       </span>
                     </button>
                   </div>
-                  <!-- </mat-expansion-panel-header> -->
-                  <!-- </mat-expansion-panel>
-                  </mat-accordion> -->
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
         </mat-nav-list>
       </div>

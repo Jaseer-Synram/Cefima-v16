@@ -32,16 +32,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.socketAlertService.data$.subscribe((newData:any) => {
-      // this.socketAlerts(newData);
+      this.socketAlerts(newData);
     });
     if(JSON.parse(localStorage.getItem("currentUser"))?._id){
-      // this.logged_in();
+      this.logged_in();
     }
   }
 
   logged_in(){
     let user_info = JSON.parse(localStorage.getItem("currentUser"));
-      // this.socket.emit("logged-in", user_info._id);
+      this.socket.emit("logged-in", user_info._id);
       this.socket.on("session-removed",(data)=>{
         if(data.token_to_remove == localStorage.getItem("token")){
           localStorage.clear();
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
       this.logged_in();
     }else if(param.socketName == "remove-session"){
       let user_info = JSON.parse(localStorage.getItem("currentUser"));
-      // this.socket.emit("remove-session", {user_id: user_info._id, token_to_remove: param.token_to_remove});
+      this.socket.emit("remove-session", {user_id: user_info._id, token_to_remove: param.token_to_remove});
     }
   }
 

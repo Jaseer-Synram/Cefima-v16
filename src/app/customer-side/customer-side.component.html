@@ -1728,9 +1728,9 @@
                 <mat-icon>check</mat-icon>
               </ng-template>
               <mat-step [stepControl]="addressFormGroupnew">
-                <div class="container" style="margin: 0px">
+                <div class="container col-12" style="margin: 0px">
                   <form *ngIf="addressFormGroupnew" [formGroup]="addressFormGroupnew" #fso1="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Offizielle Unternehmensdaten
                     </ng-template>
                     <div class="col-12 px-3 py-2 mb-4 rounded graybox">
@@ -1855,9 +1855,9 @@
                           companytypenew == 'Einzelunternehmen' ||
                           companytypenew == 'Eingetragener Kaufmann (e.K.)'
                         ">
-                <div class="container" style="margin: 0px">
+                <div class="container col-12" style="margin: 0px">
                   <form *ngIf="livingaddressFormGroup" [formGroup]="livingaddressFormGroup" #livingfso1="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Persönliche Informationen
                     </ng-template>
 
@@ -2007,7 +2007,7 @@
                             'Offene Handelsgesellschaft (OHG)' ||
                           companytypenew == 'eingetragene Genossenschaft (eG)'
                         " #secondcompanyfsoparent #secondcompanyfso2parent>
-                <div class="row updateprofile gap-3">
+                <div class="row updateprofile gap-3 col-12">
                   <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw ">
                     <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
                       <form *ngIf="secondcompanyaddressFormGroup" [formGroup]="secondcompanyaddressFormGroup"
@@ -2645,12 +2645,12 @@
                 </div>
               </mat-step>
               <mat-step [stepControl]="docFromGroup">
-                <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form">
+                <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form col-12">
                   <ng-template matStepLabel>Dokumente hochladen</ng-template>
 
 
 
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 my-5">
+                  <div class="col-12 d-flex flex-column justify-content-center align-items-center gap-2 my-5 ">
                     <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start">
                       <!------------------------------------------Multiple CEO documents code starts here------------------------------------->
 
@@ -2963,7 +2963,7 @@
                     </div>
                   </div>
 
-                  <div class="d-flex justify-content-between">
+                  <div class="col-12 d-flex justify-content-between">
                     <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious>
                       <i class="fa fa-arrow-left" aria-hidden="true"></i>
                       &nbsp; Zurück
@@ -2986,11 +2986,11 @@
                 </form>
               </mat-step>
               <mat-step [stepControl]="agreementFromGroup" *ngIf="currentActiveRole == 'customer'">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form">
+                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 my-5">
-                    <div class="row">
+                  <div class="col-12 d-flex flex-column justify-content-center align-items-center gap-2 my-5">
+                    <div class="col-12 row">
                       <div class="col-md-12" style="margin-top: 5px">
                         <!-- <div>
                             <p class="text-center">
@@ -3202,7 +3202,8 @@
 
 
 
-        <div class="container  p-0" [hidden]="addKunden.exampleModalLongnewcompanycustomer">
+        <div class="container  p-0" [hidden]="addKunden.exampleModalLongnewcompanycustomer">\
+
           <div class="row" style="margin-top: 10px; margin-bottom: 15px">
             <mat-horizontal-stepper linear #stepper style="background: bottom" class="stepnewclass"
               ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}">
@@ -3211,7 +3212,7 @@
               </ng-template>
 
               <mat-step [stepControl]="askquestion">
-                <div class="container" style="margin: 0px">
+                <div class="container col-12" style="margin: 0px">
                   <ng-template matStepLabel>
                     <span>Kundentyp</span>
                     <div class="underKundenHead rounded-sm ">{{itemToDisplayUnderKunden}}</div>
@@ -3221,7 +3222,6 @@
                       Kundentyp hinzufügen
                     </span>
                   </div>
-
 
                   <div class="col-md-12">
                     <div style="text-align: center; margin: 50px">
@@ -3291,9 +3291,9 @@
               </mat-step>
 
               <mat-step [stepControl]="addressFormGroupnew" *ngIf="familyOrCompany == 'company'">
-                <div class="container  px-1" style="margin: 0px">
+                <div class="container col-12 px-1" style="margin: 0px">
                   <form *ngIf="addressFormGroupnew" [formGroup]="addressFormGroupnew" #fso1="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Offizielle Unternehmensdaten
                     </ng-template>
                     <div class="col-md-12 p-0">
@@ -3422,9 +3422,9 @@
                           companytypenew == 'Einzelunternehmen' ||
                           companytypenew == 'Eingetragener Kaufmann (e.K.)'
                         ">
-                <div class="container px-1" style="margin: 0px">
+                <div class="container px-1 col-12" style="margin: 0px">
                   <form *ngIf="livingaddressFormGroup" [formGroup]="livingaddressFormGroup" #livingfso1="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Persönliche Informationen
                     </ng-template>
 
@@ -3577,7 +3577,7 @@
                             'Offene Handelsgesellschaft (OHG)' ||
                           companytypenew == 'eingetragene Genossenschaft (eG)'
                         ">
-                <div class="row updateprofile gap-3">
+                <div class="row updateprofile gap-3 col-12">
                   <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw ">
                     <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
                       <form *ngIf="secondcompanyaddressFormGroup" [formGroup]="secondcompanyaddressFormGroup"
@@ -4206,10 +4206,10 @@
               </mat-step>
 
               <mat-step [stepControl]="docFromGroup" *ngIf="familyOrCompany == 'company'">
-                <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form">
+                <form #fsl="ngForm" *ngIf="docFromGroup" [formGroup]="docFromGroup" class="more-info-form col-12">
                   <ng-template matStepLabel>Dokumente hochladen</ng-template>
 
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 my-5">
+                  <div class="d-flex col-12 flex-column justify-content-center align-items-center gap-2 my-5">
                     <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start" id="docgroup">
                       <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start p-0">
                         <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start p-0">
@@ -4479,11 +4479,11 @@
               </mat-step>
 
               <mat-step [stepControl]="agreementFromGroup" *ngIf="familyOrCompany == 'company'">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form">
+                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2">
-                    <div class="row">
+                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 col-12">
+                    <div class="row col-12">
                       <div class="col-md-12" style="margin-top: 40px">
                         <div>
                           <p class="text-center" style="font-size:22px;font-weight:500">
@@ -4506,7 +4506,6 @@
                               </button>
                             </ng-template>
 
-                            <br /><br />
                           </p>
                         </div>
 
@@ -4590,8 +4589,8 @@
               </mat-step>
 
               <mat-step [stepControl]="familyFormGroup" *ngIf="familyOrCompany == 'familymember'">
-                <div class="container px-1" style="margin: 0px">
-                  <form [formGroup]="familyFormGroup" #livingfso="ngForm" class="Official-residence-form">
+                <div class="container px-1 col-12" style="margin: 0px">
+                  <form [formGroup]="familyFormGroup" #livingfso="ngForm" class="Official-residence-form col-12">
                     <ng-template matStepLabel>Persönliche Daten</ng-template>
                     <div class="col-md-12">
                       <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -4869,11 +4868,11 @@
                           currentActiveRole == 'customer' &&
                           familyOrCompany == 'familymember'
                         ">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form">
+                <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2">
-                    <div class="row">
+                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 col-12">
+                    <div class="row col-12">
                       <div class="col-md-12" style="margin-top: 40px">
                         <div>
                           <p style="font-size:22px;font-weight:500">
@@ -5028,9 +5027,9 @@
                 <mat-icon>check</mat-icon>
               </ng-template>
               <mat-step [stepControl]="officeFormGroup">
-                <div class="container" style="margin: 0px">
+                <div class="container col-12" style="margin: 0px">
                   <form *ngIf="officeFormGroup" [formGroup]="officeFormGroup" #livingfsooffice="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Offizielle Daten</ng-template>
                     <div class="col-12 px-3 py-2 mb-4 rounded graybox">
                       <span>
@@ -5169,9 +5168,9 @@
                 </div>
               </mat-step>
               <mat-step [stepControl]="officeaddressFormGroup">
-                <div class="container" style="margin: 0px">
+                <div class="container " style="margin: 0px">
                   <form *ngIf="officeaddressFormGroup" [formGroup]="officeaddressFormGroup"
-                    #livingfsoofficeaddress="ngForm" class="Official-residence-form">
+                    #livingfsoofficeaddress="ngForm" class="Official-residence-form col-12">
                     <ng-template matStepLabel>Geschäftsadresse</ng-template>
                     <div class="col-md-12 p-0">
                       <div class=" col-12 d-flex flex-row p-0 flex-wrap" id="familyForm" style="
@@ -5256,7 +5255,7 @@
               <mat-step [stepControl]="officedocFromGroup">
                 <div class="container p-0" style="margin-top: 20px">
                   <form *ngIf="officedocFromGroup" [formGroup]="officedocFromGroup" #livingfsoofficedoc="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Betriebsstätte</ng-template>
                     <div class="col-12 px-3 py-2 mb-4 d-flex flex-column justify-content-center align-items-center  "
                       style="font-size:22px;font-weight:500">
@@ -5452,7 +5451,7 @@
 
 
         <div class="container  p-0" [hidden]="addKunden.exampleModalLongnewfamilyPOA">
-          <div class="row" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px">
+          <div class="row meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px">
             <mat-horizontal-stepper linear #stepper style="background: bottom" class="stepnewclass" style="width: 100%">
               <ng-template matStepperIcon="edit">
                 <mat-icon>check</mat-icon>
@@ -5460,7 +5459,7 @@
               <mat-step [stepControl]="familyFormGroup">
                 <div class="container " style="margin: 0px">
                   <form *ngIf="familyFormGroup" [formGroup]="familyFormGroup" #livingfso="ngForm"
-                    class="Official-residence-form">
+                    class="Official-residence-form col-12">
                     <ng-template matStepLabel>Persönliche Daten</ng-template>
                     <div class="col-12 px-3 py-2 mb-4 rounded graybox">
                       <span>
@@ -5857,7 +5856,7 @@
                       style="margin-top: 10px; margin-bottom: 15px" id="familymenber">
                       <div class="container p-0" style="margin: 0px">
                         <form *ngIf="CEOFormGroup" [formGroup]="CEOFormGroup" #livingfso12="ngForm"
-                          class="Official-residence-form">
+                          class="Official-residence-form col-12">
                           <!-- <ng-template matStepLabel>Persönliche Daten</ng-template> -->
                           <div class="col-md-12 p-0" id="CEOform">
                             <div class="col-md-12 px-2 rounded py-2 mb-3 graybox" style="font-weight:600">
@@ -6209,7 +6208,7 @@
                       <mat-step [stepControl]="ShareholderFormGroup"> -->
                       <div class="container p-0" style="margin: 0px">
                         <form *ngIf="ShareholderFormGroup" [formGroup]="ShareholderFormGroup" #livingfso1234="ngForm"
-                          class="Official-residence-form">
+                          class="Official-residence-form col-12">
                           <div class="col-md-12 p-0" id="Shareholderform">
 
                             <div class="col-md-12 px-2 rounded py-2 mb-3 graybox" style="font-weight:600">
@@ -11891,7 +11890,7 @@
                                  let item of tab.data;
                                   let j = index  ">
                                     <ul
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                       <li class="tabsecondHushalt1">
                                         {{ j + 1 }}
                                       </li>
@@ -11940,7 +11939,7 @@
                                               let item of selectedAnswers;
                                               let j = index  ">
                                                 <ul
-                                                  class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                  class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                   <li class="tabsecondHushalt1">
                                                     {{ j + 1 }}
                                                   </li>
@@ -12031,7 +12030,7 @@
                                             let item of documentPdfList;
                                             let j = index  ">
                                     <ul
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                       <li class="tabsecondHushalt1">
                                         {{ j + 1 }}
                                       </li>
@@ -12376,7 +12375,7 @@
                                         let j = index
                                                                     ">
                                       <ul
-                                        class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                        class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                         <li class="tabsecondHushalt1">
                                           {{ j + 1 }}
                                         </li>
@@ -12434,7 +12433,7 @@
                                                     let j = index
                                                                                 ">
                                                   <ul
-                                                    class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                    class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                     <li class="tabsecondHushalt1">
                                                       {{ j + 1 }}
                                                     </li>
@@ -12531,7 +12530,7 @@
                                         let item of documentPdfList;
                                         let j = index ">
                                       <ul
-                                        class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                        class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                         <li class="tabsecondHushalt1">
                                           {{ j + 1 }}
                                         </li>
@@ -12902,7 +12901,7 @@
                                           let j = index
                                                                       ">
                                           <ul
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                             <li class="tabsecondHushalt1">
                                               {{ j + 1 }}
                                             </li>
@@ -12965,7 +12964,7 @@
                                                       let item of selectedAnswers;
                                                       let j = index ">
                                                       <ul
-                                                        class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                        class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                         <li class="tabsecondHushalt1">
                                                           {{ j + 1 }}
                                                         </li>
@@ -13064,7 +13063,7 @@
                                           let item of documentPdfList;
                                           let j = index ">
                                           <ul
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                             <li class="tabsecondHushalt1">
                                               {{ j + 1 }}
                                             </li>
@@ -13446,7 +13445,7 @@
                                         <div class="accordion-main" id="accordion">
                                           <div class="accordion-head">
                                             <ul
-                                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                              class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                               <li class="tabsecondHushalt1 font-weight-bold">
                                                 #
                                               </li>
@@ -13469,7 +13468,7 @@
                                               <ul
                                                 [ngStyle]="{'background-color':h % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': h % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': h % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': h % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                 style="border-radius: 10px 10px;"
-                                                class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                 <li class="tabsecondHushalt1">
                                                   {{ h + 1 }}
                                                 </li>
@@ -13508,7 +13507,7 @@
                                                     <div class="accordion-main" id="accordion">
                                                       <div class="accordion-head">
                                                         <ul
-                                                          class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                                          class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                                           <li class="tabsecondHushalt1 font-weight-bold">
                                                             #
                                                           </li>
@@ -13538,7 +13537,7 @@
                                                           <ul
                                                             [ngStyle]="{'background-color':h % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': h % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': h % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': h % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                             style="border-radius: 10px 10px;"
-                                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                             <li class="tabsecondHushalt1">
                                                               {{
                                                               h +
@@ -13615,7 +13614,7 @@
                                         <div class="accordion-main" id="accordion">
                                           <div class="accordion-head">
                                             <ul
-                                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                              class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                               <li class="tabsecondHushalt1 font-weight-bold">
                                                 #
                                               </li>
@@ -13644,7 +13643,7 @@
                                               <ul
                                                 [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                 style="border-radius: 10px 10px;"
-                                                class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                 <li class="tabsecondHushalt1">
                                                   {{ j + 1 }}
                                                 </li>
@@ -14014,7 +14013,7 @@
                                         <div class="accordion-main" id="accordion">
                                           <div class="accordion-head">
                                             <ul
-                                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                              class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                               <li class="tabsecond1 font-weight-bold">
                                                 #
                                               </li>
@@ -14058,7 +14057,7 @@
                                               <ul
                                                 [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                 style="border-radius: 10px 10px;"
-                                                class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                                class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                                 id="ultype1company{{
                                                 i
                                               }}{{ j }}">
@@ -14332,7 +14331,7 @@
                                         <div class="accordion-main" id="accordion">
                                           <div class="accordion-head">
                                             <ul
-                                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                              class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                               <li class="tabsecond1 font-weight-bold">
                                                 #
                                               </li>
@@ -14376,7 +14375,7 @@
                                               <ul
                                                 [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                 style="border-radius: 10px 10px;"
-                                                class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                                class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                                 id="ultype2company{{
                                                 i
                                               }}{{ j }}">
@@ -14670,7 +14669,7 @@
                                         <div class="accordion-main" id="accordion">
                                           <div class="accordion-head">
                                             <ul
-                                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                              class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                               <li class="tabsecond1 font-weight-bold">
                                                 #
                                               </li>
@@ -14721,7 +14720,7 @@
                                               <ul
                                                 [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                 style="border-radius: 10px 10px;"
-                                                class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                                class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                                 id="ultype3company{{
                                                 i
                                               }}{{ j }}">
@@ -15446,7 +15445,7 @@
                                   <div class="accordion-main" id="accordion">
                                     <div class="accordion-head">
                                       <ul
-                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                        class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                         <li class="tabsecondHushalt1 font-weight-bold">
                                           #
                                         </li>
@@ -15468,7 +15467,7 @@
                                         <ul
                                           [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color':j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                           style="border-radius: 10px 10px;"
-                                          class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                          class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                           <li class="tabsecondHushalt1">
                                             {{ j + 1 }}
                                           </li>
@@ -15507,7 +15506,7 @@
                                               <div class="accordion-main" id="accordion">
                                                 <div class="accordion-head">
                                                   <ul
-                                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                                     <li class="tabsecondHushalt1 font-weight-bold">
                                                       #
                                                     </li>
@@ -15536,7 +15535,7 @@
                                                     <ul
                                                       [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color':j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                       style="border-radius: 10px 10px;"
-                                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                       <li class="tabsecondHushalt1">
                                                         {{
                                                         j + 1
@@ -15610,7 +15609,7 @@
                                   <div class="accordion-main" id="accordion">
                                     <div class="accordion-head">
                                       <ul
-                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                        class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                         <li class="tabsecondHushalt1 font-weight-bold">
                                           #
                                         </li>
@@ -15638,7 +15637,7 @@
                                         <ul
                                           [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                           style="border-radius: 10px 10px;"
-                                          class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                          class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                           <li class="tabsecondHushalt1">
                                             {{ j + 1 }}
                                           </li>
@@ -15973,7 +15972,7 @@
                                       <div class="accordion-main" id="accordion">
                                         <div class="accordion-head">
                                           <ul
-                                            class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                            class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                             <li class="tabsecondHushalt1 font-weight-bold">
                                               #
                                             </li>
@@ -15997,7 +15996,7 @@
                                             <ul
                                               [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                               style="border-radius: 10px 10px;"
-                                              class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                              class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                               <li class="tabsecondHushalt1">
                                                 {{ j + 1 }}
                                               </li>
@@ -16036,7 +16035,7 @@
                                                   <div class="accordion-main" id="accordion">
                                                     <div class="accordion-head">
                                                       <ul
-                                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                                        class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                                         <li class="tabsecondHushalt1 font-weight-bold">
                                                           #
                                                         </li>
@@ -16066,7 +16065,7 @@
                                                         <ul
                                                           [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                           style="border-radius: 10px 10px;"
-                                                          class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                          class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                           <li class="tabsecondHushalt1">
                                                             {{
                                                             j + 1
@@ -16142,7 +16141,7 @@
                                       <div class="accordion-main" id="accordion">
                                         <div class="accordion-head">
                                           <ul
-                                            class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                            class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                             <li class="tabsecondHushalt1 font-weight-bold">
                                               #
                                             </li>
@@ -16171,7 +16170,7 @@
                                             <ul
                                               [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                               style="border-radius: 10px 10px;"
-                                              class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                              class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                               <li class="tabsecondHushalt1">
                                                 {{ j + 1 }}
                                               </li>
@@ -16494,7 +16493,7 @@
                                     <div class="accordion-main" id="accordion">
                                       <div class="accordion-head">
                                         <ul
-                                          class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                          class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                           <li class="tabsecond1 font-weight-bold">
                                             #
                                           </li>
@@ -16538,7 +16537,7 @@
                                           <ul
                                             [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                             style="border-radius: 10px 10px;"
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                             id="ultype1company{{
                                               i
                                             }}{{ j }}">
@@ -16817,7 +16816,7 @@
                                     <div class="accordion-main" id="accordion">
                                       <div class="accordion-head">
                                         <ul
-                                          class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                          class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                           <li class="tabsecond1 font-weight-bold">
                                             #
                                           </li>
@@ -16861,7 +16860,7 @@
                                           <ul
                                             [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                             style="border-radius: 10px 10px;"
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                             id="ultype2company{{
                                               i
                                             }}{{ j }}">
@@ -17146,7 +17145,7 @@
                                     <div class="accordion-main" id="accordion">
                                       <div class="accordion-head">
                                         <ul
-                                          class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                          class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                           <li class="tabsecond1 font-weight-bold">
                                             #
                                           </li>
@@ -17197,7 +17196,7 @@
                                           <ul
                                             [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                             style="border-radius: 10px 10px;"
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                             id="ultype3company{{
                                               i
                                             }}{{ j }}">
@@ -17939,7 +17938,7 @@
                                     <div class="accordion-main" id="accordion">
                                       <div class="accordion-head">
                                         <ul
-                                          class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                          class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                           <li class="tabsecondHushalt1 font-weight-bold">
                                             #
                                           </li>
@@ -17962,7 +17961,7 @@
                                           <ul
                                             [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                             style="border-radius: 10px 10px;"
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                             <li class="tabsecondHushalt1">
                                               {{ j + 1 }}
                                             </li>
@@ -18001,7 +18000,7 @@
                                                 <div class="accordion-main" id="accordion">
                                                   <div class="accordion-head">
                                                     <ul
-                                                      class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                                      class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                                       <li class="tabsecondHushalt1 font-weight-bold">
                                                         #
                                                       </li>
@@ -18031,7 +18030,7 @@
                                                       <ul
                                                         [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                         style="border-radius: 10px 10px;"
-                                                        class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                        class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                         <li class="tabsecondHushalt1">
                                                           {{
                                                           j + 1
@@ -18107,7 +18106,7 @@
                                     <div class="accordion-main" id="accordion">
                                       <div class="accordion-head">
                                         <ul
-                                          class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                          class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                           <li class="tabsecondHushalt1 font-weight-bold">
                                             #
                                           </li>
@@ -18136,7 +18135,7 @@
                                           <ul
                                             [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                             style="border-radius: 10px 10px;"
-                                            class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                            class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                             <li class="tabsecondHushalt1">
                                               {{ j + 1 }}
                                             </li>
@@ -19147,11 +19146,11 @@
                               width: 100%;
                               margin: 0;
                             ">
-                            <div class="col-md-12" id="cardbodyidtype1">
+                            <div class="col-md-12 p-0" id="cardbodyidtype1">
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
                                   <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                     <li class="tabsecond1 font-weight-bold">
                                       #
                                     </li>
@@ -19198,7 +19197,7 @@
                                     <ul
                                       [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                       style="border-radius: 10px 10px;"
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                       id="ultype1{{ i }}">
                                       <li class="tabsecond1">
                                         {{
@@ -19379,11 +19378,11 @@
                               width: 100%;
                               margin: 0;
                             ">
-                            <div class="col-md-12" id="cardbodyidtype2">
+                            <div class="col-md-12 p-0" id="cardbodyidtype2">
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
                                   <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                     <li class="tabsecond1 font-weight-bold">
                                       #
                                     </li>
@@ -19428,7 +19427,7 @@
                                     <ul
                                       [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                       style="border-radius: 10px 10px;"
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                       id="ultype2{{ i }}">
                                       <li class="tabsecond1">
                                         {{
@@ -19597,11 +19596,11 @@
                               width: 100%;
                               margin: 0;
                             ">
-                            <div class="col-md-12" id="cardbodyidtype3">
+                            <div class="col-md-12 p-0" id="cardbodyidtype3">
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
                                   <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                     <li class="tabsecond1 font-weight-bold">
                                       #
                                     </li>
@@ -19656,7 +19655,7 @@
                                     <ul
                                       [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                       style="border-radius: 10px 10px;"
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                       id="ultype3{{ i }}">
                                       <li class="tabsecond1">
                                         {{
@@ -19945,7 +19944,7 @@
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
                                   <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                     <li class="1 font-weight-bold">
                                       #
                                     </li>
@@ -19967,7 +19966,7 @@
                                     <ul
                                       [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                       style="border-radius: 10px 10px;"
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                       <li class="tabsecondHushalt1">
                                         {{ j + 1 }}
                                       </li>
@@ -20002,7 +20001,7 @@
                                           <div class="accordion-main" id="accordion">
                                             <div class="accordion-head">
                                               <ul
-                                                class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                                class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                                 <li class="tabsecondHushalt1 font-weight-bold">
                                                   #
                                                 </li>
@@ -20031,7 +20030,7 @@
                                                 <ul
                                                   [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                   style="border-radius: 10px 10px;"
-                                                  class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                  class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                   <li class="tabsecondHushalt1">
                                                     {{ j + 1 }}
                                                   </li>
@@ -20103,7 +20102,7 @@
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
                                   <ul
-                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                     <li class="tabsecondHushalt1 font-weight-bold">
                                       #
                                     </li>
@@ -20131,7 +20130,7 @@
                                     <ul
                                       [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                       style="border-radius: 10px 10px;"
-                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                       <li class="tabsecondHushalt1">
                                         {{ j + 1 }}
                                       </li>
@@ -20458,7 +20457,7 @@
                                   <div class="accordion-main" id="accordion">
                                     <div class="accordion-head">
                                       <ul
-                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                        class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                         <li class="tabsecondHushalt1 font-weight-bold">
                                           #
                                         </li>
@@ -20481,7 +20480,7 @@
                                         <ul
                                           [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                           style="border-radius: 10px 10px;"
-                                          class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                          class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                           <li class="tabsecondHushalt1">
                                             {{ j + 1 }}
                                           </li>
@@ -20520,7 +20519,7 @@
                                               <div class="accordion-main" id="accordion">
                                                 <div class="accordion-head">
                                                   <ul
-                                                    class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                                    class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                                     <li class="tabsecondHushalt1 font-weight-bold">
                                                       #
                                                     </li>
@@ -20549,7 +20548,7 @@
                                                     <ul
                                                       [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                                       style="border-radius: 10px 10px;"
-                                                      class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                                      class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                                       <li class="tabsecondHushalt1">
                                                         {{
                                                         j + 1
@@ -20623,7 +20622,7 @@
                                   <div class="accordion-main" id="accordion">
                                     <div class="accordion-head">
                                       <ul
-                                        class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                                        class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                                         <li class="tabsecondHushalt1 font-weight-bold">
                                           #
                                         </li>
@@ -20651,7 +20650,7 @@
                                         <ul
                                           [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
                                           style="border-radius: 10px 10px;"
-                                          class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center">
+                                          class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
                                           <li class="tabsecondHushalt1">
                                             {{ j + 1 }}
                                           </li>
@@ -20729,7 +20728,7 @@
         </div>
 
         <div [hidden]="VertrageData" class="row " style="padding: 0px; width: 100%; margin: 0">
-          <div class="col-md-12 ">
+          <div class="col-md-12  ">
             <mat-tab-group mat-stretch-tabs="false" class="tabs company-tab "
               (selectedTabChange)="vertrageStepperChange($event)">
               <mat-tab>
@@ -20743,14 +20742,14 @@
                     Bestandsübertragung
                   </button>
                 </div>
-                <div class="col-md-12 ">
-                  <mat-tab-group class="button-arrow" mat-stretch-tabs="false"
+                <div class="col-12 d-flex  p-0">
+                  <mat-tab-group  class="button-arrow col-12 p-0" mat-stretch-tabs="false"
                     (selectedTabChange)="laufendeStepperChange($event)">
                     <mat-tab label="Versicherungsgesellschaft">
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                         style="margin-top: 0px">
-                        <div class="container-fluid">
+                        <div class="container-fluid  p-0">
                           <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox">
                             <div class="d-flex p-0 justify-content-start flex-row">
                               <div class=" col-md-10 p-0 mr-2  position-relative">
@@ -20808,7 +20807,7 @@
                               <div class="accordion-main" id="accordion">
                                 <div class="accordion-head">
                                   <ul
-                                    class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
+                                    class="accordion-head-list list-unstyled mx-0 my-1 d-flex justify-content-between align-items-center">
                                     <li class="tabsecond1 font-weight-bold">#</li>
                                     <li class="tabsecond2 font-weight-bold">
                                       <!-- Logo -->
@@ -20840,7 +20839,7 @@
                                         <ul
                                           [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                           style="border-radius: 10px 10px;"
-                                          class="accordion-list-data list-unstyled mx-2 my-0 d-flex justify-content-between align-items-center"
+                                          class="accordion-list-data list-unstyled mx-0 my-0 d-flex justify-content-between align-items-center"
                                           id="ul{{ cl.element.id }}">
                                           <li class="tabsecond1">
                                             {{ startRecord + i }}
@@ -21215,7 +21214,7 @@
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                         style="margin-top: 0px">
-                        <div class="container-fluid">
+                        <div class="container-fluid  p-0">
                           <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox">
                             <div class="d-flex p-0 justify-content-start flex-row">
                               <div class=" col-md-10 p-0 mr-2  position-relative">
@@ -21725,7 +21724,7 @@
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                         style="margin-top: 0px">
-                        <div class="container-fluid">
+                        <div class="container-fluid  p-0">
                           <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox">
                             <div class="d-flex p-0 justify-content-start flex-row">
                               <div class=" col-md-10 p-0 mr-2  position-relative">
@@ -21780,7 +21779,7 @@
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
                               <ul
-                                class="accordion-head-list list-unstyled mx-2 my-1  d-flex align-items-center justify-content-between">
+                                class="accordion-head-list list-unstyled mx-0 my-1  d-flex align-items-center justify-content-between">
                                 <li class="tabsecond1 font-weight-bold">#</li>
                                 <li class="tabsecond2 font-weight-bold">
                                   <!-- Logo -->
@@ -22201,14 +22200,14 @@
                     Fremdvertrag
                   </button>
                 </div>
-                <div class="col-md-12">
-                  <mat-tab-group class="button-arrow" mat-stretch-tabs="false"
+                <div class="col-md-12 p-0">
+                  <mat-tab-group   class="button-arrow col-12  p-0" mat-stretch-tabs="false"
                     (selectedTabChange)="angeboteStepperChange($event)">
                     <mat-tab label="Versicherungsgesellschaft">
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                         style="margin-top: 0px">
-                        <div class="container-fluid">
+                        <div class="container-fluid p-0">
                           <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox">
 
                             <div class="d-flex p-0 justify-content-start flex-row">
@@ -22385,7 +22384,7 @@
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                         style="margin-top: 0px">
-                        <div class="container-fluid">
+                        <div class="container-fluid  p-0">
                           <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox">
                             <div class="d-flex p-0 justify-content-start flex-row">
                               <div class=" col-md-10 p-0 mr-2  position-relative">
@@ -22547,7 +22546,7 @@
                       <div
                         class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                         style="margin-top: 0px">
-                        <div class="container-fluid">
+                        <div class="container-fluid  p-0">
                           <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox">
                             <div class="d-flex p-0 justify-content-start flex-row">
                               <div class=" col-md-10 p-0 mr-2  position-relative">
@@ -22759,8 +22758,8 @@
                 <div
                   class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                   style="margin-top: 0px">
-                  <div class="container-fluid">
-                    <div class="d-flex justify-content-between customer-search mt-3" style="width: 99%">
+                  <div class="container-fluid p-0">
+                    <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox" style="width: 99%">
                       <div class="  col-md-3 position-relative">
                         <form action="">
                           <mat-icon class="position-absolute has-icon">search</mat-icon>
@@ -22783,7 +22782,7 @@
                         <div class="accordion-main" id="accordion">
                           <div class="accordion-head">
                             <ul
-                              class="accordion-head-list list-unstyled mx-2 my-1  d-flex justify-content-between align-items-center">
+                              class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
                               <li class="tabsecondallgem1 font-weight-bold">#</li>
                               <li class="tabsecondallgem2 font-weight-bold">
                                 Dokumentenname
@@ -22818,7 +22817,7 @@
                               <ul
                                 [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                 style="border-radius: 10px 10px;"
-                                class="accordion-list-data list-unstyled mx-2 my-0 p-2 d-flex justify-content-between align-items-center"
+                                class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
                                 id="ul{{ cl.element.id }}">
                                 <li class="tabsecondallgem1">
                                   {{ startRecordGDOC + i }}

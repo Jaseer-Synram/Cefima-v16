@@ -2704,7 +2704,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       let index = same_docs_count + 1;
       this.preViewData.push({
-        document_name: temporary_doc_name,
+        document_name: same_docs[same_docs_count].element.document_name,
         metadata: metadata,
         ticket_no: ticket_no,
         date_of_document: date_of_document,
@@ -3577,7 +3577,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
 
       this.preViewData.push({
-        document_name: temporary_doc_name,
+        document_name: same_docs[same_docs_count].element.document_name,
         metadata: metadata,
         ticket_no: ticket_no,
         date_of_document: date_of_document,

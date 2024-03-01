@@ -357,6 +357,16 @@ body {
   opacity: 1;
 }
 
+:host ::ng-deep .mat-expansion-panel.broker:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+  background-color: transparent;
+  opacity: 1;
+}
+
+:host ::ng-deep .broker .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+
 .main-child-menu {
   margin-left: 15px;
 }

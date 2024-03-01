@@ -34,7 +34,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <mat-card class="links1" (click)="setKeyval('company')" (mouseover)="isHoverUnternahman = true"
-                    (mouseleave)="isHoverUnternahman = false">
+                    (mouseleave)="isHoverUnternahman = false" style="min-height: 160px;min-width: 250px;">
                     <mat-card-title class="  d-flex flex-column align-items-center">
                       <img *ngIf="!isHoverUnternahman else hoverUnternehmen" mat-card-image
                         class="flex-item custom-margin" style="width: 40%;" src="../assets/icons/icon1.svg" />
@@ -49,7 +49,7 @@
 
                 <div class="col-md-6">
                   <mat-card class="links1" (click)="setKeyval('familymember')" (mouseover)="isHoverHaushalt = true"
-                    (mouseleave)="isHoverHaushalt = false">
+                    (mouseleave)="isHoverHaushalt = false"  style="min-height: 160px;min-width: 250px;">
                     <mat-card-title class="d-flex flex-column align-items-center">
                       <img *ngIf="!isHoverHaushalt else hoverHaushalt" mat-card-image class="flex-item custom-margin"
                         style="width: 40%;" src="../assets/icons/icon2.svg" />
@@ -89,11 +89,11 @@
       </mat-step>
       <mat-step [stepControl]="companyNewFormGroup" *ngIf="companyTitle; else noCompany">
 
-        <form [formGroup]="companyNewFormGroup" #fsp2="ngForm" novalidate="" class="personal-data-form">
+        <form [formGroup]="companyNewFormGroup" #fsp2="ngForm" novalidate="" class="personal-data-form col-12">
           <ng-template matStepLabel>Offizielle Unternehmensdaten</ng-template>
 
-          <div class="container">
-            <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+          <div class="container col-12">
+            <div class="row col-12" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
               <div class="col-md-12 p-0 d-flex flex-wrap">
                 <div class="col-md-4 m-0 p-0 " style="padding: 0px;text-align: start;">
                   <mat-form-field class="form-width" appearance="outline">
@@ -191,10 +191,10 @@
       </mat-step>
       <ng-template #noCompany>
         <mat-step [stepControl]="personalInfoFormGroup">
-          <form [formGroup]="personalInfoFormGroup" #fsp="ngForm" novalidate="" class="personal-data-form">
+          <form [formGroup]="personalInfoFormGroup" #fsp="ngForm" novalidate="" class="personal-data-form col-12">
             <ng-template matStepLabel>Persönliche Daten</ng-template>
             <div class="col-md-12">
-              <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+              <div class="row  col-12" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
 
                 <div class="col-md-4" style="padding: 0px">
                   <mat-form-field class="form-width" appearance="outline">
@@ -297,10 +297,10 @@
         </mat-step>
       </ng-template>
       <mat-step *ngIf="companytypenew =='' " [stepControl]="addressFormGroup">
-        <form [formGroup]="addressFormGroup" #fso="ngForm" class="Official-residence-form">
+        <form [formGroup]="addressFormGroup" #fso="ngForm" class="Official-residence-form col-12">
           <ng-template matStepLabel>Offizieller Wohnsitz</ng-template>
           <div class="col-md-12">
-            <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+            <div class="row  col-12" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
               <p style="text-align: left; margin-bottom: 5px ; font-size: 12px;">
                 Bitte geben Sie hier Ihre persönliche Meldeadresse an.
               </p>
@@ -368,7 +368,7 @@
         </form>
       </mat-step>
       <mat-step *ngIf="companytypenew !=''" [stepControl]="addressFormGroup">
-        <form [formGroup]="addressFormGroup" #fso="ngForm" class="Official-residence-form">
+        <form [formGroup]="addressFormGroup" #fso="ngForm" class="Official-residence-form col-12">
           <ng-template matStepLabel>offizielle Geschäftsadresse</ng-template>
           <div class="col-md-12">
             <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
@@ -439,13 +439,12 @@
 
         </form>
       </mat-step>
-      <mat-step [stepControl]="livingaddressFormGroup" *ngIf="companytypenew == 'Einzelunternehmen' || companytypenew == 'Eingetragener Kaufmann (e.K.)'
-      ">
+      <mat-step [stepControl]="livingaddressFormGroup" *ngIf="companytypenew == 'Einzelunternehmen' || companytypenew == 'Eingetragener Kaufmann (e.K.)' ">
 
-        <form [formGroup]="livingaddressFormGroup" #livingfso1="ngForm" class="personal-data-form">
+        <form [formGroup]="livingaddressFormGroup" #livingfso1="ngForm" class="personal-data-form col-12">
           <ng-template matStepLabel>Gesetzlicher Vertreter</ng-template>
           <div class="col-md-12">
-            <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
+            <div class="row col-12" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
               <p style="text-align: left; margin-bottom: 15px ; font-size: 12px;">
                 Tragen Sie hier die persönlichen Daten des Inhabers und gesetzlichen Vertreters ein.
               </p>
@@ -572,14 +571,14 @@
         </form>
 
       </mat-step>
-      <mat-step [stepControl]="secondcompanyaddressFormGroup" *ngIf="companytypenew == 'Unternehmergesellschaft (haftungsbeschränkt)' || 
+      <mat-step [stepControl]="secondcompanyaddressFormGroup" *ngIf="companytypenew == 'Unternehmergesellschaft (haftungsbeschränkt)' ||
       companytypenew == 'Gesellschaft mit beschränkter Haftung (GmbH)' ||
-      companytypenew == 'Aktiengesellschaft (AG)' || 
+      companytypenew == 'Aktiengesellschaft (AG)' ||
       companytypenew == 'Kommanditgesellschaft (KG)' ||
-      companytypenew == 'GmbH & Co KG' ||  
+      companytypenew == 'GmbH & Co KG' ||
       companytypenew == 'Kommanditgesellschaft auf Aktien (KGaA)'||
-      companytypenew == 'UG & Co. KG' || 
-      companytypenew == 'Gesellschaft bürgerlichen Rechts (GbR)' ||  
+      companytypenew == 'UG & Co. KG' ||
+      companytypenew == 'Gesellschaft bürgerlichen Rechts (GbR)' ||
       companytypenew == 'Offene Handelsgesellschaft (OHG)' ||
       companytypenew == 'eingetragene Genossenschaft (eG)'">
         <div class="row updateprofile gap-3">
@@ -972,7 +971,7 @@
               <h5 class="col-md-12 d-flex py-2 rounded-lg  " style="text-align: left; background-color:  #F2F2F2;">
                 Wirtschaftlich Berechtigte&nbsp;<i class="fa fa-info-circle iconmove"
                   style="color: #184397;cursor: pointer;" data-toggle="modal" data-target="#myModal"
-                  aria-hidden="true"></i> 
+                  aria-hidden="true"></i>
 
               </h5>
               <!-- Button to Open the Modal -->
@@ -1248,7 +1247,7 @@
 
       </mat-step>
       <mat-step [stepControl]="moreinfoFormGroup">
-        <form #fsl="ngForm" [formGroup]="moreinfoFormGroup" class="more-info-form">
+        <form #fsl="ngForm" [formGroup]="moreinfoFormGroup" class="more-info-form col-12">
           <ng-template matStepLabel>Zugangsdaten</ng-template>
           <div class="col-md-12">
             <div class="row" id="addressFormNew" style="padding: 0px;margin-top:20px !important">
@@ -1261,7 +1260,7 @@
                       muss.</span>
                     <img src="../assets/icons/info-icon.svg" style="height: 12px;" aria-hidden="true">
                   </div>
-                  
+
                 </div> -->
 
               <!-- <div class="col-md-4 d-flex justify-content-start align-items-stretch flex-column "
@@ -1269,7 +1268,7 @@
                   <span>
                     <span style="font-size: 13px;">Bitte beachten Sie, das der Kunde diese E-Mail verifizieren
                       muss. </span><img style="height: 12px;" src="../assets/icons/info-icon.svg"></span>
-                  
+
                 </div> -->
 
               <div class="col-md-12 d-flex align-items-stretch flex-raw p-0 m-0 " style="height:  fit-content;">
