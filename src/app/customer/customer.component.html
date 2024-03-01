@@ -57,10 +57,15 @@
                                     </button>
                                 </div>
                                 <div class="col-sm-5">
-                                    <span class="table-count">
+                                  <button class="button-primary" style="height: 38px;font-size: 14px;">
+                                    Anzahl der Ergebnisse:
+                                      {{ startRecord }} - {{ endRecord }}
+                                        / {{ customerList.length }}
+                                  </button>
+                                    <!-- <span class="table-count">
                                       Anzahl der Ergebnisse:
                                       {{ startRecord }} - {{ endRecord }}
-                                        / {{ customerList.length }}</span>
+                                        / {{ customerList.length }}</span> -->
                                 </div>
                             </div>
                         </div>
