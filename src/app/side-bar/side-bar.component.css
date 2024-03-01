@@ -1,10 +1,12 @@
 body {
   font-family: "Inter", sans-serif !important;
 }
+
 .not-active {
   color: #ffffff !important;
   background: transparent;
 }
+
 .parent-box-title {
   margin-left: 15px;
   color: rgba(255, 255, 255, 0.63);
@@ -19,7 +21,7 @@ body {
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
-  font-variation-settings:"slnt" 0;
+  font-variation-settings: "slnt" 0;
 }
 
 .stepper-btn1 {
@@ -50,7 +52,19 @@ body {
   left: -6.5px;
 }
 
-:host ::ng-deep.side.mat-accordion > .mat-expansion-panel {
+.stepper-btn1-focus:before {
+  content: "";
+  position: absolute;
+  height: 80%;
+  width: 3px;
+  background: #fff !important;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  border-radius: 5px;
+}
+
+:host ::ng-deep.side.mat-accordion>.mat-expansion-panel {
   background: transparent;
   border: none;
   box-shadow: none;
@@ -58,6 +72,7 @@ body {
   border-radius: 0;
   overflow: visible;
 }
+
 :host ::ng-deep .mat-expansion-panel-header {
   padding: 0 7px;
   color: #fff;
@@ -70,8 +85,8 @@ body {
   border-radius: 6px;
 }
 
-:host ::ng-deep .mat-ripple{
-  display:none !important;
+:host ::ng-deep .mat-ripple {
+  display: none !important;
 }
 
 .stepper-btn1 :focus {
@@ -85,12 +100,34 @@ body {
   background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
+.stepper-btn2 {
+  position: relative;
+  border: none !important;
+  background: transparent !important;
+  font-size: 12.5px;
+  color: #fff;
+  text-transform: capitalize;
+  padding: 6px 10px;
+  margin: 5px 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.stepper-btn2:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  margin-left: .5rem;
+}
+
 .mat-nav-list .mat-list-item:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
 }
 
-.active-text{
+.active-text {
   text-decoration-line: underline;
   text-underline-offset: 2px;
 }
@@ -105,6 +142,7 @@ body {
   color: black;
   overflow: visible !important;
 }
+
 .active:before {
   content: "";
   position: absolute;
@@ -120,6 +158,7 @@ body {
   z-index: -1;
   opacity: 1 !important;
 }
+
 .active:after {
   content: "";
   position: absolute;
@@ -142,9 +181,9 @@ body {
   padding-left: 15px !important;
   color: black;
   overflow: visible !important;
-  border-radius:6px 0px 0px 6px;
-  padding-top:0.3rem;
-  padding-bottom:0.3rem;
+  border-radius: 6px 0px 0px 6px;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 
 .active-sub-item:before {
@@ -297,6 +336,7 @@ body {
   top: 0;
   left: -1.7px;
 }
+
 :host ::ng-deep .menu1 .mat-expansion-panel-body::after {
   content: "";
   position: absolute;
@@ -312,10 +352,7 @@ body {
   color: #fff;
 }
 
-:host
-  ::ng-deep
-  .mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+:host ::ng-deep .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
   background-color: rgba(255, 255, 255, 0.2);
   opacity: 1;
 }
@@ -341,6 +378,7 @@ body {
   top: 0;
   left: -1.7px;
 }
+
 .menu1::after {
   content: "";
   position: absolute;
@@ -350,6 +388,46 @@ body {
   border-radius: 50%;
   bottom: 0;
   left: -1.7px;
+}
+
+
+.menu2 {
+  position: relative;
+  /* border-left: 1px solid #fff; */
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+.menu2-item:after {
+  content: "";
+  position: absolute;
+  background-color: transparent !important;
+  bottom: 50%;
+  left: 0px;
+  height: 18px;
+  width: 30px;
+  border-bottom-left-radius: 30px;
+  box-shadow: -1px 1px 0 .5px #f2f2f2;
+  z-index: -1;
+  opacity: 1 !important;
+}
+
+.menu2:before {
+  content: "";
+  position: absolute;
+  background: #ffffff;
+  backdrop-filter: blur(10px) saturate(100%);
+  backdrop-filter: blur(10px) saturate(100%);
+  top: -5px;
+  bottom: auto;
+  left: auto;
+  right: 100%;
+  height: 86.7%;
+  width: 1.5px;
+  z-index: 1;
+  opacity: 1 !important;
 }
 
 :host ::ng-deep .mat-content span {

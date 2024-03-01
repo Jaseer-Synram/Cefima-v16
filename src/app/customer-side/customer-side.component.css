@@ -121,13 +121,11 @@
 }
 
 :host ::ng-deep .mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
-  /* background: linear-gradient(to right, transparent 10px, #02a9ed 10px) !important; */
   background:#02a9ed;
   height: 3px !important;
   border-radius: 0px !important;
   border: none;
   width:90%
-  /* --mdc-tab-indicator-active-indicator-color: #02a9ed; */
 }
 
 :host ::ng-deep .mat-mdc-tab-body-wrapper {

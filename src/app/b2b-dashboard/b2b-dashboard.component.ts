@@ -12,6 +12,7 @@ import { AuthService } from '../auth.service';
 import { EventEmitterService } from '../event-emitter.service';
 import { UserService } from '../user.service';
 import { VideoChatComponent } from '../video-chat/video-chat.component';
+import { DomSanitizer } from '@angular/platform-browser';
 // import { AgmMap } from "@agm/core";
 
 
@@ -101,7 +102,9 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   pagertype: any = [{ type1: "" }, { type2: "" }, { type3: "" }];
   pagedItems: any[] = [];
   pagedItemsGDOC: any[] = [];
+  pagedItemsGDOCSearch: any[] = [];
   pagedItemstype: any[] = [{ type1: [] }, { type2: [] }, { type3: [] }];
+  pagedItemstypeSearch: any[] = [{ type1: [] }, { type2: [] }, { type3: [] }];
   docFromGroup: FormGroup;
   startRecord: any;
   minDate = new Date(1900, 0, 1);
@@ -177,6 +180,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openid: any = "";
   firstdocumentdata: any = [];
+  firstdocumentdataSearch: any = []
   COMPANYNAME: any
   // localData = JSON.parse(localStorage.getItem("currentUser"));
   documents: any;
@@ -198,6 +202,20 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   video_chat_data: any = {};
 
+  hideValues = {
+    Unternehmensdaten: false,
+    Vermittlervertrag: true,
+    Vertretungsberechtigte: true,
+    Bevollmachtigte: true,
+    Wirtschaftlicher: true,
+    Marketing: true,
+    Fallliste: true,
+    Angebote: true,
+    Allgemeines: true
+  }
+  searchVariable: any
+
+
   @ViewChild("aForm") aForm: ElementRef;
   @ViewChild("fsa") updateform: NgForm;
   @ViewChild("fsa1") askqueform: NgForm;
@@ -214,6 +232,8 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log("setfocus" + name);
   }
+
+  repearPreventer = true
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
@@ -224,10 +244,23 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private el: ElementRef,
     private activatedRoute: ActivatedRoute,
     private form_builder: FormBuilder,
-    private eventEmitterService: EventEmitterService
+    private eventEmitterService: EventEmitterService,
+    private readonly sanitizer: DomSanitizer
   ) {
+
+    this.repearPreventer = true
+    this.id = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).id;
+
+    this.queryID = this.id;
+    console.log(this.queryID);
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.queryID = params["id"];
+      if (params["id"] == undefined) {
+        this.queryID = this.id;
+      } else {
+        this.queryID = params["id"]
+      }
       this.activecontactform = params["activecontactform"];
       this.lastcase_no = params["case_no"];
       if (this.activecontactform == undefined) {
@@ -236,8 +269,50 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.lastcase_no == undefined) {
         this.lastcase_no = "";
       }
-      console.log(this.queryID);
     });
+
+    userService.b2bDashboardItem.subscribe(data => {
+      console.log(data);
+
+      let itemString = `${data[0]}`
+
+      for (const key of Object.keys(this.hideValues)) {
+        if (key !== itemString) {
+          this.hideValues[key] = true
+        } else {
+          this.hideValues[key] = false
+        }
+      }
+
+      if (this.repearPreventer) {
+        // if (itemString == "Vermittlervertrag" ||  itemString == "Kundenvertrag") {
+        $("#loaderouterid").css("display", "block");
+        this.userService
+          .getDocumentsByIds(
+            this.queryID,
+            "Allgemeines Dokument",
+            "cefima_document"
+          )
+          .pipe(first())
+          .subscribe(
+            (result) => {
+              this.repearPreventer = false
+              $("#loaderouterid").css("display", "none");
+              this.documents = result;
+              console.log('result :', result);
+              this.MetaDataLooping();
+              this.setPage(1, true);
+            },
+            (error) => {
+              console.log("error2");
+              console.log(error);
+            }
+          );
+        // }
+      }
+    })
+
+
   }
 
   uploadansfile(event: any) {
@@ -474,6 +549,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
+
   reloadCurrentRoute(caseno: any) {
     let currentUrl = this.router.url;
     this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
@@ -523,6 +599,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }, 100);
     this.getalldocument();
+
 
     if (this.caselistnew.length > 0) {
       $("#li0").trigger("click");
@@ -688,13 +765,23 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log("brokermarketingdetails" + this.brokermarketingdetails);
   }
   editRecord(type: any, index: any, data: any) {
+
+    let modalid = ''
+    if (type.includes('type1')) {
+      modalid = `collapsetype1modal`
+    } else if (type.includes('type2')) {
+      modalid = `collapsetype2modal`
+    } else if (type.includes('type3')) {
+      modalid = `collapsetype3modal`
+    }
+
     if (type == "type1" && index == 0) {
       this.ceoDocList.length = 0;
       this.ceoDocList = [];
       this.ceoDocListunique = [];
       this.ceoDocListunique.length = 0;
 
-      for (let doc_count = 0; doc_count < this.documents.length; doc_count++) {
+      for (let doc_count = 0; doc_count < this.documents?.length; doc_count++) {
         if (
           this.documents[doc_count].element.document_name ==
           "Ausweisdokument Vertretungsberechtigte Person" ||
@@ -764,10 +851,9 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     let accordian: HTMLElement = document.getElementById(accordianId)!;
     if (element.innerHTML == "Schließen") {
       console.log("element", element1new);
-      element1new.after(accordian);
-      accordian.classList.add("collapse");
+      // element1new.after(accordian);
       // accordian.classList.add("collapse");
-      accordian.classList.remove("collapse-show");
+      // accordian.classList.remove("collapse-show");
       element.innerHTML = "Öffnen";
 
       let close = "close";
@@ -785,14 +871,19 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           // accordian.classList.add("collapse");
           // // accordian.classList.add("collapse");
           // accordian.classList.remove("collapse-show");
-          elementnew1.innerHTML = "Öffnen";
+          // elementnew1.innerHTML = "Öffnen";
         }
       }
 
-      element1.after(accordian);
-      accordian.classList.remove("collapse");
-      accordian.classList.add("collapse-show");
-      element.innerHTML = "Schließen";
+
+      $(`#${modalid}btn`).trigger("click");
+      this.open_modal(modalid)
+
+      // element1.after(accordian);
+      // accordian.classList.remove("collapse");
+      // accordian.classList.add("collapse-show");
+      // element.innerHTML = "Schließen";
+
       this.openid = type + index;
       if (type == "type1") {
         this.brokerformtype1.patchValue({
@@ -1010,15 +1101,18 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       localStorage.getItem("token")!
     ).customerno;
 
-    this.id == this.userService.getDecodedAccessToken(
+    this.id = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).id;
+
+    // By Jaseer
+    this.queryID = this.id
 
     this.title = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).title;
 
-    this.COMPANYNAME == this.userService.getDecodedAccessToken(
+    this.COMPANYNAME = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).companyname;
 
@@ -1062,24 +1156,29 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         alert("you clicked the backdrop!");
       }
     });
-    this.userService
-      .getDocumentsByIds(
-        this.queryID,
-        "Allgemeines Dokument",
-        "cefima_document"
-      )
-      .pipe(first())
-      .subscribe(
-        (result) => {
-          this.documents = result;
-          this.MetaDataLooping();
-          this.setPage(1, true);
-        },
-        (error) => {
-          console.log("error2");
-          console.log(error);
-        }
-      );
+    setTimeout(() => {
+      this.userService
+        .getDocumentsByIds(
+          this.queryID,
+          "Allgemeines Dokument",
+          "cefima_document"
+        )
+        .pipe(first())
+        .subscribe(
+          (result) => {
+            this.documents = result;
+            console.log('result :', result);
+
+            this.MetaDataLooping();
+            this.setPage(1, true);
+          },
+          (error) => {
+            console.log("error2");
+            console.log(error);
+          }
+        );
+    }, 500);
+
 
     let url = window.location.href;
     console.log("url" + url);
@@ -1385,7 +1484,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             this.documentid[1] = this.localData.logo;
           }
         }
-        console.log("documentid" + JSON.stringify(this.documentid));
+        console.log("documentid :", this.documentid);
       },
         (err: any) => {
           $("#loaderouterid").css("display", "none");
@@ -1410,6 +1509,107 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.responseobserve = this.intervallTimer.subscribe(() =>
       this.get_unread_chat()
     );
+
+    this.hideValues = {
+      Unternehmensdaten: false,
+      Vermittlervertrag: true,
+      Vertretungsberechtigte: true,
+      Bevollmachtigte: true,
+      Wirtschaftlicher: true,
+      Marketing: true,
+      Fallliste: true,
+      Angebote: true,
+      Allgemeines: true
+    }
+
+  }
+
+  searchMembers(event: any, from: string, type: string, data: string) {
+    console.log(event, from, type, data);
+    console.log(this.searchVariable)
+
+    this.pagedItemstype
+    this.firstdocumentdata
+
+    if (type == "firstdocumentdata") {
+      console.log(this.firstdocumentdataSearch);
+
+      this.firstdocumentdata = []
+      for (let i = 0; i < this.firstdocumentdataSearch.length; i++) {
+        const element = this.firstdocumentdataSearch[i].element.document_name.toLowerCase();
+
+        if (element.includes(this.searchVariable)) {
+          this.firstdocumentdata.push(this.firstdocumentdataSearch[i])
+        }
+      }
+
+      if (this.searchVariable.trim() == '') {
+        this.firstdocumentdata = this.firstdocumentdataSearch
+      }
+    }
+
+    if (type == "type1") {
+      this.pagedItemstype[0].type1 = []
+      for (let i = 0; i < this.pagedItemstypeSearch[0].type1.length; i++) {
+        const element = this.pagedItemstypeSearch[0].type1[i].firstname.toLowerCase();
+
+        if (element.includes(this.searchVariable)) {
+          this.pagedItemstype[0].type1.push(this.pagedItemstypeSearch[0].type1[i])
+        }
+      }
+
+      if (this.searchVariable.trim() == '') {
+        this.pagedItemstypeSearch[0].type1 = this.pagedItemstypeSearch[0].type1
+      }
+    }
+
+    if (type == 'type2') {
+
+      this.pagedItemstype[0].type2 = []
+      for (let i = 0; i < this.pagedItemstypeSearch[0].type2.length; i++) {
+        const element = this.pagedItemstypeSearch[0].type2[i].firstname.toLowerCase();
+
+        if (element.includes(this.searchVariable)) {
+          this.pagedItemstype[0].type2.push(this.pagedItemstypeSearch[0].type2[i])
+        }
+      }
+
+      if (this.searchVariable.trim() == '') {
+        this.pagedItemstypeSearch[0].type2 = this.pagedItemstypeSearch[0].type2
+      }
+    }
+
+    if (type == 'type3') {
+
+      this.pagedItemstype[0].type3 = []
+      for (let i = 0; i < this.pagedItemstypeSearch[0].type3.length; i++) {
+        const element = this.pagedItemstypeSearch[0].type3[i].firstname.toLowerCase();
+
+        if (element.includes(this.searchVariable)) {
+          this.pagedItemstype[0].type3.push(this.pagedItemstypeSearch[0].type3[i])
+        }
+      }
+
+      if (this.searchVariable.trim() == '') {
+        this.pagedItemstype[0].type3 = this.pagedItemstypeSearch[0].type3
+      }
+    }
+
+    if (type == 'pagedItemsGDOC') {
+      this.pagedItemsGDOC = []
+      for (let i = 0; i < this.pagedItemsGDOCSearch.length; i++) {
+        const element = this.pagedItemsGDOCSearch[i].element.document_name.toLowerCase();
+
+        if (element.includes(this.searchVariable)) {
+          this.pagedItemsGDOC.push(this.pagedItemsGDOCSearch[i])
+        }
+      }
+
+      if (this.searchVariable.trim() == '') {
+        this.pagedItemsGDOC = this.pagedItemsGDOCSearch
+      }
+    }
+
   }
 
   get_unread_chat() {
@@ -1823,6 +2023,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         if (doc_exists == 0) {
+          this.firstdocumentdataSearch.push(this.documents[i]);
           this.firstdocumentdata.push(this.documents[i]);
         }
       }
@@ -1932,6 +2133,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.customerDocList[i].Contribution = Contribution;
     }
   }
+
   previewshare(
     url: any,
     tags: any,
@@ -1946,43 +2148,75 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     index: number = 0
   ) {
     this.previewid = id;
+    this.preViewData = []
     // console.log(date_of_uploadnew);
     let element: HTMLElement = document.getElementById(
       "clickshare" + this.previewid
     ) as HTMLElement;
     if (element.innerHTML == "Schließen") {
-      element.innerHTML = "Öffnen";
+      // element.innerHTML = "Öffnen";
       // $("#imagediv").removeClass("col-md-7");
       // $("#imagediv").addClass("col-md-12");
       // $("#preview" + id).html("");
-      $("#preview" + id).html("");
-      $(".offenclass").html("Öffnen");
+      // $("#preview" + id).html("");
+      // $(".offenclass").html("Öffnen");
     } else {
       // $(".openclass").html("Öffnen");
-      $(".offenclass").html("Öffnen");
-      element.innerHTML = "Schließen";
-      $(".previewclass").html("");
+      // $(".offenclass").html("Öffnen");
+      // element.innerHTML = "Schließen";
+      // $(".previewclass").html("");
     }
 
-    if (element.innerHTML == "Schließen") {
-      // $("#imagediv").removeClass("col-md-12");
-      // $("#imagediv").addClass("col-md-7");
-      // console.log("tags" + JSON.stringify(tags));
-      const removepreview = () => {
-        let elementnew: HTMLElement = document.getElementById(
-          "clickshare" + this.previewid
-        ) as HTMLElement;
-        elementnew.innerHTML = "Öffnen";
+    // if (element.innerHTML == "Schließen") {
+    // $("#imagediv").removeClass("col-md-12");
+    // $("#imagediv").addClass("col-md-7");
+    // console.log("tags" + JSON.stringify(tags));
+    const removepreview = () => {
+      let elementnew: HTMLElement = document.getElementById(
+        "clickshare" + this.previewid
+      ) as HTMLElement;
+      elementnew.innerHTML = "Öffnen";
 
-        // $("#imagediv").removeClass("col-md-7");
-        // $("#imagediv").addClass("col-md-12");
-        $("#preview" + id).html("");
+      // $("#imagediv").removeClass("col-md-7");
+      // $("#imagediv").addClass("col-md-12");
+      $("#preview" + id).html("");
 
-        // console.log("sadasda");
-      };
+      // console.log("sadasda");
+    };
 
-      const result1 = this.getFileExtension(imagename);
-      let metadata = tags[0].split(",");
+    const result1 = this.getFileExtension(imagename);
+    let metadata = tags[0].split(",");
+    var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    var date_of_upload = d.replace(/[/]/g, ".");
+    if (typeof metadata[2] != "undefined") {
+      let dateofdocument = Number(metadata[2]);
+      var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
+      var date_of_document = date.replace(/[/]/g, ".");
+    } else {
+      var date_of_document = "";
+    }
+    var filetype = "";
+    if (typeof metadata[1] != "undefined") {
+      filetype = metadata[1];
+    } else {
+      filetype = "";
+    }
+
+    let same_docs = "";
+    for (let i = 0; i < this.ceoDocList.length; i++) {
+      let index: number = i;
+      index += 1;
+
+      let metadata = this.ceoDocList[i].element.tags[0].split(",");
       var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "2-digit",
@@ -2008,355 +2242,355 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         filetype = "";
       }
 
-      let same_docs = "";
-      for (let i = 0; i < this.ceoDocList.length; i++) {
-        let index: number = i;
-        index += 1;
+      this.preViewData.push({
+        document_name: this.ceoDocList[i].element.document_name,
+        metadata: metadata,
+        ticket_no: ticket_no,
+        date_of_document: date_of_document,
+        date_of_upload: date_of_upload,
+        created_byname: created_byname,
+        filetype: filetype,
+        companycode: companycode,
+        brand: brand,
+        url: this.sanitizeURL(this.ceoDocList[i].element.document_url),
+        imagename: this.ceoDocList[i].element.document_unique_id,
+        href: `${environment.API_URL}document/downloaddocument/${this.ceoDocList[i].element.document_unique_id}`
+      })
 
-        let metadata = this.ceoDocList[i].element.tags[0].split(",");
-        var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
-        var date_of_upload = d.replace(/[/]/g, ".");
-        if (typeof metadata[2] != "undefined") {
-          let dateofdocument = Number(metadata[2]);
-          var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          });
-
-          var date_of_document = date.replace(/[/]/g, ".");
-        } else {
-          var date_of_document = "";
-        }
-        var filetype = "";
-        if (typeof metadata[1] != "undefined") {
-          filetype = metadata[1];
-        } else {
-          filetype = "";
-        }
-
-        if (i == 0) {
-          same_docs +=
-            '<div class="row list_rows" id="list_row' +
-            index +
-            '" data-index="' +
-            index +
-            '" data-filetype="' +
-            filetype +
-            '" data-download_link="' +
-            this.ceoDocList[i].element.document_unique_id +
-            '" data-source="' +
-            this.ceoDocList[i].element.document_url +
-            '" style="margin-top:36px;cursor: pointer;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
-            index +
-            "." +
-            document_name +
-            '</div><div class="col-md-1">' +
-            '<i class="fa fa-angle-right angle-right" id="angle-right' +
-            index +
-            '" style="display:none;font-weight:bold;font-size:25px;"></i>' +
-            '<i class="fa fa-angle-down angle-down" id="angle-down' +
-            index +
-            '" style="display:block;font-weight:bold;font-size:25px;"></i>' +
-            "</div>" +
-            '<div class="col-md-12 document-details" id="document-detail' +
-            index +
-            '" style="display:block;background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">' +
-            "<h6>Dokumentenname: " +
-            document_name +
-            "</h6><h6>Dateigröße: " +
-            metadata[0] +
-            " Kb</h6><h6>Vorgangs Nr.: " +
-            this.ceoDocList[i].element.ticket_no +
-            "</h6><h6>Datum des Dokuments: " +
-            date_of_document +
-            "</h6><h6>Datum des Uploads: " +
-            date_of_upload +
-            "</h6><h6>Hochgeladen von: " +
-            this.ceoDocList[i].element.created_byname +
-            "</h6><h6>Dateityp: " +
-            filetype +
-            "</h6><h6>Stichworte: " +
-            '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-            this.ceoDocList[i].element.companycode +
-            "</span>" +
-            //"," +
-            "&nbsp;" +
-            '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-            this.ceoDocList[i].element.brand +
-            "</span>" +
-            //"," +
-            "&nbsp;" +
-            '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-            this.ceoDocList[i].element.ticket_no +
-            "</span>" +
-            "</h6></div></div>";
-        } else {
-          same_docs +=
-            '<div class="row list_rows" id="list_row' +
-            index +
-            '" data-index="' +
-            index +
-            '" data-filetype="' +
-            filetype +
-            '" data-download_link="' +
-            this.ceoDocList[i].element.document_unique_id +
-            '" data-source="' +
-            this.ceoDocList[i].element.document_url +
-            '" style="margin-top:5px;cursor: pointer;background-color: #184195;color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
-            index +
-            "." +
-            document_name +
-            '</div><div class="col-md-1">' +
-            '<i class="fa fa-angle-right angle-right" id="angle-right' +
-            index +
-            '" style="display:block;font-weight:bold;font-size:25px;"></i>' +
-            '<i class="fa fa-angle-down angle-down" id="angle-down' +
-            index +
-            '" style="display:none;font-weight:bold;font-size:25px;"></i>' +
-            "</div>" +
-            '<div class="col-md-12 document-details" id="document-detail' +
-            index +
-            '" style="display:none;background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">' +
-            "<h6>Dokumentenname: " +
-            document_name +
-            "</h6><h6>Dateigröße: " +
-            metadata[0] +
-            " Kb</h6><h6>Vorgangs Nr.: " +
-            this.ceoDocList[i].element.ticket_no +
-            "</h6><h6>Datum des Dokuments: " +
-            date_of_document +
-            "</h6><h6>Datum des Uploads: " +
-            date_of_upload +
-            "</h6><h6>Hochgeladen von: " +
-            this.ceoDocList[i].element.created_byname +
-            "</h6><h6>Dateityp: " +
-            filetype +
-            "</h6><h6>Stichworte: " +
-            '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-            this.ceoDocList[i].element.companycode +
-            "</span>" +
-            //"," +
-            "&nbsp;" +
-            '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-            this.ceoDocList[i].element.brand +
-            "</span>" +
-            //"," +
-            "&nbsp;" +
-            '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-            this.ceoDocList[i].element.ticket_no +
-            "</span>" +
-            "</h6></div></div>";
-        }
-      }
-
-      $("#preview" + id).html(
-        '<div style="border-radius:10px;background:white;padding: 4px 8px 4px;border:1px solid;margin-bottom: 15px;"><div class="col-md-4"  style="display: inline-block;vertical-align: top;"><div class="line-heights">' +
-        same_docs +
-        "</div>" +
-        '<div class="col-md-12"> </div></div><div class="col-md-8" style="display: inline-block;"><span class="side-icons"><i class="fa fa-times" aria-hidden="true" style="font-size:16px;position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed id="preview-doc" type="' +
-        filetype +
-        '" src="' +
-        url +
-        '" style=" width: 100%; height:818px;"/><a id="download-link" href="' +
-        environment.API_URL +
-        "document/downloaddocument/" +
-        imagename +
-        '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding-right: 24px;" aria-hidden="true"  ></i></span></a></div> </div>'
-      );
-
-      const someInput: any = document.getElementById("previewimg");
-      someInput.addEventListener(
-        "click",
-        function () {
-          removepreview();
-        },
-        false
-      );
-
-      $(".list_rows").click(function (event) {
-        let link = $(this).data("download_link");
-        let source = $(this).data("source");
-        let index = $(this).data("index");
-
-        $(".list_rows").css("background-color", "#184195");
-        $(".list_rows").css("color", "white");
-        $(".angle-right").css("display", "block");
-        $(".angle-down").css("display", "none");
-        $(".document-details").css("display", "none");
-
-        $("#list_row" + index).css("background-color", "rgb(181, 172, 172)");
-        $("#list_row" + index).css("color", "black");
-        $("#angle-right" + index).css("display", "none");
-        $("#angle-down" + index).css("display", "block");
-        $("#document-detail" + index).css("display", "block");
-
-        $("#download-link").attr(
-          "href",
-          environment.API_URL + "document/downloaddocument/" + link
-        );
-        $("#preview-doc").attr("src", source);
-        $("#preview-doc").attr("type", $(this).data("filetype"));
-
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-      });
-
-      //   // $('#loaderouterid').css("display","none");
-    }
-  }
-
-  onKeyup(event: any) {
-    this.values_document = event.target.value;
-
-    var value = event.keyCode;
-
-    // console.log("onkeyup");
-    // console.log(this.values_document);
-    // console.log(value);
-
-    if (value == "13") {
-      if (this.values_document == "" || this.values_document == " ") {
-        this.unique_documents = [];
-        this.unique_documents.length = 0;
-
-        this.setPage(1, true);
+      if (i == 0) {
+        same_docs +=
+          '<div class="row list_rows" id="list_row' +
+          index +
+          '" data-index="' +
+          index +
+          '" data-filetype="' +
+          filetype +
+          '" data-download_link="' +
+          this.ceoDocList[i].element.document_unique_id +
+          '" data-source="' +
+          this.ceoDocList[i].element.document_url +
+          '" style="margin-top:36px;cursor: pointer;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
+          index +
+          "." +
+          document_name +
+          '</div><div class="col-md-1">' +
+          '<i class="fa fa-angle-right angle-right" id="angle-right' +
+          index +
+          '" style="display:none;font-weight:bold;font-size:25px;"></i>' +
+          '<i class="fa fa-angle-down angle-down" id="angle-down' +
+          index +
+          '" style="display:block;font-weight:bold;font-size:25px;"></i>' +
+          "</div>" +
+          '<div class="col-md-12 document-details" id="document-detail' +
+          index +
+          '" style="display:block;background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">' +
+          "<h6>Dokumentenname: " +
+          document_name +
+          "</h6><h6>Dateigröße: " +
+          metadata[0] +
+          " Kb</h6><h6>Vorgangs Nr.: " +
+          this.ceoDocList[i].element.ticket_no +
+          "</h6><h6>Datum des Dokuments: " +
+          date_of_document +
+          "</h6><h6>Datum des Uploads: " +
+          date_of_upload +
+          "</h6><h6>Hochgeladen von: " +
+          this.ceoDocList[i].element.created_byname +
+          "</h6><h6>Dateityp: " +
+          filetype +
+          "</h6><h6>Stichworte: " +
+          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          this.ceoDocList[i].element.companycode +
+          "</span>" +
+          //"," +
+          "&nbsp;" +
+          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          this.ceoDocList[i].element.brand +
+          "</span>" +
+          //"," +
+          "&nbsp;" +
+          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          this.ceoDocList[i].element.ticket_no +
+          "</span>" +
+          "</h6></div></div>";
       } else {
-        this.unique_documents = [];
-        this.unique_documents.length = 0;
-
-        for (
-          let doc_count = 0;
-          doc_count < this.documents.length;
-          doc_count++
-        ) {
-          let doc_exists = 0;
-
-          if (doc_count > 0) {
-            for (
-              let unique_doc_count = 0;
-              unique_doc_count < this.unique_documents.length;
-              unique_doc_count++
-            ) {
-              if (
-                this.unique_documents[unique_doc_count].element.document_name ==
-                this.documents[doc_count].element.document_name
-              ) {
-                doc_exists = 1;
-              }
-            }
-          }
-
-          if (
-            doc_exists == 0 &&
-            this.documents[doc_count].element.document_name.indexOf("Old") == -1
-          ) {
-            if (
-              this.documents[doc_count].element.document_name ==
-              "Ausweisdokument Vertretungsberechtigte Person"
-            ) {
-              let temp_doc = this.documents[doc_count];
-              temp_doc.element.ceo_doc_name =
-                "Ausweisdokument Vertretungsberechtigte Person: " +
-                this.localData.type1.legalrepresentativeform[0].firstname +
-                " " +
-                this.localData.type1.legalrepresentativeform[0].lastname;
-
-              if (
-                temp_doc.element.ceo_doc_name
-                  .toLowerCase()
-                  .indexOf(this.values_document.toLowerCase()) != -1
-              ) {
-                this.unique_documents.push(temp_doc);
-              }
-            } else if (
-              this.documents[doc_count].element.document_name !=
-              "Ausweisdokument Vertretungsberechtigte Person" &&
-              this.documents[doc_count].element.document_name.indexOf(
-                "Ausweisdokument Vertretungsberechtigte Person"
-              ) != -1
-            ) {
-              let temp_doc_name =
-                this.documents[doc_count].element.document_name;
-
-              let index = temp_doc_name.replace(
-                "Ausweisdokument Vertretungsberechtigte Person",
-                ""
-              );
-
-              let temp_doc = this.documents[doc_count];
-              temp_doc.element.ceo_doc_name =
-                "Ausweisdokument Vertretungsberechtigte Person: " +
-                this.localData.type1.legalrepresentativeform[index].firstname +
-                " " +
-                this.localData.type1.legalrepresentativeform[index].lastname;
-
-              if (
-                temp_doc.element.ceo_doc_name
-                  .toLowerCase()
-                  .indexOf(this.values_document.toLowerCase()) != -1
-              ) {
-                this.unique_documents.push(temp_doc);
-              }
-            } else if (
-              this.documents[doc_count].element.document_name.indexOf(
-                "Geschäftsanmeldung"
-              ) != -1
-            ) {
-              if (
-                "gewerbeanmeldung".indexOf(
-                  this.values_document.toLowerCase()
-                ) != -1
-              ) {
-                this.unique_documents.push(this.documents[doc_count]);
-              }
-            } else {
-              if (
-                this.documents[doc_count].element.document_name
-                  .toLowerCase()
-                  .indexOf(this.values_document.toLowerCase()) != -1
-              ) {
-                this.unique_documents.push(this.documents[doc_count]);
-              }
-            }
-          }
-        }
-
-        this.pagerGDOC = this.pagerService.getPager(
-          this.unique_documents.length,
-          1
-        );
-        // get current page of items
-        this.pagedItemsGDOC = this.unique_documents.slice(
-          this.pagerGDOC.startIndex,
-          this.pagerGDOC.endIndex + 1
-        );
-
-        if (this.unique_documents.length > 0) {
-          this.startRecordGDOC =
-            this.pagerGDOC.currentPage *
-            this.pagerService.getDefaultPageSize() -
-            this.pagerService.getDefaultPageSize() +
-            1;
-          this.endRecordGDOC =
-            this.pagerGDOC.currentPage *
-              this.pagerService.getDefaultPageSize() >
-              this.unique_documents.length
-              ? this.unique_documents.length
-              : this.pagerGDOC.currentPage *
-              this.pagerService.getDefaultPageSize();
-        } else {
-          this.startRecordGDOC = 0;
-          this.endRecordGDOC = 0;
-        }
+        same_docs +=
+          '<div class="row list_rows" id="list_row' +
+          index +
+          '" data-index="' +
+          index +
+          '" data-filetype="' +
+          filetype +
+          '" data-download_link="' +
+          this.ceoDocList[i].element.document_unique_id +
+          '" data-source="' +
+          this.ceoDocList[i].element.document_url +
+          '" style="margin-top:5px;cursor: pointer;background-color: #184195;color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
+          index +
+          "." +
+          document_name +
+          '</div><div class="col-md-1">' +
+          '<i class="fa fa-angle-right angle-right" id="angle-right' +
+          index +
+          '" style="display:block;font-weight:bold;font-size:25px;"></i>' +
+          '<i class="fa fa-angle-down angle-down" id="angle-down' +
+          index +
+          '" style="display:none;font-weight:bold;font-size:25px;"></i>' +
+          "</div>" +
+          '<div class="col-md-12 document-details" id="document-detail' +
+          index +
+          '" style="display:none;background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">' +
+          "<h6>Dokumentenname: " +
+          document_name +
+          "</h6><h6>Dateigröße: " +
+          metadata[0] +
+          " Kb</h6><h6>Vorgangs Nr.: " +
+          this.ceoDocList[i].element.ticket_no +
+          "</h6><h6>Datum des Dokuments: " +
+          date_of_document +
+          "</h6><h6>Datum des Uploads: " +
+          date_of_upload +
+          "</h6><h6>Hochgeladen von: " +
+          this.ceoDocList[i].element.created_byname +
+          "</h6><h6>Dateityp: " +
+          filetype +
+          "</h6><h6>Stichworte: " +
+          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          this.ceoDocList[i].element.companycode +
+          "</span>" +
+          //"," +
+          "&nbsp;" +
+          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          this.ceoDocList[i].element.brand +
+          "</span>" +
+          //"," +
+          "&nbsp;" +
+          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          this.ceoDocList[i].element.ticket_no +
+          "</span>" +
+          "</h6></div></div>";
       }
     }
+
+    // $("#preview" + id).html(
+    //   '<div style="border-radius:10px;background:white;padding: 4px 8px 4px;border:1px solid;margin-bottom: 15px;"><div class="col-md-4"  style="display: inline-block;vertical-align: top;"><div class="line-heights">' +
+    //   same_docs +
+    //   "</div>" +
+    //   '<div class="col-md-12"> </div></div><div class="col-md-8" style="display: inline-block;"><span class="side-icons"><i class="fa fa-times" aria-hidden="true" style="font-size:16px;position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed id="preview-doc" type="' +
+    //   filetype +
+    //   '" src="' +
+    //   url +
+    //   '" style=" width: 100%; height:818px;"/><a id="download-link" href="' +
+    //   environment.API_URL +
+    //   "document/downloaddocument/" +
+    //   imagename +
+    //   '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding-right: 24px;" aria-hidden="true"  ></i></span></a></div> </div>'
+    // );
+
+    console.log(this.preViewData)
+
+
+    $("#openAllgemeinePreiveiwmodal").trigger('click');
+    this.open_modal('openAllgemeinePreiveiw')
+
+
+
+    const someInput: any = document.getElementById("previewimg");
+    // someInput.addEventListener(
+    //   "click",
+    //   function () {
+    //     removepreview();
+    //   },
+    //   false
+    // );
+
+    $(".list_rows").click(function (event) {
+      let link = $(this).data("download_link");
+      let source = $(this).data("source");
+      let index = $(this).data("index");
+
+      $(".list_rows").css("background-color", "#184195");
+      $(".list_rows").css("color", "white");
+      $(".angle-right").css("display", "block");
+      $(".angle-down").css("display", "none");
+      $(".document-details").css("display", "none");
+
+      $("#list_row" + index).css("background-color", "rgb(181, 172, 172)");
+      $("#list_row" + index).css("color", "black");
+      $("#angle-right" + index).css("display", "none");
+      $("#angle-down" + index).css("display", "block");
+      $("#document-detail" + index).css("display", "block");
+
+      $("#download-link").attr(
+        "href",
+        environment.API_URL + "document/downloaddocument/" + link
+      );
+      $("#preview-doc").attr("src", source);
+      $("#preview-doc").attr("type", $(this).data("filetype"));
+
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    });
+
+    //   // $('#loaderouterid').css("display","none");
+
+    // }
   }
 
+  // onKeyup(event: any) {
+  //   this.values_document = event.target.value;
+
+  //   var value = event.keyCode;
+
+  //   // console.log("onkeyup");
+  //   // console.log(this.values_document);
+  //   // console.log(value);
+
+  //   if (value == "13") {
+  //     if (this.values_document == "" || this.values_document == " ") {
+  //       this.unique_documents = [];
+  //       this.unique_documents.length = 0;
+
+  //       this.setPage(1, true);
+  //     } else {
+  //       this.unique_documents = [];
+  //       this.unique_documents.length = 0;
+
+  //       for (
+  //         let doc_count = 0;
+  //         doc_count < this.documents.length;
+  //         doc_count++
+  //       ) {
+  //         let doc_exists = 0;
+
+  //         if (doc_count > 0) {
+  //           for (
+  //             let unique_doc_count = 0;
+  //             unique_doc_count < this.unique_documents.length;
+  //             unique_doc_count++
+  //           ) {
+  //             if (
+  //               this.unique_documents[unique_doc_count].element.document_name ==
+  //               this.documents[doc_count].element.document_name
+  //             ) {
+  //               doc_exists = 1;
+  //             }
+  //           }
+  //         }
+
+  //         if (
+  //           doc_exists == 0 &&
+  //           this.documents[doc_count].element.document_name.indexOf("Old") == -1
+  //         ) {
+  //           if (
+  //             this.documents[doc_count].element.document_name ==
+  //             "Ausweisdokument Vertretungsberechtigte Person"
+  //           ) {
+  //             let temp_doc = this.documents[doc_count];
+  //             temp_doc.element.ceo_doc_name =
+  //               "Ausweisdokument Vertretungsberechtigte Person: " +
+  //               this.localData.type1.legalrepresentativeform[0].firstname +
+  //               " " +
+  //               this.localData.type1.legalrepresentativeform[0].lastname;
+
+  //             if (
+  //               temp_doc.element.ceo_doc_name
+  //                 .toLowerCase()
+  //                 .indexOf(this.values_document.toLowerCase()) != -1
+  //             ) {
+  //               this.unique_documents.push(temp_doc);
+  //             }
+  //           } else if (
+  //             this.documents[doc_count].element.document_name !=
+  //             "Ausweisdokument Vertretungsberechtigte Person" &&
+  //             this.documents[doc_count].element.document_name.indexOf(
+  //               "Ausweisdokument Vertretungsberechtigte Person"
+  //             ) != -1
+  //           ) {
+  //             let temp_doc_name =
+  //               this.documents[doc_count].element.document_name;
+
+  //             let index = temp_doc_name.replace(
+  //               "Ausweisdokument Vertretungsberechtigte Person",
+  //               ""
+  //             );
+
+  //             let temp_doc = this.documents[doc_count];
+  //             temp_doc.element.ceo_doc_name =
+  //               "Ausweisdokument Vertretungsberechtigte Person: " +
+  //               this.localData.type1.legalrepresentativeform[index].firstname +
+  //               " " +
+  //               this.localData.type1.legalrepresentativeform[index].lastname;
+
+  //             if (
+  //               temp_doc.element.ceo_doc_name
+  //                 .toLowerCase()
+  //                 .indexOf(this.values_document.toLowerCase()) != -1
+  //             ) {
+  //               this.unique_documents.push(temp_doc);
+  //             }
+  //           } else if (
+  //             this.documents[doc_count].element.document_name.indexOf(
+  //               "Geschäftsanmeldung"
+  //             ) != -1
+  //           ) {
+  //             if (
+  //               "gewerbeanmeldung".indexOf(
+  //                 this.values_document.toLowerCase()
+  //               ) != -1
+  //             ) {
+  //               this.unique_documents.push(this.documents[doc_count]);
+  //             }
+  //           } else {
+  //             if (
+  //               this.documents[doc_count].element.document_name
+  //                 .toLowerCase()
+  //                 .indexOf(this.values_document.toLowerCase()) != -1
+  //             ) {
+  //               this.unique_documents.push(this.documents[doc_count]);
+  //             }
+  //           }
+  //         }
+  //       }
+
+  //       this.pagerGDOC = this.pagerService.getPager(
+  //         this.unique_documents.length,
+  //         1
+  //       );
+  //       // get current page of items
+  //       this.pagedItemsGDOC = this.unique_documents.slice(
+  //         this.pagerGDOC.startIndex,
+  //         this.pagerGDOC.endIndex + 1
+  //       );
+
+  //       if (this.unique_documents.length > 0) {
+  //         this.startRecordGDOC =
+  //           this.pagerGDOC.currentPage *
+  //           this.pagerService.getDefaultPageSize() -
+  //           this.pagerService.getDefaultPageSize() +
+  //           1;
+  //         this.endRecordGDOC =
+  //           this.pagerGDOC.currentPage *
+  //             this.pagerService.getDefaultPageSize() >
+  //             this.unique_documents.length
+  //             ? this.unique_documents.length
+  //             : this.pagerGDOC.currentPage *
+  //             this.pagerService.getDefaultPageSize();
+  //       } else {
+  //         this.startRecordGDOC = 0;
+  //         this.endRecordGDOC = 0;
+  //       }
+  //     }
+  //   }
+  // }
+
+  sanitizeURL(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    // (SecurityContext.URL,url)
+  }
+
+  preViewIndexAllgeme = 0
+  preViewData: any = []
   preview(
     url: any,
     tags: any,
@@ -2370,41 +2604,539 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     ticket_no: any
   ) {
     this.previewid = id;
+    this.preViewIndexAllgeme = 0
+    console.log(id);
+    this.preViewData = []
     // console.log(date_of_uploadnew);
     let element: HTMLElement = document.getElementById(
       "click" + this.previewid
     ) as HTMLElement;
-    if (element.innerHTML == "Schließen") {
-      element.innerHTML = "Öffnen";
-      // $("#imagediv").removeClass("col-md-7");
-      // $("#imagediv").addClass("col-md-12");
-      // $("#preview" + id).html("");
-      $("#preview" + id).html("");
+    // if (element.innerHTML == "Schließen") {
+    //   element.innerHTML = "Öffnen";
+    //   // $("#imagediv").removeClass("col-md-7");
+    //   // $("#imagediv").addClass("col-md-12");
+    //   // $("#preview" + id).html("");
+    //   $("#preview" + id).html("");
+    // } else {
+    //   $(".openclass").html("Öffnen");
+    //   element.innerHTML = "Schließen";
+    //   $(".previewclass").html("");
+    // }
+
+    // if (element.innerHTML == "Schließen") {
+
+    // $("#imagediv").removeClass("col-md-12");
+    // $("#imagediv").addClass("col-md-7");
+    // console.log("tags" + JSON.stringify(tags));
+    // const removepreview = () => {
+    //   let elementnew: HTMLElement = document.getElementById(
+    //     "click" + this.previewid
+    //   ) as HTMLElement;
+    //   elementnew.innerHTML = "Öffnen";
+
+    //   // $("#imagediv").removeClass("col-md-7");
+    //   // $("#imagediv").addClass("col-md-12");
+    //   $("#preview" + id).html("");
+
+    //   console.log("sadasda");
+    // };
+
+    const result1 = this.getFileExtension(imagename);
+    let metadata = tags[0].split(",");
+    var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    var date_of_upload = d.replace(/[/]/g, ".");
+    if (typeof metadata[2] != "undefined") {
+      let dateofdocument = Number(metadata[2]);
+      var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
+      var date_of_document = date.replace(/[/]/g, ".");
     } else {
-      $(".openclass").html("Öffnen");
-      element.innerHTML = "Schließen";
-      $(".previewclass").html("");
+      var date_of_document = "";
+    }
+    var filetype = "";
+    if (typeof metadata[1] != "undefined") {
+      filetype = metadata[1];
+    } else {
+      filetype = "";
     }
 
-    if (element.innerHTML == "Schließen") {
-      // $("#imagediv").removeClass("col-md-12");
-      // $("#imagediv").addClass("col-md-7");
-      // console.log("tags" + JSON.stringify(tags));
-      // const removepreview = () => {
-      //   let elementnew: HTMLElement = document.getElementById(
-      //     "click" + this.previewid
-      //   ) as HTMLElement;
-      //   elementnew.innerHTML = "Öffnen";
 
-      //   // $("#imagediv").removeClass("col-md-7");
-      //   // $("#imagediv").addClass("col-md-12");
-      //   $("#preview" + id).html("");
+    let same_docs: any = [];
 
-      //   console.log("sadasda");
-      // };
+    for (let doc_count = 0; doc_count < this.documents.length; doc_count++) {
+      if (this.documents[doc_count].element.document_name == document_name) {
+        same_docs.push(this.documents[doc_count]);
+      }
+    }
+    console.log(same_docs);
 
-      const result1 = this.getFileExtension(imagename);
-      let metadata = tags[0].split(",");
+
+    let temporary_doc_name = "";
+    if (
+      document_name.indexOf(
+        "Ausweisdokument Vertretungsberechtigte Person"
+      ) != -1
+    ) {
+      temporary_doc_name = "Ausweisdokument Vertretungsberechtigte Person-1";
+    } else if (document_name.indexOf("Geschäftsanmeldung") != -1) {
+      temporary_doc_name = "Gewerbeanmeldung-1";
+    } else {
+      temporary_doc_name = document_name + "-1";
+    }
+
+    // this.preViewData = same_docs
+
+    let list_html = "";
+
+    for (
+      let same_docs_count = 0;
+      same_docs_count < same_docs.length;
+      same_docs_count++
+    ) {
+
+      let index = same_docs_count + 1;
+      this.preViewData.push({
+        document_name: temporary_doc_name,
+        metadata: metadata,
+        ticket_no: ticket_no,
+        date_of_document: date_of_document,
+        date_of_upload: date_of_upload,
+        created_byname: created_byname,
+        filetype: filetype,
+        companycode: companycode,
+        brand: brand,
+        url: this.sanitizeURL(same_docs[same_docs_count].element.document_url),
+        imagename: same_docs[same_docs_count].element.document_unique_id,
+        href: `${environment.API_URL}document/downloaddocument/${same_docs[same_docs_count].element.document_unique_id}`
+      })
+      if (list_html == "") {
+        if (
+          same_docs[same_docs_count].element.document_name.includes(
+            "Geschäftsanmeldung"
+          )
+        ) {
+          console.log('Is it includes', same_docs[same_docs_count].element.document_name.includes(
+            "Geschäftsanmeldung"
+          ));
+
+          if (same_docs[same_docs_count].element.verified == 1) {
+
+
+
+            list_html =
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+              '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          } else {
+
+
+            list_html =
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+              '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          }
+        } else {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html =
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+              '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          } else {
+
+            list_html =
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          }
+        }
+      } else {
+        if (
+          same_docs[same_docs_count].element.document_name.includes(
+            "Geschäftsanmeldung"
+          )
+        ) {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html +=
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html +=
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          }
+        } else {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html +=
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html +=
+              '<div class="list_rows row" id="list_roww' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11" style="font-size: 15px;">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          }
+        }
+      }
+    }
+
+    // By Jaseer
+    // $("#preview" + id).html(
+    //   '<div class="col-md-12" style="border-radius:10px;border:1px solid;padding:4px 25px 4px;mrgin-bottom:35px;">' +
+    //   '<div class="row">' +
+    //   '<div class="col-md-4" style="margin-top:30px;">' +
+    //   list_html +
+    //   "</div>" +
+    //   '<div class="col-md-8" id="previewmultipledocss">' +
+    //   '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:33px;width:33px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"></i></span>' +
+    //   '<embed  type="' +
+    //   filetype +
+    //   '" src="' +
+    //   url +
+    //   '" style=" width: 100%; height:818px;"/>' +
+    //   '<a href="' +
+    //   environment.API_URL +
+    //   "document/downloaddocument/" +
+    //   imagename +
+    //   '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>' +
+    //   "</div>" +
+    //   "</div>" +
+    //   "</div>"
+    // );
+
+    console.log(this.preViewData)
+
+
+    $("#openAllgemeinePreiveiwmodal").trigger('click');
+    this.open_modal('openAllgemeinePreiveiw')
+
+    $(".list_rows").click(function (event) {
+      previewdoc($(this).data("index"));
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    });
+
+    const previewdoc = (index: any) => {
+      $(".list_rows").css("background-color", "rgb(24, 66, 151)");
+      $(".list_rows").css("color", "white");
+
+      $("#list_roww" + index).css("background-color", "rgb(181, 172, 172)");
+      $("#list_roww" + index).css("color", "black");
+
+      // console.log("tags here");
+      // console.log(same_docs);
+      // console.log(index);
+      // console.log(same_docs[index]);
+
+      let metadata = same_docs[index].element.tags[0].split(",");
+
       var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "2-digit",
@@ -2423,6 +3155,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         var date_of_document = "";
       }
+
       var filetype = "";
       if (typeof metadata[1] != "undefined") {
         filetype = metadata[1];
@@ -2430,554 +3163,25 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         filetype = "";
       }
 
-      let same_docs: any = [];
+      $(".angle_downn").css("display", "none");
+      $(".angle_rightt").css("display", "block");
 
-      for (let doc_count = 0; doc_count < this.documents.length; doc_count++) {
-        if (this.documents[doc_count].element.document_name == document_name) {
-          same_docs.push(this.documents[doc_count]);
-        }
-      }
+      $("#angle_downn" + index).css("display", "block");
+      $("#angle_rightt" + index).css("display", "none");
 
-      let temporary_doc_name = "";
-      if (
-        document_name.indexOf(
-          "Ausweisdokument Vertretungsberechtigte Person"
-        ) != -1
-      ) {
-        temporary_doc_name = "Ausweisdokument Vertretungsberechtigte Person-1";
-      } else if (document_name.indexOf("Geschäftsanmeldung") != -1) {
-        temporary_doc_name = "Gewerbeanmeldung-1";
-      } else {
-        temporary_doc_name = document_name + "-1";
-      }
-
-      let list_html = "";
-
-      for (
-        let same_docs_count = 0;
-        same_docs_count < same_docs.length;
-        same_docs_count++
-      ) {
-        let index = same_docs_count + 1;
-        if (list_html == "") {
-          if (
-            same_docs[same_docs_count].element.document_name.includes(
-              "Geschäftsanmeldung"
-            )
-          ) {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html =
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-                '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html =
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-                '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            }
-          } else {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html =
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-                '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html =
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetailss" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            }
-          }
-        } else {
-          if (
-            same_docs[same_docs_count].element.document_name.includes(
-              "Geschäftsanmeldung"
-            )
-          ) {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html +=
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html +=
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            }
-          } else {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html +=
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html +=
-                '<div class="list_rows row" id="list_roww' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11" style="font-size: 15px;">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_downn" id="angle_downn' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_rightt" id="angle_rightt' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetailss" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetailss' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            }
-          }
-        }
-      }
-
-      $("#preview" + id).html(
-        '<div class="col-md-12" style="border-radius:10px;border:1px solid;padding:4px 25px 4px;mrgin-bottom:35px;">' +
-        '<div class="row">' +
-        '<div class="col-md-4" style="margin-top:30px;">' +
-        list_html +
-        "</div>" +
-        '<div class="col-md-8" id="previewmultipledocss">' +
-        '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:33px;width:33px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"></i></span>' +
+      $("#previewmultipledocss").html(
+        '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:33px;width:33px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true" ></i></span>' +
         '<embed  type="' +
         filetype +
         '" src="' +
-        url +
+        same_docs[index].element.document_url +
         '" style=" width: 100%; height:818px;"/>' +
         '<a href="' +
         environment.API_URL +
         "document/downloaddocument/" +
-        imagename +
-        '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>' +
-        "</div>" +
-        "</div>" +
-        "</div>"
+        same_docs[index].element.document_unique_id +
+        '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>'
       );
-
-      $(".list_rows").click(function (event) {
-        previewdoc($(this).data("index"));
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-      });
-
-      const previewdoc = (index: any) => {
-        $(".list_rows").css("background-color", "rgb(24, 66, 151)");
-        $(".list_rows").css("color", "white");
-
-        $("#list_roww" + index).css("background-color", "rgb(181, 172, 172)");
-        $("#list_roww" + index).css("color", "black");
-
-        // console.log("tags here");
-        // console.log(same_docs);
-        // console.log(index);
-        // console.log(same_docs[index]);
-
-        let metadata = same_docs[index].element.tags[0].split(",");
-
-        var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
-        var date_of_upload = d.replace(/[/]/g, ".");
-        if (typeof metadata[2] != "undefined") {
-          let dateofdocument = Number(metadata[2]);
-          var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          });
-
-          var date_of_document = date.replace(/[/]/g, ".");
-        } else {
-          var date_of_document = "";
-        }
-
-        var filetype = "";
-        if (typeof metadata[1] != "undefined") {
-          filetype = metadata[1];
-        } else {
-          filetype = "";
-        }
-
-        $(".angle_downn").css("display", "none");
-        $(".angle_rightt").css("display", "block");
-
-        $("#angle_downn" + index).css("display", "block");
-        $("#angle_rightt" + index).css("display", "none");
-
-        $("#previewmultipledocss").html(
-          '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:33px;width:33px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true" ></i></span>' +
-          '<embed  type="' +
-          filetype +
-          '" src="' +
-          same_docs[index].element.document_url +
-          '" style=" width: 100%; height:818px;"/>' +
-          '<a href="' +
-          environment.API_URL +
-          "document/downloaddocument/" +
-          same_docs[index].element.document_unique_id +
-          '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>'
-        );
-
-        $(".previewimg").click(function (event) {
-          console.log("checked it");
-          removepreview();
-          event.stopPropagation();
-          event.stopImmediatePropagation();
-        });
-        const removepreview = () => {
-          let elementnew: HTMLElement = document.getElementById(
-            "click" + this.previewid
-          ) as HTMLElement;
-          elementnew.innerHTML = "Öffnen";
-
-          // $("#imagediv").removeClass("col-md-7");
-          // $("#imagediv").addClass("col-md-12");
-          $("#preview" + id).html("");
-
-          // console.log("sadasda");
-        };
-
-        let temp_name = same_docs[index].element.document_name;
-
-        if (
-          temp_name.indexOf("Ausweisdokument Vertretungsberechtigte Person") !=
-          -1
-        ) {
-          temp_name =
-            "Ausweisdokument Vertretungsberechtigte Person-" +
-            parseInt(index + 1);
-        } else if (temp_name.indexOf("Geschäftsanmeldung") != -1) {
-          temp_name = "Gewerbeanmeldung-" + parseInt(index + 1);
-        } else {
-          temp_name = temp_name + "-" + parseInt(index + 1);
-        }
-
-        $(".previewmultipledocsdetailss").html("");
-        $(".previewmultipledocsdetailss").css("display", "none");
-
-        $("#previewmultipledocsdetailss" + index).css("display", "block");
-        $("#previewmultipledocsdetailss" + index).html(
-          "<h6>Dokumentenname: " +
-          temp_name +
-          "</h6><h6>Dateigröße: " +
-          metadata[0] +
-          " Kb</h6><h6>Vorgangs Nr.: " +
-          same_docs[index].element.ticket_no +
-          "</h6><h6>Datum des Dokuments: " +
-          date_of_document +
-          "</h6><h6>Datum des Uploads: " +
-          date_of_upload +
-          "</h6><h6>Hochgeladen von: " +
-          same_docs[index].element.created_byname +
-          "</h6><h6>Dateityp: " +
-          filetype +
-          "</h6><h6>Stichworte: " +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          same_docs[index].element.companycode +
-          "</span>" +
-          //"," +
-          "&nbsp;" +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          same_docs[index].element.brand +
-          "</span>" +
-          //"," +
-          "&nbsp;" +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          same_docs[index].element.ticket_no +
-          "</span>" +
-          "</h6>"
-        );
-      };
 
       $(".previewimg").click(function (event) {
         console.log("checked it");
@@ -2998,17 +3202,89 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log("sadasda");
       };
 
-      const someInput = document.getElementById("previewimg");
-      // someInput.addEventListener(
-      //   "click",
-      //   function () {
-      //     removepreview();
-      //   },
-      //   false
-      // );
+      let temp_name = same_docs[index].element.document_name;
 
-      //   // $('#loaderouterid').css("display","none");
-    }
+      if (
+        temp_name.indexOf("Ausweisdokument Vertretungsberechtigte Person") !=
+        -1
+      ) {
+        temp_name =
+          "Ausweisdokument Vertretungsberechtigte Person-" +
+          parseInt(index + 1);
+      } else if (temp_name.indexOf("Geschäftsanmeldung") != -1) {
+        temp_name = "Gewerbeanmeldung-" + parseInt(index + 1);
+      } else {
+        temp_name = temp_name + "-" + parseInt(index + 1);
+      }
+
+      $(".previewmultipledocsdetailss").html("");
+      $(".previewmultipledocsdetailss").css("display", "none");
+
+      $("#previewmultipledocsdetailss" + index).css("display", "block");
+      $("#previewmultipledocsdetailss" + index).html(
+        "<h6>Dokumentenname: " +
+        temp_name +
+        "</h6><h6>Dateigröße: " +
+        metadata[0] +
+        " Kb</h6><h6>Vorgangs Nr.: " +
+        same_docs[index].element.ticket_no +
+        "</h6><h6>Datum des Dokuments: " +
+        date_of_document +
+        "</h6><h6>Datum des Uploads: " +
+        date_of_upload +
+        "</h6><h6>Hochgeladen von: " +
+        same_docs[index].element.created_byname +
+        "</h6><h6>Dateityp: " +
+        filetype +
+        "</h6><h6>Stichworte: " +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        same_docs[index].element.companycode +
+        "</span>" +
+        //"," +
+        "&nbsp;" +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        same_docs[index].element.brand +
+        "</span>" +
+        //"," +
+        "&nbsp;" +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        same_docs[index].element.ticket_no +
+        "</span>" +
+        "</h6>"
+      );
+    };
+
+    $(".previewimg").click(function (event) {
+      console.log("checked it");
+      removepreview();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    });
+    const removepreview = () => {
+      let elementnew: HTMLElement = document.getElementById(
+        "click" + this.previewid
+      ) as HTMLElement;
+      elementnew.innerHTML = "Öffnen";
+
+      // $("#imagediv").removeClass("col-md-7");
+      // $("#imagediv").addClass("col-md-12");
+      $("#preview" + id).html("");
+
+      // console.log("sadasda");
+    };
+
+    const someInput = document.getElementById("previewimg");
+    // someInput.addEventListener(
+    //   "click",
+    //   function () {
+    //     removepreview();
+    //   },
+    //   false
+    // );
+
+    //   // $('#loaderouterid').css("display","none");
+
+    // }
   }
   onKey(event: any) {
     // without type info
@@ -3216,35 +3492,699 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     ticket_no: any
   ) {
     this.previewid = id;
+    this.preViewData = []
     // console.log(date_of_uploadnew);
     let element: HTMLElement = document.getElementById(
       "clickthirddoc" + this.previewid
     ) as HTMLElement;
-    if (element.innerHTML == "Schließen") {
-      element.innerHTML = "Öffnen";
+    // if (element.innerHTML == "Schließen") {
+    //   element.innerHTML = "Öffnen";
 
-      $("#previewthirddoc" + id).html("");
+    //   $("#previewthirddoc" + id).html("");
+    // } else {
+    //   $(".openclassthirddoc").html("Öffnen");
+    //   element.innerHTML = "Schließen";
+    //   $(".previewclass").html("");
+    // }
+
+    // if (element.innerHTML == "Schließen") {
+    // console.log("tags" + JSON.stringify(tags));
+    // const removepreview = () => {
+    //   let elementnew: HTMLElement = document.getElementById(
+    //     "clickthirddoc" + this.previewid
+    //   ) as HTMLElement;
+    //   elementnew.innerHTML = "Öffnen";
+
+    //   $("#previewthirddoc" + id).html("");
+
+    //   console.log("sadasda");
+    // };
+
+    const result1 = this.getFileExtension(imagename);
+    let metadata = tags[0].split(",");
+    var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    var date_of_upload = d.replace(/[/]/g, ".");
+    if (typeof metadata[2] != "undefined") {
+      let dateofdocument = Number(metadata[2]);
+      var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
+      var date_of_document = date.replace(/[/]/g, ".");
     } else {
-      $(".openclassthirddoc").html("Öffnen");
-      element.innerHTML = "Schließen";
-      $(".previewclass").html("");
+      var date_of_document = "";
+    }
+    var filetype = "";
+    if (typeof metadata[1] != "undefined") {
+      filetype = metadata[1];
+    } else {
+      filetype = "";
     }
 
-    if (element.innerHTML == "Schließen") {
-      // console.log("tags" + JSON.stringify(tags));
-      // const removepreview = () => {
-      //   let elementnew: HTMLElement = document.getElementById(
-      //     "clickthirddoc" + this.previewid
-      //   ) as HTMLElement;
-      //   elementnew.innerHTML = "Öffnen";
+    let same_docs: any = [];
 
-      //   $("#previewthirddoc" + id).html("");
+    for (let doc_count = 0; doc_count < this.documents.length; doc_count++) {
+      if (this.documents[doc_count].element.document_name == document_name) {
+        same_docs.push(this.documents[doc_count]);
+      }
+    }
 
-      //   console.log("sadasda");
-      // };
+    let temporary_doc_name = "";
+    if (
+      document_name.indexOf(
+        "Ausweisdokument Vertretungsberechtigte Person"
+      ) != -1
+    ) {
+      temporary_doc_name = "Ausweisdokument Vertretungsberechtigte Person-1";
+    } else if (document_name.indexOf("Geschäftsanmeldung") != -1) {
+      temporary_doc_name = "Gewerbeanmeldung-1";
+    } else {
+      temporary_doc_name = document_name + "-1";
+    }
 
-      const result1 = this.getFileExtension(imagename);
-      let metadata = tags[0].split(",");
+    let list_html = "";
+
+    for (
+      let same_docs_count = 0;
+      same_docs_count < same_docs.length;
+      same_docs_count++
+    ) {
+
+      this.preViewData.push({
+        document_name: temporary_doc_name,
+        metadata: metadata,
+        ticket_no: ticket_no,
+        date_of_document: date_of_document,
+        date_of_upload: date_of_upload,
+        created_byname: created_byname,
+        filetype: filetype,
+        companycode: companycode,
+        brand: brand,
+        url: this.sanitizeURL(same_docs[same_docs_count].element.document_url),
+        imagename: same_docs[same_docs_count].element.document_unique_id,
+        href: `${environment.API_URL}document/downloaddocument/${same_docs[same_docs_count].element.document_unique_id}`
+      })
+
+      let index = same_docs_count + 1;
+      if (list_html == "") {
+        if (
+          same_docs[same_docs_count].element.document_name.indexOf(
+            "Ausweisdokument Vertretungsberechtigte Person"
+          ) != -1
+        ) {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html =
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Ausweisdokument Vertretungsberechtigte Person-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+              '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html =
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Ausweisdokument Vertretungsberechtigte Person-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          }
+        } else if (
+          same_docs[same_docs_count].element.document_name.indexOf(
+            "Geschäftsanmeldung"
+          ) != -1
+        ) {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html =
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+
+              '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html =
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          }
+        } else {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html =
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+
+              '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html =
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "<h6>Dokumentenname: " +
+              // document_name +
+              temporary_doc_name +
+              "</h6><h6>Dateigröße: " +
+              metadata[0] +
+              " Kb</h6><h6>Vorgangs Nr.: " +
+              ticket_no +
+              "</h6><h6>Datum des Dokuments: " +
+              date_of_document +
+              "</h6><h6>Datum des Uploads: " +
+              date_of_upload +
+              "</h6><h6>Hochgeladen von: " +
+              created_byname +
+              "</h6><h6>Dateityp: " +
+              filetype +
+              "</h6><h6>Stichworte: " +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              companycode +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              brand +
+              "</span>" +
+              //"," +
+              "&nbsp;" +
+              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+              ticket_no +
+              "</span>" +
+              "</h6>" +
+              "</div>" +
+              "</div>";
+          }
+        }
+      } else {
+        if (
+          same_docs[same_docs_count].element.document_name.indexOf(
+            "Ausweisdokument Vertretungsberechtigte Person"
+          ) != -1
+        ) {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html +=
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Ausweisdokument Vertretungsberechtigte Person-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+
+              '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding-top:10px;"  id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html +=
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Ausweisdokument Vertretungsberechtigte Person-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          }
+        } else if (
+          same_docs[same_docs_count].element.document_name.indexOf(
+            "Geschäftsanmeldung"
+          ) != -1
+        ) {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html +=
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+              '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html +=
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". Gewerbeanmeldung-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          }
+        } else {
+          if (same_docs[same_docs_count].element.verified == 1) {
+            list_html +=
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              // '<div class="col-md-2">'+
+              //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
+              // '</div>'+
+              '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          } else {
+            list_html +=
+              '<div class="list_rows row" id="list_row' +
+              same_docs_count +
+              '" data-index="' +
+              same_docs_count +
+              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+              '<div class="col-md-11">' +
+              index +
+              ". " +
+              same_docs[same_docs_count].element.document_name +
+              "-" +
+              index +
+              "</div>" +
+              '<div class="col-md-1">' +
+              '<i class="fa fa-angle-down angle_down" id="angle_down' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
+              '<i class="fa fa-angle-right angle_right" id="angle_right' +
+              same_docs_count +
+              '" style="font-weight:bold;font-size:30px;"></i>' +
+              "</div>" +
+              '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
+              same_docs_count +
+              '">' +
+              "</div>" +
+              "</div>";
+          }
+        }
+      }
+    }
+
+    // $("#previewthirddoc" + id).html(
+    //   '<div class="col-md-12" style="border-radius:10px;border:1px solid;padding:4px 25px 4px;margin-bottom:35px;">' +
+    //   '<div class="row">' +
+    //   '<div class="col-md-4" style="margin-top:30px;">' +
+    //   list_html +
+    //   "</div>" +
+    //   '<div class="col-md-8" id="previewmultipledocs">' +
+    //   '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:35px;width:35px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"></i></span>' +
+    //   '<embed  type="' +
+    //   filetype +
+    //   '" src="' +
+    //   url +
+    //   '" style=" width: 100%; height:818px;"/>' +
+    //   '<a href="' +
+    //   environment.API_URL +
+    //   "document/downloaddocument/" +
+    //   imagename +
+    //   '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>' +
+    //   "</div>" +
+    //   "</div>" +
+    //   "</div>"
+    // );
+
+
+    $("#openAllgemeinePreiveiwmodal").trigger('click');
+    this.open_modal('openAllgemeinePreiveiw')
+
+
+
+    $(".list_rows").click(function (event) {
+      previewdoc($(this).data("index"));
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    });
+
+    const previewdoc = (index: any) => {
+      $(".list_rows").css("background-color", "rgb(24, 66, 151)");
+      $(".list_rows").css("color", "white");
+
+      $("#list_row" + index).css("background-color", "rgb(181, 172, 172)");
+      $("#list_row" + index).css("color", "black");
+
+      // console.log("tags here");
+      // console.log(same_docs);
+      // console.log(index);
+      // console.log(same_docs[index]);
+
+      let metadata = same_docs[index].element.tags[0].split(",");
+
       var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "2-digit",
@@ -3263,6 +4203,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         var date_of_document = "";
       }
+
       var filetype = "";
       if (typeof metadata[1] != "undefined") {
         filetype = metadata[1];
@@ -3270,737 +4211,25 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         filetype = "";
       }
 
-      let same_docs: any = [];
+      $(".angle_down").css("display", "none");
+      $(".angle_right").css("display", "block");
 
-      for (let doc_count = 0; doc_count < this.documents.length; doc_count++) {
-        if (this.documents[doc_count].element.document_name == document_name) {
-          same_docs.push(this.documents[doc_count]);
-        }
-      }
+      $("#angle_down" + index).css("display", "block");
+      $("#angle_right" + index).css("display", "none");
 
-      let temporary_doc_name = "";
-      if (
-        document_name.indexOf(
-          "Ausweisdokument Vertretungsberechtigte Person"
-        ) != -1
-      ) {
-        temporary_doc_name = "Ausweisdokument Vertretungsberechtigte Person-1";
-      } else if (document_name.indexOf("Geschäftsanmeldung") != -1) {
-        temporary_doc_name = "Gewerbeanmeldung-1";
-      } else {
-        temporary_doc_name = document_name + "-1";
-      }
-
-      let list_html = "";
-
-      for (
-        let same_docs_count = 0;
-        same_docs_count < same_docs.length;
-        same_docs_count++
-      ) {
-        let index = same_docs_count + 1;
-        if (list_html == "") {
-          if (
-            same_docs[same_docs_count].element.document_name.indexOf(
-              "Ausweisdokument Vertretungsberechtigte Person"
-            ) != -1
-          ) {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html =
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Ausweisdokument Vertretungsberechtigte Person-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-                '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html =
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Ausweisdokument Vertretungsberechtigte Person-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            }
-          } else if (
-            same_docs[same_docs_count].element.document_name.indexOf(
-              "Geschäftsanmeldung"
-            ) != -1
-          ) {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html =
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-
-                '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html =
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            }
-          } else {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html =
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-
-                '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html =
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetails" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "<h6>Dokumentenname: " +
-                // document_name +
-                temporary_doc_name +
-                "</h6><h6>Dateigröße: " +
-                metadata[0] +
-                " Kb</h6><h6>Vorgangs Nr.: " +
-                ticket_no +
-                "</h6><h6>Datum des Dokuments: " +
-                date_of_document +
-                "</h6><h6>Datum des Uploads: " +
-                date_of_upload +
-                "</h6><h6>Hochgeladen von: " +
-                created_byname +
-                "</h6><h6>Dateityp: " +
-                filetype +
-                "</h6><h6>Stichworte: " +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                companycode +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                brand +
-                "</span>" +
-                //"," +
-                "&nbsp;" +
-                '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-                ticket_no +
-                "</span>" +
-                "</h6>" +
-                "</div>" +
-                "</div>";
-            }
-          }
-        } else {
-          if (
-            same_docs[same_docs_count].element.document_name.indexOf(
-              "Ausweisdokument Vertretungsberechtigte Person"
-            ) != -1
-          ) {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html +=
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Ausweisdokument Vertretungsberechtigte Person-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-
-                '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" style="background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding-top:10px;"  id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html +=
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Ausweisdokument Vertretungsberechtigte Person-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            }
-          } else if (
-            same_docs[same_docs_count].element.document_name.indexOf(
-              "Geschäftsanmeldung"
-            ) != -1
-          ) {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html +=
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-                '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html +=
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". Gewerbeanmeldung-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            }
-          } else {
-            if (same_docs[same_docs_count].element.verified == 1) {
-              list_html +=
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                // '<div class="col-md-2">'+
-                //     '<i class="fas fa-check-circle" style="font-size:28px;color:green;"></i>'+
-                // '</div>'+
-                '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            } else {
-              list_html +=
-                '<div class="list_rows row" id="list_row' +
-                same_docs_count +
-                '" data-index="' +
-                same_docs_count +
-                '" style="cursor: pointer;margin-top: 5px;background-color: rgb(24, 66, 151);color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-                '<div class="col-md-11">' +
-                index +
-                ". " +
-                same_docs[same_docs_count].element.document_name +
-                "-" +
-                index +
-                "</div>" +
-                '<div class="col-md-1">' +
-                '<i class="fa fa-angle-down angle_down" id="angle_down' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;display:none;"></i>' +
-                '<i class="fa fa-angle-right angle_right" id="angle_right' +
-                same_docs_count +
-                '" style="font-weight:bold;font-size:30px;"></i>' +
-                "</div>" +
-                '<div class="col-md-12 previewmultipledocsdetails" style="display:none;background-color:white;border:1px solid darkgray;margin-bottom:-5px;border-radius:0px 0px 10px 10px;padding: 20px;" id="previewmultipledocsdetails' +
-                same_docs_count +
-                '">' +
-                "</div>" +
-                "</div>";
-            }
-          }
-        }
-      }
-
-      $("#previewthirddoc" + id).html(
-        '<div class="col-md-12" style="border-radius:10px;border:1px solid;padding:4px 25px 4px;margin-bottom:35px;">' +
-        '<div class="row">' +
-        '<div class="col-md-4" style="margin-top:30px;">' +
-        list_html +
-        "</div>" +
-        '<div class="col-md-8" id="previewmultipledocs">' +
-        '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:35px;width:35px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"></i></span>' +
+      $("#previewmultipledocs").html(
+        '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:33px;width:33px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true" ></i></span>' +
         '<embed  type="' +
         filetype +
         '" src="' +
-        url +
+        same_docs[index].element.document_url +
         '" style=" width: 100%; height:818px;"/>' +
         '<a href="' +
         environment.API_URL +
         "document/downloaddocument/" +
-        imagename +
-        '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>' +
-        "</div>" +
-        "</div>" +
-        "</div>"
+        same_docs[index].element.document_unique_id +
+        '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>'
       );
-
-      $(".list_rows").click(function (event) {
-        previewdoc($(this).data("index"));
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-      });
-
-      const previewdoc = (index: any) => {
-        $(".list_rows").css("background-color", "rgb(24, 66, 151)");
-        $(".list_rows").css("color", "white");
-
-        $("#list_row" + index).css("background-color", "rgb(181, 172, 172)");
-        $("#list_row" + index).css("color", "black");
-
-        // console.log("tags here");
-        // console.log(same_docs);
-        // console.log(index);
-        // console.log(same_docs[index]);
-
-        let metadata = same_docs[index].element.tags[0].split(",");
-
-        var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
-        var date_of_upload = d.replace(/[/]/g, ".");
-        if (typeof metadata[2] != "undefined") {
-          let dateofdocument = Number(metadata[2]);
-          var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          });
-
-          var date_of_document = date.replace(/[/]/g, ".");
-        } else {
-          var date_of_document = "";
-        }
-
-        var filetype = "";
-        if (typeof metadata[1] != "undefined") {
-          filetype = metadata[1];
-        } else {
-          filetype = "";
-        }
-
-        $(".angle_down").css("display", "none");
-        $(".angle_right").css("display", "block");
-
-        $("#angle_down" + index).css("display", "block");
-        $("#angle_right" + index).css("display", "none");
-
-        $("#previewmultipledocs").html(
-          '<span class="side-icons"><i class="fa fa-times transitionanimation previewimg" aria-hidden="true" style="margin-top:0px;height:33px;width:33px;font-size:18px;position:relative;float:right;transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true" ></i></span>' +
-          '<embed  type="' +
-          filetype +
-          '" src="' +
-          same_docs[index].element.document_url +
-          '" style=" width: 100%; height:818px;"/>' +
-          '<a href="' +
-          environment.API_URL +
-          "document/downloaddocument/" +
-          same_docs[index].element.document_unique_id +
-          '" ><span class="side-icons" ><i class="fa fa-download transitionanimation" style="height:36px;width:36px;font-size:16px;position:relative;float:right; transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);" aria-hidden="true"  ></i></span></a>'
-        );
-
-        $(".previewimg").click(function (event) {
-          console.log("checked it");
-          removepreview();
-          event.stopPropagation();
-          event.stopImmediatePropagation();
-        });
-
-        const removepreview = () => {
-          let elementnew: HTMLElement = document.getElementById(
-            "clickthirddoc" + this.previewid
-          ) as HTMLElement;
-          elementnew.innerHTML = "Öffnen";
-
-          $("#previewthirddoc" + id).html("");
-
-          // console.log("sadasda");
-        };
-
-        let temp_name = same_docs[index].element.document_name;
-
-        if (
-          temp_name.indexOf("Ausweisdokument Vertretungsberechtigte Person") !=
-          -1
-        ) {
-          temp_name =
-            "Ausweisdokument Vertretungsberechtigte Person-" +
-            parseInt(index + 1);
-        } else if (temp_name.indexOf("Geschäftsanmeldung") != -1) {
-          temp_name = "Gewerbeanmeldung-" + parseInt(index + 1);
-        } else {
-          temp_name = temp_name + "-" + parseInt(index + 1);
-        }
-
-        $(".previewmultipledocsdetails").html("");
-        $(".previewmultipledocsdetails").css("display", "none");
-
-        $("#previewmultipledocsdetails" + index).css("display", "block");
-        $("#previewmultipledocsdetails" + index).html(
-          "<h6>Dokumentenname: " +
-          temp_name +
-          "</h6><h6>Dateigröße: " +
-          metadata[0] +
-          " Kb</h6><h6>Vorgangs Nr.: " +
-          same_docs[index].element.ticket_no +
-          "</h6><h6>Datum des Dokuments: " +
-          date_of_document +
-          "</h6><h6>Datum des Uploads: " +
-          date_of_upload +
-          "</h6><h6>Hochgeladen von: " +
-          same_docs[index].element.created_byname +
-          "</h6><h6>Dateityp: " +
-          filetype +
-          "</h6><h6>Stichworte: " +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          same_docs[index].element.companycode +
-          "</span>" +
-          //"," +
-          "&nbsp;" +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          same_docs[index].element.brand +
-          "</span>" +
-          //"," +
-          "&nbsp;" +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          same_docs[index].element.ticket_no +
-          "</span>" +
-          "</h6>"
-        );
-      };
 
       $(".previewimg").click(function (event) {
         console.log("checked it");
@@ -4020,18 +4249,89 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log("sadasda");
       };
 
-      const someInput = document.getElementById("previewimg");
-      //const someInput = document.getElementsByClassName("previewimg");
-      //  someInput.addEventListener(
-      //    "click",
-      //    function () {
-      //      removepreview();
-      //    },
-      //    false
-      //  );
+      let temp_name = same_docs[index].element.document_name;
 
-      //   // $('#loaderouterid').css("display","none");
-    }
+      if (
+        temp_name.indexOf("Ausweisdokument Vertretungsberechtigte Person") !=
+        -1
+      ) {
+        temp_name =
+          "Ausweisdokument Vertretungsberechtigte Person-" +
+          parseInt(index + 1);
+      } else if (temp_name.indexOf("Geschäftsanmeldung") != -1) {
+        temp_name = "Gewerbeanmeldung-" + parseInt(index + 1);
+      } else {
+        temp_name = temp_name + "-" + parseInt(index + 1);
+      }
+
+      $(".previewmultipledocsdetails").html("");
+      $(".previewmultipledocsdetails").css("display", "none");
+
+      $("#previewmultipledocsdetails" + index).css("display", "block");
+      $("#previewmultipledocsdetails" + index).html(
+        "<h6>Dokumentenname: " +
+        temp_name +
+        "</h6><h6>Dateigröße: " +
+        metadata[0] +
+        " Kb</h6><h6>Vorgangs Nr.: " +
+        same_docs[index].element.ticket_no +
+        "</h6><h6>Datum des Dokuments: " +
+        date_of_document +
+        "</h6><h6>Datum des Uploads: " +
+        date_of_upload +
+        "</h6><h6>Hochgeladen von: " +
+        same_docs[index].element.created_byname +
+        "</h6><h6>Dateityp: " +
+        filetype +
+        "</h6><h6>Stichworte: " +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        same_docs[index].element.companycode +
+        "</span>" +
+        //"," +
+        "&nbsp;" +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        same_docs[index].element.brand +
+        "</span>" +
+        //"," +
+        "&nbsp;" +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        same_docs[index].element.ticket_no +
+        "</span>" +
+        "</h6>"
+      );
+    };
+
+    $(".previewimg").click(function (event) {
+      console.log("checked it");
+      removepreview();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    });
+
+    const removepreview = () => {
+      let elementnew: HTMLElement = document.getElementById(
+        "clickthirddoc" + this.previewid
+      ) as HTMLElement;
+      elementnew.innerHTML = "Öffnen";
+
+      $("#previewthirddoc" + id).html("");
+
+      // console.log("sadasda");
+    };
+
+    const someInput = document.getElementById("previewimg");
+    //const someInput = document.getElementsByClassName("previewimg");
+    //  someInput.addEventListener(
+    //    "click",
+    //    function () {
+    //      removepreview();
+    //    },
+    //    false
+    //  );
+
+    //   // $('#loaderouterid').css("display","none");
+
+    // }
   }
   modaloutsideclicked() {
     alert("background is clicked!");
@@ -4328,13 +4628,17 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(["b2b-home"]);
   }
 
-  // pagination
+  // pagination unique_documents.push
 
   setPage(page: number, Double?: any) {
     // get pager object from service
     //this.getdivoutside();
     this.unique_documents.length = 0;
     this.unique_documents = [];
+
+    console.log(Double);
+
+
     if (Double) {
       for (let doc_count = 0; doc_count < this.documents.length; doc_count++) {
         let doc_exists = 0;
@@ -4353,6 +4657,10 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
         }
+        console.log('doc_count :', doc_count);
+        console.log('4618 :', this.documents[doc_count].element.document_name.indexOf("Old"));
+
+
 
         if (
           doc_exists == 0 &&
@@ -4365,9 +4673,9 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             let temp_doc = this.documents[doc_count];
             temp_doc.element.ceo_doc_name =
               "Ausweisdokument Vertretungsberechtigte Person: " +
-              this.localData.type1.legalrepresentativeform[0].firstname +
+              this.localData.type1.legalrepresentativeform[0]?.firstname +
               " " +
-              this.localData.type1.legalrepresentativeform[0].lastname;
+              this.localData.type1.legalrepresentativeform[0]?.lastname;
             this.unique_documents.push(temp_doc);
           } else if (
             this.documents[doc_count].element.document_name !=
@@ -4409,6 +4717,11 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagerGDOC.startIndex,
         this.pagerGDOC.endIndex + 1
       );
+      this.pagedItemsGDOCSearch = this.unique_documents.slice(
+        this.pagerGDOC.startIndex,
+        this.pagerGDOC.endIndex + 1
+      );
+
 
       if (this.unique_documents.length > 0) {
         this.startRecordGDOC = this.pagerGDOC.currentPage * 10 - 10 + 1;
@@ -4466,7 +4779,11 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagertype[0].type1.startIndex,
         this.pagertype[0].type1.endIndex + 1
       );
-      // console.log("sadsadsad" + JSON.stringify(this.pagedItemstype[0].type1));
+      this.pagedItemstypeSearch[0].type1 = this.type1.slice(
+        this.pagertype[0].type1.startIndex,
+        this.pagertype[0].type1.endIndex + 1
+      );
+      console.log("pagedItemstype :" + this.pagedItemstype[0].type1);
       if (this.type1.length > 0) {
         this.startRecordtype[0].type1 =
           this.pagertype[0].type1.currentPage *
@@ -4498,7 +4815,13 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagertype[0].type2.startIndex,
         this.pagertype[0].type2.endIndex + 1
       );
-      // console.log("sadsadsad" + JSON.stringify(this.pagedItemstype[0].type2));
+
+      this.pagedItemstypeSearch[0].type2 = this.type2.slice(
+        this.pagertype[0].type2.startIndex,
+        this.pagertype[0].type2.endIndex + 1
+      );
+
+      console.log("pagedItemstype2 :" + this.pagedItemstype[0].type2);
       if (this.type2.length > 0) {
         this.startRecordtype[0].type2 =
           this.pagertype[0].type2.currentPage *
@@ -4530,7 +4853,12 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagertype[0].type3.startIndex,
         this.pagertype[0].type3.endIndex + 1
       );
-      // console.log("sadsadsad" + JSON.stringify(this.pagedItemstype[0].type3));
+
+      this.pagedItemstypeSearch[0].type3 = this.type3.slice(
+        this.pagertype[0].type3.startIndex,
+        this.pagertype[0].type3.endIndex + 1
+      );
+      // console.log("pagedItemstype 3" ,this.pagedItemstype[0].type3 );
       if (this.type3.length > 0) {
         this.startRecordtype[0].type3 =
           this.pagertype[0].type3.currentPage *
@@ -5142,5 +5470,9 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   open_modal(modalId: any) {
     $("#" + modalId).appendTo("body");
+  }
+
+  close_modal(modal_id: any, append_to: any) {
+    $('#' + modal_id).appendTo("#" + append_to);
   }
 }

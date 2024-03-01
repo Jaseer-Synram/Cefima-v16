@@ -67,7 +67,7 @@ export class SideBarComponent implements OnInit {
     private route: ActivatedRoute) {
     this.route.queryParams.subscribe((params) => {
       this.customerid = params["id"];
-      
+
     });
 
     this.userService.invokeSideBarRouteFether.subscribe(data => {
@@ -166,7 +166,13 @@ export class SideBarComponent implements OnInit {
       this.customerid = params["id"];
     });
 
-
+    if (this.currentTab == "") {
+      if (this.router.url == '/cefima/b2b-dashboard') {
+        setTimeout(() => {
+          this.clickedBroker('Unternehmensdaten', 'Unternehmensdaten')
+        }, 30);
+      }
+    }
 
 
 
@@ -187,14 +193,22 @@ export class SideBarComponent implements OnInit {
 
   indexOfHideValuesj: any = -1
   indexOfHideValues: any = -1
-  clikeditem(id:string,item: string, data: string, index?: number,subid?:string, indexj?: number) {
+  clikeditem(id: string, item: string, data: string, index?: number, subid = '', indexj?: number) {
     console.log(`id :${id},    item :${item},   subid : ${subid}`);
     this.indexOfHideValues = index
     this.currentTab = item
     this.indexOfHideValuesj = indexj
 
     this.userService.heeaderData.next(['Kunden', data])
-    this.userService.selectCustomerSideItem.next([id,item, index,subid, indexj])
+    this.userService.selectCustomerSideItem.next([id, item, index, subid, indexj])
+  }
+
+  clickedBroker(item: string, data: string) {
+    setTimeout(() => {
+      this.userService.heeaderData.next([data])
+      this.currentTab = `Verwaltung.${item}`
+      this.userService.b2bDashboardItem.next([item])
+    }, 200);
   }
 
   setCurrentTabUser(office: any, type: any) {

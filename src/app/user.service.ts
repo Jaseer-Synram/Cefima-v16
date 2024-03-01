@@ -28,6 +28,7 @@ export class UserService {
   invokeFunctionInCustomerSide = new BehaviorSubject<any[]>(['string1', 'string2']);
   selectCustomerSideItem: BehaviorSubject<(string | number)[]> = new BehaviorSubject([]);
   heeaderData = new BehaviorSubject([''])
+  b2bDashboardItem = new BehaviorSubject([''])
 
 
   constructor(private http: HttpClient) { }

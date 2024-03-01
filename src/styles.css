@@ -91,6 +91,7 @@ html {
   margin-left: 20px;
   padding-right: 15px;
 }
+
 .example-sidenav {
   user-select: none;
 }
@@ -450,12 +451,10 @@ button:focus {
   left: -122px !important;
   will-change: transform;
   padding-left: 30px !important;
-  background: linear-gradient(
-    171.46deg,
-    #a64f9d -4.52%,
-    #6182c4 22.3%,
-    #33a4df 95.97%
-  );
+  background: linear-gradient(171.46deg,
+      #a64f9d -4.52%,
+      #6182c4 22.3%,
+      #33a4df 95.97%);
 }
 
 .notio {
@@ -551,6 +550,7 @@ button:focus {
   -webkit-overflow-scrolling: touch;
   direction: rtl;
 }
+
 .side-nav-fixed {
   direction: ltr;
 }
@@ -574,6 +574,7 @@ button:focus {
   margin-bottom: 10px;
   border: 0;
 }
+
 .mat-drawer.mat-drawer-side:before {
   content: "";
   position: absolute;
@@ -601,14 +602,13 @@ button:focus {
   padding: 10px;
   margin: 10px 10px 20px;
   border-bottom: 1px solid transparent;
-  border-image: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
+  border-image: linear-gradient(to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0));
   border-image-slice: 1;
 }
+
 
 .new-side-bar ul {
   list-style: none;
@@ -698,17 +698,12 @@ button:focus {
   width: 25%;
 }
 
-.accordion-main .accordion-head ul li {
-  color: #75787d;
-  letter-spacing: 1px;
-}
-
 .accordion-main .customer-Unternehmensname {
   width: 20%;
 }
 
 .accordion-main .accordion-head ul li {
-  color: #75787d;
+  color: #3A3D44;
   letter-spacing: 1px;
 }
 
@@ -764,7 +759,7 @@ button:focus {
   box-shadow: 5px 3px 20px 1px #262d3424;
   border-radius: 10px;
   margin-top: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   height: 100%;
 }
 
@@ -830,12 +825,10 @@ img {
 }
 
 .app-header {
-  background: linear-gradient(
-    356deg,
-    #a64f9d 5.52%,
-    #6182c4 22.3%,
-    #33a4df 95.97%
-  );
+  background: linear-gradient(356deg,
+      #a64f9d 5.52%,
+      #6182c4 22.3%,
+      #33a4df 95.97%);
   padding: 15px;
   height: 92px;
 }
@@ -853,11 +846,7 @@ img {
   margin: 0;
 }
 
-.mat-datepicker-content
-  .time-container.disable-seconds
-  .ngx-mat-timepicker
-  .table
-  td {
+.mat-datepicker-content .time-container.disable-seconds .ngx-mat-timepicker .table td {
   padding: 0px;
 }
 
@@ -1007,11 +996,9 @@ img {
   font-size: 15px;
   white-space: pre-wrap;
   color: #fff !important;
-  background: linear-gradient(
-    310.12deg,
-    #33a4df -11.74%,
-    #587dba 66.6%
-  ) !important;
+  background: linear-gradient(310.12deg,
+      #33a4df -11.74%,
+      #587dba 66.6%) !important;
   border: none !important;
   max-width: unset !important;
 }
@@ -1020,11 +1007,9 @@ img {
   font-size: 13px;
   white-space: normal;
   color: #fff !important;
-  background: linear-gradient(
-    310.12deg,
-    #33a4df -11.74%,
-    #587dba 66.6%
-  ) !important;
+  background: linear-gradient(310.12deg,
+      #33a4df -11.74%,
+      #587dba 66.6%) !important;
   border: none !important;
   max-width: 200px !important;
   text-align: start;
@@ -1166,7 +1151,7 @@ img {
   position: relative;
 }
 
-.input-icon > i {
+.input-icon>i {
   position: absolute;
   display: block;
   transform: translate(0, -50%);
@@ -1178,12 +1163,12 @@ img {
   font-style: normal;
 }
 
-.input-icon > input {
+.input-icon>input {
   padding-left: 25px;
   padding-right: 0;
 }
 
-.input-icon-1 > i {
+.input-icon-1>i {
   position: absolute;
   display: block;
   -webkit-transform: translate(0, -50%);
@@ -1196,7 +1181,7 @@ img {
   font-style: normal;
 }
 
-.input-icon-1 > input {
+.input-icon-1>input {
   padding-left: 0px;
   padding-right: 0;
 }
@@ -1361,21 +1346,12 @@ button.sparte {
 .mat-stepper-horizontal-line::before {
   content: "\f105" !important;
   font: normal normal normal 18px/1 FontAwesome !important;
-  /* position: absolute !important;
-    right: 0px ;
-    top: -20px ; */
   color: transparent !important;
 }
 
 /* Question stepper */
 
-.modal
-  > .modal-dialog
-  > .modal-content
-  > .modal-body
-  > .qa-stepper.mat-stepper-horizontal
-  > .mat-horizontal-stepper-wrapper
-  > .mat-horizontal-stepper-header-container {
+.modal>.modal-dialog>.modal-content>.modal-body>.qa-stepper.mat-stepper-horizontal>.mat-horizontal-stepper-wrapper>.mat-horizontal-stepper-header-container {
   display: none !important;
 }
 
@@ -1387,10 +1363,31 @@ button.sparte {
 
 /* remove panel body padding */
 
-.mat-accordion>.mat-expansion-panel.body-nopadding>.mat-expansion-panel-content>.mat-expansion-panel-body{
+.mat-accordion>.mat-expansion-panel.body-nopadding>.mat-expansion-panel-content>.mat-expansion-panel-body {
   padding: 0 4px 0 0 !important;
 }
 
 /* question stepper end */
+
+/* tab color indicator - b2b-dashboard - collapse type modal  */
+:host ::ng-deep.mat-mdc-tab-group.thirddashmodal>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #ccc !important;
+}
+
+:host ::ng-deep .modal>.modal-dialog>.modal-content>.modal-body>.container >.card-body>.mat-mdc-tab-group.thirddashmodal>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mdc-tab>.mdc-tab-indicator>.mdc-tab-indicator__content--underline {
+  /* background: linear-gradient(to right, transparent 10px, #02a9ed 10px) !important; */
+  background: #02a9ed !important;
+  height: 3px !important;
+  border-radius: 0px !important;
+  border: none !important;
+  width: 90% !important;
+}
+
 
 /* MY CSS END HERE */

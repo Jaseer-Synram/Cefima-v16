@@ -20,8 +20,13 @@ export class HeaderComponent implements OnInit {
     public router: Router,
     private userService:UserService
     ) {
-      userService.heeaderData.subscribe((data) =>
-      this.opened_page_title= `${data[0]} / ${data[1]}`
+      userService.heeaderData.subscribe((data) =>{
+        if(data[1] != undefined) {
+          this.opened_page_title= `${data[0]} / ${data[1]}`
+        } else {
+          this.opened_page_title= `${data[0]}`
+        }
+    }
       );
     }
 
@@ -71,7 +76,7 @@ export class HeaderComponent implements OnInit {
     } else if (this.router.url.includes("kunde-home")) {
       this.opened_page_title = "Kunde Home";
     } else if (this.router.url.includes("b2b-dashboard")) {
-      this.opened_page_title = "B2B Dashboard";
+      // this.opened_page_title = "B2B Dashboard";
     } else if (this.router.url.includes("consulting")) {
       this.opened_page_title = "Beratung ";
     } else {

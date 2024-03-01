@@ -1742,7 +1742,7 @@
                       <div class="col-md-12 p-0 d-flex flex-raw flex-wrap " id="addressFormNew" style="
                                   margin-top: 20px !important;
                                                               ">
-                        <div class="col-md-4 p-0" >
+                        <div class="col-md-4 p-0">
                           <mat-form-field class="col-md-11 p-0" appearance="outline">
                             <mat-label>Name der Firma</mat-label>
                             <input matInput formControlName="companyname" placeholder="Name der Firma" />
@@ -2079,13 +2079,13 @@
                                   <input matInput placeholder="Vorname " formControlName="firstname" />
                                 </mat-form-field>
                               </div>
-                              <div class="col-md-4 text-right p-0" >
+                              <div class="col-md-4 text-right p-0">
                                 <mat-form-field appearance="outline" style="width: 96%">
                                   <mat-label>Nachname </mat-label>
                                   <input matInput placeholder="Nachname " formControlName="lastname" />
                                 </mat-form-field>
                               </div>
-                              <div class="col-md-4 p-0" >
+                              <div class="col-md-4 p-0">
                                 <mat-form-field appearance="outline" style="width: 96%">
                                   <mat-label>Geburtsdatum</mat-label>
                                   <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
@@ -2403,7 +2403,7 @@
                       <form secondcompanyfso2parent="ngForm" *ngIf="secondcompanyaddressFormGroup2"
                         [formGroup]="secondcompanyaddressFormGroup2" #secondcompanyfso2="ngForm" novalidate=""
                         class="Official-residence-form  col-md-12 p-0 m-0">
-                        <div  formArrayName="legalrepresentativeform2" id="companyThirdForm" *ngFor="
+                        <div formArrayName="legalrepresentativeform2" id="companyThirdForm" *ngFor="
                                     let addedperson1 of addedpersons;
                                     let i = index " (click)="showhiddenfields(i)"
                           class="col-md-12 d-flex flex-raw  gmbhpersons button-primary px-2 py-1 mt-2 mb-4 mx-0 ">
@@ -2595,7 +2595,7 @@
                             </div>
                           </div>
                         </div>
-                        <button  formArrayName="legalrepresentativeform2" *ngIf="
+                        <button formArrayName="legalrepresentativeform2" *ngIf="
                                   legalrepresentativeform2().length > 0;
                                   else showAddbutton " style="float: right"
                           class="stepper-btn my-3 btn transitionanimation" mat-raised-button
@@ -2659,7 +2659,7 @@
                                   let i = index
                                                               ">
                         <div style="cursor: pointer;height: 235px;" *ngIf="i == 0"
-                        class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
+                          class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                           <input style="height: 190px" multiple #input1 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
                             name="DocOne" (change)="
@@ -2791,8 +2791,9 @@
                       <!------------------------------------------Multiple CEO documents code ends here------------------------------------->
 
                       <div class="col-md-4" style="margin-top: 10px;" id="div2">
-                        <div class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
-                        style=" cursor: pointer;padding: 5px 3px 5px 3px;height: 235px; ">
+                        <div
+                          class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                          style=" cursor: pointer;padding: 5px 3px 5px 3px;height: 235px; ">
                           <input style="height: 190px" multiple #input2 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
                             name="DocTwo" (change)="
@@ -2844,8 +2845,9 @@
 
                       <div *ngIf="companytypenew != 'Einzelunternehmen'" class="col-md-4" style="margin-top: 10px;"
                         id="div3">
-                        <div class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-start"
-                        style=" padding: 5px 3px 5px 3px;cursor: pointer;height: 235px;">
+                        <div
+                          class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-start"
+                          style=" padding: 5px 3px 5px 3px;cursor: pointer;height: 235px;">
                           <input style="height: 190px" multiple #input3 type="file" accept="image/*,application/pdf"
                             class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
                             name="DocThree" (change)="
@@ -2906,7 +2908,8 @@
                                     let i = index
                                                                 " class="col-md-4" style="margin-top: 10px"
                           id="div{{ i }}">
-                          <div style="cursor: pointer;height: 235px;" class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
+                          <div style="cursor: pointer;height: 235px;"
+                            class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                             <input style="height: 190px" multiple #input1 type="file" accept="image/*,application/pdf"
                               class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i" (change)="
                                         handlepassportImageChange(
@@ -3653,7 +3656,7 @@
                                   <input matInput placeholder="Nachname " formControlName="lastname" />
                                 </mat-form-field>
                               </div>
-                              <div class="col-md-4 p-0" >
+                              <div class="col-md-4 p-0">
                                 <mat-form-field appearance="outline" style="width: 96%">
                                   <mat-label>Geburtsdatum</mat-label>
                                   <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
@@ -3667,7 +3670,7 @@
                                 Bitte geben Sie hier Ihre persönliche
                                 Meldeadresse an.
                               </p>
-                              <div class="col-md-4 p-0" >
+                              <div class="col-md-4 p-0">
                                 <mat-form-field appearance="outline" style="
                                         width: 96%;
                                         background-color: white !important;
@@ -4211,7 +4214,8 @@
                       <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start p-0">
                         <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start p-0">
                           <div class="col-md-4" style="display: grid;" id="div1">
-                            <div class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                            <div
+                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
                               style="padding: 5px 3px 5px 3px;cursor:pointer;">
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
@@ -4282,7 +4286,8 @@
                           </div>
 
                           <div class="col-md-4" style="display: grid;" id="div2">
-                            <div class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                            <div
+                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
                               style="padding: 5px 3px 5px 3px;height: 235px;cursor:pointer;">
                               <input style="height: 190px;" #input2 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
@@ -4330,7 +4335,8 @@
                           <div *ngIf="companytypenew == 'Einzelunternehmen'" id="div3"></div>
                           <div *ngIf="companytypenew != 'Einzelunternehmen'" class="col-md-4" style="display: grid;"
                             id="div3">
-                            <div class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                            <div
+                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
                               style="padding: 5px 3px 5px 3px;height: 235px;cursor:pointer;">
                               <input style="height: 190px" #input3 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
@@ -4391,7 +4397,8 @@
                                     let datanew of secondcompanyaddressFormGroup2
                                       .value.legalrepresentativeform2;
                                     let i = index " class="col-md-4" style="margin-top: 10px" id="div{{ i }}">
-                            <div class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
+                            <div
+                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
                               style="padding: 5px 3px 5px 3px;cursor: pointer;height: 235px;">
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                 class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i"
@@ -4472,8 +4479,7 @@
               </mat-step>
 
               <mat-step [stepControl]="agreementFromGroup" *ngIf="familyOrCompany == 'company'">
-                <form #fs2="ngForm"  [formGroup]="agreementFromGroup" novalidate=""
-                  class="more-info-form">
+                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                   <div class="d-flex flex-column justify-content-center align-items-center gap-2">
@@ -4585,8 +4591,7 @@
 
               <mat-step [stepControl]="familyFormGroup" *ngIf="familyOrCompany == 'familymember'">
                 <div class="container px-1" style="margin: 0px">
-                  <form  [formGroup]="familyFormGroup" #livingfso="ngForm"
-                    class="Official-residence-form">
+                  <form [formGroup]="familyFormGroup" #livingfso="ngForm" class="Official-residence-form">
                     <ng-template matStepLabel>Persönliche Daten</ng-template>
                     <div class="col-md-12">
                       <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
@@ -4864,8 +4869,7 @@
                           currentActiveRole == 'customer' &&
                           familyOrCompany == 'familymember'
                         ">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily"
-                  novalidate="" class="more-info-form">
+                <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                   <div class="d-flex flex-column justify-content-center align-items-center gap-2">
@@ -5269,10 +5273,11 @@
                                                               ">
 
                         <div class="d-flex flex-column justify-content-center align-items-center gap-2">
-                          <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start" id="docgroup">
+                          <div class="col-md-12 d-flex justify-content-center flex-wrap align-items-start"
+                            id="docgroup">
                             <div class="col-md-4" style="display: grid;" id="div1">
                               <div style="cursor: pointer;height: 235px;"
-                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1" >
+                                class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                                 <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
                                   class="upload-files w-100 position-absolute" formControlName="DocOne" id="DocOne"
                                   name="DocOne" (change)="
@@ -5313,7 +5318,7 @@
 
                             <div class="col-md-4" style="display: grid" id="div2">
                               <div style="cursor: pointer;height: 235px;"
-                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1" >
+                                class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                                 <input style="height: 190px" #input2 type="file" accept="image/*,application/pdf"
                                   class="upload-files w-100 position-absolute" formControlName="DocTwo" id="DocTwo"
                                   name="DocTwo" (change)="
@@ -5362,7 +5367,7 @@
 
                             <div class="col-md-4" style="display: grid;" id="div3">
                               <div style="cursor: pointer;height: 235px;"
-                              class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1" >
+                                class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
                                 <input style="height: 190px" #input3 type="file" accept="image/*,application/pdf"
                                   class="upload-files w-100 position-absolute" formControlName="DocThree" id="DocThree"
                                   name="DocThree" (change)="
@@ -5562,8 +5567,8 @@
                         </div>
                         <div class="col-12 px-3 py-2 mb-4 rounded graybox">
                           <span>
-                          Bitte geben Sie hier Ihre persönliche
-                          Meldeadresse an.
+                            Bitte geben Sie hier Ihre persönliche
+                            Meldeadresse an.
                           </span>
                         </div>
 
@@ -5848,8 +5853,8 @@
                 </div>
                 <div class="modal-body">
                   <div class="container p-0" id="familyForm">
-                    <div class="col-12 d-flex flex-row flex-wrap p-0" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px"
-                      id="familymenber">
+                    <div class="col-12 d-flex flex-row flex-wrap p-0" class="meine-daten-content-main"
+                      style="margin-top: 10px; margin-bottom: 15px" id="familymenber">
                       <div class="container p-0" style="margin: 0px">
                         <form *ngIf="CEOFormGroup" [formGroup]="CEOFormGroup" #livingfso12="ngForm"
                           class="Official-residence-form">
@@ -5880,21 +5885,21 @@
                                   </mat-select>
                                 </mat-form-field>
                               </div>
-                              <div class="col-md-4 p-0 text-center" >
+                              <div class="col-md-4 p-0 text-center">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>Vorname </mat-label>
                                   <input matInput placeholder="Vorname " formControlName="firstname" />
                                 </mat-form-field>
                               </div>
 
-                              <div class="col-md-4 p-0 text-right" >
+                              <div class="col-md-4 p-0 text-right">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>Nachname </mat-label>
                                   <input matInput placeholder="Nachname " formControlName="lastname" />
                                 </mat-form-field>
                               </div>
 
-                              <div class="col-md-4 p-0" >
+                              <div class="col-md-4 p-0">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>Geburtsdatum</mat-label>
                                   <input matInput [matDatepicker]="picker1" [min]="minDate" [max]="maxDate"
@@ -5912,7 +5917,7 @@
                                 </span>
                               </div>
 
-                              <div class="col-md-4 p-0" >
+                              <div class="col-md-4 p-0">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>Straße</mat-label>
                                   <input matInput placeholder="Straße" formControlName="street"
@@ -5923,20 +5928,20 @@
                                 </mat-form-field>
                               </div>
 
-                              <div class="col-md-4 p-0 text-center" >
+                              <div class="col-md-4 p-0 text-center">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>Nr.</mat-label>
                                   <input matInput placeholder="Nr." formControlName="streetNumber" />
                                 </mat-form-field>
                               </div>
-                              <div class="col-md-4 p-0 text-right" >
+                              <div class="col-md-4 p-0 text-right">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>PLZ</mat-label>
                                   <input matInput placeholder="PLZ" formControlName="postCode" />
                                 </mat-form-field>
                               </div>
 
-                              <div class="col-md-4 p-0" >
+                              <div class="col-md-4 p-0">
                                 <mat-form-field class="p-0" style="width:96%" appearance="outline">
                                   <mat-label>Stadt</mat-label>
                                   <input matInput placeholder="Stadt" formControlName="city" />
@@ -6022,8 +6027,8 @@
                 </div>
                 <div class="modal-body">
                   <div class="container p-0" id="familyForm">
-                    <div class="d-flex col-12 flex-row flex-wrap" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px"
-                      id="familymenber">
+                    <div class="d-flex col-12 flex-row flex-wrap" class="meine-daten-content-main"
+                      style="margin-top: 10px; margin-bottom: 15px" id="familymenber">
                       <div class="container p-0" style="margin: 0px">
                         <form *ngIf="OtherPersonFormGroup" [formGroup]="OtherPersonFormGroup" #livingfso123="ngForm"
                           class="Official-residence-form p-0">
@@ -6194,8 +6199,8 @@
                 </div>
                 <div class="modal-body">
                   <div class="container p-0" id="familyForm">
-                    <div  class="meine-daten-content-main d-flex flex-row col-12 flex-wrap p-0" style="margin-top: 10px; margin-bottom: 15px"
-                      id="familymenber">
+                    <div class="meine-daten-content-main d-flex flex-row col-12 flex-wrap p-0"
+                      style="margin-top: 10px; margin-bottom: 15px" id="familymenber">
                       <!-- <mat-horizontal-stepper linear #stepper style="background: bottom" class="stepnewclass"
                       style="width: 100%">
                       <ng-template matStepperIcon="edit">
@@ -6405,7 +6410,8 @@
               </div>
               <div class="modal-body">
                 <div class="container p-0">
-                  <div class="d-flex flex-row p-0 col-12 flex-wrap" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px">
+                  <div class="d-flex flex-row p-0 col-12 flex-wrap" class="meine-daten-content-main"
+                    style="margin-top: 10px; margin-bottom: 15px">
                     <mat-horizontal-stepper linear #stepper style="background: bottom" class="stepnewclass"
                       style="width: 100%">
                       <ng-template matStepperIcon="edit">
@@ -6609,7 +6615,8 @@
               </div>
               <div class="modal-body">
                 <div class="container p-0">
-                  <div class="col-12 d-flex p-0 flex-row flex-wrap" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px">
+                  <div class="col-12 d-flex p-0 flex-row flex-wrap" class="meine-daten-content-main"
+                    style="margin-top: 10px; margin-bottom: 15px">
 
 
                     <form #fs2="ngForm" *ngIf="agreementFromGroup" [formGroup]="agreementFromGroup" novalidate=""
@@ -9352,72 +9359,71 @@
                                       let file of selectedQuestionArray[i]
                                         .answerKey.documents
                                     ">
-                                    <div class="col-md-11 p-1 d-flex m-1 flex-column" style="border: 1px solid #cdcdcd;border-radius:9px;" >
-                                        <div class="col-md-12 d-flex flex-row p-0">
+                                        <div class="col-md-11 p-1 d-flex m-1 flex-column"
+                                          style="border: 1px solid #cdcdcd;border-radius:9px;">
+                                          <div class="col-md-12 d-flex flex-row p-0">
 
-                                          <div  class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center ">
-                                            <img class="imageThumb" *ngIf="
+                                            <div
+                                              class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center ">
+                                              <img class="imageThumb" *ngIf="
                                             file.document_unique_id.indexOf(
                                               '.pdf'
                                             ) == -1 &&
                                             file.document_unique_id.indexOf(
                                               '.mp4'
                                             ) == -1
-                                          "style="width: 50px;height:30px;"
-                                          src="{{ file.url }}" />
-                                            <img class="imageThumb" *ngIf="
+                                          " style="width: 50px;height:30px;" src="{{ file.url }}" />
+                                              <img class="imageThumb" *ngIf="
                                             file.document_unique_id.indexOf(
                                               '.pdf'
                                             ) != -1
-                                          " style="width: 50px;height:30px;"
-                                          src="../assets/PDF.svg" />
-                                            <img class="imageThumb" *ngIf="
+                                          " style="width: 50px;height:30px;" src="../assets/PDF.svg" />
+                                              <img class="imageThumb" *ngIf="
                                             file.document_unique_id.indexOf(
                                               '.mp4'
                                             ) != -1
-                                          " style="width: 50px;height:30px;"
-                                          src="../assets/video-button.png" />
-                                          </div>
-                                          <div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">
-                                            <div>
-                                              <b class="limitword">Dokumentenname:
-                                                {{ file.file_name }}</b>
+                                          " style="width: 50px;height:30px;" src="../assets/video-button.png" />
                                             </div>
-                                            <div>
-                                              <b>Dateigröße:
-                                                {{ file.tags.split(",")[0] }}</b>
-                                            </div>
-                                            <div>
-                                              <b>Dateityp:
-                                                {{ file.tags.split(",")[1] }}</b>
-                                            </div>
-                                          </div>
-
-                                          <div class="col-md-2 text-right d-flex flex-column p-0 align-items-center justify-content-center ">
-                                            <div class="p-0">
-                                              <div class="removepreview btn bg-danger links mt-1"
-                                              (click)=" remove_uploaded_document(
-                                                i, file.document_unique_id )"
-                                              style="cursor: pointer;padding:1px 4px" >
-                                              <i class="fas fa-times text-white "  aria-hidden="true"></i>
+                                            <div class="col-md-8 d-flex justify-content-center flex-column p-0"
+                                              style="font-size:11px; padding:1px" style="font-size:14px;">
+                                              <div>
+                                                <b class="limitword">Dokumentenname:
+                                                  {{ file.file_name }}</b>
+                                              </div>
+                                              <div>
+                                                <b>Dateigröße:
+                                                  {{ file.tags.split(",")[0] }}</b>
+                                              </div>
+                                              <div>
+                                                <b>Dateityp:
+                                                  {{ file.tags.split(",")[1] }}</b>
                                               </div>
                                             </div>
 
+                                            <div
+                                              class="col-md-2 text-right d-flex flex-column p-0 align-items-center justify-content-center ">
+                                              <div class="p-0">
+                                                <div class="removepreview btn bg-danger links mt-1" (click)=" remove_uploaded_document(
+                                                i, file.document_unique_id )" style="cursor: pointer;padding:1px 4px">
+                                                  <i class="fas fa-times text-white " aria-hidden="true"></i>
+                                                </div>
+                                              </div>
 
-                                            <div class=" p-0 mt-1">
-                                              <div class="previewdoc btn links  " (click)="
+
+                                              <div class=" p-0 mt-1">
+                                                <div class="previewdoc btn links  " (click)="
                                               preview_uploaded_document(
                                                 file.file_name,
                                                 file.url,
                                                 file.tags.split(',')[1] ) "
-                                              style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                                  style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">
+                                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
                                     </ng-container>
                                   </div>
                                   <!-- </div> -->
@@ -17652,7 +17658,8 @@
                   let member of familyData;
                   let i = index">
 
-                      <div class="col-md-12 p-0" *ngIf="indexOfHideValues == i" [hidden]="hideValues.hidedisabledfamilyIn">
+                      <div class="col-md-12 p-0" *ngIf="indexOfHideValues == i"
+                        [hidden]="hideValues.hidedisabledfamilyIn">
                         <mat-tab-group mat-stretch-tabs="false" class="tabs company-tab "
                           (selectedTabChange)="tabClicked($event)">
                           <mat-tab class="new-item  " class="styletab" label="Persönliche Daten">
@@ -20732,7 +20739,7 @@
                   <span>
                     Laufende Verträge
                   </span>
-                  <button class=" button-primary" style="height: 38px"(click)="open_runningcont_modal()">
+                  <button class=" button-primary" style="height: 38px" (click)="open_runningcont_modal()">
                     Bestandsübertragung
                   </button>
                 </div>
@@ -22190,8 +22197,7 @@
                   <span>
                     Angebote/Fremdverträge
                   </span>
-                  <button class=" button-primary" style="height: 38px"
-                  (click)="open_extcont_modal()">
+                  <button class=" button-primary" style="height: 38px" (click)="open_extcont_modal()">
                     Fremdvertrag
                   </button>
                 </div>
@@ -22210,8 +22216,8 @@
                                 <form>
                                   <mat-icon class="position-absolute has-icon">search
                                   </mat-icon>
-                                  <input class="form-control pl-5 mr-4" name="search"  [(ngModel)]="searchVariable"
-                                  (ngModelChange)="searchMembers($event,'Fremdverträge','Versicherungsgesellschaft','pagedItems')"
+                                  <input class="form-control pl-5 mr-4" name="search" [(ngModel)]="searchVariable"
+                                    (ngModelChange)="searchMembers($event,'Fremdverträge','Versicherungsgesellschaft','pagedItems')"
                                     placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                 </form>
                               </div>
@@ -22258,7 +22264,7 @@
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
                               <ul
-                                class="accordion-head-list list-unstyled mx-2 my-1 d-flex align-items-start justify-content-between">
+                                class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center ">
                                 <li class="tabsecond1 font-weight-bold">#</li>
                                 <li class="tabsecond2 font-weight-bold">
                                   LOGO
@@ -22319,13 +22325,13 @@
                                   <ul
                                     [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                     style="border-radius: 10px 10px;"
-                                    class="accordion-list-data list-unstyled mx-2 my-1 d-flex align-items-center justify-content-between"
+                                    class="accordion-list-data list-unstyled mx-2  py-2 my-0  d-flex justify-content-between align-items-center"
                                     id="ul{{ cl._id }}">
                                     <li class="tabsecond1">
                                       {{ startRecordsecond + i }}
                                     </li>
-                                    <li class="tabsecond2">
-                                      <img src="{{ cl.element.responselogo }}" style="width: 50%" />
+                                    <li class="tabsecond2 d-flex align-items-center justify-content-center">
+                                      <img src="{{ cl.element.responselogo }}" class="mr-2" style="width:35px" />
                                     </li>
                                     <li class="tabsecond3">
                                       {{ cl.element.product_partner }}
@@ -22338,9 +22344,10 @@
                                     <li class="tabsecond9"></li>
                                     <li class="tabsecond10"></li> -->
                                     <li class="tabsecond8">
-                                      <button type="button"
-                                        class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1"
-                                        data-bs-toggle="modal" data-target="#exampleModal" (click)="
+                                      <span class="d-flex align-items-center justify-content-end">
+                                        <button type="button"
+                                          class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1"
+                                          data-bs-toggle="modal" data-target="#exampleModal" (click)="
                                             previethird(
                                               cl.element.document_url,
                                               cl.element.tags,
@@ -22356,8 +22363,9 @@
                                               'click4'
                                             )
                                                                         " id="click4{{ cl.element.id }}">
-                                        Öffnen
-                                      </button>
+                                          Öffnen
+                                        </button>
+                                      </span>
                                     </li>
                                   </ul>
                                   <div class="col-md-12">
@@ -22384,8 +22392,8 @@
                                 <form>
                                   <mat-icon class="position-absolute has-icon">search
                                   </mat-icon>
-                                  <input class="form-control pl-5 mr-4" name="search"  [(ngModel)]="searchVariable"
-                                  (ngModelChange)="searchMembers($event,'Fremdverträge','Geldanlagen','pagedItems')"
+                                  <input class="form-control pl-5 mr-4" name="search" [(ngModel)]="searchVariable"
+                                    (ngModelChange)="searchMembers($event,'Fremdverträge','Geldanlagen','pagedItems')"
                                     placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                 </form>
                               </div>
@@ -22423,7 +22431,7 @@
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
                               <ul
-                                class="accordion-head-list list-unstyled mx-2 my-0 d-flex align-items-start justify-content-between">
+                                class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
                                 <li class="tabsecond1 font-weight-bold">#</li>
                                 <li class="tabsecond2 font-weight-bold">
                                   LOGO
@@ -22484,13 +22492,13 @@
                                   <ul
                                     [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                     style="border-radius: 10px 10px;"
-                                    class="accordion-list-data list-unstyled mx-2 my-1 d-flex align-items-center justify-content-between"
+                                    class="accordion-list-data list-unstyled mx-2  py-2 my-0  d-flex justify-content-between align-items-center"
                                     id="ul{{ cl._id }}">
                                     <li class="tabsecond1">
                                       {{ startRecordsecond + i }}
                                     </li>
-                                    <li class="tabsecond2">
-                                      <img src="{{ cl.element.responselogo }}" style="width: 50%" />
+                                    <li class="tabsecond2 d-flex align-items-center justify-content-center">
+                                      <img src="{{ cl.element.responselogo }}" class="mr-2" style="width: 35px" />
                                     </li>
                                     <li class="tabsecond3">
                                       {{ cl.element.product_partner }}
@@ -22546,8 +22554,8 @@
                                 <form>
                                   <mat-icon class="position-absolute has-icon">search
                                   </mat-icon>
-                                  <input class="form-control pl-5 mr-4" name="search"  [(ngModel)]="searchVariable"
-                                  (ngModelChange)="searchMembers($event,'Fremdverträge','Bank','pagedItems')"
+                                  <input class="form-control pl-5 mr-4" name="search" [(ngModel)]="searchVariable"
+                                    (ngModelChange)="searchMembers($event,'Fremdverträge','Bank','pagedItems')"
                                     placeholder="z.b. Anbieter, Vertragsnummer" type="text" id="searchid" />
                                 </form>
                               </div>
@@ -22593,8 +22601,7 @@
 
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
-                              <ul
-                                class="accordion-head-list list-unstyled mx-2 my-0 d-flex align-items-start justify-content-between">
+                              <ul class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
                                 <li class="tabsecond1 font-weight-bold ">#</li>
                                 <li class="tabsecond2 font-weight-bold">
                                   LOGO
@@ -22655,13 +22662,13 @@
                                   <ul
                                     [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
                                     style="border-radius: 10px 10px;"
-                                    class="accordion-list-data list-unstyled mx-2 my-1  d-flex align-items-center justify-content-between"
+                                    class="accordion-list-data list-unstyled mx-2  py-2 my-0  d-flex justify-content-between align-items-center"
                                     id="ul{{ cl._id }}">
                                     <li class="tabsecond1">
                                       {{ startRecordsecond + i }}
                                     </li>
-                                    <li class="tabsecond2">
-                                      <img src="{{ cl.element.responselogo }}" />
+                                    <li class="tabsecond2 d-flex align-items-center justify-content-center">
+                                      <img class="mr-2" style="width: 35px;" src="{{ cl.element.responselogo }}" />
                                     </li>
                                     <li class="tabsecond3">
                                       {{ cl.element.product_partner }}
@@ -22673,7 +22680,7 @@
                                     <!-- <li class="tabsecond8"></li>
                                         <li class="tabsecond9"></li>
                                         <li class="tabsecond10"></li> -->
-                                    <li class="tabsecond11 mb-2">
+                                    <li class="tabsecond8">
                                       <button type="button"
                                         class="openclass offnen-cls btn  button-primary  btn-sm add-assigment mr-2 py-1"
                                         data-bs-toggle="modal" data-target="#exampleModal" (click)="
@@ -22754,7 +22761,7 @@
                   style="margin-top: 0px">
                   <div class="container-fluid">
                     <div class="d-flex justify-content-between customer-search mt-3" style="width: 99%">
-                      <div class="form-group col-md-3 position-relative">
+                      <div class="  col-md-3 position-relative">
                         <form action="">
                           <mat-icon class="position-absolute has-icon">search</mat-icon>
                           <input class="form-control pl-5 mr-4" name="search" placeholder="z.B. Dokumentenname"
@@ -22763,7 +22770,6 @@
                         </form>
                       </div>
 
-                      <!-- <div class="col-md-6"></div> -->
 
                       <button class="button-primary" style="height: 38px">
                         Anzahl der Ergebnisse: {{ startRecordGDOC }} -
@@ -22928,6 +22934,8 @@
   </div>
 </div>
 
+
+
 <button id="openAllgemeinePreiveiwmodal" type="button" data-toggle="modal" style="display: none"
   data-target="#openAllgemeinePreiveiw">
   ddd
@@ -22941,70 +22949,85 @@
         <div class="modal-header">
           <span id="showpreviewtitle"
             style="font-size: 28px;font-weight:500;border: none;background: transparent;opacity:1">Maklervollmacht:</span>
-          <button type="button" style="border: none;background: transparent;opacity: 1;padding: 0 !important;width: 42px;" class=" " data-dismiss="modal"
-            aria-label="Close"
+          <button type="button"
+            style="border: none;background: transparent;opacity: 1;padding: 0 !important;width: 42px;" class=" "
+            data-dismiss="modal" aria-label="Close"
             (click)="close_modal('openAllgemeinePreiveiw','openAllgemeinePreiveiw_parent');changebuttonname()">
             <img width="50%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
           </button>
         </div>
         <div class="modal-body">
+
           <div class="col-md-12 d-flex flex-wrap p-0">
-            <div class="col-md-4 d-flex flex-row p-0" style="cursor: pointer;color: black;border-radius: 10px;">
-              <div class="accordion" id="accordionPanelsStayOpenExample">
-                <div class="accordion-item">
-                  <h2 class="accordion-header " id="panelsStayOpen-headingOne">
-                    <button style="font-family:Open Sans;font-weight:500;font-size:16px"
-                      class="accordion-button button-primary rounded-3 text-white" type="button"
-                      data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                      aria-controls="panelsStayOpen-collapseOne">
-                      1.Maklervollmacht
-                    </button>
-                  </h2>
-                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                    aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body">
+            <div class="col-md-4 d-flex flex-column p-0" style="cursor: pointer;color: black;border-radius: 10px;">
+              <div class="accordion" id="accordionAllgemeine" *ngFor="let data of preViewData; let i = index;">
+                <div class="card mb-2">
+                  <div class="card-header p-0 m-0 " id="heading{{i}}" role="button" (click)="preViewIndexAllgeme = i">
+                    <h2 class="m-0 p-0 ">
+                      <!-- data-toggle="collapse" attr.data-target="#collapseAllgemeine{{i}}" attr.aria-controls="collapseAllgemeine{{i}}"   -->
+                      <button style="font-family:Open Sans;font-weight:500;font-size:16px;border:none;"
+                        class=" text-start btn button-primary w-100 m-0 p-3 text-white " type="button" >
+                        {{i+1}}.Maklervollmacht
+                      </button>
+                    </h2>
+                  </div>
+                  <!-- attr.id="collapseAllgemeine{{i}}" class="collapse "  -->
+                  <div aria-labelledby="heading{{i}}"
+                    data-parent="#accordionAllgemeine">
+                    <div class="card-body"  *ngIf="preViewIndexAllgeme == i">
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Dokumentenname:
-                        </span>{{preViewData?.document_name}} </div>
+                        </span>{{data?.document_name}} </div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Dateigröße:
-                        </span>{{preViewData?.metadata[0]}}Kb</div>
+                        </span>{{data?.metadata[0]}}Kb</div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Vorgangs Nr.:</span>
-                        {{preViewData?.ticket_no}} </div>
+                        {{data?.ticket_no}} </div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Datum des Dokuments:
-                        </span> {{preViewData?.date_of_document}} </div>
+                        </span> {{data?.date_of_document}} </div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Datum des Uploads:
-                        </span> {{preViewData?.date_of_upload}} </div>
+                        </span> {{data?.date_of_upload}} </div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Hochgeladen von: </span>
-                        {{preViewData?.created_byname}} </div>
+                        {{data?.created_byname}} </div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Dateityp:</span>
-                        {{preViewData?.filetype}} </div>
+                        {{data?.filetype}} </div>
                       <div class="previewAllgemeinesubhead">
                         <div class="d-flex flex-wrap p-0">
                           <span class="previewAllgemeinehead">Stichworte:</span>
                           <span class="previedocbox m-1">
-                            {{preViewData?.companycode}}
+                            {{data?.companycode}}
                           </span> &nbsp;
                           <span class="previedocbox m-1">
-                            {{preViewData?.brand}}
+                            {{data?.brand}}
                           </span> &nbsp;
                           <span class="previedocbox m-1">
-                            {{preViewData?.ticket_no}}
+                            {{data?.ticket_no}}
                           </span>
                         </div>
                       </div>
+
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-8" style="display: inline-block;">
-              <embed id="showpreviewdocument" [src]="preViewData?.url" style="width: 100%; height: 100%;" />
-            </div>
-            <div class="col-md-12 p-0" style="text-align: right;margin-top: 15px;">
-              <a [href]="preViewData?.href" id="showpreviewdownload" target="_blank" style="text-decoration:none;"
-                class=" button-primary-down p-2" download>
-                <span class=""><i class="fa fa-download " aria-hidden="true"></i>&nbsp;Download</span>
-              </a>
-            </div>
+            <ng-container *ngFor="let data of preViewData; let i = index;">
+              <ng-container *ngIf="preViewIndexAllgeme == i">
+                <!-- <div class="col-md-8" style="display: inline-block;min-height: 600px;">
+                  <embed id="showpreviewdocument" [src]="data?.url" style="width: 100%; height: 100%;" />
+                </div> -->
+                <div class="col-md-8">
+                  <div class="col-12 rounded-2 p-2 d-flex flex-column align-items-end"
+                    style="border:1px solid #3085d6;" [ngStyle]="{'min-height':data?.filetype == 'application/pdf'? '620px':'420px' }">
+                    <embed id="showpreviewdocument" [src]="data?.url" style="width: 100%; " [ngStyle]="{'min-height':data?.filetype == 'application/pdf'? '600px':'400px' }"/>
+                    <a [href]="data?.href" id="showpreviewdownload" target="_blank"
+                      style="text-decoration:none;width:fit-content" class=" button-primary-down p-2 mt-1" download>
+                      <span class=""><i class="fa fa-download " aria-hidden="true"></i>&nbsp;Download</span>
+                    </a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
           </div>
 
         </div>
@@ -23172,7 +23195,8 @@
                       matStepperNext>
                       Senden
                     </button>
-                    <button  mat-raised-button id="stepperFremdvertragreset" style="display:none" type="button" (click)="stepperFremdvertrag.reset()">
+                    <button mat-raised-button id="stepperFremdvertragreset" style="display:none" type="button"
+                      (click)="stepperFremdvertrag.reset()">
                       reset button
                     </button>
                   </div>
@@ -23201,8 +23225,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <mat-horizontal-stepper linear #stepperBestandsubertragung style="width: 100% !important; overflow: auto !important"
-          class="stepnewclass">
+        <mat-horizontal-stepper linear #stepperBestandsubertragung
+          style="width: 100% !important; overflow: auto !important" class="stepnewclass">
           <ng-template matStepperIcon="edit">
             <mat-icon>check</mat-icon>
           </ng-template>
@@ -23341,11 +23365,12 @@
                   <div class="col-md-10"></div>
                   <div class="col-md-1">
                     <button type="button" style="margin-left: -12px" [disabled]="uploadingdata"
-                      (click)="_handleImageUpload2('bestandsübertragung');stepperBestandsubertragung.reset()" class="stepper-btn btn links2"
-                      mat-raised-button matStepperNext>
+                      (click)="_handleImageUpload2('bestandsübertragung');stepperBestandsubertragung.reset()"
+                      class="stepper-btn btn links2" mat-raised-button matStepperNext>
                       Senden
                     </button>
-                    <button  mat-raised-button id="resetBestandsübertragungreset" style="display:none" type="button" (click)="stepperBestandsubertragung.reset()">
+                    <button mat-raised-button id="resetBestandsübertragungreset" style="display:none" type="button"
+                      (click)="stepperBestandsubertragung.reset()">
                       reset button
                     </button>
                   </div>
@@ -23378,7 +23403,8 @@
           </button>
         </div>
         <div class="modal-body p-2">
-          <pdf-viewer id="showpreviewpdf" [src]="source"  [render-text]="true" [original-size]="false" style="width:100%;height:600px;display:none;"></pdf-viewer>
+          <pdf-viewer id="showpreviewpdf" [src]="source" [render-text]="true" [original-size]="false"
+            style="width:100%;height:600px;display:none;"></pdf-viewer>
           <!-- <embed id="showpreviewpdf" style="width: 100%; height: 600px; display: none" src="" /> -->
           <img id="showpreviewimg" style="width: 100%; height: 100%; display: none" src="" />
 

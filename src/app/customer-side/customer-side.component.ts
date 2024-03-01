@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, SecurityContext, ViewChild } from '@angular/core';
 import { FormControl, NgForm, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,6 +16,7 @@ import { EventEmitterService } from '../event-emitter.service';
 import { UserService } from '../user.service';
 import { VideoChatComponent } from '../video-chat/video-chat.component';
 import * as lodash from 'lodash';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -946,7 +947,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     private form_builder: FormBuilder,
     private pagerService: PagerService, // private _socket: SocketService
     public dialog: MatDialog,
-    public eventEmitterService: EventEmitterService
+    public eventEmitterService: EventEmitterService,
+    private readonly sanitizer: DomSanitizer
   ) {
     // this.router.routeReuseStrategy.shouldReuseRoute = () => {
     //   return false;
@@ -973,6 +975,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     this.userService.selectCustomerSideItem.subscribe(data => {
 
+      this.sub_sub_customer_id = ''
       for (const key of Object.keys(this.addKunden)) {
         this.addKunden[key] = true
       }
@@ -995,27 +998,23 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
       this.VertrageData = false
 
-      console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
 
       this.userService
         .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
         ?.pipe(first())
         .subscribe(
           (data) => {
-            console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
 
             console.log(data);
-            
+
             this.MetaDataLoopingDocList();
             this.customerDocList = data;
             console.log('data :', data);
 
-            console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
             console.log("innerloop");
             this.customerDocListunique = [];
             console.log(this.customerDocList);
 
-            //
 
             for (let i = 0; i < this.customerDocList.length; i++) {
               let exists = 0;
@@ -1058,29 +1057,37 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         ?.pipe(first())
         .subscribe(
           (data11) => {
-            console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
 
-            console.log(data11);
 
             this.MetaDataLoopingDocListsecond();
             this.customerDocListsecondunique = [];
             this.customerDocListsecond = data11;
+            console.log('customerDocListsecond :', this.customerDocListsecond);
 
             for (let i = 0; i < this.customerDocListsecond.length; i++) {
               let exists = 0;
               for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
+                console.log(this.customerDocListsecondunique[j].element.ticket_no ==
+                  this.customerDocListsecond[i].element.ticket_no);
+
                 if (
                   this.customerDocListsecondunique[j].element.ticket_no ==
                   this.customerDocListsecond[i].element.ticket_no
                 ) {
                   exists = 1;
+                  console.log('exists :',exists,'Not entered');
+
                 }
               }
 
+
               if (exists == 0) {
+                console.log('exists :',exists,'Entered');
                 this.customerDocListsecondunique.push(
                   this.customerDocListsecond[i]
                 );
+              } else {
+                console.log('exists :',exists,'Not entered else');
               }
             }
 
@@ -2005,7 +2012,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
     this.userService.getListBranch({}).subscribe(async (success: any) => {
       this.branchlisttotal = success;
-      console.log("branchlisttotal" + JSON.stringify(this.branchlisttotal));
+      console.log("branchlisttotal" +  this.branchlisttotal );
       this.branchlist = await this.LoopingBrancheslistnew(success);
       console.log("branchlisttotal" + this.branchlist);
     });
@@ -2223,7 +2230,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       });
 
     // console.log("session"+localStorage.getItem("currentActiveRole"))
-    console.log("localdata" + JSON.stringify(this.localData));
+    console.log("localdata" +  this.localData);
 
     console.log("localdata" + JSON.stringify(this.currentActiveRole));
     this.docFromGroup = this.form_builder.group({
@@ -2546,7 +2553,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         );
     }
 
-    console.log(this.customerid, this.sub_customer_id, this.sub_sub_customer_id)
     this.userService
       .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
       ?.pipe(first())
@@ -2593,7 +2599,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       );
     this.userService
       // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
-      .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
+      .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
       ?.pipe(first())
       .subscribe(
         (data11) => {
@@ -2638,7 +2644,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     this.userService.getproductpartner().subscribe((success: any) => {
       // if success and error give response
-      console.log(JSON.stringify(success));
+      console.log( success) ;
       this.ReadyProductsOptions = this.LoopingProductsList(success);
       this.ReadyProductsTypeOptions = this.LoopingProductsListType(success);
       console.log("ReadyProductsTypeOptions" + this.ReadyProductsTypeOptions);
@@ -4498,7 +4504,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log("element", element1new);
       // element1new.after(accordian);
       // accordian.classList.add("collapse");
-      // accordian.classList.add("collapse");
       // accordian.classList.remove("collapse-show");
 
       element.innerHTML = "Öffnen";
@@ -5979,17 +5984,17 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   setPagetype(page: number, data: any) {
-    console.log("sadsadsad" + JSON.stringify(this.type1));
+    console.log("sadsadsad" ,  this.type1) ;
     // get pager object from service
     //this.getdivoutside();
     if (data == "type1") {
-      console.log("sadsadsad" + JSON.stringify(this.type1));
+      console.log("sadsadsad" ,  this.type1 );
 
       this.pagertype[0].type1 = this.pagerService.getPager(
         this.type1?.length,
         page
       );
-      console.log("sadsadsad" + this.pagertype[0].type1);
+      console.log("sadsadsad", this.pagertype[0].type1);
       // get current page of items
       this.pagedItemstype[0].type1 = this.type1.slice(
         this.pagertype[0].type1.startIndex,
@@ -5999,8 +6004,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagertype[0].type1.startIndex,
         this.pagertype[0].type1.endIndex + 1
       );
-      console.log("sadsadsad" + JSON.stringify(this.pagedItemstype[0].type1),
-        "sadsadsadneelam" + JSON.stringify(this.pagedItemstypeSearch[0].type1));
+      console.log("sadsadsad" ,this.pagedItemstype[0].type1 ,
+        "sadsadsadneelam",this.pagedItemstypeSearch[0].type1) ;
       if (this.type1.length > 0) {
         this.startRecordtype[0].type1 =
           this.pagertype[0].type1.currentPage *
@@ -6020,7 +6025,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     }
     if (data == "type2") {
-      console.log("sadsadsad" + JSON.stringify(this.type2));
+      console.log("sadsadsad" ,this.type2);
 
       this.pagertype[0].type2 = this.pagerService.getPager(
         this.type2.length,
@@ -6029,11 +6034,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log("sadsadsad" + this.pagertype[0].type2);
       // get current page of items
       console.log(
-        "sadsadsadneelam" + JSON.stringify(this.pagedItemstype[0].type2)
+        "sadsadsadneelam" ,this.pagedItemstype[0].type2
       );
-      console.log("sadsadsadneelam" + JSON.stringify(this.type2));
-      console.log("sadsadsadneelam" + this.pagertype[0].type2.startIndex);
-      console.log("sadsadsadneelam" + this.pagertype[0].type2.endIndex);
+      console.log("sadsadsadneelam" , this.type2);
+      console.log("sadsadsadneelam", this.pagertype[0].type2.startIndex);
+      console.log("sadsadsadneelam", this.pagertype[0].type2.endIndex);
       this.pagedItemstype[0].type2 = this.type2.slice(
         this.pagertype[0].type2.startIndex,
         this.pagertype[0].type2.endIndex + 1
@@ -6043,9 +6048,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagertype[0].type2.endIndex + 1
       );
       console.log(
-        "sadsadsadneelam" + JSON.stringify(this.pagedItemstype[0].type2),
+        "sadsadsadneelam" ,this.pagedItemstype[0].type2);
 
-      );
       if (this.type2.length > 0) {
         this.startRecordtype[0].type2 =
           this.pagertype[0].type2.currentPage *
@@ -6065,7 +6069,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     }
     if (data == "type3") {
-      console.log("sadsadsad" + JSON.stringify(this.type3));
+      console.log("sadsadsad" ,this.type3);
 
       this.pagertype[0].type3 = this.pagerService.getPager(
         this.type3.length,
@@ -6388,6 +6392,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
+  sanitizeURL(url:string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    // (SecurityContext.URL,url)
+  }
+  same_docs_listarr = []
   previethird(
     url?: any,
     tags?: any,
@@ -6402,6 +6411,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     preview_id?: any,
     click_id?: any
   ) {
+
+    console.log('url:',url,'tags:',tags,'imagename:',imagename,'companycode :',companycode,'brand :',brand,'document_name :',document_name);
+    this.preViewData = []
+    this.preViewIndexAllgeme = 0
     let that = this;
     this.previewid = id;
     console.log("date_of_uploadnewdate_of_uploadnew" + date_of_uploadnew);
@@ -6409,18 +6422,28 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       //"click" + this.previewid
       click_id + this.previewid
     ) as HTMLElement;
-    if (element.innerHTML == "Schließen") {
-      element.innerHTML = "Öffnen";
+    console.log('element.innerHTML :', element.innerHTML);
 
-      // $("#preview" + id).html("");
-      $("#" + preview_id + id).html("");
-    } else {
-      $(".openclass").html("Öffnen");
-      element.innerHTML = "Schließen";
-      $(".previewclass").html("");
-    }
 
-    if (element.innerHTML == "Schließen") {
+
+    // if (element.innerHTML == "Schließen") {
+    //   element.innerHTML = "Öffnen";
+
+    //   // $("#preview" + id).html("");
+    //   $("#" + preview_id + id).html("");
+    // } else {
+
+    //   $(".openclass").html("Öffnen");
+    //   element.innerHTML = "Schließen";
+    //   $(".previewclass").html("");
+
+    // }
+
+
+
+
+    // if (element.innerHTML == "Schließen") {
+
       // $("#imagediv").removeClass("col-md-12");
       // $("#imagediv").addClass("col-md-7");
       // console.log("tags" + JSON.stringify(tags));
@@ -6468,7 +6491,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         filetype = "";
       }
 
-      let same_docs_list = "";
+
       let index = 1;
 
       for (let count = 0; count < this.customerDocListsecond.length; count++) {
@@ -6501,196 +6524,224 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           } else {
             filetype = "";
           }
+          console.log('Doc data : ',this.customerDocListsecond[count].element);
 
-          if (index == 1) {
-            same_docs_list +=
-              '<div class="row document-row" id="document-row' +
-              index +
-              '" data-source="' +
-              this.customerDocListsecond[count].element.document_url +
-              '" data-file_type="' +
-              filetype +
-              '" data-index="' +
-              index +
-              '" data-doc_link="' +
-              this.customerDocListsecond[count].element.document_unique_id +
-              '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-              '<div class="col-md-11" >' +
-              index +
-              ". " +
-              this.customerDocListsecond[count].element.document_name +
-              "</div>" +
-              '<div class="col-md-1">' +
-              '<i class="fa fa-angle-right" id="angle-right' +
-              index +
-              '" style="display:none;font-weight:bold;font-size:30px;"></i>' +
-              '<i class="fa fa-angle-down" id="angle-down' +
-              index +
-              '" style="font-weight:bold;font-size:30px;margin-left: -5px;"></i>' +
-              "</div>" +
-              '<div class="col-md-12 documentdetails" id="documentdetails' +
-              index +
-              '" style="background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
-              "<h6>Dokumentenname: " +
-              this.customerDocListsecond[count].element.document_name +
-              "</h6><h6>Dateigröße: " +
-              metadata[0] +
-              " Kb</h6><h6>Vorgangs Nr.: " +
-              ticket_no +
-              "</h6><h6>Datum des Dokuments: " +
-              date_of_document +
-              "</h6><h6>Datum des Uploads: " +
-              date_of_upload +
-              "</h6><h6>Hochgeladen von: " +
-              created_byname +
-              "</h6><h6>Dateityp: " +
-              filetype +
-              "</h6><h6>Stichworte: " +
-              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-              companycode +
-              "</span>" +
-              "&nbsp;" +
-              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-              brand +
-              "</span>" +
-              "&nbsp;" +
-              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-              ticket_no +
-              "</span>" +
-              "</h6>" +
-              "</div>" +
-              "</div>";
-          } else {
-            same_docs_list +=
-              '<div class="row document-row" id="document-row' +
-              index +
-              '" data-source="' +
-              this.customerDocListsecond[count].element.document_url +
-              '" data-file_type="' +
-              filetype +
-              '" data-index="' +
-              index +
-              '" data-doc_link="' +
-              this.customerDocListsecond[count].element.document_unique_id +
-              '" style="cursor: pointer;margin-top: 5px;background-color: #184195;color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-              '<div class="col-md-11" >' +
-              index +
-              ". " +
-              this.customerDocListsecond[count].element.document_name +
-              "</div>" +
-              '<div class="col-md-1">' +
-              '<i class="fa fa-angle-right" id="angle-right' +
-              index +
-              '" style="font-weight:bold;font-size:30px;"></i>' +
-              '<i class="fa fa-angle-down" id="angle-down' +
-              index +
-              '" style="margin-left: -5px;display:none;font-weight:bold;font-size:30px;"></i>' +
-              "</div>" +
-              '<div class="col-md-12 documentdetails" id="documentdetails' +
-              index +
-              '" style="display:none;background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
-              "<h6>Dokumentenname: " +
-              this.customerDocListsecond[count].element.document_name +
-              "blob-" +
-              index +
-              "</h6><h6>Dateigröße: " +
-              metadata[0] +
-              " Kb</h6><h6>Vorgangs Nr.: " +
-              ticket_no +
-              "</h6><h6>Datum des Dokuments: " +
-              date_of_document +
-              "</h6><h6>Datum des Uploads: " +
-              date_of_upload +
-              "</h6><h6>Hochgeladen von: " +
-              created_byname +
-              "</h6><h6>Dateityp: " +
-              filetype +
-              "</h6><h6>Stichworte: " +
-              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-              companycode +
-              "</span>" +
-              "&nbsp;" +
-              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-              brand +
-              "</span>" +
-              "&nbsp;" +
-              '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-              ticket_no +
-              "</span>" +
-              "</h6>" +
-              "</div>" +
-              "</div>";
-          }
+          this.preViewData.push({
+            document_name: this.customerDocListsecond[count].element.document_name,
+            metadata: metadata,
+            ticket_no: ticket_no,
+            date_of_document: date_of_document,
+            date_of_upload: date_of_upload,
+            created_byname: created_byname,
+            filetype: filetype,
+            companycode: companycode,
+            brand: brand,
+            url: this.sanitizeURL(this.customerDocListsecond[count].element.document_url),
+            imagename: this.customerDocListsecond[count].element.document_unique_id,
+            href: `${environment.API_URL}document/downloaddocument/${this.customerDocListsecond[count].element.document_unique_id}`
+          })
+
+          // if (index == 1) {
+          //   same_docs_list +=
+          //     '<div class="row document-row" id="document-row' +
+          //     index +
+          //     '" data-source="' +
+          //     this.customerDocListsecond[count].element.document_url +
+          //     '" data-file_type="' +
+          //     filetype +
+          //     '" data-index="' +
+          //     index +
+          //     '" data-doc_link="' +
+          //     this.customerDocListsecond[count].element.document_unique_id +
+          //     '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+          //     '<div class="col-md-11" >' +
+          //     index +
+          //     ". " +
+          //     this.customerDocListsecond[count].element.document_name +
+          //     "</div>" +
+          //     '<div class="col-md-1">' +
+          //     '<i class="fa fa-angle-right" id="angle-right' +
+          //     index +
+          //     '" style="display:none;font-weight:bold;font-size:30px;"></i>' +
+          //     '<i class="fa fa-angle-down" id="angle-down' +
+          //     index +
+          //     '" style="font-weight:bold;font-size:30px;margin-left: -5px;"></i>' +
+          //     "</div>" +
+          //     '<div class="col-md-12 documentdetails" id="documentdetails' +
+          //     index +
+          //     '" style="background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
+          //     "<h6>Dokumentenname: " +
+          //     this.customerDocListsecond[count].element.document_name +
+          //     "</h6><h6>Dateigröße: " +
+          //     metadata[0] +
+          //     " Kb</h6><h6>Vorgangs Nr.: " +
+          //     ticket_no +
+          //     "</h6><h6>Datum des Dokuments: " +
+          //     date_of_document +
+          //     "</h6><h6>Datum des Uploads: " +
+          //     date_of_upload +
+          //     "</h6><h6>Hochgeladen von: " +
+          //     created_byname +
+          //     "</h6><h6>Dateityp: " +
+          //     filetype +
+          //     "</h6><h6>Stichworte: " +
+          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          //     companycode +
+          //     "</span>" +
+          //     "&nbsp;" +
+          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          //     brand +
+          //     "</span>" +
+          //     "&nbsp;" +
+          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          //     ticket_no +
+          //     "</span>" +
+          //     "</h6>" +
+          //     "</div>" +
+          //     "</div>";
+          // } else {
+          //   same_docs_list +=
+          //     '<div class="row document-row" id="document-row' +
+          //     index +
+          //     '" data-source="' +
+          //     this.customerDocListsecond[count].element.document_url +
+          //     '" data-file_type="' +
+          //     filetype +
+          //     '" data-index="' +
+          //     index +
+          //     '" data-doc_link="' +
+          //     this.customerDocListsecond[count].element.document_unique_id +
+          //     '" style="cursor: pointer;margin-top: 5px;background-color: #184195;color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+          //     '<div class="col-md-11" >' +
+          //     index +
+          //     ". " +
+          //     this.customerDocListsecond[count].element.document_name +
+          //     "</div>" +
+          //     '<div class="col-md-1">' +
+          //     '<i class="fa fa-angle-right" id="angle-right' +
+          //     index +
+          //     '" style="font-weight:bold;font-size:30px;"></i>' +
+          //     '<i class="fa fa-angle-down" id="angle-down' +
+          //     index +
+          //     '" style="margin-left: -5px;display:none;font-weight:bold;font-size:30px;"></i>' +
+          //     "</div>" +
+          //     '<div class="col-md-12 documentdetails" id="documentdetails' +
+          //     index +
+          //     '" style="display:none;background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
+          //     "<h6>Dokumentenname: " +
+          //     this.customerDocListsecond[count].element.document_name +
+          //     "blob-" +
+          //     index +
+          //     "</h6><h6>Dateigröße: " +
+          //     metadata[0] +
+          //     " Kb</h6><h6>Vorgangs Nr.: " +
+          //     ticket_no +
+          //     "</h6><h6>Datum des Dokuments: " +
+          //     date_of_document +
+          //     "</h6><h6>Datum des Uploads: " +
+          //     date_of_upload +
+          //     "</h6><h6>Hochgeladen von: " +
+          //     created_byname +
+          //     "</h6><h6>Dateityp: " +
+          //     filetype +
+          //     "</h6><h6>Stichworte: " +
+          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          //     companycode +
+          //     "</span>" +
+          //     "&nbsp;" +
+          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          //     brand +
+          //     "</span>" +
+          //     "&nbsp;" +
+          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+          //     ticket_no +
+          //     "</span>" +
+          //     "</h6>" +
+          //     "</div>" +
+          //     "</div>";
+          // }
 
           index += 1;
+
         }
       }
 
-      // $("#preview"+id).html(
-      $("#" + preview_id + id).html(
-        '<div style="background: #fff;padding: 33px;border-radius:10px;border:1px solid;margin-bottom: 15px;padding-bottom:8px !important;"><div class="col-md-4"  style="display: inline-block;    vertical-align: top;"><div class="line-heights">' +
-        // '<div class="row" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">'+
+      // // $("#preview"+id).html(
+      // $("#" + preview_id + id).html(
+      //   '<div style="background: #fff;padding: 33px;border-radius:10px;border:1px solid;margin-bottom: 15px;padding-bottom:8px !important;"><div class="col-md-4"  style="display: inline-block;    vertical-align: top;"><div class="line-heights">' +
+      //   // '<div class="row" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">'+
 
-        same_docs_list +
-        //'</div>'+
+      //   same_docs_list +
+      //   //'</div>'+
 
-        '</div><div class="col-md-12"> </div></div><div class="col-md-8" style="margin-top:-28px;display: inline-block;"><span class="side-icons"><i class="fa fa-times links" aria-hidden="true" style="margin-bottom:5px;position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed class="show-document" type="' +
-        filetype +
-        '" src="' +
-        url +
-        '" style=" width: 100%; height:1000px;object-fit: cover;"/><a id="document_link" href="' +
-        environment.API_URL +
-        "document/downloaddocument/" +
-        imagename +
-        '" ><span class="side-icons" ><i class="fa fa-download links" style="position:relative;float:right;padding-left: 8px;" aria-hidden="true"  ></i></span></a></div> </div>'
-      );
+      //   '</div><div class="col-md-12"> </div></div><div class="col-md-8" style="margin-top:-28px;display: inline-block;"><span class="side-icons"><i class="fa fa-times links" aria-hidden="true" style="margin-bottom:5px;position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed class="show-document" type="' +
+      //   filetype +
+      //   '" src="' +
+      //   url +
+      //   '" style=" width: 100%; height:1000px;object-fit: cover;"/><a id="document_link" href="' +
+      //   environment.API_URL +
+      //   "document/downloaddocument/" +
+      //   imagename +
+      //   '" ><span class="side-icons" ><i class="fa fa-download links" style="position:relative;float:right;padding-left: 8px;" aria-hidden="true"  ></i></span></a></div> </div>'
+      // );
 
-      const someInput: any = document.getElementById("previewimg");
-      someInput.addEventListener(
-        "click",
-        function () {
-          removepreview();
-        },
-        false
-      );
+      console.log(this.same_docs_listarr);
 
-      $(".document-row").click(function (event: any) {
-        let index = $(that).data("index");
 
-        $(".documentdetails").css("display", "none");
-        $(".fa-angle-right").css("display", "block");
-        $(".fa-angle-down").css("display", "none");
 
-        $(".document-row").css("background-color", "#184195");
-        $(".document-row").css("color", "white");
+      console.log(this.preViewData)
 
-        $("#documentdetails" + index).css("display", "block");
-        $("#angle-right" + index).css("display", "none");
-        $("#angle-down" + index).css("display", "block");
 
-        $("#document-row" + index).css(
-          "background-color",
-          "rgb(181, 172, 172)"
-        );
-        $("#document-row" + index).css("color", "black");
+      $("#openAllgemeinePreiveiwmodal").trigger('click');
+      this.open_modal('openAllgemeinePreiveiw')
 
-        $(".show-document").attr("src", $(that).data("source"));
+      // const someInput: any = document.getElementById("previewimg");
+      // someInput.addEventListener(
+      //   "click",
+      //   function () {
+      //     removepreview();
+      //   },
+      //   false
+      // );
 
-        $(".show-document").attr("type", $(that).data("file_type"));
 
-        $("#document_link").attr(
-          "href",
-          environment.API_URL +
-          "document/downloaddocument/" +
-          $(that).data("doc_link")
-        );
+      // $(".document-row").click(function (event: any) {
+      //   let index = $(that).data("index");
 
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-      });
+      //   $(".documentdetails").css("display", "none");
+      //   $(".fa-angle-right").css("display", "block");
+      //   $(".fa-angle-down").css("display", "none");
+
+      //   $(".document-row").css("background-color", "#184195");
+      //   $(".document-row").css("color", "white");
+
+      //   $("#documentdetails" + index).css("display", "block");
+      //   $("#angle-right" + index).css("display", "none");
+      //   $("#angle-down" + index).css("display", "block");
+
+      //   $("#document-row" + index).css(
+      //     "background-color",
+      //     "rgb(181, 172, 172)"
+      //   );
+      //   $("#document-row" + index).css("color", "black");
+
+      //   $(".show-document").attr("src", $(that).data("source"));
+
+      //   $(".show-document").attr("type", $(that).data("file_type"));
+
+      //   $("#document_link").attr(
+      //     "href",
+      //     environment.API_URL +
+      //     "document/downloaddocument/" +
+      //     $(that).data("doc_link")
+      //   );
+
+      //   event.stopPropagation();
+      //   event.stopImmediatePropagation();
+      // });
 
       //   // $('#loaderouterid').css("display","none");
-    }
+    // }
   }
 
   previewSec(
@@ -7016,11 +7067,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   elementforallgmei: HTMLElement;
 
   changebuttonname() {
-    this.elementforallgmei.innerHTML = "Öffnen"
+    // this.elementforallgmei.innerHTML = "Öffnen"
   }
 
-
-  preViewData: any
+  preViewIndexAllgeme = 0
+  preViewData:any = []
   preview(
     url: any,
     tags: any,
@@ -7034,27 +7085,30 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     ticket_no: any
   ) {
     this.previewid = id;
+    this.preViewIndexAllgeme = 0
     console.log(id);
+    this.preViewData = []
     let element: HTMLElement = document.getElementById(
       "click" + this.previewid
     ) as HTMLElement;
     this.elementforallgmei = element
-    if (element.innerHTML == "Schließen") {
-      element.innerHTML = "Öffnen";
-      $("#preview" + id).html("");
-      // $("#imagediv").removeClass("col-md-7");
-      // $("#imagediv").addClass("col-md-12");
-      // $("#preview" + id).html("");
-    } else {
-      $(".openclass").html("Öffnen");
-      this.elementforallgmei = element
-      element.innerHTML = "Schließen";
-      $(".previewclass").html("");
-    }
+    // if (element.innerHTML == "Schließen") {
+    //   element.innerHTML = "Öffnen";
+    //   $("#preview" + id).html("");
+    //   // $("#imagediv").removeClass("col-md-7");
+    //   // $("#imagediv").addClass("col-md-12");
+    //   // $("#preview" + id).html("");
+    // } else {
+    //   $(".openclass").html("Öffnen");
+    //   this.elementforallgmei = element
+    //   element.innerHTML = "Schließen";
+    //   $(".previewclass").html("");
+    // }
 
-    if (element.innerHTML == "Schließen") {
+    // if (element.innerHTML == "Schließen") {
       // $("#imagediv").removeClass("col-md-12");
       // $("#imagediv").addClass("col-md-7");
+
       console.log("tags" + JSON.stringify(tags));
       const removepreview = () => {
         let elementnew: HTMLElement = document.getElementById(
@@ -7131,7 +7185,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
       );
       */
-      this.preViewData = {
+      this.preViewData.push({
         document_name: document_name,
         metadata: metadata,
         ticket_no: ticket_no,
@@ -7141,10 +7195,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         filetype: filetype,
         companycode: companycode,
         brand: brand,
-        url: url,
+        url: this.sanitizeURL(url),
         imagename: imagename,
         href: `${environment.API_URL}document/downloaddocument/${imagename}`
-      }
+      })
       console.log(this.preViewData)
 
 
@@ -7213,7 +7267,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       );
 
       //   // $('#loaderouterid').css("display","none");
-    }
+    // }
   }
   getFileExtension(filename: any) {
     // get file extension
@@ -7276,6 +7330,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           this.pagerGDOC.startIndex,
           this.pagerGDOC.endIndex + 1
         );
+        console.log(this.pagedItemsGDOC);
+
 
         this.pagedItemsGDOCSearch = this.temporary_documents.slice(
           this.pagerGDOC.startIndex,
@@ -7301,7 +7357,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   setPage(page: number, Double?: any) {
     console.log('page', page);
 
-    // get pager object from service
+    // get pager object from service  setPage()
     //this.getdivoutside();
     if (Double == "general") {
       this.pagerGDOC = this.pagerService.getPagerGDOC(
@@ -7314,6 +7370,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagerGDOC.startIndex,
         this.pagerGDOC.endIndex + 1
       );
+       console.log(this.pagedItemsGDOC);
 
       this.pagedItemsGDOCSearch = this.documents.slice(
         this.pagerGDOC.startIndex,
@@ -7344,13 +7401,14 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         page
       );
       // get current page of items
+      console.log('customerDocListsecondunique :',this.customerDocListsecondunique);
 
       //this.pagedItemssecond = this.customerDocListsecond.slice(
       this.pagedItemssecond = this.customerDocListsecondunique.slice(
         this.pagersecond.startIndex,
         this.pagersecond.endIndex + 1
       );
-      console.log("AAAAAAAAA" + JSON.stringify(this.pagedItemssecond));
+      console.log("pagedItemssecond", this.pagedItemssecond);
       //if (this.customerDocListsecond.length > 0) {
       if (this.customerDocListsecondunique.length > 0) {
         this.startRecordsecond =
@@ -7568,46 +7626,46 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             j < this.pagedItemssecond[i].element.producttype.length;
             j++
           ) {
-            if (this.pagedItemssecond[i].element.producttype?.sparte == "Sach") {
+            if (this.pagedItemssecond[i].element.producttype[j].sparte == "Sach") {
               this.sach2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte == "Renten/Leben"
+              this.pagedItemssecond[i].element.producttype[j].sparte == "Renten/Leben"
             ) {
               this.renten2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte == "Kranken"
+              this.pagedItemssecond[i].element.producttype[j].sparte == "Kranken"
             ) {
               this.kranken2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte == "Gewerbesach"
+              this.pagedItemssecond[i].element.producttype[j].sparte == "Gewerbesach"
             ) {
               console.log("gew see" + i);
               this.gewerbesach2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype.sparte == "Investment"
+              this.pagedItemssecond[i].element.producttype[j].sparte == "Investment"
             ) {
               this.investment2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte == "Sachwerte"
+              this.pagedItemssecond[i].element.producttype[j].sparte == "Sachwerte"
             ) {
               this.sachwerte2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte ==
+              this.pagedItemssecond[i].element.producttype[j].sparte ==
               "Immobilienfinanzierung"
             ) {
               this.immobilien2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte ==
+              this.pagedItemssecond[i].element.producttype[j].sparte ==
               "Verbraucherkredite"
             ) {
               this.verbraucher2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte ==
+              this.pagedItemssecond[i].element.producttype[j].sparte ==
               "Unternehmensfinanzierung"
             ) {
               this.unternehmen2 += 1;
             } else if (
-              this.pagedItemssecond[i].element.producttype?.sparte == "KFZ Kredite"
+              this.pagedItemssecond[i].element.producttype[j].sparte == "KFZ Kredite"
             ) {
               this.kfz2 += 1;
             }
@@ -13859,7 +13917,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           if (length == index + 1) {
             if (values.document_type == "fremdvertrag") {
               this.userService
-                .getDocumentsBYIDnew(this.customerid, "fremdvertrag")
+                .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
                 // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
                 ?.pipe(first())
                 .subscribe(
