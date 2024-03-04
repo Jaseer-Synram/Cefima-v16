@@ -120,7 +120,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   type2: any = [];
   error: { [index: string]: any } = {};
   type3: any = [];
-  startRecordGDOC: any;
+  startRecordGDOC: number = 1
   startRecordtype: any = [{ type1: "" }, { type2: "" }, { type3: "" }];
   api_url: string;
   inputfield: string = "Telefonnummer eingeben";

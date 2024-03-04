@@ -47,7 +47,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 
-registerLocaleData(localeDe, 'de', localeDeExtra);
+registerLocaleData(localeDe, 'de');
 
 export const MY_FORMATS = {
   parse: {

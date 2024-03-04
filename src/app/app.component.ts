@@ -3,7 +3,8 @@ import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/route
 import { SocketAlertsService } from './socket-alerts.service';
 import Swal from 'sweetalert2';
 import { Socket } from 'ngx-socket-io';
-
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
     private socketAlertService:SocketAlertsService,
     private socket:Socket) {
+      registerLocaleData(localeDe);
     router.events.subscribe(
       (event): void => {
         if (event instanceof RouteConfigLoadStart) {

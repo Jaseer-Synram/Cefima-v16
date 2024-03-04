@@ -340,7 +340,7 @@ export class B2bCreateCustomerComponent {
 
   telInputObject(obj: any) {
     console.log(obj);
-    obj.setCountry("DE");
+    obj.setCountry("de");
   }
 
   onStepChange(event: StepperSelectionEvent) {
@@ -357,7 +357,7 @@ export class B2bCreateCustomerComponent {
     console.log("querySelector" + input);
     if (input) {
       intlTelInput(input, {
-        initialCountry: "DE",
+        initialCountry: "de",
         geoIpLookup: function (callback) {
           $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
             resp

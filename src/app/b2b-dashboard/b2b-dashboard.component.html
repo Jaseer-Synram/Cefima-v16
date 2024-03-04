@@ -102,14 +102,12 @@
                           werden. Während des Verifizierungsprozesses sind
                           Auszahlungen durch CEFIMA pausiert.
                           <br /><br />
-                          <i class="fa fa-info-circle iconmove" style="color: #184397; cursor: pointer"
-                            aria-hidden="true"></i>
+                          <img src="../../assets/icons/info-icon.svg" alt="">
                           Informationspflicht
                           <br />
                           Vermittler sind verpflichtet CEFIMA die Änderung ihrer
                           Daten unverzüglich mitzuteilen. <br />
-                          <i class="fa fa-info-circle iconmove" style="color: #184397; cursor: pointer"
-                            aria-hidden="true"></i>
+                          <img src="../../assets/icons/info-icon.svg" alt="">
                           Prüfdauer
                           <br />
                           Im Regelfall sind Ihre Daten in zwei Werktagen
@@ -153,19 +151,11 @@
               <mat-step [stepControl]="phoneFormGroup">
                 <form [formGroup]="phoneFormGroup" #fsa="ngForm" #aForm class="Official-residence-form">
                   <ng-template matStepLabel>Aktualisierung starten</ng-template>
-                  <div class="col-md-12 d-flex justify-content-around gap-2 " id="updateform">
-                    <div class="d-flex flex-row align-items-center justify-content-center">
-                      <p class="flex-40" style="
-                          text-align: center;
-                          font-size: 20px;
-                          font-weight: 400;
-                          margin-top: 5px;
-                        ">
+                  <div class="col-md-12 d-flex justify-content-around gap-2" id="updateform">
+                    <div class="d-flex flex-row align-items-center justify-content-start">
+                      <p  style="font-size: 16px;font-weight: 400;margin-top: 5px;">
                         Hallo
-                        <span style="
-                            background: cadetblue;
-                            padding: 2px 7px 2px 7px;
-                            border-radius: 5px;
+                        <span class="button-primary" style="padding: 1px 7px 1px 7px;border-radius: 5px;line-height: 3px !important;font-size: 15px;
                           "><span *ngIf="
                               localData.companytype != 'Einzelunternehmen' &&
                                 localData.companytype !=
@@ -183,21 +173,16 @@
                     </div>
                   </div>
 
-                  <div class="col-md-12 d-flex justify-content-around gap-2 ">
-                    <div class="d-flex flex-row align-items-center justify-content-center"
-                      class="d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0"
-                      style="flex-basis: 40%;">
-                      <mat-form-field class="flex-40" appearance="outline" style="width: 96%">
+                  <div class="col-md-8 d-flex justify-content-start gap-2 ">
+                    <div class="col-4 p-0 " >
+                      <mat-form-field  appearance="outline" style="width: 96%">
                         <mat-label style="margin-left: 40px">Telefonnummer</mat-label>
                         <input matInput id="phoneupdate" ngModel [maxlength]="20" name="phone_number"
                           formControlName="phone_number" readonly class="test" placeholder="Telefonnummer eingeben"
                           type="tel" value="+49" oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
                       </mat-form-field>
                     </div>
-                  </div>
-                  <div class="d-flex flex-column align-items-start gap-2" *ngIf="otp && !otpSuccess">
-                    <div class="d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0"
-                      style="flex-basis: 40%;">
+                    <div class="col-4 p-0" >
                       <mat-form-field appearance="outline" class="pass" id="rocker" style="width: 96%">
                         <mat-label>Verifizierungscode eingeben</mat-label>
                         <input matInput type="text" autofocus ngModel name="otp" id="focusfield" formControlName="otp"
@@ -206,8 +191,6 @@
                     </div>
                   </div>
                   <div *ngIf="otpSuccess" class="d-flex flex-column align-items-start gap-2">
-                    <div class="d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0"
-                      style="flex-basis: 40%;">
                       <div class="otpSuc" role="alert" style="margin-bottom: 25px">
                         <p class="alert alert-success" style="
                             text-align-last: center;
@@ -218,31 +201,26 @@
                           Telefonnummer erfolgreich verifiziert
                         </p>
                       </div>
-                    </div>
                   </div>
                   <div *ngIf="otpError" class="d-flex flex-column align-items-start gap-2">
-                    <div class="d-flex flex-row justify-content-center align-items-center flex-grow-0 flex-shrink-0"
-                      style="flex-basis: 40%;">
                       <div class="otpEr" role="alert" style="margin-bottom: 25px">
                         <p class="alert alert-danger" style="
                             text-align-last: center;
                             margin: 0px;
-                            width: 415px;
                             margin: auto;
                           ">
                           Ungültiger Bestätigungscode
                         </p>
                       </div>
-                    </div>
                   </div>
 
-                  <div class="col-md-12 p-0 justify-content-center  " style="width: 415px; margin: auto">
-                    <button style="margin-left: 286px; background: #184397" id="verifybutton" type="submit"
-                      mat-raised-button color="primary" (click)="verify()" *ngIf="!otp">
+                    <div class=" p-0 " >
+                      <button  id="verifybutton" type="submit"
+                      mat-raised-button color="button-primary" (click)="verify()" *ngIf="!otp">
                       Code anfordern
                     </button>
-                    <button type="submit" style="margin-left: 147px; background: #184397" mat-raised-button
-                      color="primary" (click)="verifyOtp()" *ngIf="otp && !otpSuccess">
+                    <button type="submit" mat-raised-button
+                      color="button-primary" (click)="verifyOtp()" *ngIf="otp && !otpSuccess">
                       Überprüfen Sie den Bestätigungscode
                     </button>
                   </div>
