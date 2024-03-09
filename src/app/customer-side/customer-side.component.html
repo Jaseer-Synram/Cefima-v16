@@ -3202,7 +3202,7 @@
 
 
 
-        <div class="container  p-0" [hidden]="addKunden.exampleModalLongnewcompanycustomer">\
+        <div class="container  p-0" [hidden]="addKunden.exampleModalLongnewcompanycustomer">
 
           <div class="row" style="margin-top: 10px; margin-bottom: 15px">
             <mat-horizontal-stepper linear #stepper style="background: bottom" class="stepnewclass"
@@ -3384,20 +3384,10 @@
                       </div>
 
                       <div class="d-flex justify-content-between">
-                        <!-- <button
-                        class="stepper-btn btn transitionanimation"
-
-                        mat-raised-button
-
-                        (click)="resetFirstStep()"
-                      >
-                        Reset
-                      </button> -->
                         <button class="stepper-btn btn transitionanimation" mat-raised-button matStepperPrevious>
                           <i class="fa fa-arrow-left" aria-hidden="true"></i>
                           &nbsp; Zurück
                         </button>
-                        &nbsp;
 
                         <button class="stepper-btn btn btn transitionanimation" mat-raised-button matStepperNext
                           [disabled]="
@@ -4414,8 +4404,8 @@
                                         font-size: 14px;
                                         font-weight: 500;
                                         text-align: center;
-                                        margin: revert;
-                                                                    " class="text-bodycolor font-18 m-b-0">
+                                        margin: revert; "
+                                        class="text-bodycolor font-18 m-b-0">
                                 Wirtschaftlich Berechtigte<br />
                                 Upload Ausweisdokument:
                                 {{ datanew.firstname }}
@@ -4438,8 +4428,7 @@
                                   <p style="
                                             font-size: 12px;
                                             font-weight: 500;
-                                            text-align: center;
-                                                                        " class="text-bodycolor font-18 m-b-0">
+                                            text-align: center; " class="text-bodycolor font-18 m-b-0">
                                     Dokumente für Upload wählen oder
                                     einfach hierhin ziehen.
                                   </p>
@@ -4593,9 +4582,6 @@
                   <form [formGroup]="familyFormGroup" #livingfso="ngForm" class="Official-residence-form col-12">
                     <ng-template matStepLabel>Persönliche Daten</ng-template>
                     <div class="col-md-12">
-                      <!-- <div class="col-md-12" style="padding: 0px;margin-top:10px !important">
-                     <h4 style="text-align: left;">Mitglied zum Haushalt hinzufügen</h4>
-                    </div> -->
                       <div class="row" id="familyForm" style="
                                   padding: 0px;
                                   margin-top: 20px !important;
@@ -20743,7 +20729,7 @@
                   </button>
                 </div>
                 <div class="col-12 d-flex  p-0">
-                  <mat-tab-group  class="button-arrow col-12 p-0" mat-stretch-tabs="false"
+                  <mat-tab-group class="button-arrow col-12 p-0" mat-stretch-tabs="false"
                     (selectedTabChange)="laufendeStepperChange($event)">
                     <mat-tab label="Versicherungsgesellschaft">
                       <div
@@ -22201,7 +22187,7 @@
                   </button>
                 </div>
                 <div class="col-md-12 p-0">
-                  <mat-tab-group   class="button-arrow col-12  p-0" mat-stretch-tabs="false"
+                  <mat-tab-group class="button-arrow col-12  p-0" mat-stretch-tabs="false"
                     (selectedTabChange)="angeboteStepperChange($event)">
                     <mat-tab label="Versicherungsgesellschaft">
                       <div
@@ -22600,7 +22586,8 @@
 
                           <div class="accordion-main" id="accordion">
                             <div class="accordion-head">
-                              <ul class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
+                              <ul
+                                class="accordion-head-list list-unstyled  mx-2 my-1  d-flex justify-content-between align-items-center">
                                 <li class="tabsecond1 font-weight-bold ">#</li>
                                 <li class="tabsecond2 font-weight-bold">
                                   LOGO
@@ -22759,7 +22746,8 @@
                   class="customer-managment-content-main  d-flex flex-row justify-content-center align-items-center gap-1"
                   style="margin-top: 0px">
                   <div class="container-fluid p-0">
-                    <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox" style="width: 99%">
+                    <div class="d-flex justify-content-between col-12 customer-search mb-2 rounded p-2 graybox"
+                      style="width: 99%">
                       <div class="  col-md-3 position-relative">
                         <form action="">
                           <mat-icon class="position-absolute has-icon">search</mat-icon>
@@ -22965,15 +22953,14 @@
                     <h2 class="m-0 p-0 ">
                       <!-- data-toggle="collapse" attr.data-target="#collapseAllgemeine{{i}}" attr.aria-controls="collapseAllgemeine{{i}}"   -->
                       <button style="font-family:Open Sans;font-weight:500;font-size:16px;border:none;"
-                        class=" text-start btn button-primary w-100 m-0 p-3 text-white " type="button" >
+                        class=" text-start btn button-primary w-100 m-0 p-3 text-white " type="button">
                         {{i+1}}.Maklervollmacht
                       </button>
                     </h2>
                   </div>
                   <!-- attr.id="collapseAllgemeine{{i}}" class="collapse "  -->
-                  <div aria-labelledby="heading{{i}}"
-                    data-parent="#accordionAllgemeine">
-                    <div class="card-body"  *ngIf="preViewIndexAllgeme == i">
+                  <div aria-labelledby="heading{{i}}" data-parent="#accordionAllgemeine">
+                    <div class="card-body" *ngIf="preViewIndexAllgeme == i">
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Dokumentenname:
                         </span>{{data?.document_name}} </div>
                       <div class="previewAllgemeinesubhead"><span class="previewAllgemeinehead">Dateigröße:
@@ -23015,9 +23002,10 @@
                   <embed id="showpreviewdocument" [src]="data?.url" style="width: 100%; height: 100%;" />
                 </div> -->
                 <div class="col-md-8">
-                  <div class="col-12 rounded-2 p-2 d-flex flex-column align-items-end"
-                    style="border:1px solid #3085d6;" [ngStyle]="{'min-height':data?.filetype == 'application/pdf'? '620px':'420px' }">
-                    <embed id="showpreviewdocument" [src]="data?.url" style="width: 100%; " [ngStyle]="{'min-height':data?.filetype == 'application/pdf'? '600px':'400px' }"/>
+                  <div class="col-12 rounded-2 p-2 d-flex flex-column align-items-end" style="border:1px solid #3085d6;"
+                    [ngStyle]="{'min-height':data?.filetype == 'application/pdf'? '620px':'420px' }">
+                    <embed id="showpreviewdocument" [src]="data?.url" style="width: 100%; "
+                      [ngStyle]="{'min-height':data?.filetype == 'application/pdf'? '600px':'400px' }" />
                     <a [href]="data?.href" id="showpreviewdownload" target="_blank"
                       style="text-decoration:none;width:fit-content" class=" button-primary-down p-2 mt-1" download>
                       <span class=""><i class="fa fa-download " aria-hidden="true"></i>&nbsp;Download</span>
@@ -23395,7 +23383,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <span id="showpreviewtitle"
-            style="font-size: 15px;border: none;width: 32px;background: transparent;opacity:1"></span>
+            style="font-size: 15px;border: none;background: transparent;opacity:1"></span>
           <button type="button" class=" " style="border: none;background: transparent;opacity:1" data-dismiss="modal"
             aria-label="Close" (click)="close_modal('exampleModalpreview','exampleModalpreview_parent')">
             <img width="50%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
@@ -23408,16 +23396,14 @@
           <img id="showpreviewimg" style="width: 100%; height: 100%; display: none" src="" />
 
           <div class="col-md-12" style="text-align: end; margin-top: 5px">
-            <a href="" id="showpreviewdownload" target="_blank" style="color: #184297; margin-right: -20px" class="btn"
+            <a href="" id="showpreviewdownload" target="_blank" style=" margin-right: -20px" class="btn"
               download>
-              <!-- <i class="fa fa-download" aria-hidden="true" style="font-size:20px;"></i>  -->
               <span class="side-icons"><i class="fa fa-download links2" style="
-                   background: linear-gradient(#17459b, #02a9ed);
                   position: relative;
                   float: right;
+                  background: linear-gradient(#17459b, #02a9ed); 
                   padding: 7px 7px 0px 7px;
-                  margin: 2px 0px 8px 2px;
-                " aria-hidden="true"></i></span>
+                  margin: 2px 0px 8px 2px; " aria-hidden="true"></i></span>
             </a>
           </div>
         </div>

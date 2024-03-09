@@ -274,6 +274,54 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     userService.b2bDashboardItem.subscribe(data => {
       console.log(data);
 
+      console.log('this.localData.hasOwnProperty(companydata):' ,this.localData.hasOwnProperty('companydata') );
+      console.log(' this.checkkey(this.localData.companydata,licensesign ) :', this.checkkey(
+        this.localData.companydata,
+        'licensesign'
+      ))
+
+      console.log('this.checkkey( this.localData.companydata,Geschäftsanmeldung)  :', this.checkkey(
+        this.localData.companydata,
+        'Geschäftsanmeldung'
+      ) );
+      console.log('this.checkkey( this.localData.companydata,Datenstammblatt mit Einwilligungserklärung) :', this.checkkey(
+        this.localData.companydata,
+        'Datenstammblatt mit Einwilligungserklärung'
+      ));
+      console.log('this.localData.hasOwnProperty( companydatacheckup) :', this.localData.hasOwnProperty(
+        'companydatacheckup'
+      ));
+      console.log('this.localData.hasOwnProperty( companydatacheckup :', this.localData.hasOwnProperty(
+        'companydatacheckup'
+      )  );
+      console.log( 'this.localData.companydatacheckup?.length > 0 :', this.localData.companydatacheckup?.length > 0 );
+      console.log( ' this.checkkey( this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :',  this.checkkey(
+        this.localData.companydatacheckup,
+        this.financialcheckdata[
+          this.financialcheckdata.length - 1
+        ]?.element?.document_name
+      )  );
+      console.log( ' this.checkkey(  this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :', this.checkkey(
+        this.localData.companydatacheckup,
+        this.financialcheckdata[
+          this.financialcheckdata.length - 1
+        ]?.element?.document_name
+        )?.ans );
+      console.log( 'this.localData.hasOwnProperty( vermittlerstatusforbrokermanager) :', this.localData.hasOwnProperty(
+        'vermittlerstatusforbrokermanager'
+      ) );
+      console.log( 'this.localData.vermittlerstatusforbrokermanager, lastquestion) :',  this.checkkey(
+        this.localData.vermittlerstatusforbrokermanager,
+        'lastquestion'
+      ) );
+
+        console.log( 'this.checkkey( this.localData.vermittlerstatusforbrokermanager,lastquestion). :',
+        this.checkkey(
+          this.localData.vermittlerstatusforbrokermanager,
+          'lastquestion'
+        )?.ans );
+
+
       let itemString = `${data[0]}`
 
       for (const key of Object.keys(this.hideValues)) {
@@ -1736,8 +1784,8 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           setTimeout(() => {
             this.setFocus("otp");
           }, 100);
-          // document.getElementById('focusfield').focus()
-          // $("#focusfield").attr("autofocus");
+          document.getElementById('focusfield').focus()
+          $("#focusfield").attr("autofocus");
           localStorage.setItem("key", JSON.stringify(success));
           return true;
         } else {
@@ -1749,7 +1797,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(rejected);
       }
     );
-    //  this.otp = true;
+     this.otp = true;
     return true;
   }
   public verifyOtp() {
@@ -1813,9 +1861,9 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
               console.log(rejected);
             }
           );
-        // $("#loaderouterid").css("display", "none");
-        // this.Nextstep();
-        // this.otpSuccess = true;
+        $("#loaderouterid").css("display", "none");
+        this.Nextstep();
+        this.otpSuccess = true;
 
         return true;
       } else {
@@ -1867,7 +1915,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (key == "vermittlerstatus1") {
         //console.log("sdfsfsfsdfif" + JSON.stringify(response));
       }
-      //console.log("sdfsfsfsdf" + JSON.stringify(response));
+      console.log("sdfsfsfsdf" + response);
       return response;
     } else {
       // console.log("sdfsfsfsdfelse");
@@ -4445,7 +4493,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#loaderouterid").css("display", "none");
         },
         () => {
-          this.router.navigate(["./b2b-home"]);
+          this.router.navigate(["/cefima/b2b-home"]);
           $("#loaderouterid").css("display", "none");
         }
       );
@@ -4614,7 +4662,8 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   jumptoresigndocs() {
     this.localData.uploaddata = 0;
     localStorage.setItem("currentUser", JSON.stringify(this.localData));
-    this.router.navigate(["b2b-home"]);
+    // this.router.navigate(["b2b-home"]);
+    this.router.navigate(["./cefima/b2b-home"]);
   }
 
   jumptoregisteration() {
@@ -4694,9 +4743,9 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             let temp_doc = this.documents[doc_count];
             temp_doc.element.ceo_doc_name =
               "Ausweisdokument Vertretungsberechtigte Person: " +
-              this.localData.type1.legalrepresentativeform[index].firstname +
+              this.localData.type1?.legalrepresentativeform[index]?.firstname +
               " " +
-              this.localData.type1.legalrepresentativeform[index].lastname;
+              this.localData.type1?.legalrepresentativeform[index]?.lastname;
             this.unique_documents.push(temp_doc);
           } else {
             this.unique_documents.push(this.documents[doc_count]);

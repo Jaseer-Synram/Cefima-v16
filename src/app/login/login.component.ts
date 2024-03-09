@@ -1138,8 +1138,8 @@ export class LoginComponent implements AfterViewInit, OnInit {
             <a id="buttonthree" style="color: #184397" class="btn "><i class="fa fa-file-pdf-o" aria-hidden="true"></i> ` +
               this.pdfname1 +
               ` <i class="fa fa-download" aria-hidden="true"></i> </a>
-          
-            <br><br> 
+
+            <br><br>
             <button id="buttonFour" type="button" style="background: #184397" class="btn btn-primary">Zur Startseite <i class='fa fa-arrow-right'></i></button>
             </div>`,
             iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
@@ -2449,38 +2449,38 @@ export class LoginComponent implements AfterViewInit, OnInit {
 
       /*
      $('#closeform2').on('click', function () {
-   
+
       $('.section2').removeClass('slideboxs2');
 
       Swal.fire({
         title: "Wenn Sie die den Eingabebereich verlassen werden Ihre Daten verworfen.",
         showCancelButton: true,
         confirmButtonText: "Bleiben",
-        cancelButtonText: "Verlassen &nbsp; <i class='fa fa-arrow-right'></i>" 
+        cancelButtonText: "Verlassen &nbsp; <i class='fa fa-arrow-right'></i>"
       }).then(result => {
-       
+
         if( result.value){
-          
+
         }
        else if ( result.dismiss === Swal.DismissReason.backdrop) {
-          
+
           that.reset_company_type();
         }else{
           that.reset_company_type();
 
-          
+
           $('#sidebar2').removeClass('active');
 
           $('#aboutus').addClass("active");
             $('#fp-nav').css("display","block");
             $('#resetsecond').trigger('click');
             $('#formopen').val("0");
-           
+
         }
       })
-    
-       
-        
+
+
+
     });
     */
 

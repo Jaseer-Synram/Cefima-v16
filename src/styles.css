@@ -353,8 +353,7 @@ html {
 }
 
 .button-primary {
-  /* background: linear-gradient(310.12deg, #33a4df -11.74%, #587dba 66.6%); */
-  background: linear-gradient(#17459b, #02a9ed);
+  background: linear-gradient(#17459b, #02a9ed) !important;
   color: #fff !important;
   border-radius: 5px;
   transition: 0.3s;

@@ -1,0 +1,334 @@
+ <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw p-0">
+            <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
+              <form [formGroup]="secondcompanyaddressFormGroup" #secondcompanyfso="ngForm" novalidate=""
+                class="Official-residence-form col-12 p-0">
+
+                <ng-template matStepLabel>Gesetzliche Vertreter </ng-template>
+
+                <div class="col-12 px-3 py-2 mb-4 rounded-2 graybox d-flex justify-content-between align-items-center">
+                  <span>
+                    Geschäftsführer
+                  </span>
+                  <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                    [disabled]="!secondcompanyfso.form.valid "
+                    (click)="addlegalrepresentativeform('addmore');showGMBHItemOne = 9999999999999999">
+                    <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down"
+                      aria-hidden="true"></i>
+                  </button>
+                </div>
+                <!-- showhiddenfieldsFirst(i); -->
+                <div *ngFor="let addedperson1 of addedpersonsFirst; let j =index;"
+                  class="col-12 p-0 d-flex flex-column ">
+
+                  <div class="col-12 d-flex flex-raw  gmbhpersons blueBox-parent px-2 py-1  mt-2 mb-4 mx-0 "
+                    (click)="showGMBHItemOne = j">
+                    <div class="p-0 m-0" style="text-align: start;">{{ j + 1 }}.</div>
+                    <div class="col-md-11  " style="text-align: start;">{{ addedperson1 }}&nbsp; <i
+                        class="fas fa-check-circle" style="color: #fff;"></i></div>
+                    <div class="col-md-1 p-0 m-0" style="text-align: center;">
+                      <div class="arrowsetting">
+                        <i id="arrowsettingheaderFirst{{j}}" style="cursor:pointer"
+                          [ngClass]="showGMBHItemOne == j ?'fas fa-angle-down ':'fas fa-angle-right' "></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-container *ngIf="showGMBHItemOne == j">
+                    <div class="col-12 p-0 " [ngClass]="addedpersonsFirst.length > 0 ? 'blueBox-body' : ''  "
+                      formArrayName="legalrepresentativeform">
+                      <div *ngFor="
+                        let legalrepresentativeform11 of legalrepresentativeform()
+                          .controls;
+                        let i = index
+                      " [formGroupName]="i" id="formidFirst{{i}}">
+
+                        <ng-container *ngIf="i==showGMBHItemOne">
+
+                          <div class="col-12 p-0">
+
+                            <div class="col-12 p-0  ">
+                              <div class="col-5 p-0">
+                                <label style="display: block;font-weight:600;font-size:17px">Anrede:</label>
+                                <mat-radio-group aria-label="Select an option" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" (ngModelChange)="checkthirdstepdata()"
+                                  formControlName="title">
+                                  <mat-radio-button value="Frau" class="radioclass">Frau
+                                  </mat-radio-button>
+                                  <mat-radio-button value="Herr" class="radioclass">Herr
+                                  </mat-radio-button>
+                                  <mat-radio-button value="Divers">Divers</mat-radio-button>
+                                </mat-radio-group>
+                              </div>
+                            </div>
+
+                            <div class="col-12 p-0 d-flex flex-row flex-wrap">
+                              <div class="col-md-4 p-0" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Vorname </mat-label>
+                                  <input matInput placeholder="Vorname " formControlName="firstname"
+                                    (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Nachname </mat-label>
+                                  <input matInput placeholder="Nachname " formControlName="lastname"
+                                    (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Geburtsdatum</mat-label>
+                                  <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                    placeholder="Geburtsdatum" formControlName="dateofbirth"
+                                    (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    (ngModelChange)="checkthirdstepdata()" />
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+
+
+                              <div class="col-md-4 p-0" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%;">
+                                  <mat-label>Straße</mat-label>
+                                  <input matInput placeholder="Straße" formControlName="streetfirst"
+                                    ngx-google-places-autocomplete [options]="options" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" #placesRef="ngx-places"
+                                    (onAddressChange)="handleAllFieldsfirst($event,i)" />
+                                </mat-form-field>
+                              </div>
+
+                              <div class="col-md-4 p-0  text-center">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Nr.</mat-label>
+                                  <input matInput placeholder="Nr." (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" formControlName="streetNumberfirst" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0  text-right">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>PLZ</mat-label>
+                                  <input matInput placeholder="PLZ" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" formControlName="postCodefirst" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Stadt</mat-label>
+                                  <input matInput placeholder="Stadt" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" formControlName="cityfirst" />
+                                </mat-form-field>
+                              </div>
+
+                              <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="C/O Appartmentnummer, Türcode, usw."
+                                    formControlName="additionalReferencefirst" />
+                                </mat-form-field>
+                              </div>
+
+                              <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Land des Wohnsitzes</mat-label>
+                                  <input matInput placeholder="Land des Wohnsitzes"
+                                    formControlName="countryOfResidencefirst" ngx-google-places-autocomplete
+                                    [options]="options" #placesRef="ngx-places" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()"
+                                    (onAddressChange)="handleAddressChangelandfirst($event,i)" />
+                                </mat-form-field>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="col-12 p-0 d-flex justify-content-between" style="padding: 0px;">
+                            <div *ngIf="i > 0" class="col-md-6 p-0">
+                              <button class="btn btn-danger transitionanimation" mat-raised-button
+                                (click)="removelegalrepresentativeform(i); removeaddedpersonFirst(i); checkthirdstepdata()"
+                                style="color: #fff;
+                              background-color: #bb2d3b;
+                              border-color: #b02a37;">
+                                entfernen
+                              </button>
+                            </div>
+
+                            <div *ngIf="i == 0">
+                            </div>
+
+                            <div class="col-md-6 p-0" style="text-align: end;">
+                              <button *ngIf="addedpersonsFirst.length == i; else openclose" style="margin-top: auto;"
+                                class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                (click)="addlegalrepresentativeform('tick');showUp()"
+                                [disabled]="legalrepresentativeform11.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                              <ng-template #openclose>
+                                <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                  style="margin-top: auto;" (click)="showhiddenfieldsFirst(i);showUp()"
+                                  [disabled]="legalrepresentativeform11.invalid">
+                                  <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up"
+                                    aria-hidden="true"></i>
+                                </button>
+                              </ng-template>
+                            </div>
+
+
+                          </div>
+
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                </div>
+
+                <ng-container *ngIf="showGMBHItemOne == 9999999999999999 ">
+                  <div class="col-12 p-0 " [ngClass]="addedpersonsFirst.length > 0 ? '' : ''  "
+                    formArrayName="legalrepresentativeform">
+                    <div *ngFor="
+                    let legalrepresentativeform11 of legalrepresentativeform()
+                      .controls;
+                    let i = index
+                  " [formGroupName]="i" id="formidFirst{{i}}">
+
+                      <div class="col-12 p-0" *ngIf="i == addedpersonsFirst.length ">
+
+                        <div class="col-12 p-0">
+                          <div class="col-12 p-0 ">
+                            <div class="col-5 p-0">
+                              <label style="display: block;font-weight:600;font-size:17px">Anrede: </label>
+                              <mat-radio-group aria-label="Select an option" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" (ngModelChange)="checkthirdstepdata()"
+                                formControlName="title">
+                                <mat-radio-button value="Frau" class="radioclass">Frau
+                                </mat-radio-button>
+                                <mat-radio-button value="Herr" class="radioclass">Herr
+                                </mat-radio-button>
+                                <mat-radio-button value="Divers">Divers</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>
+
+                          <div class="col-12 p-0 d-flex flex-row flex-wrap">
+                            <div class="col-md-4 p-0" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Vorname </mat-label>
+                                <input matInput placeholder="Vorname " formControlName="firstname"
+                                  (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Nachname </mat-label>
+                                <input matInput placeholder="Nachname " formControlName="lastname"
+                                  (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Geburtsdatum</mat-label>
+                                <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                  placeholder="Geburtsdatum" formControlName="dateofbirth"
+                                  (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                  (ngModelChange)="checkthirdstepdata()" />
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%;">
+                                <mat-label>Straße</mat-label>
+                                <input matInput placeholder="Straße" formControlName="streetfirst"
+                                  ngx-google-places-autocomplete [options]="options" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" #placesRef="ngx-places"
+                                  (onAddressChange)="handleAllFieldsfirst($event,i)" />
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0  text-center">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Nr.</mat-label>
+                                <input matInput placeholder="Nr." (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="streetNumberfirst" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-right">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>PLZ</mat-label>
+                                <input matInput placeholder="PLZ" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="postCodefirst" />
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Stadt</mat-label>
+                                <input matInput placeholder="Stadt" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="cityfirst" />
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                                <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                  placeholder="C/O Appartmentnummer, Türcode, usw."
+                                  formControlName="additionalReferencefirst" />
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Land des Wohnsitzes</mat-label>
+                                <input matInput placeholder="Land des Wohnsitzes"
+                                  formControlName="countryOfResidencefirst" ngx-google-places-autocomplete
+                                  [options]="options" #placesRef="ngx-places" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()"
+                                  (onAddressChange)="handleAddressChangelandfirst($event,i)" />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 p-0 d-flex justify-content-between" style="padding: 0px;">
+                          <div *ngIf="i > 0" class="col-md-6 p-0">
+                            <button class="btn btn-danger transitionanimation" mat-raised-button
+                              (click)="removelegalrepresentativeform(i); removeaddedpersonFirst(i); checkthirdstepdata()"
+                              style="color: #fff;
+                          background-color: #bb2d3b;
+                          border-color: #b02a37;">
+                              entfernen
+                            </button>
+                          </div>
+                          <div *ngIf="i == 0">
+
+                          </div>
+                          <div class="col-md-6 p-0" style="text-align: end;">
+                            <button *ngIf="addedpersonsFirst.length == i; else openclose" style="margin-top: auto;"
+                              class="stepper-btn button-primary transitionanimation" mat-raised-button
+                              (click)="addlegalrepresentativeform('tick');showUp()"
+                              [disabled]="legalrepresentativeform11.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                            <ng-template #openclose>
+                              <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                style="margin-top: auto;" (click)="showhiddenfieldsFirst(i);showUp()"
+                                [disabled]="legalrepresentativeform11.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+              </form>
+            </div>
+          </div>

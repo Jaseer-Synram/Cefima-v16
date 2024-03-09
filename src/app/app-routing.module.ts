@@ -27,7 +27,10 @@ const routes: Routes = [
   },
   // {
   //   path: 'register-user/:id',
-  //   component: RegisterUserComponent,
+  //   loadChildren: () =>
+  //   import('./register-user/register-user.module').then(
+  //     (m) => m.RegisterUserModule
+  //   ),
   //   //data: { roles: [] }
   // },
   // {

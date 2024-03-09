@@ -1144,6 +1144,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       });
     }
   }
+  
   isButtonDisabled(item: string) {
 
     if (item == 'one') {
@@ -1524,7 +1525,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       let totalshares: number = 0;
       for (
         let i = 0;
-        i < this.membertype3.legalrepresentativeform2.length;
+        i < this.membertype3.legalrepresentativeform2?.length;
         i++
       ) {
         console.log(
@@ -3244,7 +3245,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         $("#showpreviewimg").css("display", "none");
         $("#showpreviewpdf").attr("src", "");
         $("#showpreviewpdf").css("display", "block");
-        //  $('#showpreviewvideo').attr('src',source);
         $("#showpreviewpdf").attr("src", url);
       }, 1000);
 
@@ -3890,7 +3890,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log('aftervie *********************************');
 
     setTimeout(() => {
-      this.signaturePad = new SignaturePad(this.canvas.nativeElement);
+      if(this.canvas){
+        this.signaturePad = new SignaturePad(this.canvas?.nativeElement);
+      }
     });
     this.getalldocument();
 
@@ -4001,8 +4003,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       };
     }, 500);
     setTimeout(() => {
-      this.signaturePad.minWidth = 2; // set szimek/signature_pad options at runtime
-      this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+      if (this.signaturePad) {
+        this.signaturePad.minWidth = 2;
+        this.signaturePad.clear();
+      }
     });
 
 
@@ -5093,6 +5097,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.setindex = 99999;
     console.log("savecompanyId" + this.setindex);
   }
+
   tabisclicked(event: any) {
     this.header_title = "Firma";
     this.header_companyname = event.companyname;
@@ -5136,9 +5141,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
       });
   }
+
   mactive(event: any) {
     console.log("mactive" + JSON.stringify(event));
   }
+
   async saveCompanyOffice() {
     this.setindex = 9999;
     this.enablebutton = false;
@@ -12279,7 +12286,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           "</b> </span>" +
           "</div>" +
           '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
-          '<div class="removepreview btn bg-danger links mt-1"" data-preview_id="' +
+          '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' +
           that.previewpassportid +
           '" id="removepreviewid' +
           that.previewpassportid +

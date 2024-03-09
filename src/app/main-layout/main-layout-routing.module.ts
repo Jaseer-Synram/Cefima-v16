@@ -16,6 +16,15 @@ const routes: Routes = [
         // canActivate: [AuthGuardService],
       },
       {
+        path: 'b2b-home',
+        loadChildren: () =>
+        import('../b2b/b2b.module').then(
+          (m) => m.B2bModule
+        ),
+        canActivate: [AuthGuardService],
+        data: { roles: ["b2b"] }
+      },
+      {
         path: 'b2b-dashboard',
         loadChildren: () =>
           import('../b2b-dashboard/b2b-dashboard.module').then(

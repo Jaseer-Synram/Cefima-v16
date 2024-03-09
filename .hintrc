@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "text-align-last"
+        ]
+      }
+    ],
+    "no-inline-styles": "off",
+    "button-type": "off"
+  }
+}

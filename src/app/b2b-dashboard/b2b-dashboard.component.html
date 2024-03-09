@@ -48,196 +48,209 @@
   data-target="#exampleModalLongnewupdate">
   ddd
 </button>
-<div class="modal fade" id="exampleModalLongnewupdate" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div style="max-width: 80%" class="modal-dialog" role="document">
-    <!-- z-index: 9999999; -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <p style="font-size: 28px;
+<div id="exampleModalLongnewupdateparent">
+  <div class="modal fade" id="exampleModalLongnewupdate" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div style="max-width: 80%" class="modal-dialog" role="document">
+      <!-- z-index: 9999999; -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <p style="font-size: 28px;
             font-weight:500;
             border: none;background:
             transparent;opacity:1;
             text-align: left;">
-          Aktualisierung Vermittlerdaten
-        </p>
-        <button type="button" class="close transitionanimation" data-dismiss="modal" aria-label="Close"
-          (click)="resetphoneverification()" id="closeModaltelephoneverification">
-          <!-- (click)="setKeyval('')" -->
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div class="row" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px"
-            id="updateprofilestepper">
-            <mat-horizontal-stepper linear #stepper  class="stepnewclass" style="width: 100%">
-              <ng-template matStepperIcon="edit">
-                <mat-icon>check</mat-icon>
-              </ng-template>
+            Aktualisierung Vermittlerdaten
+          </p>
+          <button type="button" id="closeModaltelephoneverification"
+            style="border: none;width: 30px;background: transparent;padding:0;"
+            (click)="resetphoneverification();close_modal('exampleModalLongnewupdate','exampleModalLongnewupdateparent')"
+            data-dismiss="modal" aria-label="Close">
+            <img width="70%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row" class="meine-daten-content-main" style="margin-top: 10px; margin-bottom: 15px"
+              id="updateprofilestepper">
+              <mat-horizontal-stepper linear #stepper class="stepnewclass" style="width: 100%">
+                <ng-template matStepperIcon="edit">
+                  <mat-icon>check</mat-icon>
+                </ng-template>
 
-              <mat-step [stepControl]="askquestion">
-                <form [formGroup]="askquestion" #fsa1="ngForm" class="Official-residence-form">
-                  <div class="container" id="askqueform" style="margin: 0px">
-                    <ng-template matStepLabel>Hinweis</ng-template>
-                    <div class="col-md-12">
-                      <div style="text-align: center">
-                        <p style="text-align: center">
-                          <b><img src="./assets/exclamation.svg" height="90px" /> </b><br />
-                        </p>
-                        <p style="
+                <mat-step [stepControl]="askquestion">
+                  <form [formGroup]="askquestion" #fsa1="ngForm" class="Official-residence-form">
+                    <div class="container" id="askqueform" style="margin: 0px">
+                      <ng-template matStepLabel>Hinweis</ng-template>
+                      <div class="col-md-12">
+                        <div style="text-align: center">
+                          <p style="text-align: center">
+                            <b><img src="./assets/exclamation.svg" height="90px" /> </b><br />
+                          </p>
+                          <p style="
                             text-align: center;
                             font-size: x-large;
                             color: dimgray;
                           ">
-                          <b>Bitte beachten Sie den Hinweis.</b><br />
-                        </p>
-                        <p style="text-align: justify">
-                          Sie können in den nächsten Schritten Ihre
-                          Vermittlerdaten aktualisieren. Bitte beachten Sie, das
-                          ihre Daten daraufhin erneut von einem CEFIMA
-                          Mitarbeiter verifiziert werden und nach erfolgreicher
-                          Prüfung Ihre Vermittlerverträge & Vereinbarungen
-                          aktualisiert zur Signatur zur Verfügung gestellt
-                          werden. Während des Verifizierungsprozesses sind
-                          Auszahlungen durch CEFIMA pausiert.
-                          <br /><br />
-                          <img src="../../assets/icons/info-icon.svg" alt="">
-                          Informationspflicht
-                          <br />
-                          Vermittler sind verpflichtet CEFIMA die Änderung ihrer
-                          Daten unverzüglich mitzuteilen. <br />
-                          <img src="../../assets/icons/info-icon.svg" alt="">
-                          Prüfdauer
-                          <br />
-                          Im Regelfall sind Ihre Daten in zwei Werktagen
-                          verifiziert.
-                        </p>
-                        <div style="
+                            <b>Bitte beachten Sie den Hinweis.</b><br />
+                          </p>
+                          <p style="text-align: justify">
+                            Sie können in den nächsten Schritten Ihre
+                            Vermittlerdaten aktualisieren. Bitte beachten Sie, das
+                            ihre Daten daraufhin erneut von einem CEFIMA
+                            Mitarbeiter verifiziert werden und nach erfolgreicher
+                            Prüfung Ihre Vermittlerverträge & Vereinbarungen
+                            aktualisiert zur Signatur zur Verfügung gestellt
+                            werden. Während des Verifizierungsprozesses sind
+                            Auszahlungen durch CEFIMA pausiert.
+                            <br /><br />
+                            <img style="width: 13px;" class="mr-1" src="../../assets/icons/info-icon.svg" alt="">
+                            <span style="font-size: 16px;font-weight: 600;">Informationspflicht</span>
+
+                            <br />
+                            Vermittler sind verpflichtet CEFIMA die Änderung ihrer
+                            Daten unverzüglich mitzuteilen. <br />
+                            <img class="mr-1" style="width: 13px;" src="../../assets/icons/info-icon.svg" alt="">
+                            <span style="font-size: 16px;font-weight: 600;">Prüfdauer</span>
+
+                            <br />
+                            Im Regelfall sind Ihre Daten in zwei Werktagen
+                            verifiziert.
+                          </p>
+                          <div style="
                             display: inline-flex !important;
                             width: 30%;
                             float: right;
                           ">
-                          <mat-form-field appearance="outline" style="display: none">
-                            <mat-label style="margin-left: 40px; display: none">
-                              Telefonnummer</mat-label>
-                            <input matInput name="formkey" formControlName="formkey" />
-                          </mat-form-field>
+                            <mat-form-field appearance="outline" style="display: none">
+                              <mat-label style="margin-left: 40px; display: none">
+                                Telefonnummer</mat-label>
+                              <input matInput name="formkey" formControlName="formkey" />
+                            </mat-form-field>
 
-                          <button class="button-primary  transitionanimation" mat-raised-button
-                            style="background: grey !important; width: 50%" (click)="updateData('no')">
-                            Abrechen
-                          </button>
-                          &nbsp;&nbsp;
+                            <button class="button-primary  transitionanimation" mat-raised-button
+                              style="background: grey !important; width: 50%" (click)="updateData('no')">
+                              Abrechen
+                            </button>
+                            &nbsp;&nbsp;
 
-                          <button class="button-primary  transitionanimation" mat-raised-button
-                            style="color: #3085d6; width: 50%" (click)="updateData('yes')">
-                            Verstanden&nbsp;
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                          </button>
+                            <button class="button-primary  transitionanimation" mat-raised-button
+                              style="color: #3085d6; width: 50%" (click)="updateData('yes')">
+                              Verstanden&nbsp;
+                              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="col-md-12 d-flex justify-content-end ">
-                      <button style="display: none" matStepperNext id="movetonextstep">
-                        Weiter &nbsp;
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
+                      <div class="col-md-12 d-flex justify-content-end ">
+                        <button style="display: none" matStepperNext id="movetonextstep">
+                          Weiter &nbsp;
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </mat-step>
-              <mat-step [stepControl]="phoneFormGroup">
-                <form [formGroup]="phoneFormGroup" #fsa="ngForm" #aForm class="Official-residence-form">
-                  <ng-template matStepLabel>Aktualisierung starten</ng-template>
-                  <div class="col-md-12 d-flex justify-content-around gap-2" id="updateform">
-                    <div class="d-flex flex-row align-items-center justify-content-start">
-                      <p  style="font-size: 16px;font-weight: 400;margin-top: 5px;">
-                        Hallo
-                        <span class="button-primary" style="padding: 1px 7px 1px 7px;border-radius: 5px;line-height: 3px !important;font-size: 15px;
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="phoneFormGroup">
+                  <form [formGroup]="phoneFormGroup" #fsa="ngForm" #aForm class="Official-residence-form">
+                    <ng-template matStepLabel>Aktualisierung starten</ng-template>
+                    <div class="col-md-12 d-flex justify-content-around gap-2 ps-0" id="updateform">
+                      <div class="d-flex flex-row align-items-center justify-content-start ps-0">
+                        <p style="font-size: 16px;font-weight: 400;margin-top: 5px;">
+                          Hallo
+                          <span class="button-primary" style="padding: 1px 7px 1px 7px;border-radius: 5px;line-height: 3px !important;font-size: 15px;
                           "><span *ngIf="
                               localData.companytype != 'Einzelunternehmen' &&
                                 localData.companytype !=
                                   'Eingetragener Kaufmann (e.K.)';
                               else nocomapny
                             ">{{ this.localData.companyname }}</span>
-                          <ng-template #nocomapny>
-                            <span>{{ this.localData.firstname }}
-                              {{ this.localData.lastname }}</span> </ng-template><i *ngIf="otpSuccess"
-                            style="color: darkgreen; margin-left: 5px" class="fa fa-check-circle">
-                          </i> </span>, um die Aktualisierung Ihrer Vermittlerdaten zu
-                        starten, müssen Sie ihre Telefonnummer bestätigen.
-                        Fordern Sie dazu einen Bestätigungscode an.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-8 d-flex justify-content-start gap-2 ">
-                    <div class="col-4 p-0 " >
-                      <mat-form-field  appearance="outline" style="width: 96%">
-                        <mat-label style="margin-left: 40px">Telefonnummer</mat-label>
-                        <input matInput id="phoneupdate" ngModel [maxlength]="20" name="phone_number"
-                          formControlName="phone_number" readonly class="test" placeholder="Telefonnummer eingeben"
-                          type="tel" value="+49" oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
-                      </mat-form-field>
-                    </div>
-                    <div class="col-4 p-0" >
-                      <mat-form-field appearance="outline" class="pass" id="rocker" style="width: 96%">
-                        <mat-label>Verifizierungscode eingeben</mat-label>
-                        <input matInput type="text" autofocus ngModel name="otp" id="focusfield" formControlName="otp"
-                          placeholder="Verifizierungscode eingeben" style="height: 40px !important" />
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <div *ngIf="otpSuccess" class="d-flex flex-column align-items-start gap-2">
-                      <div class="otpSuc" role="alert" style="margin-bottom: 25px">
-                        <p class="alert alert-success" style="
-                            text-align-last: center;
-                            margin: 0px;
-                            width: 415px;
-                            margin: auto;
-                          ">
-                          Telefonnummer erfolgreich verifiziert
+                            <ng-template #nocomapny>
+                              <span>{{ this.localData.firstname }}
+                                {{ this.localData.lastname }}</span> </ng-template><i *ngIf="otpSuccess"
+                              style="color: darkgreen; margin-left: 5px" class="fa fa-check-circle">
+                            </i> </span> , um die Aktualisierung Ihrer Vermittlerdaten zu
+                          starten, müssen Sie ihre Telefonnummer bestätigen.
+                          Fordern Sie dazu einen Bestätigungscode an.
                         </p>
                       </div>
-                  </div>
-                  <div *ngIf="otpError" class="d-flex flex-column align-items-start gap-2">
-                      <div class="otpEr" role="alert" style="margin-bottom: 25px">
-                        <p class="alert alert-danger" style="
-                            text-align-last: center;
-                            margin: 0px;
-                            margin: auto;
-                          ">
-                          Ungültiger Bestätigungscode
-                        </p>
+                    </div>
+                    <div class="col-12 d-flex justify-content-start flex-row flex-wrap">
+                      <div class="col-md-8 d-flex justify-content-start gap-2 p-0">
+                        <div class="col-6 p-0 ">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label style="margin-left: 40px">Telefonnummer</mat-label>
+                            <input matInput id="phoneupdate" ngModel [maxlength]="20" name="phone_number"
+                              formControlName="phone_number" readonly class="test" placeholder="Telefonnummer eingeben"
+                              type="tel" value="+49" oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" />
+                          </mat-form-field>
+                        </div>
+                      <div class=" p-0 " style="width: fit-content;">
+                        <button id="verifybutton" type="submit" style="height: 55px;font-family: Open Sans;" mat-raised-button class="button-primary"
+                          (click)="verify()" *ngIf="!otp">
+                          Code anfordern
+                        </button>
                       </div>
-                  </div>
+                    </div>
 
-                    <div class=" p-0 " >
-                      <button  id="verifybutton" type="submit"
-                      mat-raised-button color="button-primary" (click)="verify()" *ngIf="!otp">
-                      Code anfordern
-                    </button>
-                    <button type="submit" mat-raised-button
-                      color="button-primary" (click)="verifyOtp()" *ngIf="otp && !otpSuccess">
-                      Überprüfen Sie den Bestätigungscode
-                    </button>
-                  </div>
-                  <div class="col-md-12 p-0 justify-content-end  ">
-                    <button class="button-primary  transitionanimation" mat-button matStepperPrevious
-                      id="previousbutton" style="margin-right: 10px; display: none">
-                      <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;
-                      Zurück
-                    </button>
-                    <button class="button-primary  transitionanimation" mat-raised-button (click)="goToRegistration()"
-                      id="nextstep" [disabled]="!otpSuccess">
-                      Aktualisierung starten&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </form>
-              </mat-step>
-            </mat-horizontal-stepper>
+
+                      <div *ngIf="otp"  class="col-md-12 d-flex justify-content-start gap-2 p-0">
+                        <div class="col-4 p-0 ">
+                          <mat-form-field appearance="outline" class="pass" id="rocker" style="width: 96%">
+                            <mat-label>Verifizierungscode eingeben</mat-label>
+                            <input matInput type="text" autofocus ngModel name="otp" id="focusfield"
+                              formControlName="otp" placeholder="Verifizierungscode eingeben"/>
+                          </mat-form-field>
+                        </div>
+                        <div *ngIf="otpSuccess" class="d-flex flex-column align-items-start gap-2">
+                          <div class="otpSuc" role="alert" style="margin-bottom: 25px">
+                            <p class="alert alert-success" style="
+                              text-align-last: center;
+                              margin: 0px;
+                              margin: auto;
+                            ">
+                              Telefonnummer erfolgreich verifiziert
+                            </p>
+                          </div>
+                        </div>
+                        <div *ngIf="otpError" class="d-flex flex-column align-items-start gap-2">
+                          <div class="otpEr" role="alert" style="margin-bottom: 25px">
+                            <p class="alert alert-danger" style="
+                              text-align-last: center;
+                              margin: 0px;
+                              margin: auto;
+                            ">
+                              Ungültiger Bestätigungscode
+                            </p>
+                          </div>
+                        </div>
+                        <div class=" p-0 " style="width: fit-content;">
+                          <button type="submit" mat-raised-button  style="height: 55px;font-family: Open Sans;" class="button-primary" (click)="verifyOtp()"
+                            *ngIf="otp && !otpSuccess">
+                            Überprüfen Sie den Bestätigungscode
+                          </button>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+                    <div class="col-md-12 p-0 d-flex justify-content-between  " style="font-family: Open Sans;">
+                      <button class="button-primary  transitionanimation" mat-button matStepperPrevious
+                        id="previousbutton" >
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;
+                        Zurück
+                      </button>
+                      <button class="button-primary  transitionanimation" mat-raised-button (click)="goToRegistration()"
+                        id="nextstep" [disabled]="!otpSuccess">
+                        Aktualisierung starten&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </form>
+                </mat-step>
+              </mat-horizontal-stepper>
+            </div>
           </div>
         </div>
       </div>
@@ -1276,7 +1289,7 @@
                                               financialcheckdata[
                                                 financialcheckdata.length - 1
                                               ]?.element?.document_name
-                                            ).ans == 'yes' &&
+                                            )?.ans == 'yes' &&
                                             localData.hasOwnProperty(
                                               'vermittlerstatusforbrokermanager'
                                             ) &&
@@ -1287,7 +1300,7 @@
                                             checkkey(
                                               localData.vermittlerstatusforbrokermanager,
                                               'lastquestion'
-                                            ).ans == 'no'
+                                            )?.ans == 'no'
                                           ">
                                 <div class="showcorner animate__animated animate__zoomIn animate__delay-1s">
                                   <i style="color: #3CBB6F" class="fa fa-check-circle">
@@ -1364,8 +1377,9 @@
                             </div>
                           </h5>
                         </div>
-                        <div *ngIf="
-                                      localData.hasOwnProperty('companydata') &&
+                        <!-- Needed to remove -->
+
+                        <div *ngIf=" localData.hasOwnProperty('companydata') &&
                                       checkkey(
                                         localData.companydata,
                                         'licensesign'
@@ -2979,6 +2993,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="row">
                   <div class="col-md-4"></div>
                   <div class="col-md-4 text-center">
@@ -3315,8 +3330,6 @@
 
       </div>
     </div>
-
-
   </div>
 </div>
 
