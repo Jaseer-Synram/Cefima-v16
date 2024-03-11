@@ -1,4 +1,9 @@
- <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw p-0">
+ <mat-step [stepControl]="secondcompanyaddressFormGroup" *ngIf="
+          SecDomChange == 'show' &&
+          (companytypenew == 'Gesellschaft mit beschränkter Haftung (GmbH)' )
+        ">
+        <div class="d-flex flex-column col-12 p-0 updateprofile 2">
+          <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw p-0">
             <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
               <form [formGroup]="secondcompanyaddressFormGroup" #secondcompanyfso="ngForm" novalidate=""
                 class="Official-residence-form col-12 p-0">
@@ -16,8 +21,7 @@
                       aria-hidden="true"></i>
                   </button>
                 </div>
-                <!-- showhiddenfieldsFirst(i); -->
-                <div *ngFor="let addedperson1 of addedpersonsFirst; let j =index;"
+                 <div *ngFor="let addedperson1 of addedpersonsFirst; let j =index;"
                   class="col-12 p-0 d-flex flex-column ">
 
                   <div class="col-12 d-flex flex-raw  gmbhpersons blueBox-parent px-2 py-1  mt-2 mb-4 mx-0 "
@@ -332,3 +336,864 @@
               </form>
             </div>
           </div>
+
+          <div class="col-md-12 d-flex align-items-start justify-content-between flex-raw p-0  mt-2">
+            <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
+              <form [formGroup]="secondcompanyaddressFormGroup1" #secondcompanyfso1="ngForm" novalidate=""
+                class="Official-residence-form col-12 p-0">
+                <div class="col-12 px-3 py-2 mb-4 rounded-2 graybox d-flex justify-content-between align-items-center">
+                  <span> Sonstige Bevollmächtigte/Prokuristen </span>
+                  <button class="stepper-btn button-primary transitionanimation " mat-raised-button
+                    [disabled]="!secondcompanyfso1.form.valid "
+                    (click)="addlegalrepresentativeform1('addmore');showGMBHItemTwo = 9999999999999999">
+                    <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down"
+                      aria-hidden="true"></i>
+                  </button>
+                </div>
+
+                <div *ngFor="let addedperson1 of addedpersonsSecond; let j =index;"
+                  class="col-12 p-0 d-flex flex-column ">
+
+                  <div class="col-12 d-flex flex-raw  gmbhpersons blueBox-parent px-2 py-1  mt-2 mb-4 mx-0 "
+                    (click)="showGMBHItemTwo = j">
+                    <div class="p-0 m-0" style="text-align: start;">{{ j + 1 }}.</div>
+                    <div class="col-md-11  " style="text-align: start;">{{ addedperson1 }}&nbsp;<i
+                        class="fas fa-check-circle" style="color: #fff;"></i></div>
+                    <div class="col-md-1 p-0 m-0" style="text-align: center;">
+                      <div class="arrowsetting">
+                        <i id="arrowsettingheaderSecond{{j}}" style="cursor:pointer"
+                          [ngClass]="showGMBHItemTwo == j ?'fas fa-angle-down ':'fas fa-angle-right' "></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-container *ngIf="showGMBHItemTwo == j">
+                    <div class="col-12 p-0 " [ngClass]="addedpersonsSecond.length > 0 ? 'blueBox-body' : ''  "
+                      formArrayName="legalrepresentativeform1">
+                      <div class="col-12 p-0" *ngFor="
+                        let legalrepresentativeform111 of legalrepresentativeform1()
+                          .controls;
+                        let i = index
+                      " [formGroupName]="i" id="formidSecond{{i}}">
+
+                        <ng-container *ngIf="i == showGMBHItemTwo">
+
+                          <div class="col-12 p-0 ">
+                            <div class="col-5 p-0">
+                              <label style="display: block;font-weight:600;font-size:17px">Anrede:</label>
+                              <mat-radio-group aria-label="Select an option" (keyup)="checkthirdstepdata()"
+                                (ngModelChange)="checkthirdstepdata()" formControlName="title">
+                                <mat-radio-button value="Frau" class="radioclass">Frau
+                                </mat-radio-button>
+                                <mat-radio-button value="Herr" class="radioclass">Herr
+                                </mat-radio-button>
+                                <mat-radio-button value="Divers">Divers</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>
+                          <div class="col-12 p-0 d-flex flex-row flex-wrap">
+                            <div class="col-md-4 p-0" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Vorname </mat-label>
+                                <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                  placeholder="Vorname " formControlName="firstname" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Nachname </mat-label>
+                                <input matInput placeholder="Nachname " (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="lastname" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Geburtsdatum</mat-label>
+                                <input matInput [matDatepicker]="picker" [min]="minDate"
+                                  (ngModelChange)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                  (keyup)="checkthirdstepdata()" [max]="maxDate" placeholder="Geburtsdatum"
+                                  formControlName="dateofbirth" />
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Straße</mat-label>
+                                <input matInput placeholder="Straße" formControlName="streetsecond"
+                                  ngx-google-places-autocomplete [options]="options" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" #placesRef="ngx-places"
+                                  (onAddressChange)="handleAllFieldssecond($event,i)" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-center">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Nr.</mat-label>
+                                <input matInput placeholder="Nr." (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="streetNumbersecond" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0  text-right">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>PLZ</mat-label>
+                                <input matInput placeholder="PLZ" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="postCodesecond" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4 p-0" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Stadt</mat-label>
+                                <input matInput placeholder="Stadt" (keyup)="checkthirdstepdata()"
+                                  (blur)="checkthirdstepdata()" formControlName="citysecond" />
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                                <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                  placeholder="C/O Appartmentnummer, Türcode, usw."
+                                  formControlName="additionalReferencesecond" />
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Land des Wohnsitzes</mat-label>
+                                <input matInput placeholder="Land des Wohnsitzes"
+                                  formControlName="countryOfResidencesecond" ngx-google-places-autocomplete
+                                  [options]="options" (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                  #placesRef="ngx-places" (onAddressChange)="handleAddressChangelandsecond($event,i)" />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="col-12 p-0 d-flex justify-content-between " style="padding: 0px;">
+
+                            <div class="col-md-6 p-0">
+                              <button class="btn btn-danger transitionanimation" mat-raised-button
+                                (click)="removelegalrepresentativeform1(i); removeaddedpersonSecond(i); checkthirdstepdata()"
+                                style="color: #fff;
+                              background-color: #bb2d3b;
+                              border-color: #b02a37;">
+                                entfernen
+                              </button>
+                            </div>
+
+                            <div class="col-md-6 p-0" style="text-align: end;">
+                              <button *ngIf="addedpersonsSecond.length == i; else openclose" style="margin-top: auto;"
+                                class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                (click)="addlegalrepresentativeform1('tick')"
+                                [disabled]="legalrepresentativeform111.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                              <ng-template #openclose>
+                                <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                  style="margin-top: auto;" (click)="showhiddenfieldsSecond(i)"
+                                  [disabled]="legalrepresentativeform111.invalid">
+                                  <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up"
+                                    aria-hidden="true"></i>
+                                </button>
+                              </ng-template>
+                            </div>
+
+
+                          </div>
+
+                        </ng-container>
+
+                      </div>
+                    </div>
+                  </ng-container>
+
+                </div>
+
+                <ng-container *ngIf="showGMBHItemTwo == 9999999999999999 ">
+                  <div class="col-12 p-0 " formArrayName="legalrepresentativeform1">
+                    <div class="col-12 p-0" *ngFor="
+                    let legalrepresentativeform111 of legalrepresentativeform1()
+                      .controls;
+                    let i = index
+                  " [formGroupName]="i" id="formidSecond{{i}}">
+
+                      <ng-container *ngIf="i == addedpersonsSecond.length">
+                        <div class="col-12 p-0 ">
+                          <div class="col-5 p-0">
+                            <label style="display: block;font-weight:600;font-size:17px">Anrede:</label>
+                            <mat-radio-group aria-label="Select an option" (keyup)="checkthirdstepdata()"
+                              (ngModelChange)="checkthirdstepdata()" formControlName="title">
+                              <mat-radio-button value="Frau" class="radioclass">Frau
+                              </mat-radio-button>
+                              <mat-radio-button value="Herr" class="radioclass">Herr
+                              </mat-radio-button>
+                              <mat-radio-button value="Divers">Divers</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </div>
+                        <div class="col-12 p-0 d-flex flex-row flex-wrap">
+                          <div class="col-md-4 p-0" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Vorname </mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="Vorname " formControlName="firstname" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Nachname </mat-label>
+                              <input matInput placeholder="Nachname " (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="lastname" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Geburtsdatum</mat-label>
+                              <input matInput [matDatepicker]="picker" [min]="minDate"
+                                (ngModelChange)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                (keyup)="checkthirdstepdata()" [max]="maxDate" placeholder="Geburtsdatum"
+                                formControlName="dateofbirth" />
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-4 p-0" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Straße</mat-label>
+                              <input matInput placeholder="Straße" formControlName="streetsecond"
+                                ngx-google-places-autocomplete [options]="options" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" #placesRef="ngx-places"
+                                (onAddressChange)="handleAllFieldssecond($event,i)" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0  text-center">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Nr.</mat-label>
+                              <input matInput placeholder="Nr." (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="streetNumbersecond" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0  text-right">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>PLZ</mat-label>
+                              <input matInput placeholder="PLZ" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="postCodesecond" />
+                            </mat-form-field>
+                          </div> 
+                          <div class="col-md-4 p-0" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Stadt</mat-label>
+                              <input matInput placeholder="Stadt" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="citysecond" />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="C/O Appartmentnummer, Türcode, usw."
+                                formControlName="additionalReferencesecond" />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Land des Wohnsitzes</mat-label>
+                              <input matInput placeholder="Land des Wohnsitzes"
+                                formControlName="countryOfResidencesecond" ngx-google-places-autocomplete
+                                [options]="options" (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                #placesRef="ngx-places" (onAddressChange)="handleAddressChangelandsecond($event,i)" />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="col-12 p-0 d-flex justify-content-between " style="padding: 0px;">
+                          <div class="col-md-6 p-0">
+                            <button class="btn btn-danger transitionanimation" mat-raised-button
+                              (click)="removelegalrepresentativeform1(i); removeaddedpersonSecond(i); checkthirdstepdata()"
+                              style="color: #fff;
+                          background-color: #bb2d3b;
+                          border-color: #b02a37;">
+                              entfernen
+                            </button>
+                          </div>
+
+                          <div class="col-md-6 p-0" style="text-align: end;">
+                            <button *ngIf="addedpersonsSecond.length == i; else openclose" style="margin-top: auto;"
+                              class="stepper-btn button-primary transitionanimation" mat-raised-button
+                              (click)="addlegalrepresentativeform1('tick')"
+                              [disabled]="legalrepresentativeform111.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                            <ng-template #openclose>
+                              <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                style="margin-top: auto;" (click)="showhiddenfieldsSecond(i)"
+                                [disabled]="legalrepresentativeform111.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                          </div>
+
+
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </ng-container>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-md-12  d-flex align-items-start justify-content-between flex-raw p-0 mt-2">
+            <div class="col-md-12 d-flex align-items-start justify-content-between flex-column p-0 m-0 ">
+
+              <form [formGroup]="secondcompanyaddressFormGroup2" #secondcompanyfso2="ngForm" novalidate=""
+                class="Official-residence-form col-12 p-0">
+
+                <div class="col-12 px-3 py-2 mb-4 rounded-2 graybox d-flex justify-content-between align-items-center">
+                  <div class="d-flex col-6 align-items-center p-0">
+                    <span> Wirtschaftlich Berechtigte</span>
+                    &nbsp;<img src="../../assets/icons/info-icon.svg" style=" cursor: pointer;width:18px"
+                      data-toggle="modal" data-target="#myModal" aria-hidden="true">
+                  </div>
+                  <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                    [disabled]="(secondcompanyfso2.form.valid && addmoredata) ? false : true"
+                    (click)="addlegalrepresentativeform2('addmore');showGMBHItemThree = 9999999999999999">
+                    <i class='fas fa-user-plus'></i>&nbsp;Hinzufügen&nbsp;<i class="fa fa-arrow-down"
+                      aria-hidden="true"></i>
+                  </button>
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal fade" id="myModal">
+                  <div class="modal-dialog modal-dialog-centered" style="max-width: 460px !important; ">
+                    <div class="modal-content">
+
+                      <!-- Modal Header -->
+                      <div class="modal-header" style="border: unset;">
+                        <h5 class="modal-title" style="font-size: 21px !important">Wer ist der wirtschaftlich
+                          Berechtigte?
+                        </h5>
+                        <button type="button" class="close transitionanimation" style="margin-bottom: 28px;"
+                          data-dismiss="modal">&times;</button>
+                      </div>
+
+                      <!-- Modal body -->
+                      <div class="modal-body" style="font-size: 14px;border: unset;    padding-top: unset;
+                        padding-bottom: unset;">
+                        <ol style="padding-left: 1rem;">
+                          <li>Eine natürlicher Person, die direkt oder durch den Besitz von Anteilen am
+                            Mutterunternehmen
+                            mehr als 5% der Anteile des Unternehmens verfügt.</li><br>
+                          <li>Eine natürliche Person, die über mehr als 5% der Stimmrechte verfügt. </li><br>
+                          <li>Eine natürliche Person, welche die Kontrolle über einen Vorstand ausüben kann und wichtige
+                            Entscheidungen für ein Unternehmen trifft.</li>
+                        </ol>
+
+
+                      </div>
+
+                      <!-- Modal footer -->
+                      <div class="modal-footer" style="align-items: left;border: unset;">
+                        <button type="button " class="btn transitionanimation stepper-btn button-primary "
+                          data-dismiss="modal">Verstanden</button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- The Modal End -->
+
+                <div class="col-12 p-0">
+                  <div *ngFor="let addedperson1 of addedpersons; let j =index;" (click)="showhiddenfields(i)"
+                    class="col-12 p-0 d-flex flex-column ">
+
+                    <div class="col-12 d-flex flex-raw  gmbhpersons blueBox-parent px-2 py-1  mt-2 mb-4 mx-0 "
+                      (click)="showGMBHItemThree = j">
+                      <div class="p-0 m-0" style="text-align: start;">{{ j + 1 }}.</div>
+                      <div class="col-md-11  " style="text-align: start;">{{ addedperson1 }}&nbsp; <i
+                          class="fas fa-check-circle" style="color: #fff;"></i></div>
+                      <div class="col-md-1 p-0 m-0" style="text-align: center;">
+                        <div class="arrowsetting">
+                          <i id="arrowsettingheader{{j}}" style="cursor:pointer"
+                            [ngClass]="showGMBHItemThree == j ?'fas fa-angle-down ':'fas fa-angle-right' "></i>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ng-container *ngIf="showGMBHItemThree == j">
+                      <div class="col-12 p-0 " [ngClass]="addedpersons.length > 0 ? 'blueBox-body' : ''  "
+                        formArrayName="legalrepresentativeform2">
+                        <div class="col-12 p-0" *ngFor="
+                        let legalrepresentativeform112 of legalrepresentativeform2()
+                          .controls;
+                        let i = index
+                      " [formGroupName]="i" id="formid{{i}}">
+
+                          <ng-container *ngIf="i==showGMBHItemThree">
+
+                            <div *ngIf="companyfield1[i]" class="col-md-4 p-0 " style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Name der Firma</mat-label>
+                                <input matInput formControlName="companyName1" placeholder="Name der Firma" />
+                              </mat-form-field>
+                            </div>
+                            <div *ngIf="companyfield1[i]" class="col-md-4 p-0  text-center" style="padding: 0px">
+                              <mat-form-field appearance="outline" style="width: 96%">
+                                <mat-label>Unternehmensform</mat-label>
+                                <input type="text" aria-label="Number" matInput [formControl]="ThirdTypeDoc1"
+                                  (keyup.enter)="ThirdTypeDoc1Value(i)" (ngModelChange)="ThirdTypeDoc1Value(i)"
+                                  [matAutocomplete]="auto" />
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option *ngFor="let employee of ThirdTypeDoc1Options | async" [value]="employee">
+                                    {{ employee }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+
+                            </div>
+                            <div *ngIf="companyfield1[i]" style="text-align: left;font-weight: 600;font-size: 16px;">
+                              <span>
+                                Gesetzlicher Vertreter:
+                              </span>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-row flex-wrap">
+                              <div class="col-12 p-0 ">
+                                <div class="col-5 p-0">
+                                  <label style="display: block;font-weight:600;font-size:17px">Anrede:</label>
+                                  <mat-radio-group aria-label="Select an option" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" (ngModelChange)="checkthirdstepdata()"
+                                    formControlName="title">
+                                    <mat-radio-button value="Frau" class="radioclass">Frau
+                                    </mat-radio-button>
+                                    <mat-radio-button value="Herr" class="radioclass">Herr
+                                    </mat-radio-button>
+                                    <mat-radio-button value="Divers">Divers</mat-radio-button>
+                                  </mat-radio-group>
+                                </div>
+                              </div>
+                              <div class="col-md-4 p-0" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Vorname </mat-label>
+                                  <input matInput placeholder="Vorname" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" formControlName="firstname" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Nachname </mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="Nachname " formControlName="lastname" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0  text-right" style="padding: 0px" *ngIf="companyfield1[i]">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Gründungsdatum</mat-label>
+                                  <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                    (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    (ngModelChange)="checkthirdstepdata()" placeholder="Gründungsdatum"
+                                    formControlName="establishmentdate" />
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0 " [ngClass]="companyfield1[i] ? '' : 'text-right' "
+                                style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Geburtsdatum</mat-label>
+                                  <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                    (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    (ngModelChange)="checkthirdstepdata()" placeholder="Geburtsdatum"
+                                    formControlName="dateofbirth" />
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div *ngIf="sharesfield[i]" [ngClass]=" companyfield1[i] ? 'text-center' : '' "
+                                class="col-md-4 p-0 " style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Anteile</mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="Anteile" formControlName="shares1" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0 " style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Straße</mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="Straße" formControlName="streetshare" ngx-google-places-autocomplete
+                                    [options]="options" #placesRef="ngx-places"
+                                    (onAddressChange)="handleAllFieldsShare($event,i)" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0 text-center">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Nr.</mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="Nr." formControlName="streetNumbershare" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 p-0  text-right">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>PLZ</mat-label>
+                                  <input matInput placeholder="PLZ" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" formControlName="postCodeshare" />
+                                </mat-form-field>
+                              </div>
+                              <!-- </div> -->
+                              <div class="col-md-4 p-0  " style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Stadt</mat-label>
+                                  <input matInput placeholder="Stadt" (keyup)="checkthirdstepdata()"
+                                    (blur)="checkthirdstepdata()" formControlName="cityshare" />
+                                </mat-form-field>
+                              </div>
+
+                              <div class="col-md-4 p-0 text-center" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="C/O Appartmentnummer, Türcode, usw."
+                                    formControlName="additionalReferenceshare" />
+                                </mat-form-field>
+                              </div>
+
+                              <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 96%">
+                                  <mat-label>Land des Wohnsitzes</mat-label>
+                                  <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                    placeholder="Land des Wohnsitzes" formControlName="countryOfResidenceshare"
+                                    ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                                    (onAddressChange)="handleAddressChangelandShare($event,i)" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12 p-0  " style="padding: 0px">
+                                <mat-form-field appearance="outline" style="width: 100%">
+                                  <mat-label>Unternehmensanteil in Prozent</mat-label>
+                                  <input matInput (ngModelChange)="calculateShares(); checkTotalShares()"
+                                    (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()" [max]=100
+                                    [maxlength]=100 placeholder="Anteile" formControlName="shares" />
+                                </mat-form-field>
+                                <mat-error id="showerror{{i}}" style="margin-top: -23px;
+                          font-size: 11px;
+                          margin-bottom: 10px;">
+
+                                </mat-error>
+                              </div>
+                            </div>
+                            <div class="col-12 d-flex flex-row justify-content-between" style="padding: 0px;">
+                              <div *ngIf="i > 0" class="col-md-6 p-0">
+                                <button class="btn btn-danger transitionanimation" mat-raised-button
+                                  (click)="removelegalrepresentativeform2(i); removeaddedperson(i); updateShares(i); checkthirdstepdata()">
+                                  entfernen
+                                </button>
+                              </div>
+
+
+                              <div *ngIf="i == 0">
+
+                              </div>
+
+                              <div [ngClass]=" i > 0 ? 'col-md-6 p-0' : 'col-md-12 p-0' " class="mb-2"
+                                style="text-align: end;">
+                                <button *ngIf="addedpersons.length == i; else openclose" style="margin-top: auto;"
+                                  class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                  (click)="addlegalrepresentativeform2('tick')"
+                                  [disabled]="legalrepresentativeform112.invalid">
+                                  <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up"
+                                    aria-hidden="true"></i>
+                                </button>
+                                <ng-template #openclose>
+                                  <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                    style="margin-top: auto;" (click)="showhiddenfields(i)"
+                                    [disabled]="legalrepresentativeform112.invalid">
+                                    <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up"
+                                      aria-hidden="true"></i>
+                                  </button>
+                                </ng-template>
+                              </div>
+
+
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <mat-error id="showerrorr" *ngIf="!moveForward"
+                        style="margin-top: 5px;font-size: 11px;margin-bottom: 10px;display:none;"></mat-error>
+                    </ng-container>
+
+                  </div>
+                </div>
+
+                <ng-container *ngIf="showGMBHItemThree == 9999999999999999 ">
+                  <div class="col-12 p-0 " formArrayName="legalrepresentativeform2">
+                    <div class="col-12 p-0" *ngFor="
+                    let legalrepresentativeform112 of legalrepresentativeform2()
+                      .controls;
+                    let i = index
+                  " [formGroupName]="i" id="formid{{i}}">
+
+                      <ng-container *ngIf="i == addedpersons.length">
+
+                        <div *ngIf="companyfield1[i]" class="col-md-4 p-0 " style="padding: 0px">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>Name der Firma</mat-label>
+                            <input matInput formControlName="companyName1" placeholder="Name der Firma" />
+                          </mat-form-field>
+                        </div>
+                        <div *ngIf="companyfield1[i]" class="col-md-4 p-0  text-center" style="padding: 0px">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>Unternehmensform</mat-label>
+                            <input type="text" aria-label="Number" matInput [formControl]="ThirdTypeDoc1"
+                              (keyup.enter)="ThirdTypeDoc1Value(i)" (ngModelChange)="ThirdTypeDoc1Value(i)"
+                              [matAutocomplete]="auto" />
+                            <mat-autocomplete #auto="matAutocomplete">
+                              <mat-option *ngFor="let employee of ThirdTypeDoc1Options | async" [value]="employee">
+                                {{ employee }}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+
+                        </div>
+                        <div *ngIf="companyfield1[i]" style="text-align: left;font-weight: 600;font-size: 16px;">
+                          <span>
+                            Gesetzlicher Vertreter:
+                          </span>
+                        </div>
+                        <div class="col-12 p-0 d-flex flex-row flex-wrap">
+                          <div class="col-12 p-0 ">
+                            <div class="col-5 p-0">
+                              <label style="display: block;font-weight:600;font-size:17px">Anrede:</label>
+                              <mat-radio-group aria-label="Select an option" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" (ngModelChange)="checkthirdstepdata()"
+                                formControlName="title">
+                                <mat-radio-button value="Frau" class="radioclass">Frau
+                                </mat-radio-button>
+                                <mat-radio-button value="Herr" class="radioclass">Herr
+                                </mat-radio-button>
+                                <mat-radio-button value="Divers">Divers</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>
+                          <div class="col-md-4 p-0" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Vorname </mat-label>
+                              <input matInput placeholder="Vorname" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="firstname" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0  text-center" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Nachname </mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="Nachname " formControlName="lastname" />
+                            </mat-form-field>
+                          </div>
+                          <!-- <div class="col-md-4 p-0" style="padding: 0px"  >
+                <mat-form-field appearance="outline" style="width: 96%">
+                  <mat-label>beteiligungsamteil in prozent </mat-label>
+                  <input
+                    matInput
+                    placeholder="beteiligungsamteil in prozent "
+                    formControlName="stakepercent"
+                  />
+                </mat-form-field>
+              </div>
+                -->
+                          <div class="col-md-4 p-0  text-right" style="padding: 0px" *ngIf="companyfield1[i]">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Gründungsdatum</mat-label>
+                              <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                (ngModelChange)="checkthirdstepdata()" placeholder="Gründungsdatum"
+                                formControlName="establishmentdate" />
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0 " [ngClass]="companyfield1[i] ? '' : 'text-right' "
+                            style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Geburtsdatum</mat-label>
+                              <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                (ngModelChange)="checkthirdstepdata()" placeholder="Geburtsdatum"
+                                formControlName="dateofbirth" />
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker format="dd\MM\yyyy"></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <!-- <div class="col-12 px-3 py-2 mb-4 rounded graybox">
+                      <span>
+                        Bitte geben Sie den prozentualen Unternehmensanteil an.
+                      </span>
+                    </div> -->
+
+                          <div *ngIf="sharesfield[i]" [ngClass]=" companyfield1[i] ? 'text-center' : '' "
+                            class="col-md-4 p-0 " style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Anteile</mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="Anteile" formControlName="shares1" />
+                            </mat-form-field>
+                          </div>
+
+                          <!-- <div class="col-md-4 p-0" style="padding: 0px">
+                    <mat-form-field appearance="outline" style="width: 96%">
+                      <mat-label>Anschrift </mat-label>
+                      <input
+                        matInput
+                        placeholder="Anschrift "
+                        formControlName="address"
+                      /> //(ngModelChange)= "onSharesChange($event,i)"
+                    </mat-form-field>
+                  </div> -->
+
+                          <!-- <div class="col-12 px-3 py-2 mb-4 rounded graybox">
+                      <span>
+                        Bitte geben Sie hier Ihre persönliche Meldeadresse an.
+                      </span>
+                    </div> -->
+                          <div class="col-md-4 p-0 " style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Straße</mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="Straße" formControlName="streetshare" ngx-google-places-autocomplete
+                                [options]="options" #placesRef="ngx-places"
+                                (onAddressChange)="handleAllFieldsShare($event,i)" />
+                            </mat-form-field>
+                          </div>
+
+                          <!-- <p (click)="showaddressfields2($event,i)" class="col-md-4 d-flex m-0 py-4 " style="
+                      color: black;
+                      cursor: pointer;
+                      z-index: 1;  ">
+                      <a id="message1{{i}}" style="font-size: 12px">Mehr Felder anzeigen</a>
+                    </p> -->
+
+
+                          <!-- <div class="row" style="padding: 0px"> -->
+                          <div class="col-md-4 p-0 text-center">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Nr.</mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="Nr." formControlName="streetNumbershare" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4 p-0  text-right">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>PLZ</mat-label>
+                              <input matInput placeholder="PLZ" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="postCodeshare" />
+                            </mat-form-field>
+                          </div>
+                          <!-- </div> -->
+                          <div class="col-md-4 p-0  " style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Stadt</mat-label>
+                              <input matInput placeholder="Stadt" (keyup)="checkthirdstepdata()"
+                                (blur)="checkthirdstepdata()" formControlName="cityshare" />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-4 p-0 text-center" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>C/O Appartmentnummer, Türcode, usw.</mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="C/O Appartmentnummer, Türcode, usw."
+                                formControlName="additionalReferenceshare" />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-4 p-0  text-right" style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 96%">
+                              <mat-label>Land des Wohnsitzes</mat-label>
+                              <input matInput (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()"
+                                placeholder="Land des Wohnsitzes" formControlName="countryOfResidenceshare"
+                                ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+                                (onAddressChange)="handleAddressChangelandShare($event,i)" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-12 p-0  " style="padding: 0px">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                              <mat-label>Unternehmensanteil in Prozent</mat-label>
+                              <input matInput (ngModelChange)="calculateShares(); checkTotalShares()"
+                                (keyup)="checkthirdstepdata()" (blur)="checkthirdstepdata()" [max]=100 [maxlength]=100
+                                placeholder="Anteile" formControlName="shares" />
+                            </mat-form-field>
+                            <mat-error id="showerror{{i}}" style="margin-top: -23px;
+                      font-size: 11px;
+                      margin-bottom: 10px;">
+
+                            </mat-error>
+                          </div>
+                        </div>
+                        <div class="col-12 d-flex flex-row justify-content-between" style="padding: 0px;">
+                          <div *ngIf="i > 0" class="col-md-6 p-0">
+                            <button class="btn btn-danger transitionanimation" mat-raised-button
+                              (click)="removelegalrepresentativeform2(i); removeaddedperson(i); updateShares(i); checkthirdstepdata()">
+                              entfernen
+                            </button>
+                          </div>
+
+
+                          <div *ngIf="i == 0">
+
+                          </div>
+
+                          <div [ngClass]=" i > 0 ? 'col-md-6 p-0' : 'col-md-12 p-0' " class="mb-2"
+                            style="text-align: end;">
+                            <button *ngIf="addedpersons.length == i; else openclose" style="margin-top: auto;"
+                              class="stepper-btn button-primary transitionanimation" mat-raised-button
+                              (click)="addlegalrepresentativeform2('tick')"
+                              [disabled]="legalrepresentativeform112.invalid">
+                              <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </button>
+                            <ng-template #openclose>
+                              <button class="stepper-btn button-primary transitionanimation" mat-raised-button
+                                style="margin-top: auto;" (click)="showhiddenfields(i)"
+                                [disabled]="legalrepresentativeform112.invalid">
+                                <i class='fas fa-user-check'></i>&nbsp;<i class="fa fa-arrow-up" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                          </div>
+
+
+                        </div>
+
+                      </ng-container>
+
+                    </div>
+                  </div>
+                  <mat-error id="showerrorr" *ngIf="!moveForward"
+                    style="margin-top: 5px;font-size: 11px;margin-bottom: 10px;display:none;"></mat-error>
+                </ng-container>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 p-0 d-flex justify-content-between mt-2">
+          <button class="stepper-btn button-primary transitionanimation " mat-button matStepperPrevious
+            style="width: 110px">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Zurück
+          </button>
+
+          <div class="col-8 text-right p-0">
+            <p *ngIf="showthirdstepsuccess" style="color:green;width: 160px;margin: 6px;text-align: center;">Änderung
+              gespeichert</p>
+
+            <button class="stepper-btn button-primary transitionanimation" (click)="saveprogress(3)" mat-raised-button
+              [disabled]="disablethirdsavebutton">Speichern&nbsp;
+              <i class="fas fa-save" aria-hidden="true"></i>
+            </button>
+            <button class="stepper-btn button-primary transitionanimation ms-2" matStepperNext (click)="saveonnext(3)"
+              mat-raised-button
+              [disabled]=" ((secondcompanyfso2.form.valid==true) && (secondcompanyfso.form.valid==true) && moveForward) ? false : true">
+              Weiter &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+
+            <button id="thirdstepweiter" matStepperNext style="display:none"></button>
+          </div>
+        </div>
+      </mat-step>

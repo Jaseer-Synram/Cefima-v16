@@ -702,7 +702,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
   //skipfirstceo:any = [];
 
-  @ViewChild("canvas", { static: true }) canvas: ElementRef;
+  @ViewChild("canvas") canvas: ElementRef;
   signaturePad: SignaturePad
 
   public signaturePadOptions: Object = {
@@ -1438,11 +1438,14 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
 
-    if (this.canvas?.nativeElement) {
-      this.signaturePad = new SignaturePad(this.canvas.nativeElement);
-      this.signaturePad.minWidth = 2;
-      this.signaturePad.clear();
-    }
+    setTimeout(() => {
+      if (this.canvas) {
+        this.signaturePad = new SignaturePad(this.canvas?.nativeElement);
+        this.signaturePad.minWidth = 2;
+        this.signaturePad.clear();
+      }
+    });
+
 
     let todaynew = new Date();
     var dd = String(todaynew.getDate()).padStart(2, "0");
@@ -1801,6 +1804,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
     //   this.replacedstring = this.personalInfoFormGroup.value.responsible_ihk.replaceAll(',', ', ');
     //   console.log("replacedstring"+this.replacedstring);
     // }
+
+    if (this.canvas) {
+      this.signaturePad = new SignaturePad(this.canvas?.nativeElement);
+    }
+
     console.log("updateprofile");
     this.api_url = environment.API_URL;
     console.log("localdata" + JSON.stringify(this.localData));
@@ -2487,7 +2495,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               StringTemple =
                 '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
                 "" +
@@ -2606,7 +2614,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               StringTemple =
                 '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
                 "" +
@@ -2723,7 +2731,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               StringTemple =
                 '<div class="pip" id="buttonSecond" style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
                 "" +
@@ -2833,7 +2841,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               StringTemple =
                 '<div class="pip" style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
                 "" +
@@ -2948,7 +2956,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 else if (extension == "pdf" || extension == "pdfx") {
 
                   console.log("extension StringTemple" + extension);
-                  ImageName = "../assets/PDF.svg";
+                  ImageName = "../assets/icons/file-upload-blue-pdf.svg";
                   StringTemple =
                     '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
                     "" +
@@ -3169,7 +3177,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
         if (extension == "doc" || extension == "docx") {
           ImageName = "../assets/docx.png";
         } else if (extension == "pdf" || extension == "pdfx") {
-          ImageName = "../assets/PDF.svg";
+          ImageName = "../assets/icons/file-upload-blue-pdf.svg";
         } else {
           ImageName = (e.target as any).result;
         }
@@ -3232,7 +3240,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
 
 
-        StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+        StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
           '<div class="d-flex flex-row col-md-12 p-0">' +
           '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
           '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
@@ -3246,16 +3254,15 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
           '<span><b>Dokumentenname: ' + filename + '</b></span> ' +
           '<span><b>Dateigröße: ' + Size + '</b> </span>' +
           '</div>' +
-
-          '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
-          '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' + ppassportid + '" id="removepreviewid' +
-          ppassportid +
-          '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>'
-        ' <div class="previewImagee btn links mt-1" data-preview_id="' + ppassportid + '" id="previewimagee' + ppassportid +
-          '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
-          '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
-
           '</div>' +
+          '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+          '<div class="removepreview btn bg-danger links mt-1 text-white" data-preview_id="' + ppassportid + '" id="removepreviewid' +
+          ppassportid +
+          '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>'
+        ' <div class="previewImagee btn links mt-1 text-white" data-preview_id="' + ppassportid + '" id="previewimagee' + ppassportid +
+        '" style="border:none;cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px 4px;font-size:14px ">' +
+        '<i class="text-white fa fa-eye" aria-hidden="true"></i>&nbsp;Sicht</div>' +
+
           '</div>' +
 
 
@@ -4022,6 +4029,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
       );
   }
   DateRender() {
+
     console.log("demodate");
   }
   showCompanyType() {
@@ -4718,7 +4726,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -4772,7 +4780,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -4798,7 +4806,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               /*
               StringTemple =
               '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
@@ -4851,7 +4859,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -4938,7 +4946,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5301,7 +5309,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5351,7 +5359,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5376,7 +5384,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               /*
               StringTemple =
               '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
@@ -5422,7 +5430,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5503,7 +5511,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5861,7 +5869,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5907,7 +5915,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -5933,7 +5941,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             else if (extension == "pdf" || extension == "pdfx") {
 
               console.log("extension StringTemple" + extension);
-              ImageName = "../assets/PDF.svg";
+              ImageName = "../assets/icons/file-upload-blue-pdf.svg";
               /*
               StringTemple =
               '<div class="pip" id="buttonSecond" style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
@@ -5979,7 +5987,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -6058,7 +6066,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                 '</div>' +
 
@@ -6409,7 +6417,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                   '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                  '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                  '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                   '</div>' +
 
@@ -6455,7 +6463,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                   '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                  '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                  '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                   '</div>' +
 
@@ -6480,7 +6488,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               else if (extension == "pdf" || extension == "pdfx") {
 
                 console.log("extension StringTemple" + extension);
-                ImageName = "../assets/PDF.svg";
+                ImageName = "../assets/icons/file-upload-blue-pdf.svg";
                 /*
                 StringTemple =
                 '<div class="pip" style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
@@ -6526,7 +6534,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                   '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                  '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                  '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                   '</div>' +
 
@@ -6605,7 +6613,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   '  <div class="previewImage" data-preview_id="' + this.previewid + '" id="previewimage' + this.previewid +
                   '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                  '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                  '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                   '</div>' +
 
@@ -6954,7 +6962,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                     '  <div class="previewImage" data-preview_id="' + this.previewpassportid + '" id="previewimage' + this.previewpassportid +
                     '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                    '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                    '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
                     '</div>' +
 
@@ -6974,7 +6982,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 } else if (extension == "xml" || extension == "svg") {
 
                   console.log("extension StringTemple" + extension);
-                  ImageName = "../assets/PDF.svg";
+                  ImageName = "../assets/icons/file-upload-blue-pdf.svg";
                   /*
                   StringTemple =
                   '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
@@ -6994,10 +7002,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   */
 
 
-                  StringTemple = '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
+                  StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
 
-                    '<div class="col-md-1">' +
-                    '<embed class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+                  '<div class="d-flex flex-row col-md-12 p-0">' +
+                  '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
+                  '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
                     this.documents[i].element.document_url +
                     '" title="' +
                     this.documents[i].element.document_name +
@@ -7020,8 +7029,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                     '  <div class="previewImage" data-preview_id="' + this.previewpassportid + '" id="previewimage' + this.previewpassportid +
                     '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                    '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                    '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
+                    '</div>' +
                     '</div>' +
 
                     '</div>';
@@ -7059,7 +7069,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                 else if (extension == "pdf" || extension == "pdfx") {
 
                   console.log("extension StringTemple" + extension);
-                  ImageName = "../assets/PDF.svg";
+                  ImageName = "../assets/icons/file-upload-blue-pdf.svg";
                   /*
                   StringTemple =
                   '<div class="pip"  style="width: 290px;display: inline-block;margin: 8px;cursor:pointer" id="div3">' +
@@ -7079,10 +7089,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   */
 
 
-                  StringTemple = '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
+                  StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
 
-                    '<div class="col-md-1">' +
-                    '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+                  '<div class="d-flex flex-row col-md-12 p-0">' +
+                  '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
+                  '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
                     ImageName +
                     '" title="' +
                     this.documents[i].element.document_name +
@@ -7105,8 +7116,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                     '  <div class="previewImage" data-preview_id="' + this.previewpassportid + '" id="previewimage' + this.previewpassportid +
                     '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                    '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                    '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
+                    '</div>' +
                     '</div>' +
 
                     '</div>';
@@ -7163,17 +7175,18 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   */
 
 
-                  StringTemple = '<div class="row" style="width: 380px;margin-top:10px;border-bottom: 1px solid silver;padding-bottom: 5px;">' +
+                  StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
 
-                    '<div class="col-md-1">' +
-                    '<img class="imageThumb" style="height:30px;width:350%;cursor:pointer;" src="' +
+                  '<div class="d-flex flex-row col-md-12 p-0">' +
+                  '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
+                  '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
                     this.documents[i].element.document_url +
                     '" title="' +
                     this.documents[i].element.document_name +
                     '"/>' +
                     '</div>' +
 
-                    '<div class="col-md-10" style="font-size:13.5px;">' +
+                    '<div class="col-md-8 d-flex justify-content-center flex-column p-0" style="font-size:11px; padding:1px" style="font-size:14px;">' +
                     '<span><b>Dokumentenname: ' + this.documents[i].element.document_name + '</b></span> ' +
                     // '<span><b>Dateigröße: ' + Size+ '</b> KB</span>'+
                     '</div>' +
@@ -7189,8 +7202,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                     '  <div class="previewImage" data-preview_id="' + this.previewpassportid + '" id="previewimage' + this.previewpassportid +
                     '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 0px;margin-right: 0 !important;cursor: pointer;">' +
 
-                    '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+                    '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
+                    '</div>' +
                     '</div>' +
 
                     '</div>';
@@ -10341,7 +10355,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
           if (extension == "doc" || extension == "docx") {
             ImageName = "../assets/docx.png";
           } else if (extension == "pdf" || extension == "pdfx") {
-            ImageName = "../assets/PDF.svg";
+            ImageName = "../assets/icons/file-upload-blue-pdf.svg";
           } else {
             ImageName = (e.target as any).result;
           }
@@ -10493,7 +10507,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             //                 '  <div class="previewImage" data-preview_id="'+that.previewid+'" id="previewimage'+that.previewid+
             //                 '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">'+
 
-            //                 '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+            //                 '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
 
             //                 '</div>'+
@@ -10507,7 +10521,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
             //               '</div>';
 
-            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
 
               '<div class="d-flex flex-row col-md-12 p-0">' +
               '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
@@ -10524,16 +10538,16 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '<span><b>Dokumentenname: ' + showname + '</b></span> ' +
               '<span><b>Dateigröße: ' + Size + '</b></span>' +
               '</div>' +
-
-
-              '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
-              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' + that.previewid + '" id="removepreviewid' +
-              that.previewid +
-              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
-              '  <div class="previewImage btn links mt-1" data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
-              '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
-              '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
               '</div>' +
+
+              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="removepreview btn bg-danger links text-white mr-2 " data-preview_id="' + that.previewid + '" id="removepreviewid' +
+              that.previewid +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>' +
+              '  <div class="previewImage btn links text-white " data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
+              '" style="border:none;cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px 4px;font-size:14px ">' +
+              '<i class="text-white fa fa-eye" aria-hidden="true"></i>&nbsp;Sicht</div>' +
+
               '</div>' +
 
 
@@ -10572,7 +10586,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             //               '  <div class="previewImage" data-preview_id="'+that.previewid+'" id="previewimage'+that.previewid+
             //               '" style="background: #184297;border-radius: 50%;width:20px;height:20px;font-size: 10px; text-align: center;color: white; padding: 3px;position: absolute;margin-top: 5px;margin-right: 0 !important;cursor: pointer;">'+
 
-            //               '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
+            //               '<i class="text-white fa fa-eye" aria-hidden="true"></i></div>' +
 
 
             //               '</div>'+
@@ -10585,7 +10599,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
             //               '</div>'+
 
             //             '</div>';
-            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
 
               '<div class="d-flex flex-row col-md-12 p-0">' +
               '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
@@ -10601,16 +10615,15 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '<span><b>Dokumentenname: ' + showname + '</b></span> ' +
               '<span><b>Dateigröße: ' + Size + '</b></span>' +
               '</div>' +
-
-              '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
-              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' + that.previewid + '" id="removepreviewid' +
-              that.previewid +
-              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
-              ' <div class="previewImage btn links mt-1" data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
-              '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
-              '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
-
               '</div>' +
+              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="removepreview btn bg-danger mr-2 links text-white" data-preview_id="' + that.previewid + '" id="removepreviewid' +
+              that.previewid +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>' +
+              ' <div class="previewImage btn links text-white " data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
+              '" style="border:none;cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px 4px;font-size:14px ">' +
+              '<i class="text-white fa fa-eye" aria-hidden="true"></i>&nbsp;Sicht</div>' +
+
               '</div>' +
 
 
@@ -11021,17 +11034,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                         }
                       }
 
-
-
-
-
                       if (ceo_done == 1 && shareholder_done >= shareholder_length && geschaft_done == 1 && akt_done == 1) {
                         this.disableddocumentgmbh = false;
                       } else {
                         this.disableddocumentgmbh = true;
                       }
-
-
 
                     }
 
@@ -11196,7 +11203,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
           if (extension == "doc" || extension == "docx") {
             ImageName = "../assets/docx.png";
           } else if (extension == "pdf" || extension == "pdfx") {
-            ImageName = "../assets/PDF.svg";
+            ImageName = "../assets/icons/file-upload-blue-pdf.svg";
           } else {
             ImageName = (e.target as any).result;
           }
@@ -11317,7 +11324,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
           if (showname == "Gewerbeanmeldung Der " + that.addressFormGroup.controls.companyName.value) {
 
-            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
               '<div class="d-flex flex-row col-md-12 p-0">' +
               '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
               '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
@@ -11332,16 +11339,16 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '<span><b>Dokumentenname: ' + showname + '</b></span> ' +
               '<span><b>Dateigröße: ' + Size + '</b></span>' +
               '</div>' +
-
-              '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
-              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' + that.previewid + '" id="removepreviewid' +
-              that.previewid +
-              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>'
-            ' <div class="previewImage btn links mt-1" data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
-              '"  style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
-              '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
-
               '</div>' +
+              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="removepreview btn bg-danger links  text-white mr-2" data-preview_id="' + that.previewid + '" id="removepreviewid' +
+              that.previewid +
+              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>'
+            ' <div class="previewImage btn links text-white " data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
+            '" style="border:none;cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px 4px;font-size:14px ">' +
+            '<i class="text-white fa fa-eye" aria-hidden="true"></i>&nbsp;Sicht</div>' +
+
+
               '</div>' +
 
 
@@ -11354,7 +11361,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '</div>';
           } else {
 
-            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0" style="margin-top:10px;border: 1px solid silver;border-radius: 9px;">' +
+            StringTemple = '<div class="pip d-flex flex-column col-md-12 p-0 upload-file bg-white" style="margin-top:10px;border-radius: 9px;">' +
               '<div class="d-flex flex-row col-md-12 p-0">' +
               '<div class="col-md-2 py-0 px-2 d-flex align-items-center justify-content-center">' +
               '<img class="imageThumb" style="width: 50px;height:30px;" src="' +
@@ -11369,16 +11376,17 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '<span><b>Dokumentenname: ' + showname + '</b></span> ' +
               '<span><b>Dateigröße: ' + Size + '</b></span>' +
               '</div>' +
-
-              '<div class="col-md-2 text-right d-flex flex-column px-0 py-1 align-items-center justify-content-center">' +
-              '<div class="removepreview btn bg-danger links mt-1" data-preview_id="' + that.previewid + '" id="removepreviewid' +
-              that.previewid +
-              '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i></div>' +
-              ' <div class="previewImage btn links mt-1" data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
-              '" style="cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px ">' +
-              '<i class="fa fa-eye" aria-hidden="true"></i></div>' +
-
               '</div>' +
+
+              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="removepreview btn bg-danger  links  mr-2 text-white"  data-preview_id="' + that.previewid + '" id="removepreviewid' +
+              that.previewid +
+              '" style="cursor: pointer;padding:1px 4px;font-size:14px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>' +
+              ' <div class="previewImage btn links text-white" data-preview_src="' + that.previewsrc + '" data-preview_id="' + that.previewid + '" id="previewimage' + that.previewid +
+              '" style="border:none;cursor: pointer; background: linear-gradient(#17459b, #02a9ed);padding:1px 4px;font-size:14px ">' +
+              '<i class="text-white fa fa-eye" aria-hidden="true"></i>&nbsp;Sicht</div>' +
+
+
               '</div>' +
 
 
