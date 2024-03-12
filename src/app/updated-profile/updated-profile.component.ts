@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   Input,
   ElementRef,
+  AfterContentInit,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -70,7 +71,7 @@ const defaultPrecisionMap: unitPrecisionMap = {
   templateUrl: './updated-profile.component.html',
   styleUrls: ['./updated-profile.component.css']
 })
-export class UpdatedProfileComponent implements AfterViewInit, OnInit {
+export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterContentInit {
   private readonly units: unit[] = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
   myControl = new FormControl();
   @Input() SecDomChange: string;
@@ -502,9 +503,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
   filteredOptionsland: Observable<string[]>;
   ThirdTypeDocOptions: Observable<any>;
   ThirdTypeDoc1Options: Observable<any>;
-  personalInfoFormGroup: FormGroup;
+  personalInfoFormGroup:FormGroup ;
   docFromGroup: FormGroup;
-  agreementFromGroup: FormGroup;
+  agreementFromGroup: FormGroup = new FormGroup({
+      dummyData :  new FormControl('')
+  })
   addressFormGroup: FormGroup;
   livingaddressFormGroup: FormGroup;
   secondcompanyaddressFormGroup: FormGroup;
@@ -523,8 +526,8 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
   disableddocumentgmbh: any = true;
 
   api_url: string;
-  ThirdTypeDoc = new FormControl();
-  ThirdTypeDoc1 = new FormControl();
+  ThirdTypeDoc:FormControl<any> = new FormControl('');
+  ThirdTypeDoc1:FormControl<any> = new FormControl('');
   showButton: boolean = false;
   brokersignsaved: boolean = false;
   admin = false;
@@ -582,7 +585,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
   options: any;
   //My Data Table
   //id: string = '';
-  companytypenew = "";
+  companytypenew:any = "";
   user_id: string = "";
   firstName: string = "";
   companyName: string = "";
@@ -1446,7 +1449,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
       }
     });
 
+  }
 
+  ngAfterContentInit(): void {
     let todaynew = new Date();
     var dd = String(todaynew.getDate()).padStart(2, "0");
     var mm = String(todaynew.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -1456,10 +1461,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
     this.TodayDate = todaynew1;
     $("#datedynamic").html(todaynew1);
 
-
     this.patchValueInit();
-
-
   }
 
   drawComplete1() {
@@ -1783,7 +1785,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
   }
 
   private _filtercompanytype(value: string): string[] {
-    console.log("_filterland" + value);
+    console.log("_filterland :" + value);
     const filterValue = value.toLowerCase();
     return this.CompanyType.filter((option) =>
       option.toLowerCase().includes(filterValue)
@@ -2038,6 +2040,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
       countryOfResidence: ["", Validators.required],
     });
 
+
     this.livingaddressFormGroup = this._formBuilder.group({
       streetliving: ["", Validators.required],
       streetNumberliving: ["", Validators.required],
@@ -2057,13 +2060,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
     console.log("aaaaaaaaaaaaaaaahide");
     this.docFromGroup = this._formBuilder.group({
-      // DocOne: ["", Validators.required],
-      // DocTwo: ["", Validators.required],
-
       DocOne: [""],
       DocTwo: [""],
       DocThree: [""],
-      // acceptcontrol:["",Validators.required]
     });
 
     this.personalInfoFormGroup = this._formBuilder.group({
@@ -2155,7 +2154,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
   }
   patchValueInit() {
-    console.log("patchValueInit" + JSON.stringify(this.localData))
+    console.log("patchValueInit  :" , this.localData)
     if (this.localData.hasOwnProperty('companyname')) {
       console.log("patchValueInit" + this.localData.companyname)
       if (this.localData.companyname != '' && this.localData.companyname != " " && this.localData.companyname != null) {
@@ -2168,6 +2167,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
         console.log("patchValueInit" + this.localData.companytype)
         this.ThirdTypeDoc.setValue(this.localData.companytype)
         this.companytypenew = this.localData.companytype;
+        this.personalInfoFormGroup.patchValue({
+          companytype: this.companytypenew
+        });
       }
     }
     if (this.localData.hasOwnProperty('strassa')) {
@@ -3255,7 +3257,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
           '<span><b>Dateigröße: ' + Size + '</b> </span>' +
           '</div>' +
           '</div>' +
-          '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+          '<div class="col-md-12 text-right d-flex flex-row  align-items-center justify-content-end p-1" >' +
           '<div class="removepreview btn bg-danger links mt-1 text-white" data-preview_id="' + ppassportid + '" id="removepreviewid' +
           ppassportid +
           '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>'
@@ -3358,25 +3360,15 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                   }
 
-
-                  // if(this.saveddoc[doc_length].id == "passportpic"){
-                  //   shareholder_done += 1;
-                  // }
-
-
-
                   if (that.saveddoc[doc_length].id == "Geschäftsanmeldung") {
                     geschaft_done = 1;
                   }
-
 
                   if (that.saveddoc[doc_length].id == "Aktueller Auszug aus dem Handelsregister") {
                     akt_done = 1;
                   }
 
-
                 }
-
 
                 for (let share_doc_length = 0; share_doc_length < that.localData.type3.legalrepresentativeform2.length; share_doc_length++) {
 
@@ -3392,17 +3384,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   }
                 }
 
-
-
-
-
                 if (ceo_done == 1 && shareholder_done >= shareholder_length && geschaft_done == 1 && akt_done == 1) {
                   that.disableddocumentgmbh = false;
                 } else {
                   that.disableddocumentgmbh = true;
                 }
-
-
 
               }
 
@@ -3432,16 +3418,13 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                   }
 
-
                   if (that.documents[doc_length].element.document_name == "Geschäftsanmeldung") {
                     geschaft_done = 1;
                   }
 
-
                   if (that.documents[doc_length].element.document_name == "Aktueller Auszug aus dem Handelsregister") {
                     akt_done = 1;
                   }
-
 
                 }
 
@@ -3453,20 +3436,10 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                   doc_check = true;
                 }
 
-
               }
-
-
-
-
-
 
             }
           }
-
-
-
-
 
           event.stopPropagation();
           event.stopImmediatePropagation();
@@ -4189,12 +4162,25 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
   ThirdTypeDocValue() {
 
     console.log("ThirdTypeDoc" + this.ThirdTypeDoc.value);
+
     this.personalInfoFormGroup.patchValue({
       companytype: this.ThirdTypeDoc.value,
     });
 
+    console.log('after: personalInfoFormGroup - status :',this.personalInfoFormGroup.status);
+
+    setTimeout(() => {
+      console.log('ThirdTypeDoc :',this.ThirdTypeDoc.value);
+      this.companytypenew = this.ThirdTypeDoc.value;
+    });
     this.companytypenew = this.ThirdTypeDoc.value;
+    console.log('companytypenew :',this.companytypenew);
+
+
     this.checkfirststepData();
+
+    console.log('docFromGroup - status :',this.docFromGroup.status);
+
     if (this.companytypenew != 'Einzelunternehmen') {
       this.docFromGroup.get('DocThree').validator = <any>Validators.compose([Validators.required]);
     } else {
@@ -4202,7 +4188,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
     }
     this.docFromGroup.get('DocThree').updateValueAndValidity();
 
-
+    console.log('after: docFromGroup - status :',this.docFromGroup.status);
 
     if (this.companytypenew == 'Einzelunternehmen') {
       this.defaultdoclength = 2;
@@ -4278,6 +4264,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
 
   async saveonnext(step: number) {
+
     console.log("showdisabledweiter1" + step)
 
     console.log("inside saveon next documents");
@@ -5792,7 +5779,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
             this.docFromGroup.get('DocTwo').updateValueAndValidity();
             // this.docFromGroup.patchValue({DocTwo: " "})
-            let obj = this.saveddoc.find((o, i) => {
+            let obj = this.saveddoc.find((o:any, i) => {
 
               if (o.id == 'Geschäftsanmeldung' && o.index == 'DocTwo') {
                 return true; // stop searching
@@ -6093,8 +6080,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               })
             });
 
-
-
             let that = this;
 
             $('.previewImage').click(function (event) {
@@ -6153,8 +6138,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               }
             };
 
-
-
             if (this.documents_visible && this.documents_visible.documents_visible && this.documents_visible.documents_visible == "no") {
 
               let data = {
@@ -6165,10 +6148,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               that.userService.delete_registeration_document(data);
 
             }
-
-
-
-
 
             $(".removepreview").click(function (event) {
 
@@ -6193,12 +6172,8 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                   });
 
-
-
-
                   if (that.localData.hasOwnProperty('companytype')) {
                     if (that.localData.companytype == 'Einzelunternehmen' || that.localData.companytype == 'Eingetragener Kaufmann (e.K.)') {
-
 
                     }
                     else {
@@ -6215,7 +6190,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                       if (that.saveddoc.length > 0) {
 
-
                         for (let doc_length = 0; doc_length < that.saveddoc.length; doc_length++) {
 
                           let temp_ceo_length = parseInt(ceo_length) - 1;
@@ -6229,13 +6203,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                           }
 
-
-                          // if(this.saveddoc[doc_length].id == "passportpic"){
-                          //   shareholder_done += 1;
-                          // }
-
-
-
                           if (that.saveddoc[doc_length].id == "Geschäftsanmeldung") {
                             geschaft_done = 1;
                           }
@@ -6244,11 +6211,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                           if (that.saveddoc[doc_length].id == "Aktueller Auszug aus dem Handelsregister") {
                             akt_done = 1;
                           }
-
-
                         }
-
-
                         for (let share_doc_length = 0; share_doc_length < that.localData.type3.legalrepresentativeform2.length; share_doc_length++) {
 
                           for (let doc_length = 0; doc_length < that.signeddoc.length; doc_length++) {
@@ -6263,18 +6226,11 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                           }
                         }
 
-
-
-
-
                         if (ceo_done == 1 && shareholder_done >= shareholder_length && geschaft_done == 1 && akt_done == 1) {
                           that.disableddocumentgmbh = false;
                         } else {
                           that.disableddocumentgmbh = true;
                         }
-
-
-
                       }
 
                       if (that.documents.length > 0) {
@@ -6292,8 +6248,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                             }
 
                           }
-
-
                         }
 
                         if (ceo_done == 1 && shareholder_done >= shareholder_length && geschaft_done == 1 && akt_done) {
@@ -6301,24 +6255,12 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                         } else {
                           that.disableddocumentgmbh = true;
-
                         }
-
 
                       }
 
-
-
-
-
-
                     }
                   }
-
-
-
-
-
 
                   $(this).parent().parent().remove();
                   console.log("saved array" + JSON.stringify(that.saveddoc));
@@ -6327,13 +6269,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
 
                 }
               });
-
-
-
               event.stopPropagation();
               event.stopImmediatePropagation();
             });
-
 
           }
           if (this.companytypenew != "Einzelunternehmen") {
@@ -8144,12 +8082,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
     console.log("disablesavebuttonvalue" + this.addressFormGroup.value.additionalReference)
     console.log("disablesavebuttonvalue" + this.addressFormGroup.value.countryOfResidence)
 
-
-
-
     let data = {
-
-
       companyname: this.addressFormGroup.value.companyName,
       companytype: this.ThirdTypeDoc.value,
       strassa: this.addressFormGroup.value.street,
@@ -8158,7 +8091,6 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
       city: this.addressFormGroup.value.city,
       additionalReference: this.addressFormGroup.value.additionalReference,
       current_country: this.addressFormGroup.value.countryOfResidence,
-
     };
 
     for (let i in data) {
@@ -8536,17 +8468,21 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
                     // nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung.
                     // Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
                     title: `Die Prüfung Ihrer Daten ist im Regelfall in 1-2 Werktagen durchgeführt. Wir stellen Ihnen nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung. Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
-                    showCloseButton: true,
+                    iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
                     allowOutsideClick: false,
 
                     //confirmButtonText: "Zur Startseite <i class='fa fa-arrow-right'></i>",
                     confirmButtonText: "Zum Dashboard <i class='fa fa-arrow-right'></i>",
                     icon: "success",
                     html: `<div>
-              <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Datenstammblatt mit Einwilligungserklärung
+              <a id="buttonOne"  class="btn buttom-primary"> Datenstammblatt mit Einwilligungserklärung
               <i class="fa fa-download" aria-hidden="true"></i> </a>
-
              </div>`,
+                    confirmButtonColor: '#02a9ed',
+                  customClass: {
+                    icon: 'no-border',
+
+                  },
                   })
                     .then((result) => {
                       console.log(result);
@@ -10540,7 +10476,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '</div>' +
               '</div>' +
 
-              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="col-md-12 text-right d-flex flex-row  align-items-center justify-content-end p-1" >' +
               '<div class="removepreview btn bg-danger links text-white mr-2 " data-preview_id="' + that.previewid + '" id="removepreviewid' +
               that.previewid +
               '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>' +
@@ -10616,7 +10552,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '<span><b>Dateigröße: ' + Size + '</b></span>' +
               '</div>' +
               '</div>' +
-              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="col-md-12 text-right d-flex flex-row  align-items-center justify-content-end p-1" >' +
               '<div class="removepreview btn bg-danger mr-2 links text-white" data-preview_id="' + that.previewid + '" id="removepreviewid' +
               that.previewid +
               '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>' +
@@ -11340,7 +11276,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '<span><b>Dateigröße: ' + Size + '</b></span>' +
               '</div>' +
               '</div>' +
-              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="col-md-12 text-right d-flex flex-row  align-items-center justify-content-end p-1" >' +
               '<div class="removepreview btn bg-danger links  text-white mr-2" data-preview_id="' + that.previewid + '" id="removepreviewid' +
               that.previewid +
               '" style="cursor: pointer;padding:1px 4px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>'
@@ -11378,7 +11314,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit {
               '</div>' +
               '</div>' +
 
-              '<div class="col-md-12 text-right d-flex flex-row align-items-center justify-content-end py-1" >' +
+              '<div class="col-md-12 text-right d-flex flex-row  align-items-center justify-content-end p-1" >' +
               '<div class="removepreview btn bg-danger  links  mr-2 text-white"  data-preview_id="' + that.previewid + '" id="removepreviewid' +
               that.previewid +
               '" style="cursor: pointer;padding:1px 4px;font-size:14px" ><i class="fas fa-times text-white "  aria-hidden="true"></i>&nbsp;Entfernen</div>' +

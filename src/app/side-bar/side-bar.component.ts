@@ -78,10 +78,10 @@ export class SideBarComponent implements OnInit {
           this.customerid = params["id"];
         });
         // console.log('customerid', this.customerid);
+        if(this.customerid)
         this.userService.getEditUser(this.customerid).pipe(first()).subscribe((data: any) => {
           this.localData = data
-          // console.log('localData', data);
-        })
+        });
       } else {
         this.localData = ''
       }
