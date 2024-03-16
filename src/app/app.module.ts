@@ -94,10 +94,10 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
       },
     }),
-    SocketIoModule.forRoot({
-      url: environment.socket_url,
-      options: { path: environment.socket_path},
-    }),
+    // SocketIoModule.forRoot({
+    //   url: environment.socket_url,
+    //   options: { path: environment.socket_path},
+    // }),
     CarouselModule.forRoot(),
     PasswordStrengthMeterModule.forRoot(DEFAULT_PSM_OPTIONS),
   ],

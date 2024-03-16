@@ -12,8 +12,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    CustomerSideRoutingModule,
-    SharedModule
+    SharedModule,
+    CustomerSideRoutingModule
   ]
 })
 export class CustomerSideModule { }

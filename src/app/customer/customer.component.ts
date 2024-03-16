@@ -22,12 +22,12 @@ export interface Broker {
 })
 export class CustomerComponent implements OnInit {
   token: any;
-  title :any
-  currentid :any
-  customerno :any
-  lastname:any
-  firstname:any
-  COMPANYNAME:any
+  title: any
+  currentid: any
+  customerno: any
+  lastname: any
+  firstname: any
+  COMPANYNAME: any
   logged_in_users_companies_with_roles = JSON.parse(
     localStorage.getItem("currentUser")!
   ).companies_with_roles;
@@ -530,7 +530,7 @@ export class CustomerComponent implements OnInit {
     companies_with_roles: [],
   };
 
-  companytype :any
+  companytype: any
 
   opened_tab: any = {
     personal_data: true,
@@ -633,25 +633,25 @@ export class CustomerComponent implements OnInit {
       map((value) => this._filterland(value))
     );
 
-    this.companytype  = this.userService.getDecodedAccessToken(
+    this.companytype = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).companytype;
     this.title = this.userService.getDecodedAccessToken(localStorage.getItem("token")!).title;
-  this.currentid = this.userService.getDecodedAccessToken(
-    localStorage.getItem("token")!
-  ).id;
-  this.customerno = this.userService.getDecodedAccessToken(
-    localStorage.getItem("token")!
-  ).customerno;
-  this.lastname = this.userService.getDecodedAccessToken(
-    localStorage.getItem("token")!
-  ).lastname;
-  this.firstname = this.userService.getDecodedAccessToken(
-    localStorage.getItem("token")!
-  ).firstname;
-  this.COMPANYNAME = this.userService.getDecodedAccessToken(
-    localStorage.getItem("token")!
-  ).companyname;
+    this.currentid = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).id;
+    this.customerno = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).customerno;
+    this.lastname = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).lastname;
+    this.firstname = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).firstname;
+    this.COMPANYNAME = this.userService.getDecodedAccessToken(
+      localStorage.getItem("token")!
+    ).companyname;
 
     var myCurrentDate = new Date();
     var myPastDate = new Date(myCurrentDate);
@@ -729,7 +729,7 @@ export class CustomerComponent implements OnInit {
             console.log("this.customerList" + JSON.stringify(success));
             console.log("this.customerno" + this.customerno);
             console.log(success);
-                      // debugger
+
             this.setPage(1);
             this.recordCount = success.length;
           }
@@ -1614,7 +1614,22 @@ export class CustomerComponent implements OnInit {
       setTimeout(() => {
         const input: any = document.querySelector("#phone");
         console.log("querySelector" + input.value);
-        intlTelInput(input, {});
+        if (input) {
+          intlTelInput(input, {
+            // {
+            //   initialCountry: "de",
+            //   geoIpLookup: function (callback) {
+            //     $.get("http://ipinfo.io", function () { }, "jsonp").always(function (
+            //       resp: any
+            //     ) {
+            //       var countryCode = resp && resp.country ? resp.country : "de";
+            //       callback(countryCode);
+            //       console.log("countryCode" + countryCode);
+            //     });
+            //   },
+            // }
+          });
+        }
       }, 500);
 
       if (this.id != "") {
@@ -1672,7 +1687,7 @@ export class CustomerComponent implements OnInit {
                       console.log("this.customerList" + success);
                       console.log("this.customerno" + this.customerno);
                       console.log(success);
-                      // debugger
+                      
                       this.setPage(1);
                       this.recordCount = success.length;
                     }

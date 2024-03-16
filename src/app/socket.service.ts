@@ -9,43 +9,43 @@ export class SocketService {
   readonly url: string = "http://localhost:3000/";
 
   constructor() {
-    this.setupSocketConnection();
+    // this.setupSocketConnection();
   }
 
   public AddCurrentUserId(userId): void {
-    this.socket.emit("addUser", userId);
-    this.socket.on("getUsers", (users) => {
-      console.log(users);
-    });
+    // this.socket.emit("addUser", userId);
+    // this.socket.on("getUsers", (users) => {
+    //   console.log(users);
+    // });
   }
 
   public setupSocketConnection(): void {
     // this.socket = io.io(this.url, { transports: ["websocket"] });
-    this.socket = io.io(this.url);
+    // this.socket = io.io(this.url);
 
-    console.log(this.socket);
+    // console.log(this.socket);
   }
   public SendMessage(message, senderId, casenoId, receiverId, type, ticket) {
-    this.socket.emit("sendMessage", {
-      senderId,
-      receiverId,
-      casenoId,
-      text: message,
-      type,
-      ticket,
-    });
+    // this.socket.emit("sendMessage", {
+    //   senderId,
+    //   receiverId,
+    //   casenoId,
+    //   text: message,
+    //   type,
+    //   ticket,
+    // });
   }
   public GetMessage = () => {
     return new Observable((observer) => {
-      this.socket.on("getMessage", (data) => {
-        observer.next(data);
-      });
+      // this.socket.on("getMessage", (data) => {
+      //   observer.next(data);
+      // });
     });
   };
 
   public disconnect() {
     if (this.socket) {
-      this.socket.disconnect();
+      // this.socket.disconnect();
     }
   }
 }

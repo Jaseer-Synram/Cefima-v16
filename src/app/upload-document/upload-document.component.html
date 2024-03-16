@@ -24,7 +24,7 @@
           </div>
 
           <mat-horizontal-stepper linear #stepper (selectionChange)="onStepChange($event)" style="background: bottom"
-            class="stepnewclass " ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}">
+            class="stepnewclass col-12 " ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}">
 
             <ng-template matStepperIcon="edit">
               <mat-icon>check</mat-icon>

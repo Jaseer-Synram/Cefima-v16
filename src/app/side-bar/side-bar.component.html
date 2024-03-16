@@ -69,7 +69,8 @@
                       (opened)="clikeditem(localData._id,'hideHaushaltMain',localData.lastname)" *ngIf="!localData.hasOwnProperty('companytype') ||
                                     localData.companytype == ' ' || localData.companytype == '' ||
                                     localData.companytype == null;else company">
-                      <mat-expansion-panel-header mat-panel-title>
+
+                      <mat-expansion-panel-header role="tabpanel" id="haushaltMainBtn" mat-panel-title (click)="clikeditem(localData._id,'hideHaushaltMain',localData.lastname)">
                         <button class="stepper-btn1 transitionanimation " (click)="change_account_name( 'Haushalt', localData.usertitle, localData.firstname,
                                         localData.lastname, localData._id ); setCurrentTabUser(localData, 'haushalt')">
                           <span>
@@ -690,7 +691,7 @@
                         (opened)="clikeditem(localData._id,'hideCompanyMain','Stammdaten')" *ngIf=" localData.companytype ==
                                         'Eingetragener Kaufmann (e.K.)' || localData.companytype == 'Einzelunternehmen';
                                             else multiCompany " id="secondtabnew">
-                        <mat-expansion-panel-header mat-panel-title
+                        <mat-expansion-panel-header mat-panel-title id="firmaMainBtn"
                           (click)="clikeditem(localData._id,'hideCompanyMain','Stammdaten');change_account_name( 'Firma', 'Firma', '', localData.companyname )">
                           <button class="stepper-btn1 transitionanimation">
                             <span>
@@ -780,7 +781,7 @@
                       <ng-template #multiCompany>
                         <mat-expansion-panel [expanded]=true
                           (opened)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten')">
-                          <mat-expansion-panel-header role="tabpanel" (click)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten');
+                          <mat-expansion-panel-header id="firmaMultiMainBtn" role="tabpanel" (click)="clikeditem(localData._id,'hidemultiCompanyMain','Stammdaten');
                                                         change_account_name('Firma','Firma','',localData.companyname);
                                                         setCurrentTabUser(localData, 'company')" mat-panel-title>
                             <button role="button" class="stepper-btn1 transitionanimation">
@@ -898,8 +899,8 @@
         <mat-nav-list>
           <mat-accordion class="side">
             <mat-expansion-panel class="p-0 broker">
-              <mat-expansion-panel-header mat-panel-title class="p-0 broker" >
-                <mat-list-item class="not-active parent" (click)="router.navigate(['cefima/b2b-dashboard']);clickedBroker('Unternehmensdaten','Unternehmensdaten') ">
+              <mat-expansion-panel-header  mat-panel-title class="px-2 py-0 parent-broker broker" >
+                <mat-list-item class="not-active " (click)="router.navigate(['cefima/b2b-dashboard']);clickedBroker('Unternehmensdaten','Unternehmensdaten') ">
                   <!-- <img *ngIf="currentTab == 'Verwaltung'" src="assets/images/broker-icon-active.svg"> -->
                   <img *ngIf="currentTab != 'Verwaltung'" src="assets/images/broker-icon.svg">
                   <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">Firma Broker’s co.</span>

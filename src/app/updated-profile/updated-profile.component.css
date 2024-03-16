@@ -540,6 +540,11 @@ font-size: 11px;
   color:green;
   font-size: 20px;
 }
+
+.table-min-height-warning {
+  min-height: calc(100vh - 35vh);
+}
+
 /* .showcorner input {
   position: absolute;
   left: -9999px;

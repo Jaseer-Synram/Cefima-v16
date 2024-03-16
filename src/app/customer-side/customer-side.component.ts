@@ -958,7 +958,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.tabname = params["tabname"];
       this.customerid = params["id"];
       this.userService.invokeSideBarRouteFether.next(this.customerid)
-
     });
     this.secondcompanyaddressFormGroup = this.form_builder.group({
       legalrepresentativeform: this.form_builder.array([]),
@@ -974,131 +973,141 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     this.routeParamsActive = this.route.snapshot.routeConfig?.path;
 
     this.userService.selectCustomerSideItem.subscribe(data => {
+      $("#loaderouterid").css("display", "block");
+      if (data[0] != undefined) {
 
-      this.sub_sub_customer_id = ''
-      for (const key of Object.keys(this.addKunden)) {
-        this.addKunden[key] = true
-      }
-      console.log(data[0], data[3], data[1]);
-      this.sub_customer_id = data[0] as string
-      this.sub_sub_customer_id = data[3] as string
-
-      let itemString = `${data[1]}`
-
-      this.indexOfHideValues = data[2]
-      this.indexOfHideValuesj = data[4]
-
-
-      for (const key of Object.keys(this.hideValues)) {
-        if (key !== itemString) {
-          this.hideValues[key] = true
-        } else {
-          this.hideValues[key] = false
+        this.sub_sub_customer_id = ''
+        for (const key of Object.keys(this.addKunden)) {
+          this.addKunden[key] = true
         }
+
+        console.log('data', data);
+
+        this.sub_customer_id = data[0] as string
+        this.sub_sub_customer_id = data[3] as string
+
+        let itemString = `${data[1]}`
+
+        this.indexOfHideValues = data[2]
+        this.indexOfHideValuesj = data[4]
+
+
+        for (const key of Object.keys(this.hideValues)) {
+          if (key !== itemString) {
+            this.hideValues[key] = true
+          } else {
+            this.hideValues[key] = false
+          }
+        }
+        this.VertrageData = false
+        console.log(data, 'main-data');
+
+
+
+
+
+        this.userService
+          .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
+          ?.pipe(first())
+          .subscribe(
+            (data12) => {
+
+              console.log(data12);
+              console.log('data12', data12);
+              getDocumentsBYIDnew()
+
+              this.MetaDataLoopingDocList();
+              this.customerDocList = data12;
+              console.log('data12 :', data12);
+
+              console.log("innerloop");
+              this.customerDocListunique = [];
+              console.log(this.customerDocList);
+
+
+              for (let i = 0; i < this.customerDocList.length; i++) {
+                let exists = 0;
+                for (let j = 0; j < this.customerDocListunique.length; j++) {
+                  if (
+                    this.customerDocListunique[j].element.ticket_no ==
+                    this.customerDocList[i].element.ticket_no
+                  ) {
+                    exists = 1;
+                  }
+                }
+
+                if (exists == 0) {
+                  this.customerDocListunique.push(this.customerDocList[i]);
+                }
+              }
+
+              console.log("customer doc list unique");
+              console.log(this.customerDocListunique);
+
+              this.userService.dashboard_positions_list().subscribe((result) => {
+                console.log("Dashboard Positions fetched");
+                console.log(result);
+              });
+
+              this.setPage(1);
+              this.show_doc_count();
+            },
+            (error) => {
+              console.log('error :',error);
+            }
+          );
+
+        const getDocumentsBYIDnew = () => {
+        this.userService
+          .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
+          ?.pipe(first())
+          .subscribe(
+            (data11) => {
+              console.log('data11', data11);
+              $("#loaderouterid").css("display", "none");
+              this.MetaDataLoopingDocListsecond();
+              this.customerDocListsecondunique = [];
+              this.customerDocListsecond = data11;
+              console.log('customerDocListsecond :', this.customerDocListsecond);
+
+              for (let i = 0; i < this.customerDocListsecond.length; i++) {
+                let exists = 0;
+                for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
+                  console.log(this.customerDocListsecondunique[j].element.ticket_no ==
+                    this.customerDocListsecond[i].element.ticket_no);
+
+                  if (
+                    this.customerDocListsecondunique[j].element.ticket_no ==
+                    this.customerDocListsecond[i].element.ticket_no
+                  ) {
+                    exists = 1;
+                    console.log('exists :', exists, 'Not entered');
+
+                  }
+                }
+
+
+                if (exists == 0) {
+                  console.log('exists :', exists, 'Entered');
+                  this.customerDocListsecondunique.push(
+                    this.customerDocListsecond[i]
+                  );
+                }
+              }
+
+              this.setPage(1, "second");
+              this.show_doc_count();
+            },
+            (error) => {
+              console.log('error :',error);
+            }
+          );
+        }
+
+      } else {
+        console.log('data is undefined');
+
       }
-      this.VertrageData = false
-
-
-      this.userService
-        .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
-        ?.pipe(first())
-        .subscribe(
-          (data) => {
-
-            console.log(data);
-
-            this.MetaDataLoopingDocList();
-            this.customerDocList = data;
-            console.log('data :', data);
-
-            console.log("innerloop");
-            this.customerDocListunique = [];
-            console.log(this.customerDocList);
-
-
-            for (let i = 0; i < this.customerDocList.length; i++) {
-              let exists = 0;
-              for (let j = 0; j < this.customerDocListunique.length; j++) {
-                if (
-                  this.customerDocListunique[j].element.ticket_no ==
-                  this.customerDocList[i].element.ticket_no
-                ) {
-                  exists = 1;
-                }
-              }
-              console.log('exists******************');
-
-              if (exists == 0) {
-                console.log('here');
-                //
-                this.customerDocListunique.push(this.customerDocList[i]);
-              }
-            }
-
-            console.log("customer doc list unique");
-            console.log(this.customerDocListunique);
-
-            this.userService.dashboard_positions_list().subscribe((result) => {
-              console.log("Dashboard Positions fetched");
-              console.log(result);
-            });
-
-            this.setPage(1);
-            this.show_doc_count();
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-
-      this.userService
-        // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
-        .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
-        ?.pipe(first())
-        .subscribe(
-          (data11) => {
-
-
-            this.MetaDataLoopingDocListsecond();
-            this.customerDocListsecondunique = [];
-            this.customerDocListsecond = data11;
-            console.log('customerDocListsecond :', this.customerDocListsecond);
-
-            for (let i = 0; i < this.customerDocListsecond.length; i++) {
-              let exists = 0;
-              for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
-                console.log(this.customerDocListsecondunique[j].element.ticket_no ==
-                  this.customerDocListsecond[i].element.ticket_no);
-
-                if (
-                  this.customerDocListsecondunique[j].element.ticket_no ==
-                  this.customerDocListsecond[i].element.ticket_no
-                ) {
-                  exists = 1;
-                  console.log('exists :',exists,'Not entered');
-
-                }
-              }
-
-
-              if (exists == 0) {
-                console.log('exists :',exists,'Entered');
-                this.customerDocListsecondunique.push(
-                  this.customerDocListsecond[i]
-                );
-              } else {
-                console.log('exists :',exists,'Not entered else');
-              }
-            }
-
-            this.setPage(1, "second");
-            this.show_doc_count();
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-
     })
 
 
@@ -1125,7 +1134,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
 
     })
+
   }
+
 
 
   openpdfpopup(url: any, showsecond = "") {
@@ -1144,7 +1155,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       });
     }
   }
-  
+
   isButtonDisabled(item: string) {
 
     if (item == 'one') {
@@ -1874,7 +1885,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log("url" + middle);
     if (this.tokensession != null) {
       if (this.currentActiveRole == "b2b") {
-        this.router.navigate(["/b2b-home"]);
+        this.router.navigate(["./cefima/b2b-home"]);
       } else {
         this.router.navigate(["/kunde-home"], { queryParams: { id: this.id } });
       }
@@ -1918,17 +1929,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
   ngOnInit() {
 
-
-    console.log('haushalt if:', !this.localData.hasOwnProperty('companytype') ||
-      this.localData.companytype == ' ' ||
-      this.localData.companytype == '' ||
-      this.localData.companytype == null);
-
-    console.log('company if:', this.localData.companytype ==
-      'Eingetragener Kaufmann (e.K.)' ||
-      this.localData.companytype == 'Einzelunternehmen');
-
-
     this.currentid = this.userService.getDecodedAccessToken(
       localStorage.getItem("token")!
     ).id;
@@ -1949,8 +1949,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       localStorage.getItem("token")!
     ).companyname;
 
-    console.log("first name", this.firstname);
-
     this.header_title = this.title;
     this.header_firstname = this.firstname;
     this.header_lastname = this.lastname;
@@ -1967,11 +1965,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     var todaynew1 = dd + "." + mm + "." + yyyy;
     this.TodayDate = todaynew1;
-
-    // this.form_builder.array({
-    //   this.myControl,
-    //   myControlland: new FormControl(),
-    // });
 
     if (this.eventEmitterService.subsVar == undefined) {
       this.eventEmitterService.subsVar =
@@ -2013,9 +2006,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
     this.userService.getListBranch({}).subscribe(async (success: any) => {
       this.branchlisttotal = success;
-      console.log("branchlisttotal" +  this.branchlisttotal );
+      console.log("branchlisttotal" + this.branchlisttotal);
       this.branchlist = await this.LoopingBrancheslistnew(success);
       console.log("branchlisttotal" + this.branchlist);
+    }, (error: any) => {
+      console.log('error :', error);
     });
     this.isDivisibleBy(35);
     this.companyData = [];
@@ -2026,212 +2021,275 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     // this.legalrepresentativeform2().push(this.newlegalrepresentativeform2());
     this.userService
-      .getEditUser(this.customerid)
-      ?.pipe(first())
-      .subscribe((user: any) => {
-        this.localData = user;
-        this.localDataSearch = user;
-        console.log('localData', this.localData);
-        ////
-        this.getTabList();
-        console.log("brokername1");
-        console.log("this is user local data", this.localData);
+      .editUserData.subscribe((user: any) => {
 
-        if (this.localData.title != "Firma") {
-          this.fetch_consulting_data(this.localData._id);
-        }
-        console.log(this.localData.brokerinfo, '***********************************************************************');
+        if (user != "") {
+          this.localData = user;
+          this.localDataSearch = user;
+          console.log('localData', this.localData);
 
-        if (this.localData.brokerinfo && this.localData.brokerinfo.length > 0) {
-          this.brokeresign = this.localData.brokerinfo[0].brokeresign;
-          this.brokerCOMPANYTYPE = this.localData.brokerinfo[0].companytype;
-          this.brokerfirstname = this.localData.brokerinfo[0].firstname;
-          this.brokerlastname = this.localData.brokerinfo[0].lastname;
-          this.brokerCOMPANYNAME = this.localData.brokerinfo[0].companyname;
-        }
+          this.getTabList();
+          console.log("brokername1");
+          console.log("this is user local data", this.localData);
 
-        console.log(
-          "brokername2" + JSON.stringify(this.localData.hasOwnProperty("type1"))
-        );
-
-        if (this.localData.hasOwnProperty("type1")) {
-          this.type1 = this.localData.type1.legalrepresentativeform;
-          this.type2 = this.localData.type2.legalrepresentativeform1;
-          this.type3 = this.localData.type3.legalrepresentativeform2;
-          let totalshares: number = 0;
-          for (
-            let i = 0;
-            i < this.localData.type3.legalrepresentativeform2?.length;
-            i++
-          ) {
-            console.log(
-              "shareholdershares" +
-              this.localData.type3.legalrepresentativeform2[i].shares
-            );
-            totalshares =
-              totalshares +
-              parseInt(this.localData.type3.legalrepresentativeform2[i].shares);
+          if (this.localData.title != "Firma") {
+            this.fetch_consulting_data(this.localData._id);
           }
-          console.log("shareholdershares" + totalshares);
-          if (totalshares < 100) {
-            let leftshares = 100 - totalshares;
-            console.log("shareholdersharesleftshares" + leftshares);
-            this.ShareholderFormGroup.patchValue({
-              shares: leftshares,
-            });
-            this.addMoreShareholder = true;
+          console.log(this.localData.brokerinfo, '***********************************************************************');
+
+          if (this.localData.brokerinfo && this.localData.brokerinfo.length > 0) {
+            this.brokeresign = this.localData.brokerinfo[0].brokeresign;
+            this.brokerCOMPANYTYPE = this.localData.brokerinfo[0].companytype;
+            this.brokerfirstname = this.localData.brokerinfo[0].firstname;
+            this.brokerlastname = this.localData.brokerinfo[0].lastname;
+            this.brokerCOMPANYNAME = this.localData.brokerinfo[0].companyname;
+          }
+
+          console.log(
+            "brokername2" + JSON.stringify(this.localData.hasOwnProperty("type1"))
+          );
+
+          if (this.localData.hasOwnProperty("type1")) {
+            this.type1 = this.localData.type1.legalrepresentativeform;
+            this.type2 = this.localData.type2.legalrepresentativeform1;
+            this.type3 = this.localData.type3.legalrepresentativeform2;
+            let totalshares: number = 0;
+            for (
+              let i = 0;
+              i < this.localData.type3.legalrepresentativeform2?.length;
+              i++
+            ) {
+              console.log(
+                "shareholdershares" +
+                this.localData.type3.legalrepresentativeform2[i].shares
+              );
+              totalshares =
+                totalshares +
+                parseInt(this.localData.type3.legalrepresentativeform2[i].shares);
+            }
+            console.log("shareholdershares" + totalshares);
+            if (totalshares < 100) {
+              let leftshares = 100 - totalshares;
+              console.log("shareholdersharesleftshares" + leftshares);
+              this.ShareholderFormGroup.patchValue({
+                shares: leftshares,
+              });
+              this.addMoreShareholder = true;
+            } else {
+              this.addMoreShareholder = false;
+            }
+            console.log("brokername" + JSON.stringify(this.type1));
+            console.log("brokername" + JSON.stringify(this.type2));
+            console.log("brokername" + JSON.stringify(this.type3));
+            setTimeout(() => {
+              this.setPagetype(1, "type1");
+              this.setPagetype(1, "type2");
+              this.setPagetype(1, "type3");
+              console.log("founding_dateneelam" + this.localData.founding_date);
+              this.foundingdate = this.datePipe.transform(
+                this.localData.founding_date,
+                "dd.MM.yyyy"
+              );
+              console.log("founding_dateneelam" + this.foundingdate);
+            }, 100);
+          }
+
+          let brokerbrandarraynew = this.localData.brokerbrandarray;
+          console.log(brokerbrandarraynew);
+
+          let a = brokerbrandarraynew?.indexOf("Cefima");
+          if (a != -1 && a != undefined) {
+            this.brokername = this.localData?.brokerarray[a];
+            console.log("brokername3" + this.brokername);
           } else {
-            this.addMoreShareholder = false;
+            this.brokername = "";
+            console.log("brokername4" + this.brokername);
           }
-          console.log("brokername" + JSON.stringify(this.type1));
-          console.log("brokername" + JSON.stringify(this.type2));
-          console.log("brokername" + JSON.stringify(this.type3));
+
+          console.log("we are here");
+
+          if (this.brokername != "") {
+            console.log("brokername5" + this.brokername);
+            this.userService
+              .getUser1(this.brokername)
+              ?.pipe(first())
+              .subscribe((brokerdata: any) => {
+                console.log("brokername6", brokerdata);
+                this.brokertitle = brokerdata[0].title;
+                this.brokerlastname = brokerdata[0].lastname;
+                this.brokerfirstname = brokerdata[0].firstname;
+                this.brokerCOMPANYNAME = brokerdata[0].companyname;
+                this.brokerCOMPANYTYPE = brokerdata[0].companytype;
+                (this.brokerplz = brokerdata[0].plz),
+                  (this.brokercity = brokerdata[0].city),
+                  (this.brokerstreetNumber = brokerdata[0].strno);
+                this.brokerlogo = brokerdata[0].logo;
+                this.brokerwelcomevideo = brokerdata[0].welcomevideo;
+                this.brokeresign = brokerdata[0].brokeresign;
+                this.brokercustomernum = brokerdata[0].customerno;
+                this.brokerstreet = brokerdata[0].strassa;
+                this.brokercontactno = brokerdata[0].contactno;
+                this.brokerregistration_number =
+                  brokerdata[0].registration_number;
+                console.log("brokername" + this.brokerlastname);
+                console.log("brokername" + this.brokercustomernum);
+              }, (err) => {
+                console.log(err);
+              });
+          }
+          console.log("brokername" + this.brokercustomernum);
           setTimeout(() => {
-            this.setPagetype(1, "type1");
-            this.setPagetype(1, "type2");
-            this.setPagetype(1, "type3");
-            console.log("founding_dateneelam" + this.localData.founding_date);
-            this.foundingdate = this.datePipe.transform(
-              this.localData.founding_date,
-              "dd.MM.yyyy"
-            );
-            console.log("founding_dateneelam" + this.foundingdate);
-          }, 100);
-        }
-
-        let brokerbrandarraynew = this.localData.brokerbrandarray;
-        let a = brokerbrandarraynew.indexOf("Cefima");
-        if (a != -1) {
-          this.brokername = this.localData.brokerarray[a];
-          console.log("brokername3" + this.brokername);
-        } else {
-          this.brokername = "";
-          console.log("brokername4" + this.brokername);
-        }
-
-        console.log("we are here");
-
-        if (this.brokername != "") {
-          console.log("brokername5" + this.brokername);
-          this.userService
-            .getUser1(this.brokername)
-            ?.pipe(first())
-            .subscribe((brokerdata: any) => {
-              console.log("brokername6" + JSON.stringify(brokerdata));
-              this.brokertitle = brokerdata[0].title;
-              this.brokerlastname = brokerdata[0].lastname;
-              this.brokerfirstname = brokerdata[0].firstname;
-              this.brokerCOMPANYNAME = brokerdata[0].companyname;
-              this.brokerCOMPANYTYPE = brokerdata[0].companytype;
-              (this.brokerplz = brokerdata[0].plz),
-                (this.brokercity = brokerdata[0].city),
-                (this.brokerstreetNumber = brokerdata[0].strno);
-              this.brokerlogo = brokerdata[0].logo;
-              this.brokerwelcomevideo = brokerdata[0].welcomevideo;
-              this.brokeresign = brokerdata[0].brokeresign;
-              this.brokercustomernum = brokerdata[0].customerno;
-              this.brokerstreet = brokerdata[0].strassa;
-              this.brokercontactno = brokerdata[0].contactno;
-              this.brokerregistration_number =
-                brokerdata[0].registration_number;
-              console.log("brokername" + this.brokerlastname);
-              console.log("brokername" + this.brokercustomernum);
+            console.log("brokername" + this.brokercustomernum);
+            this.familyFormGroup.patchValue({
+              street: this.localData.strassa,
+              streetNumber: this.localData.strno,
+              postCode: this.localData.plz,
+              city: this.localData.city,
+              additionalReference: this.localData.additionalReference,
+              countryOfResidence: this.localData.current_country,
             });
+
+            this.officeaddressFormGroup.patchValue({
+              street: this.localData.strassa,
+              streetNumber: this.localData.strno,
+              postCode: this.localData.plz,
+              city: this.localData.city,
+              additionalReference: this.localData.additionalReference,
+              countryOfResidence: this.localData.current_country,
+            });
+
+            this.addressFormGroupnew.patchValue({
+              street: this.localData.strassa,
+              streetNumber: this.localData.strno,
+              postCode: this.localData.plz,
+              city: this.localData.city,
+              additionalReference: this.localData.additionalReference,
+              countryOfResidence: this.localData.current_country,
+            });
+            this.companydataform.patchValue({
+              title: this.localData.title,
+              firstName: this.localData.firstname,
+              email: this.localData.email,
+              founding_date: this.datePipe.transform(
+                this.localData.founding_date,
+                "dd.MM.yyyy"
+              ),
+              lastName: this.localData.lastname,
+              registration_num: this.localData.registration_num,
+              street: this.localData.strassa,
+              streetNumber: this.localData.strno,
+              postCode: this.localData.plz,
+              city: this.localData.city,
+              additionalReference: this.localData.additionalReference,
+              countryOfResidence: this.localData.current_country,
+              register_location: this.localData.register_location,
+              companyname: this.localData.companyname,
+              companytype: this.localData.companytype,
+              phoneno: this.localData.contactno,
+              vermittlerstatus: this.localData.Vermittlerstatus,
+              registrationsnummer: this.localData.registration_number,
+              customerno: this.localData.customerno,
+              ihk: this.localData.responsible_ihk,
+            });
+
+            this.officedataform.patchValue({
+              street: this.localData.strassa,
+              streetNumber: this.localData.strno,
+              postCode: this.localData.plz,
+              city: this.localData.city,
+              additionalReference: this.localData.additionalReference,
+              countryOfResidence: this.localData.current_country,
+
+              phoneno: this.localData.contactno,
+              vermittlerstatus: this.localData.Vermittlerstatus,
+              registrationsnummer: this.localData.registration_number,
+              customerno: this.localData.customerno,
+              ihk: this.localData.responsible_ihk,
+            });
+            console.log("brokername" + this.brokercustomernum);
+            this.personaldataform.patchValue({
+              title: this.localData.title,
+              firstName: this.localData.firstname,
+              email: this.localData.email,
+              lastName: this.localData.lastname,
+              dob: this.localData.dateofbirth,
+              street: this.localData.strassa,
+              streetNumber: this.localData.strno,
+              postCode: this.localData.plz,
+              city: this.localData.city,
+              contactno: this.localData.contactno,
+              additionalReference: this.localData.additionalReference,
+              countryOfResidence: this.localData.current_country,
+              brokernumber: this.brokername,
+              customerno: this.localData.customerno,
+              birthPlace: this.localData.birth_place,
+            });
+            console.log("brokername" + this.brokercustomernum);
+          }, 100);
+          console.log("brokername" + this.brokercustomernum);
+
+
+          if (this.loginRole == "b2b" && this.routeParamsActive != "kunde-home") {
+            console.log(this.localData._id, "1");
+
+            this.userService
+              .getDocumentsByIds(
+                this.localData._id,
+                "Allgemeines Dokument",
+                "cefima_document"
+              )
+              ?.pipe(first())
+              .subscribe(
+                (result: any) => {
+                  console.log(result[0]?.element.ticket_no);
+                  this.documents = result;
+                  console.log('Result : :', result);
+
+                  this.MetaDataLooping();
+                  this.setPage(1, "general");
+                  this.show_doc_count();
+                  this.getcurrentUser(result[0]?.element.ticket_no);
+                 },
+                (error) => {
+                  console.log(error);
+                 }
+              );
+          } else {
+            console.log(this.customerid, "2");
+
+            this.userService
+              .getDocumentsByIds(
+                this.customerid,
+                "Allgemeines Dokument",
+                "cefima_document"
+              )
+              ?.pipe(first())
+              .subscribe(
+                (result: any) => {
+                  console.log(result[0]?.element.ticket_no);
+                  this.documents = result;
+                  console.log('Result : :', result);
+
+                  this.MetaDataLooping();
+                  this.setPage(1, "general");
+                  this.show_doc_count();
+                  this.getcurrentUser(result[0]?.element.ticket_no);
+                  $("#loaderouterid").css("display", "none");
+                },
+                (error) => {
+                  console.log(error);
+                  $("#loaderouterid").css("display", "none");
+                }
+              );
+          }
+
         }
-        console.log("brokername" + this.brokercustomernum);
-        setTimeout(() => {
-          console.log("brokername" + this.brokercustomernum);
-          this.familyFormGroup.patchValue({
-            street: this.localData.strassa,
-            streetNumber: this.localData.strno,
-            postCode: this.localData.plz,
-            city: this.localData.city,
-            additionalReference: this.localData.additionalReference,
-            countryOfResidence: this.localData.current_country,
-          });
-
-          this.officeaddressFormGroup.patchValue({
-            street: this.localData.strassa,
-            streetNumber: this.localData.strno,
-            postCode: this.localData.plz,
-            city: this.localData.city,
-            additionalReference: this.localData.additionalReference,
-            countryOfResidence: this.localData.current_country,
-          });
-
-          this.addressFormGroupnew.patchValue({
-            street: this.localData.strassa,
-            streetNumber: this.localData.strno,
-            postCode: this.localData.plz,
-            city: this.localData.city,
-            additionalReference: this.localData.additionalReference,
-            countryOfResidence: this.localData.current_country,
-          });
-          this.companydataform.patchValue({
-            title: this.localData.title,
-            firstName: this.localData.firstname,
-            email: this.localData.email,
-            founding_date: this.datePipe.transform(
-              this.localData.founding_date,
-              "dd.MM.yyyy"
-            ),
-            lastName: this.localData.lastname,
-            registration_num: this.localData.registration_num,
-            street: this.localData.strassa,
-            streetNumber: this.localData.strno,
-            postCode: this.localData.plz,
-            city: this.localData.city,
-            additionalReference: this.localData.additionalReference,
-            countryOfResidence: this.localData.current_country,
-            register_location: this.localData.register_location,
-            companyname: this.localData.companyname,
-            companytype: this.localData.companytype,
-            phoneno: this.localData.contactno,
-            vermittlerstatus: this.localData.Vermittlerstatus,
-            registrationsnummer: this.localData.registration_number,
-            customerno: this.localData.customerno,
-            ihk: this.localData.responsible_ihk,
-          });
-
-          this.officedataform.patchValue({
-            street: this.localData.strassa,
-            streetNumber: this.localData.strno,
-            postCode: this.localData.plz,
-            city: this.localData.city,
-            additionalReference: this.localData.additionalReference,
-            countryOfResidence: this.localData.current_country,
-
-            phoneno: this.localData.contactno,
-            vermittlerstatus: this.localData.Vermittlerstatus,
-            registrationsnummer: this.localData.registration_number,
-            customerno: this.localData.customerno,
-            ihk: this.localData.responsible_ihk,
-          });
-          console.log("brokername" + this.brokercustomernum);
-          this.personaldataform.patchValue({
-            title: this.localData.title,
-            firstName: this.localData.firstname,
-            email: this.localData.email,
-            lastName: this.localData.lastname,
-            dob: this.localData.dateofbirth,
-            street: this.localData.strassa,
-            streetNumber: this.localData.strno,
-            postCode: this.localData.plz,
-            city: this.localData.city,
-            contactno: this.localData.contactno,
-            additionalReference: this.localData.additionalReference,
-            countryOfResidence: this.localData.current_country,
-            brokernumber: this.brokername,
-            customerno: this.localData.customerno,
-            birthPlace: this.localData.birth_place,
-          });
-          console.log("brokername" + this.brokercustomernum);
-        }, 100);
-        console.log("brokername" + this.brokercustomernum);
+      }, (err) => {
+        console.log(err);
       });
 
     // console.log("session"+localStorage.getItem("currentActiveRole"))
-    console.log("localdata" +  this.localData);
+    console.log("localdata" + this.localData);
 
     console.log("localdata" + JSON.stringify(this.currentActiveRole));
     this.docFromGroup = this.form_builder.group({
@@ -2506,146 +2564,101 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           console.log(err);
         }
       );
-    if (this.loginRole == "b2b" && this.routeParamsActive != "kunde-home") {
-      this.userService
-        .getDocumentsByIds(
-          this.localData._id,
-          "Allgemeines Dokument",
-          "cefima_document"
-        )
-        ?.pipe(first())
-        .subscribe(
-          (result: any) => {
-            console.log(result[0]?.element.ticket_no);
-            this.documents = result;
-            console.log('Result : :', result);
 
-            this.MetaDataLooping();
-            this.setPage(1, "general");
-            this.show_doc_count();
-            this.getcurrentUser(result[0]?.element.ticket_no);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    } else {
-      this.userService
-        .getDocumentsByIds(
-          this.customerid,
-          "Allgemeines Dokument",
-          "cefima_document"
-        )
-        ?.pipe(first())
-        .subscribe(
-          (result: any) => {
-            console.log(result[0]?.element.ticket_no);
-            this.documents = result;
-            console.log('Result : :', result);
 
-            this.MetaDataLooping();
-            this.setPage(1, "general");
-            this.show_doc_count();
-            this.getcurrentUser(result[0]?.element.ticket_no);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    }
+    // this.userService
+    //   .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
+    //   ?.pipe(first())
+    //   .subscribe(
+    //     (data) => {
+    //       console.log(data);
 
-    this.userService
-      .getDocumentsBYID(this.customerid, "bestandsübertragung", this.sub_customer_id, this.sub_sub_customer_id)
-      ?.pipe(first())
-      .subscribe(
-        (data) => {
-          console.log(data);
+    //       this.MetaDataLoopingDocList();
+    //       this.customerDocList = data;
+    //       console.log("innerloop");
+    //       console.log(this.customerDocList);
 
-          this.MetaDataLoopingDocList();
-          this.customerDocList = data;
-          console.log("innerloop");
-          console.log(this.customerDocList);
+    //       for (let i = 0; i < this.customerDocList.length; i++) {
+    //         let exists = 0;
+    //         for (let j = 0; j < this.customerDocListunique.length; j++) {
+    //           if (
+    //             this.customerDocListunique[j].element.ticket_no ==
+    //             this.customerDocList[i].element.ticket_no
+    //           ) {
+    //             exists = 1;
+    //           }
+    //         }
+    //         console.log('exists******************');
 
-          for (let i = 0; i < this.customerDocList.length; i++) {
-            let exists = 0;
-            for (let j = 0; j < this.customerDocListunique.length; j++) {
-              if (
-                this.customerDocListunique[j].element.ticket_no ==
-                this.customerDocList[i].element.ticket_no
-              ) {
-                exists = 1;
-              }
-            }
-            console.log('exists******************');
+    //         if (exists == 0) {
+    //           this.customerDocListunique.push(this.customerDocList[i]);
+    //         }
+    //       }
 
-            if (exists == 0) {
-              this.customerDocListunique.push(this.customerDocList[i]);
-            }
-          }
+    //       console.log("customer doc list unique");
+    //       console.log(this.customerDocListunique);
 
-          console.log("customer doc list unique");
-          console.log(this.customerDocListunique);
+    //       this.userService.dashboard_positions_list().subscribe((result) => {
+    //         console.log("Dashboard Positions fetched");
+    //         console.log(result);
+    //       });
 
-          this.userService.dashboard_positions_list().subscribe((result) => {
-            console.log("Dashboard Positions fetched");
-            console.log(result);
-          });
+    //       this.setPage(1);
+    //       this.show_doc_count();
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    //     console.log('called *********************************');
 
-          this.setPage(1);
-          this.show_doc_count();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    this.userService
-      // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
-      .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
-      ?.pipe(first())
-      .subscribe(
-        (data11) => {
-          console.log(data11);
+    //  this.userService
+    //    .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
+    //   ?.pipe(first())
+    //   .subscribe(
+    //     (data11) => {
+    //       console.log(data11);
 
-          this.MetaDataLoopingDocListsecond();
-          this.customerDocListsecond = data11;
+    //        this.MetaDataLoopingDocListsecond();
+    //       this.customerDocListsecond = data11;
 
-          for (let i = 0; i < this.customerDocListsecond.length; i++) {
-            let exists = 0;
-            for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
-              if (
-                this.customerDocListsecondunique[j].element.ticket_no ==
-                this.customerDocListsecond[i].element.ticket_no
-              ) {
-                exists = 1;
-              }
-            }
+    //       for (let i = 0; i < this.customerDocListsecond.length; i++) {
+    //         let exists = 0;
+    //         for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
+    //           if (
+    //             this.customerDocListsecondunique[j].element.ticket_no ==
+    //             this.customerDocListsecond[i].element.ticket_no
+    //           ) {
+    //             exists = 1;
+    //           }
+    //         }
 
-            if (exists == 0) {
-              this.customerDocListsecondunique.push(
-                this.customerDocListsecond[i]
-              );
-            }
-          }
+    //         if (exists == 0) {
+    //           this.customerDocListsecondunique.push(
+    //             this.customerDocListsecond[i]
+    //           );
+    //         }
+    //       }
 
-          this.setPage(1, "second");
-          this.show_doc_count();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    //       this.setPage(1, "second");
+    //       this.show_doc_count();
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
 
 
 
-    let strno = this.localData.strno;
-    let strassa = this.localData.strassa;
-    let city = this.localData.city;
-    let current_country = this.localData.current_country;
-    let plz = this.localData.plz;
+    // let strno = this.localData.strno;
+    // let strassa = this.localData.strassa;
+    // let city = this.localData.city;
+    // let current_country = this.localData.current_country;
+    // let plz = this.localData.plz;
 
     this.userService.getproductpartner().subscribe((success: any) => {
       // if success and error give response
-      console.log( success) ;
+      console.log(success);
       this.ReadyProductsOptions = this.LoopingProductsList(success);
       this.ReadyProductsTypeOptions = this.LoopingProductsListType(success);
       console.log("ReadyProductsTypeOptions" + this.ReadyProductsTypeOptions);
@@ -2657,6 +2670,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         //this.recordCount = success.length;
         console.log(this.customerList);
       }
+    }, (err) => {
+      console.log(err);
     });
 
     setTimeout(() => {
@@ -2727,7 +2742,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.tabList = result
         .filter((item: any) => {
           if (
-            this.localData.title.toLowerCase() !== "firma" &&
+            this.localData.title?.toLowerCase() !== "firma" &&
             item.dashboard_of === "haushalt"
           ) {
             return item;
@@ -2741,6 +2756,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           }
         })
         .map((item: any) => ({ ...item, data: [], loaded: false }));
+    }, (err) => {
+      console.log(err);
     });
   }
 
@@ -3860,10 +3877,12 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   get_unread_chat() {
-    let message = {
-      broker_id: this.customerid,
-      case_no: this.lastcase_no,
-    };
+    // console.log(this.customerid, " : customer id");
+
+    // let message = {
+    //   broker_id: this.customerid,
+    //   case_no: this.lastcase_no,
+    // };
     // console.log("case no in customer side");
     // this.userService.getchatunreadmessage(message).subscribe(
     //   (success: any) => {
@@ -3889,8 +3908,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   ngAfterViewInit() {
     console.log('aftervie *********************************');
 
+
     setTimeout(() => {
-      if(this.canvas){
+      if (this.canvas) {
         this.signaturePad = new SignaturePad(this.canvas?.nativeElement);
       }
     });
@@ -4002,6 +4022,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         })
       };
     }, 500);
+
     setTimeout(() => {
       if (this.signaturePad) {
         this.signaturePad.minWidth = 2;
@@ -4009,14 +4030,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     });
 
-
     this.userService
-      .getCustomerCompanies(this.customerid)
-      ?.pipe(first())
-      .subscribe((companydata: any) => {
+      .customerCompaniesData.subscribe((companydata: any) => {
         this.companyDataSearch = lodash.cloneDeep(companydata);
 
         this.companyData = companydata;
+        console.log(companydata);
+
 
         console.log("company data received");
 
@@ -4054,10 +4074,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     setTimeout(() => {
       this.userService
-        .getfamilyMembers(this.customerid)
-        ?.pipe(first())
-        .subscribe((familydata11: any) => {
-          console.log("familydata" + JSON.stringify(this.familyData));
+        .familyMembersData.subscribe((familydata11: any) => {
+          console.log("familydata", familydata11);
           this.familyData = familydata11;
 
           setTimeout(() => {
@@ -4086,13 +4104,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           }, 100);
 
           console.log("familydata1" + JSON.stringify(this.familyData));
+        }, (err) => {
+          console.log(err);
         });
     }, 500);
 
     this.userService
-      .getUserCompanyOffices(this.customerid)
-      ?.pipe(first())
-      .subscribe((userofficedata: any) => {
+      .userCompanyOfficesData.subscribe((userofficedata: any) => {
         this.userofficeData = userofficedata;
 
 
@@ -4123,6 +4141,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           }
         }, 500);
         console.log("userofficeData" + JSON.stringify(userofficedata));
+      }, (err) => {
+        console.log(err);
       });
 
     this.userService.invokeFunctionInCustomerSide.subscribe(data => {
@@ -4380,6 +4400,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                 );
               });
           });
+      }, (error: any) => {
+        console.log('error :', error);
       });
   }
 
@@ -4655,6 +4677,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     );
   }
   private _filtermartialStatustype(value: string): string[] {
+    $("#loaderouterid").css("display", "none");
     console.log("_filterland" + value);
     const filterValue = value.toLowerCase();
     return this.martialStatus.filter((option) =>
@@ -5991,11 +6014,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   setPagetype(page: number, data: any) {
-    console.log("sadsadsad" ,  this.type1) ;
+    console.log("sadsadsad", this.type1);
     // get pager object from service
     //this.getdivoutside();
     if (data == "type1") {
-      console.log("sadsadsad" ,  this.type1 );
+      console.log("sadsadsad", this.type1);
 
       this.pagertype[0].type1 = this.pagerService.getPager(
         this.type1?.length,
@@ -6011,8 +6034,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagertype[0].type1.startIndex,
         this.pagertype[0].type1.endIndex + 1
       );
-      console.log("sadsadsad" ,this.pagedItemstype[0].type1 ,
-        "sadsadsadneelam",this.pagedItemstypeSearch[0].type1) ;
+      console.log("sadsadsad", this.pagedItemstype[0].type1,
+        "sadsadsadneelam", this.pagedItemstypeSearch[0].type1);
       if (this.type1.length > 0) {
         this.startRecordtype[0].type1 =
           this.pagertype[0].type1.currentPage *
@@ -6032,7 +6055,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     }
     if (data == "type2") {
-      console.log("sadsadsad" ,this.type2);
+      console.log("sadsadsad", this.type2);
 
       this.pagertype[0].type2 = this.pagerService.getPager(
         this.type2.length,
@@ -6041,9 +6064,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       console.log("sadsadsad" + this.pagertype[0].type2);
       // get current page of items
       console.log(
-        "sadsadsadneelam" ,this.pagedItemstype[0].type2
+        "sadsadsadneelam", this.pagedItemstype[0].type2
       );
-      console.log("sadsadsadneelam" , this.type2);
+      console.log("sadsadsadneelam", this.type2);
       console.log("sadsadsadneelam", this.pagertype[0].type2.startIndex);
       console.log("sadsadsadneelam", this.pagertype[0].type2.endIndex);
       this.pagedItemstype[0].type2 = this.type2.slice(
@@ -6055,7 +6078,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagertype[0].type2.endIndex + 1
       );
       console.log(
-        "sadsadsadneelam" ,this.pagedItemstype[0].type2);
+        "sadsadsadneelam", this.pagedItemstype[0].type2);
 
       if (this.type2.length > 0) {
         this.startRecordtype[0].type2 =
@@ -6076,7 +6099,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       }
     }
     if (data == "type3") {
-      console.log("sadsadsad" ,this.type3);
+      console.log("sadsadsad", this.type3);
 
       this.pagertype[0].type3 = this.pagerService.getPager(
         this.type3.length,
@@ -6399,7 +6422,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
-  sanitizeURL(url:string) {
+  sanitizeURL(url: string) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
     // (SecurityContext.URL,url)
   }
@@ -6419,7 +6442,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     click_id?: any
   ) {
 
-    console.log('url:',url,'tags:',tags,'imagename:',imagename,'companycode :',companycode,'brand :',brand,'document_name :',document_name);
+    console.log('url:', url, 'tags:', tags, 'imagename:', imagename, 'companycode :', companycode, 'brand :', brand, 'document_name :', document_name);
     this.preViewData = []
     this.preViewIndexAllgeme = 0
     let that = this;
@@ -6451,303 +6474,303 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
     // if (element.innerHTML == "Schließen") {
 
-      // $("#imagediv").removeClass("col-md-12");
-      // $("#imagediv").addClass("col-md-7");
-      // console.log("tags" + JSON.stringify(tags));
-      const removepreview = () => {
-        let elementnew: HTMLElement = document.getElementById(
-          //"click" + this.previewid
-          click_id + this.previewid
-        ) as HTMLElement;
-        elementnew.innerHTML = "Öffnen";
+    // $("#imagediv").removeClass("col-md-12");
+    // $("#imagediv").addClass("col-md-7");
+    // console.log("tags" + JSON.stringify(tags));
+    const removepreview = () => {
+      let elementnew: HTMLElement = document.getElementById(
+        //"click" + this.previewid
+        click_id + this.previewid
+      ) as HTMLElement;
+      elementnew.innerHTML = "Öffnen";
 
-        //$("#preview" + id).html("");
-        $("#" + preview_id + id).html("");
+      //$("#preview" + id).html("");
+      $("#" + preview_id + id).html("");
 
-        console.log("sadasda");
-      };
+      console.log("sadasda");
+    };
 
-      const result1 = this.getFileExtension(imagename);
-      let metadata = tags[0].split(",");
-      console.log("metadatametadata" + metadata[0]);
-      let FileSize =
-        metadata[0] > 1024 ? metadata[0].charAt(0) + "MB" : metadata[0] + "KB";
-      var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+    const result1 = this.getFileExtension(imagename);
+    let metadata = tags[0].split(",");
+    console.log("metadatametadata" + metadata[0]);
+    let FileSize =
+      metadata[0] > 1024 ? metadata[0].charAt(0) + "MB" : metadata[0] + "KB";
+    var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    var date_of_upload = d.replace(/[/]/g, ".");
+    if (typeof metadata[2] != "undefined") {
+      let dateofdocument = Number(metadata[2]);
+      var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
       });
-      var date_of_upload = d.replace(/[/]/g, ".");
-      if (typeof metadata[2] != "undefined") {
-        let dateofdocument = Number(metadata[2]);
-        var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
+
+      var date_of_document = date.replace(/[/]/g, ".");
+      //console.log("date_of_document" + date_of_upload);
+    } else {
+      //var date_of_document = "";
+    }
+    var filetype = "";
+    if (typeof metadata[1] != "undefined") {
+      filetype = metadata[1];
+    } else {
+      filetype = "";
+    }
+
+
+    let index = 1;
+
+    for (let count = 0; count < this.customerDocListsecond.length; count++) {
+      if (ticket_no == this.customerDocListsecond[count].element.ticket_no) {
+        let metadata =
+          this.customerDocListsecond[count].element.tags[0].split(",");
+
+        var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
         });
+        var date_of_upload = d.replace(/[/]/g, ".");
 
-        var date_of_document = date.replace(/[/]/g, ".");
-        //console.log("date_of_document" + date_of_upload);
-      } else {
-        //var date_of_document = "";
-      }
-      var filetype = "";
-      if (typeof metadata[1] != "undefined") {
-        filetype = metadata[1];
-      } else {
-        filetype = "";
-      }
-
-
-      let index = 1;
-
-      for (let count = 0; count < this.customerDocListsecond.length; count++) {
-        if (ticket_no == this.customerDocListsecond[count].element.ticket_no) {
-          let metadata =
-            this.customerDocListsecond[count].element.tags[0].split(",");
-
-          var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+        if (typeof metadata[2] != "undefined") {
+          let dateofdocument = Number(metadata[2]);
+          var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
           });
-          var date_of_upload = d.replace(/[/]/g, ".");
 
-          if (typeof metadata[2] != "undefined") {
-            let dateofdocument = Number(metadata[2]);
-            var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            });
-
-            var date_of_document = date.replace(/[/]/g, ".");
-          } else {
-            var date_of_document = "";
-          }
-          var filetype = "";
-          if (typeof metadata[1] != "undefined") {
-            filetype = metadata[1];
-          } else {
-            filetype = "";
-          }
-          console.log('Doc data : ',this.customerDocListsecond[count].element);
-
-          this.preViewData.push({
-            document_name: this.customerDocListsecond[count].element.document_name,
-            metadata: metadata,
-            ticket_no: ticket_no,
-            date_of_document: date_of_document,
-            date_of_upload: date_of_upload,
-            created_byname: created_byname,
-            filetype: filetype,
-            companycode: companycode,
-            brand: brand,
-            url: this.sanitizeURL(this.customerDocListsecond[count].element.document_url),
-            imagename: this.customerDocListsecond[count].element.document_unique_id,
-            href: `${environment.API_URL}document/downloaddocument/${this.customerDocListsecond[count].element.document_unique_id}`
-          })
-
-          // if (index == 1) {
-          //   same_docs_list +=
-          //     '<div class="row document-row" id="document-row' +
-          //     index +
-          //     '" data-source="' +
-          //     this.customerDocListsecond[count].element.document_url +
-          //     '" data-file_type="' +
-          //     filetype +
-          //     '" data-index="' +
-          //     index +
-          //     '" data-doc_link="' +
-          //     this.customerDocListsecond[count].element.document_unique_id +
-          //     '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-          //     '<div class="col-md-11" >' +
-          //     index +
-          //     ". " +
-          //     this.customerDocListsecond[count].element.document_name +
-          //     "</div>" +
-          //     '<div class="col-md-1">' +
-          //     '<i class="fa fa-angle-right" id="angle-right' +
-          //     index +
-          //     '" style="display:none;font-weight:bold;font-size:30px;"></i>' +
-          //     '<i class="fa fa-angle-down" id="angle-down' +
-          //     index +
-          //     '" style="font-weight:bold;font-size:30px;margin-left: -5px;"></i>' +
-          //     "</div>" +
-          //     '<div class="col-md-12 documentdetails" id="documentdetails' +
-          //     index +
-          //     '" style="background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
-          //     "<h6>Dokumentenname: " +
-          //     this.customerDocListsecond[count].element.document_name +
-          //     "</h6><h6>Dateigröße: " +
-          //     metadata[0] +
-          //     " Kb</h6><h6>Vorgangs Nr.: " +
-          //     ticket_no +
-          //     "</h6><h6>Datum des Dokuments: " +
-          //     date_of_document +
-          //     "</h6><h6>Datum des Uploads: " +
-          //     date_of_upload +
-          //     "</h6><h6>Hochgeladen von: " +
-          //     created_byname +
-          //     "</h6><h6>Dateityp: " +
-          //     filetype +
-          //     "</h6><h6>Stichworte: " +
-          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          //     companycode +
-          //     "</span>" +
-          //     "&nbsp;" +
-          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          //     brand +
-          //     "</span>" +
-          //     "&nbsp;" +
-          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          //     ticket_no +
-          //     "</span>" +
-          //     "</h6>" +
-          //     "</div>" +
-          //     "</div>";
-          // } else {
-          //   same_docs_list +=
-          //     '<div class="row document-row" id="document-row' +
-          //     index +
-          //     '" data-source="' +
-          //     this.customerDocListsecond[count].element.document_url +
-          //     '" data-file_type="' +
-          //     filetype +
-          //     '" data-index="' +
-          //     index +
-          //     '" data-doc_link="' +
-          //     this.customerDocListsecond[count].element.document_unique_id +
-          //     '" style="cursor: pointer;margin-top: 5px;background-color: #184195;color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
-          //     '<div class="col-md-11" >' +
-          //     index +
-          //     ". " +
-          //     this.customerDocListsecond[count].element.document_name +
-          //     "</div>" +
-          //     '<div class="col-md-1">' +
-          //     '<i class="fa fa-angle-right" id="angle-right' +
-          //     index +
-          //     '" style="font-weight:bold;font-size:30px;"></i>' +
-          //     '<i class="fa fa-angle-down" id="angle-down' +
-          //     index +
-          //     '" style="margin-left: -5px;display:none;font-weight:bold;font-size:30px;"></i>' +
-          //     "</div>" +
-          //     '<div class="col-md-12 documentdetails" id="documentdetails' +
-          //     index +
-          //     '" style="display:none;background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
-          //     "<h6>Dokumentenname: " +
-          //     this.customerDocListsecond[count].element.document_name +
-          //     "blob-" +
-          //     index +
-          //     "</h6><h6>Dateigröße: " +
-          //     metadata[0] +
-          //     " Kb</h6><h6>Vorgangs Nr.: " +
-          //     ticket_no +
-          //     "</h6><h6>Datum des Dokuments: " +
-          //     date_of_document +
-          //     "</h6><h6>Datum des Uploads: " +
-          //     date_of_upload +
-          //     "</h6><h6>Hochgeladen von: " +
-          //     created_byname +
-          //     "</h6><h6>Dateityp: " +
-          //     filetype +
-          //     "</h6><h6>Stichworte: " +
-          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          //     companycode +
-          //     "</span>" +
-          //     "&nbsp;" +
-          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          //     brand +
-          //     "</span>" +
-          //     "&nbsp;" +
-          //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-          //     ticket_no +
-          //     "</span>" +
-          //     "</h6>" +
-          //     "</div>" +
-          //     "</div>";
-          // }
-
-          index += 1;
-
+          var date_of_document = date.replace(/[/]/g, ".");
+        } else {
+          var date_of_document = "";
         }
+        var filetype = "";
+        if (typeof metadata[1] != "undefined") {
+          filetype = metadata[1];
+        } else {
+          filetype = "";
+        }
+        console.log('Doc data : ', this.customerDocListsecond[count].element);
+
+        this.preViewData.push({
+          document_name: this.customerDocListsecond[count].element.document_name,
+          metadata: metadata,
+          ticket_no: ticket_no,
+          date_of_document: date_of_document,
+          date_of_upload: date_of_upload,
+          created_byname: created_byname,
+          filetype: filetype,
+          companycode: companycode,
+          brand: brand,
+          url: this.sanitizeURL(this.customerDocListsecond[count].element.document_url),
+          imagename: this.customerDocListsecond[count].element.document_unique_id,
+          href: `${environment.API_URL}document/downloaddocument/${this.customerDocListsecond[count].element.document_unique_id}`
+        })
+
+        // if (index == 1) {
+        //   same_docs_list +=
+        //     '<div class="row document-row" id="document-row' +
+        //     index +
+        //     '" data-source="' +
+        //     this.customerDocListsecond[count].element.document_url +
+        //     '" data-file_type="' +
+        //     filetype +
+        //     '" data-index="' +
+        //     index +
+        //     '" data-doc_link="' +
+        //     this.customerDocListsecond[count].element.document_unique_id +
+        //     '" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+        //     '<div class="col-md-11" >' +
+        //     index +
+        //     ". " +
+        //     this.customerDocListsecond[count].element.document_name +
+        //     "</div>" +
+        //     '<div class="col-md-1">' +
+        //     '<i class="fa fa-angle-right" id="angle-right' +
+        //     index +
+        //     '" style="display:none;font-weight:bold;font-size:30px;"></i>' +
+        //     '<i class="fa fa-angle-down" id="angle-down' +
+        //     index +
+        //     '" style="font-weight:bold;font-size:30px;margin-left: -5px;"></i>' +
+        //     "</div>" +
+        //     '<div class="col-md-12 documentdetails" id="documentdetails' +
+        //     index +
+        //     '" style="background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
+        //     "<h6>Dokumentenname: " +
+        //     this.customerDocListsecond[count].element.document_name +
+        //     "</h6><h6>Dateigröße: " +
+        //     metadata[0] +
+        //     " Kb</h6><h6>Vorgangs Nr.: " +
+        //     ticket_no +
+        //     "</h6><h6>Datum des Dokuments: " +
+        //     date_of_document +
+        //     "</h6><h6>Datum des Uploads: " +
+        //     date_of_upload +
+        //     "</h6><h6>Hochgeladen von: " +
+        //     created_byname +
+        //     "</h6><h6>Dateityp: " +
+        //     filetype +
+        //     "</h6><h6>Stichworte: " +
+        //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        //     companycode +
+        //     "</span>" +
+        //     "&nbsp;" +
+        //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        //     brand +
+        //     "</span>" +
+        //     "&nbsp;" +
+        //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        //     ticket_no +
+        //     "</span>" +
+        //     "</h6>" +
+        //     "</div>" +
+        //     "</div>";
+        // } else {
+        //   same_docs_list +=
+        //     '<div class="row document-row" id="document-row' +
+        //     index +
+        //     '" data-source="' +
+        //     this.customerDocListsecond[count].element.document_url +
+        //     '" data-file_type="' +
+        //     filetype +
+        //     '" data-index="' +
+        //     index +
+        //     '" data-doc_link="' +
+        //     this.customerDocListsecond[count].element.document_unique_id +
+        //     '" style="cursor: pointer;margin-top: 5px;background-color: #184195;color: white;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">' +
+        //     '<div class="col-md-11" >' +
+        //     index +
+        //     ". " +
+        //     this.customerDocListsecond[count].element.document_name +
+        //     "</div>" +
+        //     '<div class="col-md-1">' +
+        //     '<i class="fa fa-angle-right" id="angle-right' +
+        //     index +
+        //     '" style="font-weight:bold;font-size:30px;"></i>' +
+        //     '<i class="fa fa-angle-down" id="angle-down' +
+        //     index +
+        //     '" style="margin-left: -5px;display:none;font-weight:bold;font-size:30px;"></i>' +
+        //     "</div>" +
+        //     '<div class="col-md-12 documentdetails" id="documentdetails' +
+        //     index +
+        //     '" style="display:none;background-color: white;color:black;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px;">' +
+        //     "<h6>Dokumentenname: " +
+        //     this.customerDocListsecond[count].element.document_name +
+        //     "blob-" +
+        //     index +
+        //     "</h6><h6>Dateigröße: " +
+        //     metadata[0] +
+        //     " Kb</h6><h6>Vorgangs Nr.: " +
+        //     ticket_no +
+        //     "</h6><h6>Datum des Dokuments: " +
+        //     date_of_document +
+        //     "</h6><h6>Datum des Uploads: " +
+        //     date_of_upload +
+        //     "</h6><h6>Hochgeladen von: " +
+        //     created_byname +
+        //     "</h6><h6>Dateityp: " +
+        //     filetype +
+        //     "</h6><h6>Stichworte: " +
+        //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        //     companycode +
+        //     "</span>" +
+        //     "&nbsp;" +
+        //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        //     brand +
+        //     "</span>" +
+        //     "&nbsp;" +
+        //     '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+        //     ticket_no +
+        //     "</span>" +
+        //     "</h6>" +
+        //     "</div>" +
+        //     "</div>";
+        // }
+
+        index += 1;
+
       }
+    }
 
-      // // $("#preview"+id).html(
-      // $("#" + preview_id + id).html(
-      //   '<div style="background: #fff;padding: 33px;border-radius:10px;border:1px solid;margin-bottom: 15px;padding-bottom:8px !important;"><div class="col-md-4"  style="display: inline-block;    vertical-align: top;"><div class="line-heights">' +
-      //   // '<div class="row" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">'+
+    // // $("#preview"+id).html(
+    // $("#" + preview_id + id).html(
+    //   '<div style="background: #fff;padding: 33px;border-radius:10px;border:1px solid;margin-bottom: 15px;padding-bottom:8px !important;"><div class="col-md-4"  style="display: inline-block;    vertical-align: top;"><div class="line-heights">' +
+    //   // '<div class="row" style="cursor: pointer;margin-top: 5px;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;">'+
 
-      //   same_docs_list +
-      //   //'</div>'+
+    //   same_docs_list +
+    //   //'</div>'+
 
-      //   '</div><div class="col-md-12"> </div></div><div class="col-md-8" style="margin-top:-28px;display: inline-block;"><span class="side-icons"><i class="fa fa-times links" aria-hidden="true" style="margin-bottom:5px;position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed class="show-document" type="' +
-      //   filetype +
-      //   '" src="' +
-      //   url +
-      //   '" style=" width: 100%; height:1000px;object-fit: cover;"/><a id="document_link" href="' +
-      //   environment.API_URL +
-      //   "document/downloaddocument/" +
-      //   imagename +
-      //   '" ><span class="side-icons" ><i class="fa fa-download links" style="position:relative;float:right;padding-left: 8px;" aria-hidden="true"  ></i></span></a></div> </div>'
-      // );
+    //   '</div><div class="col-md-12"> </div></div><div class="col-md-8" style="margin-top:-28px;display: inline-block;"><span class="side-icons"><i class="fa fa-times links" aria-hidden="true" style="margin-bottom:5px;position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed class="show-document" type="' +
+    //   filetype +
+    //   '" src="' +
+    //   url +
+    //   '" style=" width: 100%; height:1000px;object-fit: cover;"/><a id="document_link" href="' +
+    //   environment.API_URL +
+    //   "document/downloaddocument/" +
+    //   imagename +
+    //   '" ><span class="side-icons" ><i class="fa fa-download links" style="position:relative;float:right;padding-left: 8px;" aria-hidden="true"  ></i></span></a></div> </div>'
+    // );
 
-      console.log(this.same_docs_listarr);
-
-
-
-      console.log(this.preViewData)
+    console.log(this.same_docs_listarr);
 
 
-      $("#openAllgemeinePreiveiwmodal").trigger('click');
-      this.open_modal('openAllgemeinePreiveiw')
 
-      // const someInput: any = document.getElementById("previewimg");
-      // someInput.addEventListener(
-      //   "click",
-      //   function () {
-      //     removepreview();
-      //   },
-      //   false
-      // );
+    console.log(this.preViewData)
 
 
-      // $(".document-row").click(function (event: any) {
-      //   let index = $(that).data("index");
+    $("#openAllgemeinePreiveiwmodal").trigger('click');
+    this.open_modal('openAllgemeinePreiveiw')
 
-      //   $(".documentdetails").css("display", "none");
-      //   $(".fa-angle-right").css("display", "block");
-      //   $(".fa-angle-down").css("display", "none");
+    // const someInput: any = document.getElementById("previewimg");
+    // someInput.addEventListener(
+    //   "click",
+    //   function () {
+    //     removepreview();
+    //   },
+    //   false
+    // );
 
-      //   $(".document-row").css("background-color", "#184195");
-      //   $(".document-row").css("color", "white");
 
-      //   $("#documentdetails" + index).css("display", "block");
-      //   $("#angle-right" + index).css("display", "none");
-      //   $("#angle-down" + index).css("display", "block");
+    // $(".document-row").click(function (event: any) {
+    //   let index = $(that).data("index");
 
-      //   $("#document-row" + index).css(
-      //     "background-color",
-      //     "rgb(181, 172, 172)"
-      //   );
-      //   $("#document-row" + index).css("color", "black");
+    //   $(".documentdetails").css("display", "none");
+    //   $(".fa-angle-right").css("display", "block");
+    //   $(".fa-angle-down").css("display", "none");
 
-      //   $(".show-document").attr("src", $(that).data("source"));
+    //   $(".document-row").css("background-color", "#184195");
+    //   $(".document-row").css("color", "white");
 
-      //   $(".show-document").attr("type", $(that).data("file_type"));
+    //   $("#documentdetails" + index).css("display", "block");
+    //   $("#angle-right" + index).css("display", "none");
+    //   $("#angle-down" + index).css("display", "block");
 
-      //   $("#document_link").attr(
-      //     "href",
-      //     environment.API_URL +
-      //     "document/downloaddocument/" +
-      //     $(that).data("doc_link")
-      //   );
+    //   $("#document-row" + index).css(
+    //     "background-color",
+    //     "rgb(181, 172, 172)"
+    //   );
+    //   $("#document-row" + index).css("color", "black");
 
-      //   event.stopPropagation();
-      //   event.stopImmediatePropagation();
-      // });
+    //   $(".show-document").attr("src", $(that).data("source"));
 
-      //   // $('#loaderouterid').css("display","none");
+    //   $(".show-document").attr("type", $(that).data("file_type"));
+
+    //   $("#document_link").attr(
+    //     "href",
+    //     environment.API_URL +
+    //     "document/downloaddocument/" +
+    //     $(that).data("doc_link")
+    //   );
+
+    //   event.stopPropagation();
+    //   event.stopImmediatePropagation();
+    // });
+
+    //   // $('#loaderouterid').css("display","none");
     // }
   }
 
@@ -7078,7 +7101,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   preViewIndexAllgeme = 0
-  preViewData:any = []
+  preViewData: any = []
   preview(
     url: any,
     tags: any,
@@ -7113,148 +7136,75 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     // }
 
     // if (element.innerHTML == "Schließen") {
-      // $("#imagediv").removeClass("col-md-12");
-      // $("#imagediv").addClass("col-md-7");
+    // $("#imagediv").removeClass("col-md-12");
+    // $("#imagediv").addClass("col-md-7");
 
-      console.log("tags" + JSON.stringify(tags));
-      const removepreview = () => {
-        let elementnew: HTMLElement = document.getElementById(
-          "click" + this.previewid
-        ) as HTMLElement;
-        elementnew.innerHTML = "Öffnen";
+    console.log("tags" + JSON.stringify(tags));
+    const removepreview = () => {
+      let elementnew: HTMLElement = document.getElementById(
+        "click" + this.previewid
+      ) as HTMLElement;
+      elementnew.innerHTML = "Öffnen";
 
-        // $("#imagediv").removeClass("col-md-7");
-        // $("#imagediv").addClass("col-md-12");
-        $("#preview" + id).html("");
+      // $("#imagediv").removeClass("col-md-7");
+      // $("#imagediv").addClass("col-md-12");
+      $("#preview" + id).html("");
 
-        console.log("sadasda");
-      };
+      console.log("sadasda");
+    };
 
-      const result1 = this.getFileExtension(imagename);
-      let metadata = tags[0].split(",");
-      var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+    const result1 = this.getFileExtension(imagename);
+    let metadata = tags[0].split(",");
+    var d = new Date(date_of_uploadnew).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    var date_of_upload = d.replace(/[/]/g, ".");
+    if (typeof metadata[2] != "undefined") {
+      let dateofdocument = Number(metadata[2]);
+      var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
       });
-      var date_of_upload = d.replace(/[/]/g, ".");
-      if (typeof metadata[2] != "undefined") {
-        let dateofdocument = Number(metadata[2]);
-        var date = new Date(dateofdocument).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
 
-        var date_of_document = date.replace(/[/]/g, ".");
-      } else {
-        var date_of_document = "";
-      }
-      var filetype = "";
-      if (typeof metadata[1] != "undefined") {
-        filetype = metadata[1];
-      } else {
-        filetype = "";
-      }
+      var date_of_document = date.replace(/[/]/g, ".");
+    } else {
+      var date_of_document = "";
+    }
+    var filetype = "";
+    if (typeof metadata[1] != "undefined") {
+      filetype = metadata[1];
+    } else {
+      filetype = "";
+    }
 
-      /*
-      $("#preview" + id).html(
-        '<div style="background:white;padding: 33px;border:1px solid;margin-bottom: 15px;"><div class="col-md-6"  style="display: inline-block;vertical-align: top;"><div class="line-heights"><h3>Dokumentenname: ' +
-          document_name +
-          "</h3><h3>Dateigröße: " +
-          metadata[0] +
-          " Kb</h3><h3>Vorgangs Nr.: " +
-          ticket_no +
-          "</h3><h3>Datum des Dokuments: " +
-          date_of_document +
-          "</h3><h3>Datum des Uploads: " +
-          date_of_upload +
-          "</h3><h3>Hochgeladen von: " +
-          created_byname +
-          "</h3><h3>Dateityp: " +
-          filetype +
-          "</h3><h3>Stichworte: " +
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 13.5px;">'+companycode+'</span>'+
-          //"," +
-          '&nbsp;&nbsp;'+
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 13.5px;">'+brand+'</span>'+
-          // "," +
-          '&nbsp;&nbsp;'+
-          '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 13.5px;">'+ticket_no+'</span>'+
-          '</h3></div><div class="col-md-12"> </div></div><div class="col-md-6" style="display: inline-block;"><span class="side-icons"><i class="fa fa-times" aria-hidden="true" style="position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed  type="' +
-          filetype +
-          '" src="' +
-          url +
-          '" style=" width: 100%; height:818px;object-fit: cover; "/><a href="' +
-          environment.API_URL +
-          "document/downloaddocument/" +
-          imagename +
-          '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
-      );
-      */
-      this.preViewData.push({
-        document_name: document_name,
-        metadata: metadata,
-        ticket_no: ticket_no,
-        date_of_document: date_of_document,
-        date_of_upload: date_of_upload,
-        created_byname: created_byname,
-        filetype: filetype,
-        companycode: companycode,
-        brand: brand,
-        url: this.sanitizeURL(url),
-        imagename: imagename,
-        href: `${environment.API_URL}document/downloaddocument/${imagename}`
-      })
-      console.log(this.preViewData)
-
-
-      $("#showpreviewdocument").css("display", "block");
-
-      $("#openAllgemeinePreiveiwmodal").trigger("click");
-      this.open_modal('openAllgemeinePreiveiw');
-
-      $("#showpreviewdocument").attr("src", url);
-
-      /*
-      $("#preview" + id).html(
-        '<div style="border-radius:10px;background:white;padding: 33px;border:1px solid;margin-bottom: 15px;"><div class="col-md-4"  style="display: inline-block;vertical-align: top;"><div class="line-heights">' +
-        '<div class="row" style="margin-top:36px;cursor: pointer;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
-        "1." +
+    /*
+    $("#preview" + id).html(
+      '<div style="background:white;padding: 33px;border:1px solid;margin-bottom: 15px;"><div class="col-md-6"  style="display: inline-block;vertical-align: top;"><div class="line-heights"><h3>Dokumentenname: ' +
         document_name +
-        "-1" +
-        '</div><div class="col-md-1"><i class="fa fa-angle-down" style="font-weight:bold;font-size:25px;"></i></div>' +
-        '<div class="col-md-12" style="background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">' +
-        "<h6>Dokumentenname: " +
-        document_name +
-        "</h6><h6>Dateigröße: " +
+        "</h3><h3>Dateigröße: " +
         metadata[0] +
-        " Kb</h6><h6>Vorgangs Nr.: " +
+        " Kb</h3><h3>Vorgangs Nr.: " +
         ticket_no +
-        "</h6><h6>Datum des Dokuments: " +
+        "</h3><h3>Datum des Dokuments: " +
         date_of_document +
-        "</h6><h6>Datum des Uploads: " +
+        "</h3><h3>Datum des Uploads: " +
         date_of_upload +
-        "</h6><h6>Hochgeladen von: " +
+        "</h3><h3>Hochgeladen von: " +
         created_byname +
-        "</h6><h6>Dateityp: " +
+        "</h3><h3>Dateityp: " +
         filetype +
-        "</h6><h6>Stichworte: " +
-        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-        companycode +
-        "</span>" +
+        "</h3><h3>Stichworte: " +
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 13.5px;">'+companycode+'</span>'+
         //"," +
-        "&nbsp;" +
-        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-        brand +
-        "</span>" +
+        '&nbsp;&nbsp;'+
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 13.5px;">'+brand+'</span>'+
         // "," +
-        "&nbsp;" +
-        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
-        ticket_no +
-        "</span>" +
-        "</h6></div></div></div>" +
-        '<div class="col-md-12"> </div></div><div class="col-md-8" style="display: inline-block;"><span class="side-icons"><i class="fa fa-times" aria-hidden="true" style="position:relative;float:right;" aria-hidden="true" id="previewimg" ></i></span><embed  type="' +
+        '&nbsp;&nbsp;'+
+        '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 13.5px;">'+ticket_no+'</span>'+
+        '</h3></div><div class="col-md-12"> </div></div><div class="col-md-6" style="display: inline-block;"><span class="side-icons"><i class="fa fa-times" aria-hidden="true" style="position:relative;float:right;" aria-hidden="true"  id="previewimg" ></i></span><embed  type="' +
         filetype +
         '" src="' +
         url +
@@ -7263,17 +7213,90 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         "document/downloaddocument/" +
         imagename +
         '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
-      );  */
-      const someInput: any = document.getElementById("previewimg");
-      someInput?.addEventListener(
-        "click",
-        function () {
-          removepreview();
-        },
-        false
-      );
+    );
+    */
+    this.preViewData.push({
+      document_name: document_name,
+      metadata: metadata,
+      ticket_no: ticket_no,
+      date_of_document: date_of_document,
+      date_of_upload: date_of_upload,
+      created_byname: created_byname,
+      filetype: filetype,
+      companycode: companycode,
+      brand: brand,
+      url: this.sanitizeURL(url),
+      imagename: imagename,
+      href: `${environment.API_URL}document/downloaddocument/${imagename}`
+    })
+    console.log(this.preViewData)
 
-      //   // $('#loaderouterid').css("display","none");
+
+    $("#showpreviewdocument").css("display", "block");
+
+    $("#openAllgemeinePreiveiwmodal").trigger("click");
+    this.open_modal('openAllgemeinePreiveiw');
+
+    $("#showpreviewdocument").attr("src", url);
+
+    /*
+    $("#preview" + id).html(
+      '<div style="border-radius:10px;background:white;padding: 33px;border:1px solid;margin-bottom: 15px;"><div class="col-md-4"  style="display: inline-block;vertical-align: top;"><div class="line-heights">' +
+      '<div class="row" style="margin-top:36px;cursor: pointer;background-color: rgb(181, 172, 172);color: black;padding-top: 10px;padding-bottom: 5px;border-radius: 10px;"><div class="col-md-11" >' +
+      "1." +
+      document_name +
+      "-1" +
+      '</div><div class="col-md-1"><i class="fa fa-angle-down" style="font-weight:bold;font-size:25px;"></i></div>' +
+      '<div class="col-md-12" style="background-color: white;border: 1px solid darkgray;margin-bottom: -5px;border-radius: 0px 0px 10px 10px;padding: 20px">' +
+      "<h6>Dokumentenname: " +
+      document_name +
+      "</h6><h6>Dateigröße: " +
+      metadata[0] +
+      " Kb</h6><h6>Vorgangs Nr.: " +
+      ticket_no +
+      "</h6><h6>Datum des Dokuments: " +
+      date_of_document +
+      "</h6><h6>Datum des Uploads: " +
+      date_of_upload +
+      "</h6><h6>Hochgeladen von: " +
+      created_byname +
+      "</h6><h6>Dateityp: " +
+      filetype +
+      "</h6><h6>Stichworte: " +
+      '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+      companycode +
+      "</span>" +
+      //"," +
+      "&nbsp;" +
+      '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+      brand +
+      "</span>" +
+      // "," +
+      "&nbsp;" +
+      '<span style="background-color: #184195;color: white;padding: 5px;border-radius: 5px;font-size: 11px;">' +
+      ticket_no +
+      "</span>" +
+      "</h6></div></div></div>" +
+      '<div class="col-md-12"> </div></div><div class="col-md-8" style="display: inline-block;"><span class="side-icons"><i class="fa fa-times" aria-hidden="true" style="position:relative;float:right;" aria-hidden="true" id="previewimg" ></i></span><embed  type="' +
+      filetype +
+      '" src="' +
+      url +
+      '" style=" width: 100%; height:818px;object-fit: cover; "/><a href="' +
+      environment.API_URL +
+      "document/downloaddocument/" +
+      imagename +
+      '" ><span class="side-icons" ><i class="fa fa-download" style="position:relative;float:right;padding: 9px;font-size:14px;" aria-hidden="true"  ></i></span></a></div> </div>'
+    );  */
+    const someInput: any = document.getElementById("previewimg");
+    someInput?.addEventListener(
+      "click",
+      function () {
+        removepreview();
+      },
+      false
+    );
+
+    //   // $('#loaderouterid').css("display","none");
     // }
   }
   getFileExtension(filename: any) {
@@ -7377,7 +7400,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.pagerGDOC.startIndex,
         this.pagerGDOC.endIndex + 1
       );
-       console.log(this.pagedItemsGDOC);
+      console.log(this.pagedItemsGDOC);
 
       this.pagedItemsGDOCSearch = this.documents.slice(
         this.pagerGDOC.startIndex,
@@ -7408,7 +7431,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         page
       );
       // get current page of items
-      console.log('customerDocListsecondunique :',this.customerDocListsecondunique);
+      console.log('customerDocListsecondunique :', this.customerDocListsecondunique);
 
       //this.pagedItemssecond = this.customerDocListsecond.slice(
       this.pagedItemssecond = this.customerDocListsecondunique.slice(
@@ -13025,11 +13048,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
         this.userService.getDecodedAccessToken(localStorage.getItem("token")!)
           .roles == "b2b"
       ) {
-        this.router.navigate(["./b2b-home"]);
+        this.router.navigate(["./cefima/b2b-home"]);
         localStorage.setItem("currentActiveRole", "b2b");
       } else {
         console.log("kunde-home");
-        this.router.navigate(["./b2b-home"]);
+        this.router.navigate(["./cefima/b2b-home"]);
         localStorage.setItem("currentActiveRole", "b2b");
       }
     } else {
@@ -13925,12 +13948,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             if (values.document_type == "fremdvertrag") {
               this.userService
                 .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
-                // .getDocumentsBYIDnew(this.customerid, "Angebot bekommen")
                 ?.pipe(first())
                 .subscribe(
                   (data11) => {
                     console.log(data11);
-
                     this.MetaDataLoopingDocListsecond();
                     this.customerDocListsecond = data11;
                     this.customerDocListsecondunique = [];
@@ -14100,7 +14121,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     for (let i = 0; i < this.customerDocList.length; i++) {
       for (let j = 0; j < this.customerDocList[i].element.producttype.length; j++) {
         const element = this.customerDocList[i].element.producttype[j].art;
-        // const sparte = this.customerDocList[i].element.producttype[j].sparte ;
         if (element == art) {
           this.customerDocListunique.push(this.customerDocList[i])
         }
@@ -14124,13 +14144,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       art = 'Bank'
     }
 
-    for (let i = 0; i < this.customerDocList.length; i++) {
+    for (let i = 0; i < this.customerDocListsecond.length; i++) {
       for (let j = 0; j < this.customerDocListsecond[i].element.producttype.length; j++) {
         const element = this.customerDocListsecond[i].element.producttype[j].art;
-        // const sparte = this.customerDocListsecond[i].element.producttype[j].sparte ;
         if (element == art) {
-          console.log(this.customerDocListsecond);
-
           this.customerDocListsecondunique.push(this.customerDocListsecond[i])
         }
       }
@@ -14906,6 +14923,8 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           }
         }
       }
+    }, (err) => {
+      console.log(err);
     });
   }
 

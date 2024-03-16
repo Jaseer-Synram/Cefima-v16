@@ -1516,7 +1516,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
     if (this.tokensession != null) {
       console.log(this.tokensession);
       if (this.currentActiveRole == "b2b") {
-        this.router.navigate(["/b2b-home"]);
+        this.router.navigate(["./cefima/b2b-home"]);
       } else {
         this.router.navigate(["/kunde-home"], {
           queryParams: { id: this.localdata._id },

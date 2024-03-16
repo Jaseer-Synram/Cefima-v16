@@ -28,7 +28,7 @@ export class SideBarComponent implements OnInit {
   header_lastname: any
   header_companyname: any
 
-  localData: any = JSON.parse(localStorage.getItem("currentUser"));
+  localData: any
   currentTabUser: any = JSON.parse(localStorage.getItem("currentUser"));
   currentActiveRole = localStorage.getItem("currentActiveRole");
 
@@ -60,107 +60,113 @@ export class SideBarComponent implements OnInit {
 
   currentTab = ''
 
-
-
   constructor(public router: Router,
     private userService: UserService,
     private route: ActivatedRoute) {
     this.route.queryParams.subscribe((params) => {
       this.customerid = params["id"];
-
     });
+    this.userService.invokeSideBarRouteFether.subscribe((data) => {
 
-    this.userService.invokeSideBarRouteFether.subscribe(data => {
-
-
-      if (data) {
-        this.route.queryParams.subscribe((params) => {
-          this.customerid = params["id"];
-        });
-        // console.log('customerid', this.customerid);
-        if(this.customerid)
-        this.userService.getEditUser(this.customerid).pipe(first()).subscribe((data: any) => {
-          this.localData = data
-        });
-      } else {
-        this.localData = ''
-      }
+      this.route.queryParams.subscribe((params) => {
+        this.customerid = params["id"];
+      });
+      console.log('customerid : ', this.customerid);
 
       if (this.customerid) {
-        this.userService
-          .getCustomerCompanies(this.customerid)
-          .pipe(first())
-          .subscribe((companydata: any) => {
-            this.companyData = companydata;
 
-            for (
-              let com_count = 0;
-              com_count < this.companyData.length;
-              com_count++
-            ) {
-              let poa_exists = 0;
-              let poa_url: any;
+        $("#loaderouterid").css("display", "block");+
+        this.userService.getEditUser(this.customerid).subscribe((EditUser: any) => {
+          this.userService.editUserData.next(EditUser)
+          console.log(EditUser);
+
+          this.localData = EditUser
+
+          getCustomerCompanies()
+        }, (error: any) => {
+          console.log('error 85:', error);
+        })
+
+        const getCustomerCompanies = () => {
+          this.userService
+            .getCustomerCompanies(this.customerid)
+            .pipe(first())
+            .subscribe((companydata: any) => {
+              this.companyData = companydata;
+              this.userService.customerCompaniesData.next(companydata)
+              getfamilyMembers()
               for (
-                let doc_count = 0;
-                doc_count < this.companyData[com_count].docs.length;
-                doc_count++
+                let com_count = 0;
+                com_count < this.companyData.length;
+                com_count++
               ) {
-                if (
-                  this.companyData[com_count].docs[doc_count].document_name ==
-                  "Maklervollmacht"
+                let poa_exists = 0;
+                let poa_url: any;
+                for (
+                  let doc_count = 0;
+                  doc_count < this.companyData[com_count].docs.length;
+                  doc_count++
                 ) {
-                  poa_exists = 1;
-                  poa_url =
-                    this.companyData[com_count].docs[doc_count].document_unique_id;
-                  break;
+                  if (
+                    this.companyData[com_count].docs[doc_count].document_name ==
+                    "Maklervollmacht"
+                  ) {
+                    poa_exists = 1;
+                    poa_url =
+                      this.companyData[com_count].docs[doc_count].document_unique_id;
+                    break;
+                  }
+                }
+
+                if (poa_exists == 1) {
+                  this.companyData[com_count].poa = "1";
+                  this.companyData[com_count].poa_url = poa_url;
+                } else {
+                  this.companyData[com_count].poa = "0";
                 }
               }
+            }, (error: any) => {
+              console.log('error 127:', error);
+            });
+        }
 
-              if (poa_exists == 1) {
-                this.companyData[com_count].poa = "1";
-                this.companyData[com_count].poa_url = poa_url;
-              } else {
-                this.companyData[com_count].poa = "0";
-              }
-            }
-          });
 
-        setTimeout(() => {
+        const getfamilyMembers = () => {
           this.userService
             .getfamilyMembers(this.customerid)
             .pipe(first())
             .subscribe((familydata11: any) => {
               this.familyData = familydata11;
+              this.userService.familyMembersData.next(familydata11)
+              getUserCompanyOffices()
               // console.log('familyData', this.familyData);
+            }, (error: any) => {
+              console.log('error 140:', error);
             });
-        }, 500);
+        }
 
-        this.userService
-          .getUserCompanyOffices(this.customerid)
-          .pipe(first())
-          .subscribe((userofficedata: any) => {
-            this.userofficeData = userofficedata;
-            // console.log('officedata', this.userofficeData);
-          });
+        const getUserCompanyOffices = () => {
+          this.userService
+            .getUserCompanyOffices(this.customerid)
+            .pipe(first())
+            .subscribe((userofficedata: any) => {
+              this.userofficeData = userofficedata;
+              this.userService.userCompanyOfficesData.next(userofficedata);
+              // console.log('officedata', this.userofficeData);
+            }, (error: any) => {
+              console.log('error 148:', error);
+            });
+          $("#loaderouterid").css("display", "none");
+        }
 
       }
 
-      // console.log(this.localData.lastname);
       this.currentActiveRole = localStorage.getItem("currentActiveRole")
-
 
     })
   }
 
   ngOnInit(): void {
-    // this.userService.get_all_companies().subscribe((result)=>{
-    //   console.log("All companies in side bar");
-    //   console.log(result);
-    //   this.all_companies = result;
-    //   this.all_companies.map(company=>{
-    //     this.showSubmenu[company._id] = false;
-    //   })
-    // });
 
     this.route.queryParams.subscribe((params) => {
       this.customerid = params["id"];
@@ -173,10 +179,6 @@ export class SideBarComponent implements OnInit {
         }, 30);
       }
     }
-
-
-
-
   }
 
   mouseenter() {
@@ -194,13 +196,38 @@ export class SideBarComponent implements OnInit {
   indexOfHideValuesj: any = -1
   indexOfHideValues: any = -1
   clikeditem(id: string, item: string, data: string, index?: number, subid = '', indexj?: number) {
-    console.log(`id :${id},    item :${item},   subid : ${subid}`);
-    this.indexOfHideValues = index
-    this.currentTab = item
-    this.indexOfHideValuesj = indexj
 
-    this.userService.heeaderData.next(['Kunden', data])
-    this.userService.selectCustomerSideItem.next([id, item, index, subid, indexj])
+    if (this.localData != undefined) {
+      console.log(`id :${id},    item :${item}, data :${data} , index: ${index}, subid : ${subid}, indexj:${indexj}`);
+      console.log(this.customerid);
+
+
+      this.indexOfHideValues = index
+      this.currentTab = item
+      this.indexOfHideValuesj = indexj
+      this.userService.heeaderData.next(['Kunden', data])
+      this.userService.selectCustomerSideItem.next([id, item, index, subid, indexj])
+    } else {
+      setInterval(()=>{
+        if(this.localData != undefined){
+          recaller()
+        }
+      },100)
+      const recaller = ()=>{
+        if(!this.localData.hasOwnProperty('companytype') ||
+        this.localData.companytype == ' ' || this.localData.companytype == '' ||
+        this.localData.companytype == null){
+          $('#haushaltMainBtn').trigger('click')
+        } else if(this.localData.companytype ==
+          'Eingetragener Kaufmann (e.K.)' || this.localData.companytype == 'Einzelunternehmen'){
+          $('#firmaMainBtn').trigger('click')
+        } else {
+          $('#firmaMultiMainBtn').trigger('click')
+        }
+      }
+
+    }
+
   }
 
   clickedBroker(item: string, data: string) {
@@ -246,7 +273,7 @@ export class SideBarComponent implements OnInit {
     }
     this.userService.invokeFunctionInCustomerSide.next(['setCurrentTabUser', office, type])
     // console.log("office data", office);
-    // debugger
+    //
   }
 
 
@@ -296,8 +323,6 @@ export class SideBarComponent implements OnInit {
         .subscribe((officeData: any) => {
           this.officeData = officeData;
 
-          // console.log("officeData" + JSON.stringify(officeData));
-          // debugger
         });
     }, 300);
 

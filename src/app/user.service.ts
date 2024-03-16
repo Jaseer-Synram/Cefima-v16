@@ -30,6 +30,10 @@ export class UserService {
   heeaderData = new BehaviorSubject([''])
   b2bDashboardItem = new BehaviorSubject([''])
 
+  editUserData:BehaviorSubject<any> = new BehaviorSubject('')
+  customerCompaniesData:BehaviorSubject<any> = new BehaviorSubject('')
+  familyMembersData:BehaviorSubject<any> = new BehaviorSubject('')
+  userCompanyOfficesData:BehaviorSubject<any> = new BehaviorSubject('')
 
   constructor(private http: HttpClient) { }
 
@@ -378,6 +382,8 @@ export class UserService {
 
   //get Document By Id kunde
   getDocumentsBYIDnew(id: any, document_type: any, sub_customer_id?: any, sub_sub_customer_id?: any) {
+    console.log(id,document_type,sub_customer_id);
+      //
     if (sub_customer_id && sub_sub_customer_id) {
       console.log(sub_customer_id, sub_sub_customer_id);
 
@@ -1134,7 +1140,7 @@ export class UserService {
           if (currentRoles[i] == "b2b") {
             role.name = "B2B";
             role.english_name = "b2b";
-            role.route = "./b2b-home";
+            role.route = "./cefima/b2b-home";
             roles.push(role);
           } else if (currentRoles[i] == "customer") {
             role.name = "Kunde";

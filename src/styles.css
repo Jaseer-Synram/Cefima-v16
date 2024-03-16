@@ -336,7 +336,7 @@ html {
 }
 
 .myInput {
-  background-image: url(/assets/search.png);
+  /* background-image: url(/assets/search.png); */
   background-position: 5%;
   background-repeat: no-repeat;
   width: 100%;
@@ -820,7 +820,7 @@ img {
 }
 
 .table-min-height {
-  min-height: calc(100vh - 28vh);
+  min-height: calc(100vh - 26vh);
 }
 
 .app-header {

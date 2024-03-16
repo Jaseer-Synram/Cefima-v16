@@ -590,7 +590,6 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 $("#loaderouterid").css("display", "none");
               },
               () => {
-                // this.getalldocument();
                 this.reloadCurrentRoute(caseno);
               }
             );
@@ -647,7 +646,6 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }, 100);
     this.getalldocument();
-
 
     if (this.caselistnew.length > 0) {
       $("#li0").trigger("click");
@@ -741,6 +739,8 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     // $("#datedynamic").html(todaynew1);
   }
   getalldocument() {
+    console.log('id :',this.id);
+
     this.userService
       .GetSingleDocument("42140 DFG Finanzprofi GmbH", this.id)
       .subscribe((success: any) => {
@@ -748,6 +748,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("success" + success);
 
         console.log("value haiin");
+
 
         this.userService
           .GetListbycaseno0("42140 DFG Finanzprofi GmbH", this.localData._id)
@@ -1091,7 +1092,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   navigatetob2bhome() {
-    this.router.navigate(["./b2b-home"]);
+    this.router.navigate(["./cefima/b2b-home"]);
   }
   CurrentChat(user: any, i: number) {
     // console.log("aditya");
@@ -1119,7 +1120,6 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userService
           .getbrokerbyuser_id(user.employ_ids)
           .subscribe((fidresult: any) => {
-            // console.log("sdfdsfdsdsffsfs" + JSON.stringify(fidresult));
             this.alluserdetails = fidresult;
             this.T_N = user.Activity_No;
             this.selectedbroker = user.employ_ids;
@@ -1205,6 +1205,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     setTimeout(() => {
+      $("#loaderouterid").css("display", "block");
       this.userService
         .getDocumentsByIds(
           this.queryID,
@@ -1216,7 +1217,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           (result) => {
             this.documents = result;
             console.log('result :', result);
-
+            $("#loaderouterid").css("display", "none");
             this.MetaDataLooping();
             this.setPage(1, true);
           },
@@ -1661,10 +1662,10 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get_unread_chat() {
-    // let message = {
-    //   broker_id: this.queryID,
-    //   case_no: this.lastcase_no,
-    // };
+    let message = {
+      broker_id: this.queryID,
+      case_no: this.lastcase_no,
+    };
     // console.log("case no in b2b");
     // this.userService.getchatunreadmessage(message).subscribe(
     //   (success: any) => {
@@ -4493,7 +4494,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#loaderouterid").css("display", "none");
         },
         () => {
-          this.router.navigate(["/cefima/b2b-home"]);
+          this.router.navigate(["./cefima/b2b-home"]);
           $("#loaderouterid").css("display", "none");
         }
       );
@@ -4674,7 +4675,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.localData.documents_visible = "no";
     localStorage.setItem("currentUser", JSON.stringify(this.localData));
 
-    this.router.navigate(["b2b-home"]);
+    this.router.navigate(["./cefima/b2b-home"]);
   }
 
   // pagination unique_documents.push

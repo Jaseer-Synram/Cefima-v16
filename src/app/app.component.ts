@@ -18,8 +18,9 @@ export class AppComponent implements OnInit {
   }
 
   constructor(private router: Router,
-    private socketAlertService:SocketAlertsService,
-    private socket:Socket) {
+    // private socketAlertService:SocketAlertsService,
+    // private socket:Socket
+    ) {
       registerLocaleData(localeDe);
     router.events.subscribe(
       (event): void => {
@@ -33,9 +34,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.socketAlertService.data$.subscribe((newData:any) => {
-      this.socketAlerts(newData);
-    });
+    // this.socketAlertService.data$.subscribe((newData:any) => {
+      // this.socketAlerts(newData);
+    // });
     if(JSON.parse(localStorage.getItem("currentUser"))?._id){
       this.logged_in();
     }
@@ -43,18 +44,18 @@ export class AppComponent implements OnInit {
 
   logged_in(){
     let user_info = JSON.parse(localStorage.getItem("currentUser"));
-      this.socket.emit("logged-in", user_info._id);
-      this.socket.on("session-removed",(data)=>{
-        if(data.token_to_remove == localStorage.getItem("token")){
-          localStorage.clear();
-          this.router.navigate(['./']).then(() => {
-            Swal.fire({
-              title: "Die Sitzung dieses Geräts wurde abgemeldet.",
-              icon:"info"
-            });
-          });
-        }
-      });
+      // this.socket.emit("logged-in", user_info._id);
+      // this.socket.on("session-removed",(data)=>{
+      //   if(data.token_to_remove == localStorage.getItem("token")){
+      //     localStorage.clear();
+      //     this.router.navigate(['./']).then(() => {
+      //       Swal.fire({
+      //         title: "Die Sitzung dieses Geräts wurde abgemeldet.",
+      //         icon:"info"
+      //       });
+      //     });
+      //   }
+      // });
   }
 
   socketAlerts(param){
@@ -62,7 +63,7 @@ export class AppComponent implements OnInit {
       this.logged_in();
     }else if(param.socketName == "remove-session"){
       let user_info = JSON.parse(localStorage.getItem("currentUser"));
-      this.socket.emit("remove-session", {user_id: user_info._id, token_to_remove: param.token_to_remove});
+      // this.socket.emit("remove-session", {user_id: user_info._id, token_to_remove: param.token_to_remove});
     }
   }
 

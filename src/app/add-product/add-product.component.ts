@@ -965,7 +965,7 @@ export class AddProductComponent implements OnInit, AfterViewInit {
     //         showCancelButton: true,
     //         allowOutsideClick: false,
     //         confirmButtonText: "Ja",
-    //         cancelButtonText: "Nein" 
+    //         cancelButtonText: "Nein"
     //       }).then(result => {
     //         if (result.value) {
     //           let currentUrl = this.router.url;
@@ -1161,7 +1161,7 @@ export class AddProductComponent implements OnInit, AfterViewInit {
   gotosessiondashboard() {
     if (this.tokensession != null) {
       if (this.currentActiveRole == "b2b") {
-        this.router.navigate(["/b2b-home"]);
+        this.router.navigate(["./cefima/b2b-home"]);
       } else {
         this.router.navigate(["/kunde-home"], { queryParams: { id: this.id } });
       }

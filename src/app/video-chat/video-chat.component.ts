@@ -31,7 +31,7 @@ export class VideoChatComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private socket: Socket,
+    // private socket: Socket,
     private dialogRef: MatDialogRef<VideoChatComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public userService: UserService,
@@ -192,25 +192,25 @@ export class VideoChatComponent implements OnInit, OnDestroy {
     };
 
     console.log('case no in video chat', this.data.chat_data.user.Activity_No);
-    // this.userService.getchatunreadmessage(message).subscribe(
-    //   (success: any) => {
-    //     console.log('unread chat data', success);
-    //     for (let i = 0; i < success.result.length; i++) {
-    //       if (
-    //         this.messagelist.findIndex(
-    //           (x: any) => x._id == success.result[i]._id
-    //         ) == -1
-    //       ) {
-    //         this.messagelist.push(success.result[i]);
-    //       }
-    //     }
-    //   },
-    //   (err) => {
-    //     console.log('error5');
-    //     console.log(err);
-    //   },
-    //   () => {}
-    // );
+    this.userService.getchatunreadmessage(message).subscribe(
+      (success: any) => {
+        console.log('unread chat data', success);
+        for (let i = 0; i < success.result.length; i++) {
+          if (
+            this.messagelist.findIndex(
+              (x: any) => x._id == success.result[i]._id
+            ) == -1
+          ) {
+            this.messagelist.push(success.result[i]);
+          }
+        }
+      },
+      (err) => {
+        console.log('error5');
+        console.log(err);
+      },
+      () => {}
+    );
   }
 
   ngOnDestroy(): void {
@@ -222,7 +222,7 @@ export class VideoChatComponent implements OnInit, OnDestroy {
     this.peer = new Peer.Peer(this.currentUserId);
 
     this.peer.on('open', (userId) => {
-      this.socket.emit('join-room', roomId, userId);
+      // this.socket.emit('join-room', roomId, userId);
     });
 
     navigator.mediaDevices
@@ -263,45 +263,42 @@ export class VideoChatComponent implements OnInit, OnDestroy {
           });
         });
 
-        this.socket.on('user-connected', (userId: any) => {
-          // console.log("Receiving user-connected event", `Calling ${userId}`);
+        // this.socket.on('user-connected', (userId: any) => {
+        //   setTimeout(() => {
+        //     this.mediaCall2 = this.peer.call(userId, stream!, {
+        //       metadata: {
+        //         userId: this.currentUserId,
+        //         name: this.currentUserName,
+        //         currentUserNo: this.currentUserNo,
+        //       },
+        //     });
+        //     this.mediaCall2.on(
+        //       'stream',
+        //       (otherUserVideoStream: MediaStream) => {
+        //         // console.log("receiving other user stream after his connection");
+        //         this.addOtherUserVideo(
+        //           userId,
+        //           this.currentUserName,
+        //           this.currentUserNo,
+        //           otherUserVideoStream
+        //         );
+        //       }
+        //     );
 
-          // Let some time for new peers to be able to answer
-          setTimeout(() => {
-            this.mediaCall2 = this.peer.call(userId, stream!, {
-              metadata: {
-                userId: this.currentUserId,
-                name: this.currentUserName,
-                currentUserNo: this.currentUserNo,
-              },
-            });
-            this.mediaCall2.on(
-              'stream',
-              (otherUserVideoStream: MediaStream) => {
-                // console.log("receiving other user stream after his connection");
-                this.addOtherUserVideo(
-                  userId,
-                  this.currentUserName,
-                  this.currentUserNo,
-                  otherUserVideoStream
-                );
-              }
-            );
-
-            this.mediaCall2.on('close', () => {
-              this.onCallClose();
-              this.videos = this.videos.filter(
-                (video) => video.userId !== userId
-              );
-            });
-          }, 1000);
-        });
+        //     this.mediaCall2.on('close', () => {
+        //       this.onCallClose();
+        //       this.videos = this.videos.filter(
+        //         (video) => video.userId !== userId
+        //       );
+        //     });
+        //   }, 1000);
+        // });
       });
 
-    this.socket.on('user-disconnected', (userId: any) => {
-      // console.log(`receiving user-disconnected event from ${userId}`);
-      this.videos = this.videos.filter((video) => video.userId !== userId);
-    });
+    // this.socket.on('user-disconnected', (userId: any) => {
+    //   // console.log(`receiving user-disconnected event from ${userId}`);
+    //   this.videos = this.videos.filter((video) => video.userId !== userId);
+    // });
   }
 
   public receiveCall(roomId: any) {
@@ -309,7 +306,7 @@ export class VideoChatComponent implements OnInit, OnDestroy {
     // this.peer = this.peer;
     this.roomId = roomId;
     this.peer.on('open', (userId) => {
-      this.socket.emit('join-room', roomId, userId);
+      // this.socket.emit('join-room', roomId, userId);
     });
 
     navigator.mediaDevices
@@ -350,45 +347,46 @@ export class VideoChatComponent implements OnInit, OnDestroy {
           });
         });
 
-        this.socket.on('user-connected', (userId: any) => {
-          // console.log("Receiving user-connected event", `Calling ${userId}`);
+        // this.socket.on('user-connected', (userId: any) => {
+        //   // console.log("Receiving user-connected event", `Calling ${userId}`);
 
-          // Let some time for new peers to be able to answer
-          setTimeout(() => {
-            this.mediaCall2 = this.peer.call(userId, stream!, {
-              metadata: {
-                userId: this.currentUserId,
-                name: this.currentUserName,
-                currentUserNo: this.currentUserNo,
-              },
-            });
-            this.mediaCall2.on(
-              'stream',
-              (otherUserVideoStream: MediaStream) => {
-                // console.log("receiving other user stream after his connection");
-                this.addOtherUserVideo(
-                  userId,
-                  this.currentUserName,
-                  this.currentUserNo,
-                  otherUserVideoStream
-                );
-              }
-            );
+        //   // Let some time for new peers to be able to answer
+        //   setTimeout(() => {
+        //     this.mediaCall2 = this.peer.call(userId, stream!, {
+        //       metadata: {
+        //         userId: this.currentUserId,
+        //         name: this.currentUserName,
+        //         currentUserNo: this.currentUserNo,
+        //       },
+        //     });
+        //     this.mediaCall2.on(
+        //       'stream',
+        //       (otherUserVideoStream: MediaStream) => {
+        //         // console.log("receiving other user stream after his connection");
+        //         this.addOtherUserVideo(
+        //           userId,
+        //           this.currentUserName,
+        //           this.currentUserNo,
+        //           otherUserVideoStream
+        //         );
+        //       }
+        //     );
 
-            this.mediaCall2.on('close', () => {
-              this.onCallClose();
-              this.videos = this.videos.filter(
-                (video) => video.userId !== userId
-              );
-            });
-          }, 1000);
-        });
+        //     this.mediaCall2.on('close', () => {
+        //       this.onCallClose();
+        //       this.videos = this.videos.filter(
+        //         (video) => video.userId !== userId
+        //       );
+        //     });
+        //   }, 1000);
+        // });
       });
 
-    this.socket.on('user-disconnected', (userId: any) => {
-      // console.log(`receiving user-disconnected event from ${userId}`);
-      this.videos = this.videos.filter((video) => video.userId !== userId);
-    });
+    // this.socket.on('user-disconnected', (userId: any) => {
+    //   // console.log(`receiving user-disconnected event from ${userId}`);
+    //   this.videos = this.videos.filter((video) => video.userId !== userId);
+    // });
+
   }
 
   addMyVideo(stream: MediaStream) {

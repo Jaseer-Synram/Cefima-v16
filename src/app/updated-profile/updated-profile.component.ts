@@ -1452,6 +1452,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
   }
 
   ngAfterContentInit(): void {
+
     let todaynew = new Date();
     var dd = String(todaynew.getDate()).padStart(2, "0");
     var mm = String(todaynew.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -1462,6 +1463,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
     $("#datedynamic").html(todaynew1);
 
     this.patchValueInit();
+
   }
 
   drawComplete1() {
@@ -1600,7 +1602,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
       .subscribe(
         (data) => {
           if (values.olddocument_id != '') {
-            let oldcheckdocindex = this.documents.findIndex((result) => result.element.id == values.olddocument_id)
+            let oldcheckdocindex = this.documents?.findIndex((result) => result.element.id == values.olddocument_id)
             console.log("indexxxxxxxxx" + oldcheckdocindex);
             console.log("indexxxxxxxxx" + JSON.stringify(this.documents));
             this.documents = data;
@@ -1645,7 +1647,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
   // _handleImageUpload for Vollmacht
   _handleImageUploadVollmacht = () => {
     let that = this;
-    let oldcheckdoc = this.documents.find((result) => result.element.document_name == "Datenstammblatt mit Einwilligungserklärung")
+    let oldcheckdoc = this.documents?.find((result) => result.element.document_name == "Datenstammblatt mit Einwilligungserklärung")
     let olddocument_id = '';
     if (oldcheckdoc) {
       olddocument_id = oldcheckdoc.element.id;
@@ -1878,7 +1880,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
 
               let doc_check = false;
 
-              if (this.documents.length > 0) {
+              if (this.documents?.length > 0) {
 
                 console.log("docs found for this user");
                 console.log(this.documents);
@@ -1891,7 +1893,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
                 let shareholder_done = 0;
                 let geschaft_done = 0;
                 let akt_done = 0;
-                for (let doc_length = 0; doc_length < this.documents.length; doc_length++) {
+                for (let doc_length = 0; doc_length < this.documents?.length; doc_length++) {
 
                   let temp_ceo_length = parseInt(ceo_length) - 1;
                   if (ceo_length > 1 && this.documents[doc_length].element.document_name == "Ausweisdokument Vertretungsberechtigte Person" + temp_ceo_length) {
@@ -2444,7 +2446,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
 
         let k = 1;
 
-        for (let i = 0; i < this.documents.length; i++) {
+        for (let i = 0; i < this.documents?.length; i++) {
 
           if (this.documents[i].element.document_name == "Ausweisdokument Vertretungsberechtigte Person") {
             this.docFromGroup.get('DocOne').clearValidators();
@@ -3672,9 +3674,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
 
                 }
 
-                if (this.documents.length > 0) {
+                if (this.documents?.length > 0) {
 
-                  for (let doc_length = 0; doc_length < this.documents.length; doc_length++) {
+                  for (let doc_length = 0; doc_length < this.documents?.length; doc_length++) {
 
                     let temp_ceo_length = parseInt(ceo_length) - 1;
                     if (ceo_length > 1 && this.documents[doc_length].element.document_name == "Ausweisdokument Vertretungsberechtigte Person" + temp_ceo_length) {
@@ -3810,7 +3812,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
     console.log("asdgysatdghsadjsadsa123" + signname);
 
     console.log(this.documents);
-    console.log(this.documents.length);
+    console.log(this.documents?.length);
 
     return new Promise(async resolve => {
       let that = this;
@@ -3845,8 +3847,8 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
       console.log("reached here uploadthirdpassportdoc");
 
       let oldcheckdoc;
-      if (this.documents.length > 0) {
-        oldcheckdoc = this.documents.find((result) => result.element.document_name == "Upload Ausweisdokument " + docname)
+      if (this.documents?.length > 0) {
+        oldcheckdoc = this.documents?.find((result) => result.element.document_name == "Upload Ausweisdokument " + docname)
       }
 
       let olddocument_id = '';
@@ -3955,7 +3957,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
         async (data) => {
           if (values.olddocument_id != '') {
             console.log("saveonnext");
-            let oldcheckdocindex = this.documents.findIndex((result) => result.element.id == values.olddocument_id)
+            let oldcheckdocindex = this.documents?.findIndex((result) => result.element.id == values.olddocument_id)
             console.log("indexxxxxxxxx" + oldcheckdocindex);
             console.log("indexxxxxxxxx" + JSON.stringify(this.documents));
             this.documents = data;
@@ -4550,13 +4552,13 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
 
             let doc_check = false;
 
-            if (this.documents.length > 0) {
+            if (this.documents?.length > 0) {
 
               let ceo_done = 0;
               let shareholder_done = 0;
               let geschaft_done = 0;
               let akt_done = 0;
-              for (let doc_length = 0; doc_length < this.documents.length; doc_length++) {
+              for (let doc_length = 0; doc_length < this.documents?.length; doc_length++) {
 
                 let temp_ceo_length = parseInt(ceo_length) - 1;
                 if (ceo_length > 1 && this.documents[doc_length].element.document_name == "Ausweisdokument Vertretungsberechtigte Person" + temp_ceo_length) {
@@ -4629,7 +4631,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
       if (this.documents != '') {
         console.log("singed array documents")
         let k = 1;
-        for (let i = 0; i < this.documents.length; i++) {
+        for (let i = 0; i < this.documents?.length; i++) {
 
           if (this.documents[i].element.document_name == "Ausweisdokument Vertretungsberechtigte Person") {
             this.docFromGroup.get('DocOne').clearValidators();
@@ -8348,6 +8350,32 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
     console.log(this.disablefourthsavebutton, "disablefourthsavebutton");
 
   }
+
+  open_success(){
+    console.log('modal here');
+
+    $('#openSuccessModel').trigger("click");
+    this.open_modal('exampleModalsucccess');
+  }
+
+  close_successmodal(modal_id: any, append_to: any,result:string) {
+    $('#' + modal_id).appendTo("#" + append_to);
+
+        if (result == 'dismissed') {
+          this.drawingnew = 0;
+          this.signaturePad.clear();
+          this.localData.registeration_editable = 0;
+          localStorage.setItem("currentUser", JSON.stringify(this.localData));
+          this.router.navigate(['./cefima/b2b-home']);
+          console.log("iffffff");
+        } else {
+          console.log("elsesssssssss");
+          this.localData.registeration_editable = 0;
+          localStorage.setItem("currentUser", JSON.stringify(this.localData));
+          this.router.navigate(['./cefima/b2b-home']);
+        }
+  }
+
   save() {
     $("#loaderouterid").css("display", "block");
     if (this.SecDomChange == "show") {
@@ -8463,51 +8491,43 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
               if (this.drawingnew == 1) {
                 setTimeout(() => {
                   $("#loaderouterid").css("display", "none");
-                  Swal.fire({
-                    // title: `Wir überprüfen Ihre Daten innerhalb von einem Werktag und stellen Ihnen
-                    // nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung.
-                    // Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
-                    title: `Die Prüfung Ihrer Daten ist im Regelfall in 1-2 Werktagen durchgeführt. Wir stellen Ihnen nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung. Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
-                    iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
-                    allowOutsideClick: false,
 
-                    //confirmButtonText: "Zur Startseite <i class='fa fa-arrow-right'></i>",
-                    confirmButtonText: "Zum Dashboard <i class='fa fa-arrow-right'></i>",
-                    icon: "success",
-                    html: `<div>
-              <a id="buttonOne"  class="btn buttom-primary"> Datenstammblatt mit Einwilligungserklärung
-              <i class="fa fa-download" aria-hidden="true"></i> </a>
-             </div>`,
-                    confirmButtonColor: '#02a9ed',
-                  customClass: {
-                    icon: 'no-border',
+                  this.open_success()
 
-                  },
-                  })
-                    .then((result) => {
-                      console.log(result);
-                      if (result["isDismissed"]) {
-                        this.drawingnew = 0;
-                        this.signaturePad.clear();
-                        //this.logout();
-                        this.localData.registeration_editable = 0;
-                        localStorage.setItem("currentUser", JSON.stringify(this.localData));
+                  // Swal.fire({
+                  //   title: `Die Prüfung Ihrer Daten ist im Regelfall in 1-2 Werktagen durchgeführt. Wir stellen Ihnen nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung. Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
+                  //   iconHtml: '<img width="90%" src="../../assets/icons/swal-success.svg">',
+                  //   allowOutsideClick: false,
+                  //   confirmButtonText: "Zum Dashboard <i class='fa fa-arrow-right'></i>",
+                  //   icon: "success",
+                  //   html: `<div>
+                  //   <a id="buttonOne"  class="btn buttom-primary"> Datenstammblatt mit Einwilligungserklärung
+                  //   <i class="fa fa-download" aria-hidden="true"></i> </a>
+                  //   </div>`,
+                  //   confirmButtonColor: '#02a9ed',
+                  //   customClass: {
+                  //   icon: 'no-border',
+                  //   },
+                  // })
+                  //   .then((result) => {
+                  //     console.log(result);
+                  //     if (result["isDismissed"]) {
+                  //       this.drawingnew = 0;
+                  //       this.signaturePad.clear();
+                  //       this.localData.registeration_editable = 0;
+                  //       localStorage.setItem("currentUser", JSON.stringify(this.localData));
 
-                        this.router.navigate(['b2b-home']);
-                        console.log("iffffff");
-                        // this.router.navigate([`/upload-document/${this.user_id}`], {
-                        //   queryParams: { user_id: this.user_id },
-                        // });
-                      } else {
-                        console.log("elsesssssssss");
-                        //this.logout();
-                        this.localData.registeration_editable = 0;
-                        localStorage.setItem("currentUser", JSON.stringify(this.localData));
+                  //       this.router.navigate(['b2b-home']);
+                  //       console.log("iffffff");
+                  //     } else {
+                  //       console.log("elsesssssssss");
+                  //       this.localData.registeration_editable = 0;
+                  //       localStorage.setItem("currentUser", JSON.stringify(this.localData));
 
-                        this.router.navigate(['b2b-home']);
-                      }
-                    })
-                    .catch((err) => { });
+                  //       this.router.navigate(['b2b-home']);
+                  //     }
+                  //   })
+                  //   .catch((err) => { console.log('Error :',err)});
                   const ButtonOne = document.getElementById("buttonOne");
                   ButtonOne.addEventListener(
                     "click",
@@ -8654,55 +8674,37 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
               if (this.drawingnew == 1) {
                 setTimeout(() => {
                   $("#loaderouterid").css("display", "none");
-                  Swal.fire({
-                    // title: `Wir überprüfen Ihre Daten innerhalb von einem Werktag und stellen Ihnen
-                    // nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung.
-                    // Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
-                    title: `Die Prüfung Ihrer Daten ist im Regelfall in 1-2 Werktagen durchgeführt. Wir stellen Ihnen nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung. Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
-                    showCloseButton: true,
-                    allowOutsideClick: false,
-
-                    //confirmButtonText: "Zur Startseite <i class='fa fa-arrow-right'></i>",
-                    confirmButtonText: "Zum Dashboard <i class='fa fa-arrow-right'></i>",
-                    icon: "success",
-                    html: `<div>
-                  <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Datenstammblatt mit Einwilligungserklärung
-                  <i class="fa fa-download" aria-hidden="true"></i> </a>
-
-                 </div>`,
-                  })
-                    .then((result) => {
-                      console.log(result);
-                      if (result["isDismissed"]) {
-                        this.drawingnew = 0;
-                        this.signaturePad.clear();
-                        //this.logout();
-
-                        this.localData.registeration_editable = 0;
-
-                        //this.localData.registeration_total_count = parseInt(this.localData.registeration_total_count+1);
-
-                        localStorage.setItem("currentUser", JSON.stringify(this.localData));
-
-                        this.router.navigate(['b2b-home']);
-                        console.log("iffffff");
-                        // this.router.navigate([`/upload-document/${this.user_id}`], {
-                        //   queryParams: { user_id: this.user_id },
-                        // });
-                      } else {
-                        console.log("elsesssssssss");
-                        //this.logout();
-
-                        this.localData.registeration_editable = 0;
-
-                        //this.localData.registeration_total_count = parseInt(this.localData.registeration_total_count+1);
-
-                        localStorage.setItem("currentUser", JSON.stringify(this.localData));
-
-                        this.router.navigate(['b2b-home']);
-                      }
-                    })
-                    .catch((err) => { });
+                  this.open_success()
+                //   Swal.fire({
+                //     title: `Die Prüfung Ihrer Daten ist im Regelfall in 1-2 Werktagen durchgeführt.
+                //     Wir stellen Ihnen nach erfolgreicher Prüfung Ihren Vermittlervertrag zur Verfügung.
+                //     Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.: ${this.localData.brokerregticketno}.`,
+                //     showCloseButton: true,
+                //     allowOutsideClick: false,
+                //     confirmButtonText: "Zum Dashboard <i class='fa fa-arrow-right'></i>",
+                //     icon: "success",
+                //     html: `<div>
+                //   <a id="buttonOne" style="color:#184297;" class="btn"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Datenstammblatt mit Einwilligungserklärung
+                //   <i class="fa fa-download" aria-hidden="true"></i> </a>
+                //  </div>`,
+                //   })
+                    // .then((result) => {
+                    //   console.log(result);
+                    //   if (result["isDismissed"]) {
+                    //     this.drawingnew = 0;
+                    //     this.signaturePad.clear();
+                    //     this.localData.registeration_editable = 0;
+                    //     localStorage.setItem("currentUser", JSON.stringify(this.localData));
+                    //     this.router.navigate(['b2b-home']);
+                    //     console.log("iffffff");
+                    //   } else {
+                    //     console.log("elsesssssssss");
+                    //     this.localData.registeration_editable = 0;
+                    //     localStorage.setItem("currentUser", JSON.stringify(this.localData));
+                    //     this.router.navigate(['b2b-home']);
+                    //   }
+                    // })
+                    // .catch((err) => { });
                   const ButtonOne = document.getElementById("buttonOne");
                   ButtonOne.addEventListener(
                     "click",
@@ -8714,14 +8716,10 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
                   const removepreview = (e) => {
                     if (e == "one") {
                       this.exportAsPDFnew();
-
                     }
-
                   };
                 }, 2000);
-
               }
-
             }
           );
       }
@@ -9993,8 +9991,8 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
       for (let i = 0; i < this.filearray.length; i++) {
 
         let oldcheckdoc;
-        if (this.documents.length > 0) {
-          oldcheckdoc = this.documents.find((result) => result.element.document_name == this.filename[i])
+        if (this.documents?.length > 0) {
+          oldcheckdoc = this.documents?.find((result) => result.element.document_name == this.filename[i])
         }
 
         let olddocument_id = '';
@@ -10072,7 +10070,7 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
           (data) => {
             console.log(length, index);
             if (values.olddocument_id != '') {
-              let oldcheckdocindex = this.documents.findIndex((result) => result.element.id == values.olddocument_id)
+              let oldcheckdocindex = this.documents?.findIndex((result) => result.element.id == values.olddocument_id)
               console.log("indexxxxxxxxx" + oldcheckdocindex);
               console.log("indexxxxxxxxx" + JSON.stringify(this.documents));
               this.documents = data;
@@ -10978,9 +10976,9 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
 
                     }
 
-                    if (this.documents.length > 0) {
+                    if (this.documents?.length > 0) {
 
-                      for (let doc_length = 0; doc_length < this.documents.length; doc_length++) {
+                      for (let doc_length = 0; doc_length < this.documents?.length; doc_length++) {
 
                         let temp_ceo_length = parseInt(ceo_length) - 1;
                         if (ceo_length > 1 && this.documents[doc_length].element.document_name == "Ausweisdokument Vertretungsberechtigte Person" + temp_ceo_length) {
@@ -11771,10 +11769,10 @@ export class UpdatedProfileComponent implements AfterViewInit, OnInit, AfterCont
 
                     }
 
-                    if (this.documents.length > 0) {
+                    if (this.documents?.length > 0) {
 
 
-                      for (let doc_length = 0; doc_length < this.documents.length; doc_length++) {
+                      for (let doc_length = 0; doc_length < this.documents?.length; doc_length++) {
 
                         let temp_ceo_length = parseInt(ceo_length) - 1;
                         if (ceo_length > 1 && this.documents[doc_length].element.document_name == "Ausweisdokument Vertretungsberechtigte Person" + temp_ceo_length) {

@@ -106,25 +106,21 @@
   <div class="col-md-1"></div> -->
 
 
-  <div class="col-md-12" style="text-align: center;margin-top:30px;">
-    <div class="col-md-2"></div>
-    <div class="col-md-8" style=" display: inline-block;font-size: 20px;
-              border-color: rgb(20, 20, 20);background: transparent;
-              box-shadow: -1px 2px 36px 10px rgb(245 242 242/ 80%);
-              border-radius: 10px; border: 1px solid silver; padding: 10px; ">
+  <div class="col-md-12 table-min-height-warning d-flex justify-content-center align-items-center   " style="text-align: center;">
+    <div class="col-md-11 d-flex justify-content-center align-items-center flex-column" style="font-size: 20px;
+               background: transparent; padding: 10px; ">
 
-      <img height="90px" src="./assets/exclamation.svg">
+      <img alt="image" height="110px" src="./assets/exclamation.svg">
 
 
       <p style="
                 font-size: 18px;
                 font-family: system-ui;
-                font-weight: 300;
+                font-weight: 600;
                 line-height: 23px;
-                padding: 0px 0px 17px 34px;
-                margin: 4px;
                 color: rgb(10, 10, 10);
                 text-align: center;
+                margin-top: 10px;
               ">
         <!-- Ihre signierten Verträge und Vereinbarungen werden aktuell von einem CEFIMA Mitarbeiter geprüft. Dieser Prozess dauert im Regelfall einen Werktag. CEFIMA steht Ihnen nach erfolgreicher Prüfung vollständig zur Verfügung. Hierüber informieren wir Sie in kürze.  -->
         Ihre Daten werden aktuell von einem CEFIMA Mitarbeiter geprüft. Dieser Prozess dauert im Regelfall einen
@@ -132,7 +128,6 @@
         in kürze.
       </p>
     </div>
-    <div class="col-md-2"></div>
   </div>
 </div>
 
@@ -7354,262 +7349,6 @@
         </div>
       </mat-step>
 
-      <!-- <mat-step
-        [stepControl]="secondcompanyaddressFormGroup"
-        *ngIf="
-          SecDomChange == 'show' &&
-          companytypenew == 'Kommanditgesellschaft auf Aktien (KGaA)'
-        "
-      >
-        <div class="row">
-          <div class="col-md-4">
-            <form
-              [formGroup]="secondcompanyaddressFormGroup"
-              #secondcompanyfso="ngForm"
-              novalidate=""
-              class="Official-residence-form col-12 p-0"
-            >
-              <ng-template matStepLabel>Gesetzliche Vertreter </ng-template>
-
-              <h5 style="text-align: center; margin-bottom: 33px ;">
-                Vertretungsberechtigte Person
-              </h5>
-              <div formArrayName="legalrepresentativeform">
-                <div
-                  *ngFor="
-                    let legalrepresentativeform11 of legalrepresentativeform()
-                      .controls;
-                    let i = index
-                  "
-                  [formGroupName]="i"
-                  class="col-md-12"
-                >
-                  <div class="col-md-12" style="padding: 0px">
-                    <mat-form-field appearance="outline" style="width: 96%">
-                      <mat-label>Geburtsdatum</mat-label>
-                      <input
-                        matInput
-                        [matDatepicker]="picker"
-                        [min]="minDate"
-                        [max]="maxDate"
-                        placeholder="Geburtsdatum"
-                        formControlName="dateofbirth"
-                      />
-                      <mat-datepicker-toggle
-                        matSuffix
-                        [for]="picker"
-                      ></mat-datepicker-toggle>
-                      <mat-datepicker
-                        #picker
-                        format="dd\MM\yyyy"
-                      ></mat-datepicker>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-12" style="padding: 0px">
-                    <mat-form-field appearance="outline" style="width: 96%">
-                      <mat-label>Anschrift </mat-label>
-                      <input
-                        matInput
-                        placeholder="Anschrift "
-                        formControlName="address"
-                      />
-                    </mat-form-field>
-                  </div>
-
-                  <div *ngIf="i > 0" class="col-md-12" style="padding: 0px">
-                    <button
-                      class="btn btn-danger"
-                      mat-raised-button
-                      (click)="removelegalrepresentativeform(i)"
-                    >
-                      entfernen
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <button
-                  class="stepper-btn button-primary"
-                  mat-raised-button
-                  (click)="addlegalrepresentativeform()"
-                  [disabled]="!secondcompanyfso.form.valid"
-                >
-                  Mehr hinzufügen
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <div class="col-md-4">
-            <h5 style="text-align: center">
-              Sonstige Bevollmächtigte/Prokuristen
-            </h5>
-            <form
-              [formGroup]="secondcompanyaddressFormGroup1"
-              #secondcompanyfso1="ngForm"
-              novalidate=""
-              class="Official-residence-form col-12 p-0"
-            >
-              <div formArrayName="legalrepresentativeform1">
-                <div
-                  *ngFor="
-                    let legalrepresentativeform111 of legalrepresentativeform1()
-                      .controls;
-                    let i = index
-                  "
-                  [formGroupName]="i"
-                  class="col-md-12"
-                >
-                  <div class="col-md-12" style="padding: 0px">
-                    <mat-form-field appearance="outline" style="width: 96%">
-                      <mat-label>Geburtsdatum</mat-label>
-                      <input
-                        matInput
-                        [matDatepicker]="picker"
-                        [min]="minDate"
-                        [max]="maxDate"
-                        placeholder="Geburtsdatum"
-                        formControlName="dateofbirth"
-                      />
-                      <mat-datepicker-toggle
-                        matSuffix
-                        [for]="picker"
-                      ></mat-datepicker-toggle>
-                      <mat-datepicker
-                        #picker
-                        format="dd\MM\yyyy"
-                      ></mat-datepicker>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-12" style="padding: 0px">
-                    <mat-form-field appearance="outline" style="width: 96%">
-                      <mat-label>Anschrift </mat-label>
-                      <input
-                        matInput
-                        placeholder="Anschrift "
-                        formControlName="address"
-                      />
-                    </mat-form-field>
-                  </div>
-
-                  <div class="col-md-12" style="padding: 0px">
-                    <button
-                      class="btn btn-danger"
-                      mat-raised-button
-                      (click)="removelegalrepresentativeform1(i)"
-                    >
-                      entfernen
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <button
-                  class="stepper-btn button-primary"
-                  mat-raised-button
-                  (click)="addlegalrepresentativeform1()"
-                  [disabled]="!secondcompanyfso1.form.valid"
-                >
-                  Mehr hinzufügen
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <div class="col-md-4">
-            <h5 style="text-align: center">
-              Aktionäre / Wirtschaftlich Berechtigte
-            </h5>
-            <form
-              [formGroup]="secondcompanyaddressFormGroup2"
-              #secondcompanyfso2="ngForm"
-              novalidate=""
-              class="Official-residence-form col-12 p-0"
-            >
-              <div formArrayName="legalrepresentativeform2">
-                <div
-                  *ngFor="
-                    let legalrepresentativeform112 of legalrepresentativeform2()
-                      .controls;
-                    let i = index
-                  "
-                  [formGroupName]="i"
-                  class="col-md-12"
-                >
-                  <div class="col-md-12" style="padding: 0px">
-                    <mat-form-field appearance="outline" style="width: 96%">
-                      <mat-label>Geburtsdatum</mat-label>
-                      <input
-                        matInput
-                        [matDatepicker]="picker"
-                        [min]="minDate"
-                        [max]="maxDate"
-                        placeholder="Geburtsdatum"
-                        formControlName="dateofbirth"
-                      />
-                      <mat-datepicker-toggle
-                        matSuffix
-                        [for]="picker"
-                      ></mat-datepicker-toggle>
-                      <mat-datepicker
-                        #picker
-                        format="dd\MM\yyyy"
-                      ></mat-datepicker>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-12" style="padding: 0px">
-                    <mat-form-field appearance="outline" style="width: 96%">
-                      <mat-label>Anschrift </mat-label>
-                      <input
-                        matInput
-                        placeholder="Anschrift "
-                        formControlName="address"
-                      />
-                    </mat-form-field>
-                  </div>
-
-                  <div *ngIf="i > 0" class="col-md-12" style="padding: 0px">
-                    <button
-                      class="btn btn-danger"
-                      mat-raised-button
-                      (click)="removelegalrepresentativeform2(i)"
-                    >
-                      entfernen
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <button
-                  class="stepper-btn button-primary"
-                  mat-raised-button
-                  (click)="addlegalrepresentativeform2()"
-                  [disabled]="!secondcompanyfso2.form.valid"
-                >
-                  Mehr hinzufügen
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div  class="col-12 p-0 text-right">
-          <button
-            class="stepper-btn button-primary"
-
-            mat-raised-button
-            matStepperNext
-            [disabled]="!secondcompanyfso2.form.valid"
-            [disabled]="!secondcompanyfso.form.valid"
-          >
-            Weiter
-          </button>
-        </div>
-      </mat-step> -->
-
       <mat-step [stepControl]="secondcompanyaddressFormGroup" *ngIf="
           SecDomChange == 'show' &&
           companytypenew == 'eingetragene Genossenschaft (eG)'
@@ -8747,7 +8486,7 @@
       </mat-step>
 
       <mat-step [stepControl]="personalInfoFormGroup">
-        <form [formGroup]="personalInfoFormGroup" #fsp="ngForm" novalidate="" class="personal-data-form ">
+        <form [formGroup]="personalInfoFormGroup" #fsp="ngForm" novalidate="" class="personal-data-form p-0 mt-2 ">
           <ng-template matStepLabel>Bitte geben Sie Ihren Vermittlerstatus an</ng-template>
 
           <div class="col-12 p-0 d-flex flex-row justify-content-between">
@@ -10763,20 +10502,20 @@
           <div class="col-12 p-0">
             <div class="col-md-12 d-flex justify-content-between p-0">
               <div class="col-4 p-0 d-flex justify-content-start">
-                <button class="stepper-btn button-primary transitionanimation" mat-button matStepperPrevious >
+                <button class="stepper-btn button-primary transitionanimation" mat-button matStepperPrevious>
                   <i class="fa fa-arrow-left" aria-hidden="true"></i> Zurück
                 </button>&nbsp;
               </div>
 
               <div class="col-8 p-0 d-flex justify-content-end">
-                <button class="stepper-btn button-primary transitionanimation" mat-button (click)="stepper.reset()" >
+                <button class="stepper-btn button-primary transitionanimation" mat-button (click)="stepper.reset()">
                   Zurücksetzen
                 </button>
 
                 <div *ngIf="drawingnew == 1">
 
-                  <button id="secondbutton" class="stepper-btn button-primary transitionanimation ms-2" mat-raised-button
-                    (click)="save()" type="button" style="width: 250px;" [disabled]="false">
+                  <button id="secondbutton" class="stepper-btn button-primary transitionanimation ms-2"
+                    mat-raised-button (click)="save()" type="button" style="width: 250px;" [disabled]="false">
                     Registrierung abschließen&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -13379,26 +13118,47 @@
 
 <!-- ../../assets/icons/swal-success.svg -->
 
-<button id="openpreviewmodel" type="button" data-toggle="modal" style="display: none"
-  data-target="#exampleModalpreview">
+<button id="openSuccessModel" type="button" data-toggle="modal" style="display: none"
+  data-target="#exampleModalsucccess">
   ddd
 </button>
 
-<div id="examplalpreview_parent">
-  <div class="modal fade" id="examplalpreview" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalpreviewTitle" aria-hidden="true">
-    <div style="max-width: 80%; max-height: 800px" class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span id="showpreviewtitle"
-            style="font-size: 15px;border: none;background: transparent;opacity:1"></span>
+<div id="exampleModalsucccess_parent">
+  <div class="modal fade" id="exampleModalsucccess" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalsucccessTitle" aria-hidden="true">
+    <div style="max-width: 65%; max-height: 500px" class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content rounded-4" style="height: 477px;">
+        <div class="modal-header d-flex justify-content-end ">
           <button type="button" class=" " style="border: none;background: transparent;opacity:1" data-dismiss="modal"
-            aria-label="Close" (click)="close_modal('exampleModalpreview','exampleModalpreview_parent')">
+            aria-label="Close" (click)="close_successmodal('exampleModalsucccess','exampleModalsucccess_parent','dismissed')">
             <img width="50%" src="../../assets/icons/closs-customer-modal-red.svg" alt="">
           </button>
         </div>
-        <div class="modal-body p-2">
+        <div class="modal-body p-2 d-flex justify-content-around align-items-center flex-column">
+          <div class="" style="width:fit-content">
+            <img width="70%" src="..xxx/../assets/icons/swal-success.svg">
+          </div>
+          <div class="" style="width: 70%;text-align: center;">
+            <span style="font-size:17px;font-weight:500" class="">
+              Die Prüfung Ihrer Daten ist im Regelfall in 1-2 Werktagen durchgeführt. Wir stellen Ihnen nach
+              erfolgreicher
+              Prüfung Ihren Vermittlervertrag zur Verfügung. Hierzu erhalten Sie eine E-Mail. Vorgangs Nr.:
+              {{localData.brokerregticketno}}
+            </span>
+          </div>
+          <div class="col-12 p-0 text-end">
+            <button id="secondbutton" class="stepper-btn button-primary transitionanimation" id="buttonOne"
+            mat-raised-button type="button" data-dismiss="modal" style="width: 385px;" [disabled]="false"
+            (click)="close_successmodal('exampleModalsucccess','exampleModalsucccess_parent','Datenstammblatt')">
+            Datenstammblatt mit Einwilligungserklärung&nbsp;<i class="fa fa-download" aria-hidden="true"></i>
+            </button>
+            <button id="secondbutton" class="stepper-btn button-primary transitionanimation ms-2"
+            mat-raised-button type="button" data-dismiss="modal" style="width: 170px;" [disabled]="false"
+            (click)="close_successmodal('exampleModalsucccess','exampleModalsucccess_parent','Dashboard')">
+                Zum Dashboard&nbsp;<i class='fa fa-arrow-right'></i>
+            </button>
 
+          </div>
         </div>
       </div>
     </div>

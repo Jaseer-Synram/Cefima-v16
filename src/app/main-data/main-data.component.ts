@@ -739,7 +739,7 @@ export class MainDataComponent {
     private router: Router,
     public jwtHelper: JwtHelperService,
     private authService: AuthService,
-    private socketAlertService: SocketAlertsService,
+    // private socketAlertService: SocketAlertsService,
     private datePipe: DatePipe,
   ) { }
   today_date: Date = new Date();
@@ -1926,35 +1926,35 @@ export class MainDataComponent {
 
               let first_time: any = true;
               this.chat_interval = interval(1000).subscribe((result) => {
-                // this.userService.getchatunreadmessage(message).subscribe(
-                //   (success: any) => {
-                //     success.result.map((result: any) =>
-                //       this.chat_messages.push(result)
-                //     );
+                this.userService.getchatunreadmessage(message).subscribe(
+                  (success: any) => {
+                    success.result.map((result: any) =>
+                      this.chat_messages.push(result)
+                    );
 
-                //     if (first_time) {
-                //       this.get_unread_emails(email_imap_data);
-                //       first_time = false;
-                //     }
-                //   },
-                //   (err) => {
-                //     console.log(err);
-                //   }
-                // );
+                    if (first_time) {
+                      this.get_unread_emails(email_imap_data);
+                      first_time = false;
+                    }
+                  },
+                  (err) => {
+                    console.log(err);
+                  }
+                );
               });
             });
         } else {
           this.chat_messages = success.result;
           $("#loaderouterid").css("display", "none");
           this.chat_interval = interval(1000).subscribe((result) => {
-            // this.userService.getchatunreadmessage(message).subscribe(
-            //   (success: any) => {
-            //     success.result.map((result: any) => this.chat_messages.push(result));
-            //   },
-            //   (err) => {
-            //     console.log(err);
-            //   }
-            // );
+            this.userService.getchatunreadmessage(message).subscribe(
+              (success: any) => {
+                success.result.map((result: any) => this.chat_messages.push(result));
+              },
+              (err) => {
+                console.log(err);
+              }
+            );
           });
         }
       } else {
@@ -1963,17 +1963,18 @@ export class MainDataComponent {
         this.chat_messages = success.result;
         $("#loaderouterid").css("display", "none");
         this.chat_interval = interval(1000).subscribe((result) => {
-          // this.userService.getchatunreadmessage(message).subscribe(
-          //   (success: any) => {
-          //     success.result.map((result: any) => this.chat_messages.push(result));
-          //   },
-          //   (err) => {
-          //     console.log(err);
-          //   }
-          // );
+          this.userService.getchatunreadmessage(message).subscribe(
+            (success: any) => {
+              success.result.map((result: any) => this.chat_messages.push(result));
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
         });
       }
     });
+
   }
 
   get_unread_emails(email_imap_data: any) {
@@ -2657,8 +2658,8 @@ export class MainDataComponent {
         this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.logged_out = "1";
         this.pagedItems[this.pagedItems.findIndex(x => x._id == login._id)].log_out.dateTime = this.datePipe.transform(new Date(), 'dd.MM.yyyy HH:mm');
 
-        const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
-        this.socketAlertService.updateData(newData);
+        // const newData = { socketName: "remove-session", token_to_remove: login.jwt_token };
+        // this.socketAlertService.updateData(newData);
       }
     });
   }
