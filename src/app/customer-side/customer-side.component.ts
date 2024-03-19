@@ -14326,10 +14326,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       this.isDocLoading = true
 
       setTimeout(() => {
-        setTimeout(() => {
-          this.isDocLoading = false
-          console.log(this.isDocLoading);
-        }, 500);
+
+        // setTimeout(() => {
+        //   this.isDocLoading = false
+        //   console.log(this.isDocLoading);
+        // }, 500);
 
         console.log('here', embedid + index);
 
