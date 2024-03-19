@@ -37,9 +37,9 @@ export class NavBarComponent implements OnInit {
   gotosessiondashboard() {
     if (this.tokensession != null) {
       if (this.currentActiveRole == "b2b") {
-        this.router.navigate(["/b2b-home"]);
+        this.router.navigate(["/-home"]);
       } else {
-        this.router.navigate(["/kunde-home"], { queryParams: { id: this.id } });
+        this.router.navigate(["./cefima/kunde-home"], { queryParams: { id: this.id } });
       }
     } else {
       this.router.navigate(["/"]);

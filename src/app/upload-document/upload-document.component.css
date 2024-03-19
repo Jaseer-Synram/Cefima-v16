@@ -35,19 +35,19 @@ div.mat-form-field-wrapper {
     border-width: 5px;
 }
 
-.mat-option {
+.mat-mdc-option {
     padding: 0 5px 0 5px;
     margin: 0;
 }
 
-.mat-option:hover {
+.mat-mdc-option:hover {
     background-image: linear-gradient(to bottom, #17459B, #02A9ED);
-    color: white;
+    color: white !important;
 }
 
-.mat-option.mat-selected:hover {
+.mat-mdc-option.mat-selected:hover {
     background-image: linear-gradient(to bottom, #17459B, #02A9ED);
-    color: white;
+    color: white !important;
 }
 
 :host ::ng-deep .mat-horizontal-stepper-header .mat-step-icon-selected {

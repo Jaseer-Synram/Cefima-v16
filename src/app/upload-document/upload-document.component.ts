@@ -121,7 +121,7 @@ export class UploadDocumentComponent implements OnInit {
     if (this.loginRole == "b2b") {
     }
     else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.currentid },
       });
     }

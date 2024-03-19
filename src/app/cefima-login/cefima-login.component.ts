@@ -275,7 +275,7 @@ export class CefimaLoginComponent implements OnInit {
             console.log('nav');
 
             $("#loaderouterid").css("display", "none");
-            this.router.navigate(["/cefima"]);
+            this.router.navigate(["./cefima"]);
             return true
           },
 
@@ -291,7 +291,7 @@ export class CefimaLoginComponent implements OnInit {
             this.error = error;
             console.log('Error:', error["message"]);
             console.log(error);
-            
+
             $("#loaderouterid").css("display", "none");
             this.router.navigate(["./cefima"]);
             return false

@@ -171,7 +171,7 @@ export class B2bComponent implements OnInit {
     if (this.loginRole == "b2b") {
     }
     else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.currentid },
       });
     }
@@ -1002,12 +1002,12 @@ export class B2bComponent implements OnInit {
     console.log("url" + url);
     if (this.currentActiveRole == 'b2b') {
       console.log("localdata" + JSON.stringify(this.localdata))
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: { id: this.currentid },
       });
     }
     else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.localdata._id, tabname: 1 },
       });
     }
@@ -2975,7 +2975,7 @@ export class B2bComponent implements OnInit {
   navigateWithb2bID() {
     console.log(this.selectedUser);
 
-    this.router.navigate(["/b2b-dashboard"], {
+    this.router.navigate(["./cefima/b2b-dashboard"], {
       queryParams: { id: this.selectedUser.id },
     });
 

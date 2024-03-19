@@ -85,14 +85,14 @@
   padding: 8px 15px 8px 15px;
 }
 
-.mat-option:hover {
+.mat-mdc-option:hover {
   background: linear-gradient(#17459b, #02a9ed);
-  color: white;
+  color: white !important;
 }
 
-.mat-option.mat-selected:hover {
+.mat-mdc-option.mat-selected:hover {
   background: linear-gradient(#17459b, #02a9ed);
-  color: white;
+  color: white !important;
 }
 
 .list-box {

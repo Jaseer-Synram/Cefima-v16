@@ -33,6 +33,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTableModule } from '@angular/material/table';
 import {  } from 'ngx-intl-tel-input'
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -84,7 +85,8 @@ import { GooglePlaceModule } from "@barkhub/ngx-google-places-autocomplete"
     NgxMatTimepickerModule,
     GooglePlaceModule,
     MatTableModule,
-    PdfViewerModule
+    PdfViewerModule,
+    MatProgressSpinnerModule
   ], exports: [
     CommonModule,
     // AngularFullpageModule,
@@ -124,7 +126,8 @@ import { GooglePlaceModule } from "@barkhub/ngx-google-places-autocomplete"
     MatTableModule,
     SortPipe,
     SortDirective,
-    PdfViewerModule
+    PdfViewerModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SharedModule { }

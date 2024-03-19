@@ -274,7 +274,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     userService.b2bDashboardItem.subscribe(data => {
       console.log(data);
 
-      console.log('this.localData.hasOwnProperty(companydata):' ,this.localData.hasOwnProperty('companydata') );
+      console.log('this.localData.hasOwnProperty(companydata):', this.localData.hasOwnProperty('companydata'));
       console.log(' this.checkkey(this.localData.companydata,licensesign ) :', this.checkkey(
         this.localData.companydata,
         'licensesign'
@@ -283,7 +283,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('this.checkkey( this.localData.companydata,Geschäftsanmeldung)  :', this.checkkey(
         this.localData.companydata,
         'Geschäftsanmeldung'
-      ) );
+      ));
       console.log('this.checkkey( this.localData.companydata,Datenstammblatt mit Einwilligungserklärung) :', this.checkkey(
         this.localData.companydata,
         'Datenstammblatt mit Einwilligungserklärung'
@@ -293,33 +293,33 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       ));
       console.log('this.localData.hasOwnProperty( companydatacheckup :', this.localData.hasOwnProperty(
         'companydatacheckup'
-      )  );
-      console.log( 'this.localData.companydatacheckup?.length > 0 :', this.localData.companydatacheckup?.length > 0 );
-      console.log( ' this.checkkey( this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :',  this.checkkey(
+      ));
+      console.log('this.localData.companydatacheckup?.length > 0 :', this.localData.companydatacheckup?.length > 0);
+      console.log(' this.checkkey( this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :', this.checkkey(
         this.localData.companydatacheckup,
         this.financialcheckdata[
           this.financialcheckdata.length - 1
         ]?.element?.document_name
-      )  );
-      console.log( ' this.checkkey(  this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :', this.checkkey(
+      ));
+      console.log(' this.checkkey(  this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :', this.checkkey(
         this.localData.companydatacheckup,
         this.financialcheckdata[
           this.financialcheckdata.length - 1
         ]?.element?.document_name
-        )?.ans );
-      console.log( 'this.localData.hasOwnProperty( vermittlerstatusforbrokermanager) :', this.localData.hasOwnProperty(
+      )?.ans);
+      console.log('this.localData.hasOwnProperty( vermittlerstatusforbrokermanager) :', this.localData.hasOwnProperty(
         'vermittlerstatusforbrokermanager'
-      ) );
-      console.log( 'this.localData.vermittlerstatusforbrokermanager, lastquestion) :',  this.checkkey(
+      ));
+      console.log('this.localData.vermittlerstatusforbrokermanager, lastquestion) :', this.checkkey(
         this.localData.vermittlerstatusforbrokermanager,
         'lastquestion'
-      ) );
+      ));
 
-        console.log( 'this.checkkey( this.localData.vermittlerstatusforbrokermanager,lastquestion). :',
+      console.log('this.checkkey( this.localData.vermittlerstatusforbrokermanager,lastquestion). :',
         this.checkkey(
           this.localData.vermittlerstatusforbrokermanager,
           'lastquestion'
-        )?.ans );
+        )?.ans);
 
 
       let itemString = `${data[0]}`
@@ -600,7 +600,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   reloadCurrentRoute(caseno: any) {
     let currentUrl = this.router.url;
     this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: {
           id: this.queryID,
           case_no: caseno,
@@ -611,6 +611,8 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngAfterViewInit() {
     console.log("m called ngafterviewunit");
+    console.log(this.localData._id, ': localData');
+
     setTimeout(() => {
       const input: any = document.querySelector("#phone");
       console.log("querySelector" + input);
@@ -651,14 +653,20 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       $("#li0").trigger("click");
     }
     if (this.lastcase_no != "") {
+      let locaDataId = this.localData._id
+      if (locaDataId == undefined || locaDataId == '' || locaDataId == null) {
+        locaDataId = this.id
+      }
       // console.log("sdfsfsdfs" + this.lastcase_no);
       this.userService
         .GetSingleDocument(this.lastcase_no, "", "")
         .subscribe((success: any) => {
-          // console.log("sdfsfsdfs" + JSON.stringify(success));
+          console.log("success  :" ,success );
           this.userService
-            .GetListbycaseno0("42140 DFG Finanzprofi GmbH", this.localData._id)
+            .GetListbycaseno0("42140 DFG Finanzprofi GmbH", locaDataId)
             .subscribe((usercasenew: any) => {
+              console.log(usercasenew);
+
               let newcaselistnew: any = [];
               success.forEach((element: any) => {
                 var newdata = {
@@ -739,7 +747,10 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     // $("#datedynamic").html(todaynew1);
   }
   getalldocument() {
-    console.log('id :',this.id);
+    let locaDataId = this.localData._id
+    if (locaDataId == undefined || locaDataId == '' || locaDataId == null) {
+      locaDataId = this.id
+    }
 
     this.userService
       .GetSingleDocument("42140 DFG Finanzprofi GmbH", this.id)
@@ -1358,13 +1369,14 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       );
 
     $("#loaderouterid").css("display", "block");
+    console.log('this.queryID :', this.queryID);
 
     this.userService
       .getEditUser(this.queryID)
       .pipe(first())
       .subscribe((user: any) => {
         this.localData = user;
-        // console.log("localdata" + JSON.stringify(this.localData));
+
         setTimeout(() => {
           this.getcompanydatacheckup();
           this.getceodatacheckup();
@@ -1798,7 +1810,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(rejected);
       }
     );
-     this.otp = true;
+    this.otp = true;
     return true;
   }
   public verifyOtp() {
@@ -5487,7 +5499,7 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   navigateWithb2bID() {
     console.log(this.selectedUser);
 
-    this.router.navigate(["/b2b-dashboard"], {
+    this.router.navigate(["./cefima/b2b-dashboard"], {
       queryParams: { id: this.selectedUser.id },
     });
 

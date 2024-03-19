@@ -753,9 +753,6 @@ export class UserService {
 
   getEditUser(id: any): any {
     return this.http.post(`${this.API_URL}users/editUser`, { id: id });
-    /*return this.http.post(`${this.API_URL}users/editUser`,id).subscribe((data:any) => {
-        return data;
-    }); */
   }
 
   getCustomers(company: any, role?: any): any {

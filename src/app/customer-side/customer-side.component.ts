@@ -1014,6 +1014,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
               console.log(data12);
               console.log('data12', data12);
+              $("#loaderouterid").css("display", "none");
               getDocumentsBYIDnew()
 
               this.MetaDataLoopingDocList();
@@ -1053,55 +1054,55 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
               this.show_doc_count();
             },
             (error) => {
-              console.log('error :',error);
+              console.log('error :', error);
             }
           );
 
         const getDocumentsBYIDnew = () => {
-        this.userService
-          .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
-          ?.pipe(first())
-          .subscribe(
-            (data11) => {
-              console.log('data11', data11);
-              $("#loaderouterid").css("display", "none");
-              this.MetaDataLoopingDocListsecond();
-              this.customerDocListsecondunique = [];
-              this.customerDocListsecond = data11;
-              console.log('customerDocListsecond :', this.customerDocListsecond);
+          this.userService
+            .getDocumentsBYIDnew(this.customerid, "fremdvertrag", this.sub_customer_id, this.sub_sub_customer_id)
+            ?.pipe(first())
+            .subscribe(
+              (data11) => {
+                console.log('data11', data11);
 
-              for (let i = 0; i < this.customerDocListsecond.length; i++) {
-                let exists = 0;
-                for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
-                  console.log(this.customerDocListsecondunique[j].element.ticket_no ==
-                    this.customerDocListsecond[i].element.ticket_no);
+                this.MetaDataLoopingDocListsecond();
+                this.customerDocListsecondunique = [];
+                this.customerDocListsecond = data11;
+                console.log('customerDocListsecond :', this.customerDocListsecond);
 
-                  if (
-                    this.customerDocListsecondunique[j].element.ticket_no ==
-                    this.customerDocListsecond[i].element.ticket_no
-                  ) {
-                    exists = 1;
-                    console.log('exists :', exists, 'Not entered');
+                for (let i = 0; i < this.customerDocListsecond.length; i++) {
+                  let exists = 0;
+                  for (let j = 0; j < this.customerDocListsecondunique.length; j++) {
+                    console.log(this.customerDocListsecondunique[j].element.ticket_no ==
+                      this.customerDocListsecond[i].element.ticket_no);
 
+                    if (
+                      this.customerDocListsecondunique[j].element.ticket_no ==
+                      this.customerDocListsecond[i].element.ticket_no
+                    ) {
+                      exists = 1;
+                      console.log('exists :', exists, 'Not entered');
+
+                    }
+                  }
+
+
+                  if (exists == 0) {
+                    console.log('exists :', exists, 'Entered');
+                    this.customerDocListsecondunique.push(
+                      this.customerDocListsecond[i]
+                    );
                   }
                 }
 
-
-                if (exists == 0) {
-                  console.log('exists :', exists, 'Entered');
-                  this.customerDocListsecondunique.push(
-                    this.customerDocListsecond[i]
-                  );
-                }
+                this.setPage(1, "second");
+                this.show_doc_count();
+              },
+              (error) => {
+                console.log('error :', error);
               }
-
-              this.setPage(1, "second");
-              this.show_doc_count();
-            },
-            (error) => {
-              console.log('error :',error);
-            }
-          );
+            );
         }
 
       } else {
@@ -1887,7 +1888,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
       if (this.currentActiveRole == "b2b") {
         this.router.navigate(["./cefima/b2b-home"]);
       } else {
-        this.router.navigate(["/kunde-home"], { queryParams: { id: this.id } });
+        this.router.navigate(["./cefima/kunde-home"], { queryParams: { id: this.id } });
       }
     } else {
       this.router.navigate(["/"]);
@@ -2022,6 +2023,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     // this.legalrepresentativeform2().push(this.newlegalrepresentativeform2());
     this.userService
       .editUserData.subscribe((user: any) => {
+        console.log('user :', user);
 
         if (user != "") {
           this.localData = user;
@@ -2071,7 +2073,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             if (totalshares < 100) {
               let leftshares = 100 - totalshares;
               console.log("shareholdersharesleftshares" + leftshares);
-              this.ShareholderFormGroup.patchValue({
+              this.ShareholderFormGroup?.patchValue({
                 shares: leftshares,
               });
               this.addMoreShareholder = true;
@@ -2249,10 +2251,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                   this.setPage(1, "general");
                   this.show_doc_count();
                   this.getcurrentUser(result[0]?.element.ticket_no);
-                 },
+                },
                 (error) => {
                   console.log(error);
-                 }
+                }
               );
           } else {
             console.log(this.customerid, "2");
@@ -2274,11 +2276,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
                   this.setPage(1, "general");
                   this.show_doc_count();
                   this.getcurrentUser(result[0]?.element.ticket_no);
-                  $("#loaderouterid").css("display", "none");
                 },
                 (error) => {
                   console.log(error);
-                  $("#loaderouterid").css("display", "none");
                 }
               );
           }
@@ -2782,10 +2782,10 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           // console.log(JSON.stringify(result),'2464')
           this.documentPdfList = result.data;
           console.log(this.documentPdfList, '2466')
-          $("#loaderouterid").css("display", "none");
         },
         (err) => {
-          $("#loaderouterid").css("display", "none");
+          console.log(err);
+
         }
       );
     }
@@ -4322,7 +4322,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
             this.userService
               .GetSingleDocumentbycaseno(success)
               .subscribe((success: any) => {
-                $("#loaderouterid").css("display", "none");
+                // $("#loaderouterid").css("display", "none");
                 console.log("success" + success);
                 console.log("value haiin");
                 this.caselistnew = success;
@@ -4454,7 +4454,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
 
   ngOnDestroy() {
     // this.responseobserve.unsubscribe();
-    this.userService.invokeSideBarRouteFether.next(null)
+    // this.userService.invokeSideBarRouteFether.next(null)
   }
 
   getcurrentUser(T_N: any) {
@@ -4677,7 +4677,6 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     );
   }
   private _filtermartialStatustype(value: string): string[] {
-    $("#loaderouterid").css("display", "none");
     console.log("_filterland" + value);
     const filterValue = value.toLowerCase();
     return this.martialStatus.filter((option) =>
@@ -6269,7 +6268,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
-      this.router.navigate(["cefima/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: {
           id: this.customerid,
           tabname: 1,
@@ -7084,11 +7083,11 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   navigateWithb2bID() {
     if (this.loginRole == "b2b") {
       console.log("selecteduserid" + this.currentid);
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: { id: this.currentid },
       });
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.currentid },
       });
     }
@@ -14314,6 +14313,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     $("#" + divid + id).css("display", "none");
   }
 
+  isDocLoading = false
   opencontractdoc(index: any, url: any, event: any, embedid: any, tags: any) {
     console.log("open doc called");
     console.log(index);
@@ -14323,8 +14323,13 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
     console.log(event);
 
     if (event.target.innerHTML.includes("Öffnen")) {
-      setTimeout(() => {
+      this.isDocLoading = true
 
+      setTimeout(() => {
+        setTimeout(() => {
+          this.isDocLoading = false
+          console.log(this.isDocLoading);
+        }, 500);
 
         console.log('here', embedid + index);
 
@@ -14346,7 +14351,9 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           $("#" + embedid + 'pdf' + index).attr("type", tags[0].split(",")[1]);
           $("#" + embedid + 'pdf' + index).attr("src", url);
         }
+
       }, 200);
+
 
     } else {
       console.log(' elsehere');

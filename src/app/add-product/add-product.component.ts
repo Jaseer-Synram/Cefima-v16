@@ -1163,7 +1163,7 @@ export class AddProductComponent implements OnInit, AfterViewInit {
       if (this.currentActiveRole == "b2b") {
         this.router.navigate(["./cefima/b2b-home"]);
       } else {
-        this.router.navigate(["/kunde-home"], { queryParams: { id: this.id } });
+        this.router.navigate(["./cefima/kunde-home"], { queryParams: { id: this.id } });
       }
     } else {
       this.router.navigate(["/"]);
@@ -1243,11 +1243,11 @@ export class AddProductComponent implements OnInit, AfterViewInit {
   gotosessionmaindata() {
     if (this.currentActiveRole == "b2b") {
       console.log("localdata" + JSON.stringify(this.localdata));
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: { id: this.localdata._id },
       });
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.localdata._id, tabname: 1 },
       });
     }

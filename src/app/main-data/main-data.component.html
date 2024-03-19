@@ -212,8 +212,8 @@
                 </div>
             </mat-tab>
             <mat-tab class="new-item" label="Zugriff/Rechte">
-                <div class="" style="width: 99%;">
-                    <mat-tab-group mat-stretch-tabs="false" class="button-arrow  table-min-height-here ">
+                <div class="" style="width: 100%;">
+                    <mat-tab-group mat-stretch-tabs="false" class="button-arrow col-12 table-min-height-here ">
                         <mat-tab label="Zugriff">
                             <div class="w-100 table-min-height" *ngIf="false">
                                 <div class="row m-0">
@@ -393,18 +393,21 @@
                         </mat-tab>
                         <mat-tab label="E-Mail Konfiguration">
                             <form [formGroup]="emailConfigurationFormGroup">
-                                <div class="row mx-0 my-3">
-                                    <div style="width:5%;" class="d-inline-block float-left text-right">
-                                        <img src="assets/infoIcon.svg" class="w-75">
+                                <div class="col-12 d-flex flex-row px-0 mx-0 my-3">
+                                    <div class="col-12 d-flex flex-row px-0 text-start">
+                                        <img src="assets/infoIcon.svg" style="width:2%">&nbsp;
+                                        <span class="text-black">
+                                          Bitte stellen Sie sicher, dass die von Ihnen angegebene
+                                          E-Mail zum Versenden von E-Mails über Drittanbieter-Apps berechtigt ist.
+                                        </span>
                                     </div>
-                                    <div style="width:95%;padding: 0px;opacity: 1;"
+                                    <!-- <div style="width:95%;padding: 0px;opacity: 1;"
                                         class="d-inline-block text-black   float-left">
-                                        <h4 class="mb-0">&nbsp;Bitte stellen Sie sicher, dass die von Ihnen angegebene
-                                            E-Mail zum Versenden von E-Mails über Drittanbieter-Apps berechtigt ist.
+                                        <h4 class="mb-0">&nbsp;
                                         </h4>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <div class="row m-0">
+                                <div class="col-12 d-flex flex-row px-0 m-0">
                                     <div class="col-md-12 px-0 border opacity-100 border-radius border-secondary">
                                         <h4 style="color:#359bd5;opacity: 1;"
                                             class="border-bottom border-secondary mb-0 p-2">
@@ -719,10 +722,10 @@
                 </div>
             </mat-tab>
             <mat-tab class="new-item" label="Kalender">
-                <div class="" style="width: 99%;">
+                <div class="" style="width: 100%;">
                     <div class=" ">
-                        <div class="row text-center">
-                            <div class="col-md-4 text-left">
+                        <div class="d-flex col-12 flex-row p-0 text-center">
+                            <div class="col-md-4 text-left p-0">
                                 <button data-toggle="modal"
                                     (click)="open_modal('createEventModal');addEventFormGroup.reset();"
                                     data-target="#createEventModal" class="btn button-primary botton-hover mr-2 w-50">
@@ -732,7 +735,7 @@
                             <div class="col-md-4">
                                 <h2>{{viewDate | calendarDate:(view + 'ViewTitle'):'de'}}</h2>
                             </div>
-                            <div class="col-md-4 text-right">
+                            <div class="col-md-4 text-right pr-0">
                                 <div class="btn-group">
                                     <div class="btn button-primary botton-hover" mwlCalendarPreviousView [view]="view"
                                         [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
@@ -802,10 +805,10 @@
                 </div>
             </mat-tab>
             <mat-tab class="new-item" label="Kommunikation">
-                <div class="row m-0">
+                <div class="col-12 p-0 d-flex flex-row m-0">
                     <!-- <div class=" m-0 p-0 "> -->
                     <div class="col-sm-4 p-1 border border-radius border-secondary ">
-                        <div class="row m-0">
+                        <div class="col-12 p-0 d-flex flex-row m-0">
                             <div class="col-sm-12 neoloop-div-bg text-white border-radius"
                                 [ngClass]="show_case_searchbar ? 'py-1 px-1' : 'py-4'">
                                 <h4 class="text-center mb-1" *ngIf="!show_case_searchbar">
@@ -864,7 +867,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 chat-box bg-white">
+                    <div class="col-sm-8 pr-1 chat-box bg-white">
                         <div class="w-100 border border-secondary border-radius">
                             <div class="row m-1 neoloop-div-bg text-white p-2 border-radius">
                                 <div class="col-sm-10 pl-2">
@@ -966,17 +969,17 @@
                                     </ng-container>
                                 </div>
                                 <div class="w-100 mt-2">
-                                    <div class="row">
-                                        <div class="col-sm-12 pr-0">
+                                    <div class="col-12 p-0 d-flex flex-row">
+                                        <div class="col-sm-12 p-0">
                                             <mat-form-field appearance="outline"
-                                                class="ml-1 mr-1 remove-bottom-mat-input-padding mat-form-field-remove-padding-bottom"
-                                                style="width:98%;">
+                                                class="remove-bottom-mat-input-padding mat-form-field-remove-padding-bottom"
+                                                style="width:100%;position: relative;">
                                                 <mat-label>Nachricht schreiben</mat-label>
                                                 <input id="inputmessage1" class="w-75" type="text" matInput
                                                     placeholder="Nachricht schreiben..."
                                                     (keyup.enter)="send_message()" />
                                                 <button class="btn btn button-primary botton-hover position-absolute "
-                                                    style="top: 3px;right: 100px;padding: 11.5px 16px;"
+                                                    style="top: 5%;right: 100px;padding: 11.5px 16px;"
                                                     data-toggle="modal" (click)="open_modal('createLetter')"
                                                     data-target="#createLetter"
                                                     [disabled]="!opened_case_details?.Activity_No">
@@ -988,13 +991,13 @@
                                                         (change)="handleImageChange($event,'result1')"
                                                         accept=".png,.jpg,.gif,.doc,.docx,application/pdf,video/*"
                                                         [disabled]="!opened_case_details?.Activity_No" />
-                                                    <label for="upload" style="top: 5%; right: 50px;"
+                                                    <label for="upload" style="top: 5%; right: 6.5%;"
                                                         class="upload-section mb-0 position-absolute" role="button"
                                                         [ngClass]="!opened_case_details?.Activity_No?'btn-secondary text-white':'button-primary botton-hover'">
                                                         <i class="fa fa-upload"></i>
                                                     </label>
                                                 </div>
-                                                <button style="padding: 11.5px 16px;top: 3px;right: 0px;"
+                                                <button style="padding: 11.5px 16px;top: 5%;left: 94.5%;"
                                                     class="btn send-icon button-primary botton-hover position-absolute border-0"
                                                     (click)="send_message()"
                                                     [disabled]="checkmessage() && (documents.length <= 0 || !all_uploaded)">

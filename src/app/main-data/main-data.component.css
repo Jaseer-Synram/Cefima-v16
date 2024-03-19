@@ -204,7 +204,7 @@ h2 {
     content: "";
     position: absolute;
     bottom: 0px;
-    left: 10px;
+    left: -10px;
     display: block;
     width: 100%;
     border-bottom: 1px solid #ccc;

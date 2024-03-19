@@ -552,7 +552,7 @@ export class CustomerComponent implements OnInit {
   ) {
     if (this.loginRole == "b2b") {
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.currentid },
       });
     }
@@ -852,7 +852,7 @@ export class CustomerComponent implements OnInit {
     this.selectedUser = data;
   }
   navigateWittcustomerID() {
-    this.router.navigate(["/cefima/kunde-home"], {
+    this.router.navigate(["./cefima/kunde-home"], {
       queryParams: { id: this.selectedUser._id },
     });
   }
@@ -863,11 +863,11 @@ export class CustomerComponent implements OnInit {
   navigateWithb2bID() {
     if (this.loginRole == "b2b") {
       console.log("selecteduserid" + this.currentid);
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: { id: this.currentid },
       });
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.currentid },
       });
     }
@@ -1687,7 +1687,7 @@ export class CustomerComponent implements OnInit {
                       console.log("this.customerList" + success);
                       console.log("this.customerno" + this.customerno);
                       console.log(success);
-                      
+
                       this.setPage(1);
                       this.recordCount = success.length;
                     }
@@ -1893,11 +1893,11 @@ export class CustomerComponent implements OnInit {
   }
   gotosessionmaindata() {
     if (this.loginRole == "b2b") {
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: { id: this.currentid },
       });
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.localdata._id, tabname: 1 },
       });
     }

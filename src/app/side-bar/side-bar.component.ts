@@ -64,8 +64,19 @@ export class SideBarComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute) {
     this.route.queryParams.subscribe((params) => {
-      this.customerid = params["id"];
+      if(params["id"]){
+        this.customerid = params["id"];
+      }
     });
+    function fetchId() {
+      if (this.customerid && this.customerid != undefined && this.customerid != null && this.customerid != '') {
+        this.route.queryParams.subscribe((params) => {
+          this.customerid = params["id"];
+        });
+        console.log('customerid : ', this.customerid);
+      }
+    }
+
     this.userService.invokeSideBarRouteFether.subscribe((data) => {
 
       this.route.queryParams.subscribe((params) => {
@@ -73,13 +84,14 @@ export class SideBarComponent implements OnInit {
       });
       console.log('customerid : ', this.customerid);
 
-      if (this.customerid) {
+      if (this.customerid != undefined && this.customerid != null && this.customerid != '') {
 
-        $("#loaderouterid").css("display", "block");+
+        // $("#loaderouterid").css("display", "block");
         this.userService.getEditUser(this.customerid).subscribe((EditUser: any) => {
+          // $("#loaderouterid").css("display", "none");
+
           this.userService.editUserData.next(EditUser)
           console.log(EditUser);
-
           this.localData = EditUser
 
           getCustomerCompanies()
@@ -156,15 +168,21 @@ export class SideBarComponent implements OnInit {
             }, (error: any) => {
               console.log('error 148:', error);
             });
-          $("#loaderouterid").css("display", "none");
+
         }
 
+      } else {
+        if (this.router.url.includes("kunde-home")) {
+          fetchId()
+        }
       }
 
       this.currentActiveRole = localStorage.getItem("currentActiveRole")
 
     })
   }
+
+
 
   ngOnInit(): void {
 
@@ -208,18 +226,18 @@ export class SideBarComponent implements OnInit {
       this.userService.heeaderData.next(['Kunden', data])
       this.userService.selectCustomerSideItem.next([id, item, index, subid, indexj])
     } else {
-      setInterval(()=>{
-        if(this.localData != undefined){
+      setInterval(() => {
+        if (this.localData != undefined) {
           recaller()
         }
-      },100)
-      const recaller = ()=>{
-        if(!this.localData.hasOwnProperty('companytype') ||
-        this.localData.companytype == ' ' || this.localData.companytype == '' ||
-        this.localData.companytype == null){
+      }, 100)
+      const recaller = () => {
+        if (!this.localData.hasOwnProperty('companytype') ||
+          this.localData.companytype == ' ' || this.localData.companytype == '' ||
+          this.localData.companytype == null) {
           $('#haushaltMainBtn').trigger('click')
-        } else if(this.localData.companytype ==
-          'Eingetragener Kaufmann (e.K.)' || this.localData.companytype == 'Einzelunternehmen'){
+        } else if (this.localData.companytype ==
+          'Eingetragener Kaufmann (e.K.)' || this.localData.companytype == 'Einzelunternehmen') {
           $('#firmaMainBtn').trigger('click')
         } else {
           $('#firmaMultiMainBtn').trigger('click')

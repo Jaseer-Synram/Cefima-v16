@@ -92,7 +92,7 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateWithb2bID() {
-    this.router.navigate(["/cefima/b2b-dashboard"], {
+    this.router.navigate(["./cefima/b2b-dashboard"], {
       queryParams: { id: this.selectedUser.id },
     });
   }

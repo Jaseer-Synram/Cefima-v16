@@ -1518,7 +1518,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
       if (this.currentActiveRole == "b2b") {
         this.router.navigate(["./cefima/b2b-home"]);
       } else {
-        this.router.navigate(["/kunde-home"], {
+        this.router.navigate(["./cefima/kunde-home"], {
           queryParams: { id: this.localdata._id },
         });
       }
@@ -1531,11 +1531,11 @@ export class LoginComponent implements AfterViewInit, OnInit {
 
   gotosessionmaindata() {
     if (this.currentActiveRole == "b2b") {
-      this.router.navigate(["/b2b-dashboard"], {
+      this.router.navigate(["./cefima/b2b-dashboard"], {
         queryParams: { id: this.localdata._id },
       });
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.localdata._id, tabname: 1 },
       });
     }

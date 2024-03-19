@@ -332,7 +332,7 @@ export class B2bCreateCustomerComponent {
   ) {
     if (this.loginRole == "b2b") {
     } else {
-      this.router.navigate(["/kunde-home"], {
+      this.router.navigate(["./cefima/kunde-home"], {
         queryParams: { id: this.currentid },
       });
     }
@@ -1580,7 +1580,7 @@ export class B2bCreateCustomerComponent {
               this.reloadCurrentRoute();
             }
             else {
-              this.router.navigate(["/customer"]);
+              this.router.navigate(["./cefima/customer"]);
             }
           });
 
@@ -1608,7 +1608,7 @@ export class B2bCreateCustomerComponent {
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
-      this.router.navigate(["/new-user"], {
+      this.router.navigate(["./cefima/new-user"], {
         queryParams: { OnlyNewUser: false },
       });
     });
@@ -1620,7 +1620,7 @@ export class B2bCreateCustomerComponent {
     this.router.navigate([currentUrl]);
   }
   GoToUploadDocument() {
-    this.router.navigate(["/upload-document/" + this.user_id], {
+    this.router.navigate(["./cefima/upload-document/" + this.user_id], {
       queryParams: { user_id: this.user_id },
     });
   }
@@ -2581,7 +2581,7 @@ export class B2bCreateCustomerComponent {
   navigateWithb2bID() {
     console.log(this.selectedUser);
 
-    this.router.navigate(["/b2b-dashboard"], {
+    this.router.navigate(["./cefima/b2b-dashboard"], {
       queryParams: { id: this.selectedUser.id },
     });
 

@@ -135,9 +135,9 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   currentQuestionArray: any = "";
   currentUserInfo: any = {};
 
-  userIndex: any = null;
-  tabIndex: any = null;
-  questionIndex: any = null;
+  userIndex: any = 0;
+  tabIndex: any = 0;
+  questionIndex: any = 0;
   currentQuestionObject: any = {
     qno: 0,
     userIndex: null,
@@ -778,7 +778,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
   navigateWithb2bID() {
     console.log(this.selectedUser);
 
-    this.router.navigate(["/b2b-dashboard"], {
+    this.router.navigate(["./cefima/b2b-dashboard"], {
       queryParams: { id: this.selectedUser.id },
     });
 
@@ -1937,7 +1937,7 @@ export class ConsultingComponent implements OnInit, AfterViewInit {
 
   reloadCurrentRoute() {
     this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
-      this.router.navigate(["cefima/consulting"]);
+      this.router.navigate(["./cefima/consulting"]);
     });
   }
 
