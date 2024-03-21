@@ -29,6 +29,7 @@ export class UserService {
   selectCustomerSideItem: BehaviorSubject<(string | number)[]> = new BehaviorSubject([]);
   heeaderData = new BehaviorSubject([''])
   b2bDashboardItem = new BehaviorSubject([''])
+  productPartnerItem = new BehaviorSubject([''])
 
   editUserData:BehaviorSubject<any> = new BehaviorSubject('')
   customerCompaniesData:BehaviorSubject<any> = new BehaviorSubject('')

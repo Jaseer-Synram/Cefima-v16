@@ -59,12 +59,14 @@ export class SideBarComponent implements OnInit {
   officeData: any = [];
 
   currentTab = ''
+  isProductPartner = false
+  isProductPartnerInnerExpanded = false
 
   constructor(public router: Router,
     private userService: UserService,
     private route: ActivatedRoute) {
     this.route.queryParams.subscribe((params) => {
-      if(params["id"]){
+      if (params["id"]) {
         this.customerid = params["id"];
       }
     });
@@ -195,7 +197,19 @@ export class SideBarComponent implements OnInit {
         setTimeout(() => {
           this.clickedBroker('Unternehmensdaten', 'Unternehmensdaten')
         }, 30);
+      } else if(this.router.url == '/cefima/product-partner-cases'){
+        setTimeout(() => {
+          this.clickedPartner('Anfragen','Anfragen/Vorgange')
+        }, 30);
       }
+    }
+
+    this.isProductPartnerInnerExpanded = false
+
+    if (this.router.url.includes("product-partner")) {
+      this.isProductPartner = true;
+    } else {
+      this.isProductPartner = false
     }
   }
 
@@ -253,6 +267,24 @@ export class SideBarComponent implements OnInit {
       this.userService.heeaderData.next([data])
       this.currentTab = `Verwaltung.${item}`
       this.userService.b2bDashboardItem.next([item])
+    }, 200);
+  }
+
+  clickedPartner(item: string, data: string, child='') {
+    console.log(item,':',data,':',child);
+
+    setTimeout(() => {
+      if (child == '') {
+        this.userService.heeaderData.next([data])
+        this.userService.productPartnerItem.next([item])
+        this.currentTab = `Produktpartner.${item}`
+      } else {
+        this.userService.heeaderData.next([child])
+        this.userService.productPartnerItem.next([item,child])
+        this.currentTab = `Produktpartner.${item}.${child}`
+      }
+
+
     }, 200);
   }
 

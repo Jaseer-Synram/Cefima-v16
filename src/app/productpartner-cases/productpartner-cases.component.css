@@ -1,0 +1,108 @@
+.table-min-height-top{
+  height: fit-content;
+}
+
+.table-min-height-body{
+  min-height: calc(100vh - 40.5vh);
+}
+
+.has-icon {
+  top: 8px;
+  left: 8px;
+}
+
+.graybox {
+  background: #f2f2f2;
+  font-weight: 500;
+  font-size: medium;
+}
+
+:host ::ng-deep.mat-mdc-tab-group.button-arrow>.mat-mdc-tab-header>.mat-mdc-tab-label-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: -10px;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.tabsecond1 {
+  min-width: 25px;
+  text-align:center
+}
+
+.tabsecond2 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.tabsecond3 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.tabsecond4 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.tabsecond5 {
+  width: 10rem;
+  text-align:center
+}
+
+.tabsecond6 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.tabsecond7 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.tabsecond8 {
+  min-width: 8rem;
+  text-align:center
+}
+
+.pp1 {
+  min-width: 25px;
+  text-align:center
+}
+
+.pp2 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.pp3 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.pp4 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.pp5 {
+  width: 10rem;
+  text-align:center
+}
+
+.pp6 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.pp7 {
+  min-width: 10rem;
+  text-align:center
+}
+
+.pp8 {
+  min-width: 8rem;
+  text-align:center
+}

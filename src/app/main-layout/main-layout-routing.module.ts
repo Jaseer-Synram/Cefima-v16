@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './main-layout.component';
 import { AuthGuardService } from '../auth-guard.service';
 import { HomeComponent } from '../home/home.component';
+import { ProductpartnerCasesComponent } from '../productpartner-cases/productpartner-cases.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,12 @@ const routes: Routes = [
           import('../customer/customer.module').then((m) => m.CustomerModule),
         canActivate: [AuthGuardService],
         data: { roles: ['Superadmin', 'admin', 'b2b', 'employee', 'customer'] },
+      },
+      {
+        path: "product-partner-cases",
+        loadChildren: () =>
+          import('../productpartner-cases/productpartner-cases.module').then((m) => m.ProductpartnerCasesModule),
+        canActivate: [AuthGuardService],
       },
       {
         path: 'kunde-home',

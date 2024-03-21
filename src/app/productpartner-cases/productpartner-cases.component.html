@@ -1,0 +1,1509 @@
+<div class="loaderouter" id="loaderouterid">
+  <div class="loader"></div>
+</div>
+
+<div fxLayout="column" class="app-background table-min-height">
+
+  <!-- <div *ngIf="title != 'Firma' && title != ' '">
+    <mat-toolbar style="background-color: #2e3034; border: 2px solid #2d2d2d" fxLayoutAlign="center center">
+      <p class="toolbar-text">
+        Willkommen {{ title }} {{ lastname }} in der Übersicht der
+        Angebotsanfragen
+      </p>
+    </mat-toolbar>
+  </div>
+
+  <div *ngIf="title == ' '">
+    <mat-toolbar style="background-color: #2e3034; border: 2px solid #2d2d2d" fxLayoutAlign="center center">
+      <p class="toolbar-text">
+        Willkommen Firma {{ COMPANYNAME }} in der Übersicht der Angebotsanfragen
+      </p>
+    </mat-toolbar>
+  </div> -->
+
+  <!-- <mat-tab-group mat-stretch-tabs="false" class="mt-3 ml-3">
+    <mat-tab label="Anfragen / Vorgänge" id="tab1"> -->
+
+      <div *ngIf="hideValues.Anfragen" class="col-12 p-0">
+        <div *ngIf="currentUserData.status != '0'" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="05px"
+          class="customer-managment-content-main" style="margin-top: 0px">
+          <div class="container-fluid p-0">
+            <div
+              class=" table-section table-min-height-top d-flex justify-content-between col-12 customer-search mb-2 rounded p-4 ">
+
+              <div class=" col-md-3 px-0 position-relative">
+                <form action="">
+                  <mat-icon (click)="onSubmit()" class="position-absolute has-icon">search</mat-icon>
+                  <input class="form-control limitword pl-5 "
+                    placeholder="Vorgangs Nr, Vorgangs Art, Vorgangs Datun, Hochgeladen Von " type="text"
+                    (keyup)="onKey($event)" id="searchid" />
+                </form>
+              </div>
+              <div class="col-md-5" style="padding: 0; margin-bottom: 13px; padding-left: 3px">
+                <div class="box-center" id="divtag"></div>
+              </div>
+              <button class="button-primary" style="height: 38px;font-size: 14px;">
+                Anzahl der Ergebnisse: {{ startRecord }} - {{ endRecord }} /
+                {{ customerList.length }}
+              </button>
+            </div>
+
+            <div class="col-12 p-4 table-section table-min-height-body" style="width: 100%">
+              <div class="col-12 p-0 " id="cardbodyid">
+                <div class="accordion-main" id="accordion">
+                  <div class="accordion-head">
+                    <ul style="color: #3A3D44;"
+                      class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
+                      <li class="tabsecond1 font-weight-bold">#</li>
+
+                      <li class="tabsecond2 font-weight-bold">
+                        Kundenname
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc" data-name="created_byname"></i> -->
+                      </li>
+                      <li class="tabsecond3 font-weight-bold">
+                        Vorgangs Art.
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc" data-name="bill_type"></i> -->
+                      </li>
+                      <li class="tabsecond4 font-weight-bold">
+                        Vorgangs Nr.
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc" data-name="created_byname"></i> -->
+                      </li>
+
+                      <li class="tabsecond5 font-weight-bold">
+                        Vorgangs Datun.
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems" data-order="asc" data-name="bill_type"></i> -->
+                      </li>
+                      <!-- <li class="font-weight-bold" >
+                            Hochgeladen Von
+                            <i
+                              class="fa fa-sort-desc"
+                              [appSort]="pagedItems"
+                              data-order="asc"
+                              data-name="created_byname"
+                            ></i>
+                          </li> -->
+
+                      <li class="tabsecond8 font-weight-bold">
+                        Interaktionen
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="accordion-list-main">
+                    <div class="accordion-list-item" *ngFor="let cl of pagedItems; let i = index">
+                      <ul
+                        [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color':i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
+                        style="border-radius: 10px 10px;"
+                        class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
+                        id="ul{{ cl._id }}">
+                        <li class="tabsecond1">{{ startRecord + i }}</li>
+                        <li class="tabsecond2">
+                          {{ cl.Uploaded_By }}
+                        </li>
+                        <li class="tabsecond3">
+                          {{ cl.Transaction_Type }}
+                        </li>
+                        <li class="tabsecond4">{{ cl.Activity_No }}</li>
+
+                        <li class="tabsecond5">
+                          {{ cl.Proces_Date | date : "dd" }}.{{
+                          cl.Proces_Date | date : "MM"
+                          }}.{{ cl.Proces_Date | date : "yyyy" }}
+                        </li>
+
+                        <!-- <li>
+                                  {{ cl.created_byname }}
+                                </li> -->
+
+                        <li class="tabsecond8">
+                          <a class="offnen-cls btn button-primary add-assigment mr-2 py-1" data-toggle="collapse"
+                            (click)="editRecord(cl._id, i + 1, cl.Activity_No)" id="click3{{ cl._id }}">Öffnen</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end pagination-main mt-3">
+                  <ul *ngIf="customerList && customerList.length" class="pagination m-0 pagerAction">
+                    <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
+                      <a (click)="setPage(1)" class="page-link">
+                        << </a>
+                    </li>
+                    <li [ngClass]="{ disabled: pager.currentPage === 1 }" class="page-item">
+                      <a (click)="setPage(pager.currentPage - 1)" class="page-link">
+                        < </a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }"
+                      class="page-item">
+                      <a (click)="setPage(page)" style="background-color: #184397 !important" class="page-link">{{ page
+                        }}</a>
+                    </li>
+                    <li [ngClass]="{
+                      disabled: pager.currentPage === pager.totalPages
+                    }" class="page-item">
+                      <a (click)="setPage(pager.currentPage + 1)" class="page-link">></a>
+                    </li>
+                    <li [ngClass]="{
+                      disabled: pager.currentPage === pager.totalPages
+                    }" class="page-item">
+                      <a (click)="setPage(pager.totalPages)" class="page-link">
+                        >>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div id="collapse" class="collapse" data-parent="#accordion">
+                <div class="card-body px-0 py-3">
+                  <div class="col-12 p-0">
+                    <div class="col-md-12" id="imagediv">
+                      <div class="accordion-main" id="accordion">
+
+                        <div class="accordion-head">
+                          <ul class="accordion-head-list list-unstyled d-flex">
+                            <li class="font-weight-bold" style="width: 10%">#</li>
+                            <!-- <li class="font-weight-bold" style="width: 25%">
+                                Name des Produktpartners
+                              </li> -->
+
+                            <li class="font-weight-bold" style="width: 30%">
+                              Produktart
+                            </li>
+                            <!-- <li class="font-weight-bold" >
+                                  Dokumentenname
+                                </li> -->
+
+                            <li class="font-weight-bold" style="width: 30%">
+                              Interaktionen
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div>
+                          <div class="accordion-list-item" *ngFor="
+                            let N of OfferedDocWithTicket_No;
+                            let i = index
+                          ">
+                            <ul class="accordion-list-data list-unstyled d-flex"
+                              id="ul{{ N.element.producttypesinfo._id }}">
+                              <li class="text-wrap" style="width: 10%">
+                                {{ startRecord + i }}
+                              </li>
+                              <!-- <li
+                                class="text-wrap text-truncate"
+                                style="width: 30%"
+                              >
+                                {{ N.element.productpartnersinfo.company_name }}
+                              </li> -->
+                              <li class="text-wrap text-truncate" style="width: 30%">
+                                {{ N.element.producttypesinfo.product_typename }}
+                              </li>
+
+                              <!-- <li class="text-wrap" >POA</li> -->
+                              <div class="d-flex" style="width: 30%">
+                                <li class="text-wrap mb-2">
+                                  <button type="button" (click)="
+                                    previewOffer(
+                                      N.URL,
+                                      N.tags,
+                                      N.document_unique_id,
+                                      N.companycode,
+                                      N.brand,
+                                      N.document_name,
+                                      N.createdAt,
+                                      N.element.id,
+                                      N.Uploaded_By,
+                                      i,
+                                      N.element.document_sub_type,
+                                      N.element.ticket_no
+                                    )
+                                  " class="openclass offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1"
+                                    id="click1{{ N.element.id }}">
+                                    Kommunikation
+                                  </button>
+                                  <button type="button"
+                                    class="openclass offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1" (click)="
+                                    createspectiality(
+                                      N.element.ticket_no,
+                                      ppid,
+                                      N.element.document_sub_type,
+                                      N.element.producttypesinfo
+                                        .product_typename
+                                    )
+                                  " id="click1specialist{{ N.element.id }}">
+                                    Ansprechpartner zuweisen
+                                  </button>
+                                </li>
+                              </div>
+                            </ul>
+
+                            <div class="col-md-12">
+                              <div id="preview{{ N._id }}" class="previewclass"></div>
+                            </div>
+                            <div class="col-md-12" id="employeeassign{{ N._id }}" style="display: none">
+                              <form [formGroup]="Specialistform" id="Specialistformid" #fsp1="ngForm" novalidate=""
+                                class="Official-residence-form">
+                                <div class="col-md-12" style="margin-top: 29px">
+                                  <h4>Spezialist zuweisen</h4>
+                                  <div class="col-md-6" style="display: inline-block">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                      <mat-label>Spezialist zuweisen</mat-label>
+                                      <input type="text" aria-label="Number" placeholder="Spezialist zuweisen" matInput
+                                        [matAutocomplete]="auto" formControlName="b2b_list" />
+
+                                      <mat-autocomplete #auto="matAutocomplete"
+                                        (optionSelected)="PatchSpecialistVaalue()">
+                                        <mat-option *ngFor="
+                                          let kunde of SpecialistOptions | async
+                                        " [value]="kunde">
+                                          {{ kunde.name }}
+                                        </mat-option>
+                                      </mat-autocomplete>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-3" style=" float: right">
+                                    <button [disabled]="!fsp1.form.valid" mat-raised-button (click)="assign()"
+                                      class="btn btn-info" style="width: 100%">
+                                      <span class="text-bodycolor font-18 m-b-0">&nbsp;&nbsp; speichern
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 table-min-height-warning d-flex justify-content-center align-items-center   "
+          *ngIf="currentUserData.status == '0'">
+          <div class="col-md-11 d-flex justify-content-center align-items-center flex-column" style="font-size: 20px;
+        background: transparent; padding: 10px; ">
+
+            <img height="90px" src="./assets/exclamation.svg" />
+
+            <p style="
+            font-size: 18px;
+            font-family: system-ui;
+            font-weight: 600;
+            line-height: 23px;
+            color: rgb(10, 10, 10);
+            text-align: center;
+            margin-top: 10px;
+          ">
+              Die Anbindung zwischen CEFIMA und
+              {{ currentUserData.company_name }} wird gerade erstellt und
+              geprüft. Ihr Produktpartnerdashboard steht Ihnen nach
+              erfolgreicher Anbindung vollständig zur Verfügung. Sobald der
+              Anbindungsprozess abgeschlossen ist erhalten Sie eine E-Mail.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    <!-- </mat-tab>
+    <mat-tab label="Unternehmensdaten" class="" id="tab2"> -->
+
+      <div *ngIf="hideValues.Unternehmensdaten.Unternehmensdaten" class="col-12 p-0">
+        <div class="col-12 p-0 mt-3 table-section table-min-height">
+          <div class="col-md-12 p-0 ">
+            <form [formGroup]="customerFormGroup" id="configform" #f="ngForm" novalidate="">
+              <div class="form-body">
+                <mat-tab-group mat-stretch-tabs="false" class="button-arrow">
+                  <mat-tab label="Unternehmensdaten">
+
+                    <div class="col-12 p-0  ">
+                      <div class="col-md-12 p-4 d-flex flex-row flex-wrap no-padding">
+                        <div class="col-12 px-3 py-2 my-4 rounded graybox">
+                          <span>Unternehmensdaten</span>
+                        </div>
+                        <div class="col-md-4 p-0">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>Unternehmensname</mat-label>
+                            <input matInput formControlName="company_name" placeholder="Unternehmensname" readonly />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2 p-0 text-center">
+                          <mat-form-field appearance="outline" style="width: 90%" class="readonly-wrapper">
+                            <mat-label>Andrede</mat-label>
+                            <mat-select matNativeControl formControlName="title" class="readonly-block">
+                              <mat-option value="Herr">Herr</mat-option>
+                              <mat-option value="Frau">Frau</mat-option>
+                              <mat-option value="Divers">Divers</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3 p-0 text-center">
+                          <mat-form-field appearance="outline" style="width: 90%">
+                            <mat-label>Vorname</mat-label>
+                            <input matInput formControlName="name_of_ceo" placeholder="Vorname" readonly />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3 p-0 text-right">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>Nachname</mat-label>
+                            <input matInput formControlName="lastname_of_ceo" placeholder="Nachname" readonly />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4 p-0 ">
+                          <mat-form-field appearance="outline" style="width: 96%" class="readonly-wrapper">
+                            <mat-label style="color: black">Art</mat-label>
+                            <mat-select readonly matNativeControl formControlName="art" class="readonly-block"
+                              [disabled]="true">
+                              <mat-option value="Versicherungsgesellschaft">Versicherungsgesellschaft</mat-option>
+                              <mat-option value="Geldanlagen">Geldanlagen</mat-option>
+                              <mat-option value="Bank">Bank</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-12 px-3 py-2 mb-4 rounded graybox">
+                          <span> Adresse</span>
+                        </div>
+
+                        <div class="col-md-4 p-0"  >
+                          <mat-form-field appearance="outline" style="width: 96%" cdkScrollable>
+                            <mat-label>Straße</mat-label>
+                            <input class="strabe" readonly matInput placeholder="Straße" formControlName="street" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4 p-0 text-center">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>Nr.</mat-label>
+                            <input matInput placeholder="Nr." readonly formControlName="streetNumber" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4 p-0 text-right">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>PLZ</mat-label>
+                            <input matInput placeholder="PLZ" readonly formControlName="postCode" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4 p-0">
+                          <mat-form-field appearance="outline" style="width: 96%">
+                            <mat-label>Stadt</mat-label>
+                            <input matInput placeholder="Stadt" formControlName="city" readonly />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4 p-0"  >
+                          <mat-form-field appearance="outline" style="width: 96%" cdkScrollable>
+                            <mat-label>Land</mat-label>
+                            <input matInput class="strabe" readonly placeholder="Land"
+                              formControlName="countryOfResidence" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-md-12" style="
+                          display: inline-block;
+                          vertical-align: top;
+                          margin-left: -12px;
+                        ">
+                          <div class="col-md-3" style="display: inline-block">
+                            <div id="logopreview"></div>
+                          </div>
+
+                          <div class="col-md-3" style="display: inline-block"></div>
+                        </div>
+                      </div>
+                      <hr class=" p-0 mb-4" style="border: 1px solid black;opacity: 1;" />
+                      <div class="col-md-12 p-4 ">
+                        <div class="col-12 p-0">
+                          <div class="col-md-12 p-0" id="imagediv">
+                            <div class="accordion-main" id="accordion">
+                              <div class="accordion-head">
+                                <ul
+                                  class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
+                                  <li class="pp1 font-weight-bold">#</li>
+                                  <li class="pp2 font-weight-bold">
+                                    Dokumentenname
+                                  </li>
+                                  <li class="pp3 font-weight-bold">Dateityp</li>
+                                  <li class="pp4 font-weight-bold">
+                                    Dateigröße
+                                  </li>
+
+                                  <li class="pp6 font-weight-bold">
+                                    Datum des Uploads
+                                  </li>
+
+                                  <li class="pp8 font-weight-bold">
+                                    Interaktionen
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="accordion-list-main" *ngIf="pdfarraynew?.length > 0">
+                                <div class="accordion-list-item" *ngFor="let cl of pdfarraynew; let i = index">
+                                  <ul
+                                    [ngStyle]="{'background-color':j % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': j % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': j % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': j % 2 === 0 ? '1px solid #0592D42E' : null}"
+                                    style="border-radius: 10px 10px;"
+                                    class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center"
+                                    id="ul{{ cl[0]?._id }}">
+                                    <li class="pp1">
+                                      {{ i + 1 }}
+                                    </li>
+
+                                    <li class="pp2">
+                                      {{ cl[0]?.document_name }}
+                                    </li>
+
+                                    <li class="pp3">
+                                      {{ cl[0]?.filetype }}
+                                    </li>
+                                    <li class="pp4">{{ cl[0]?.size }}</li>
+
+                                    <li class="pp6">
+                                      {{ cl[0]?.date_of_upload }}
+                                    </li>
+
+                                    <li class="pp7 mb-2">
+                                      <button type="button"
+                                        class="openclasspreview offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1"
+                                        (click)="
+                                          previewnew(
+                                            cl[0]?.document_url,
+                                            cl[0]?.tags,
+                                            cl[0]?.document_unique_id,
+                                            cl[0]?.companycode,
+                                            cl[0]?.brand,
+                                            cl[0]?.document_name,
+                                            cl[0]?.createdAt,
+                                            cl[0]?._id,
+                                            cl[0]?.created_byname,
+                                            cl[0]?.ticket_no,
+                                            i
+                                          )
+                                        " id="clickpreview{{ cl[0]?._id }}">
+                                        Öffnen
+                                      </button>
+                                    </li>
+                                  </ul>
+                                  <div class="col-md-12">
+                                    <div id="preview{{ cl[0]?._id }}" class="previewclass"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 no-padding" id="previewpdfnew">
+                        <br />
+                      </div>
+                      <div class="col-md-12 no-padding"><br /><br /></div>
+
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="Sparte">
+
+
+                    <div formArrayName="secondstep"  >
+                      <div class="col-12 p-4 d-flex flex-column">
+                        <div class="col-md-12 p-0" id="imagediv">
+                          <div class="accordion-main" id="accordion">
+                            <div class="accordion-head">
+                              <ul
+                                class="accordion-head-list list-unstyled mx-0 my-1 d-flex justify-content-between align-items-center">
+                                <li class="pp1 font-weight-bold">#</li>
+                                <li class="pp2 font-weight-bold">Sparte</li>
+                                <li class="pp3 font-weight-bold">
+                                  Vermittlernummer
+                                </li>
+                                <li class="pp4 font-weight-bold">
+                                  Name Maklerdirektion
+                                </li>
+                                <li class="pp6 font-weight-bold">
+                                  Name Maklerbetreuer
+                                </li>
+                                <li class="pp8 font-weight-bold">
+                                  Interaktionen
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="accordion-list-main">
+                              <div class="accordion-list-item" *ngFor="let cl of spartedatanew; let i = index">
+                                <ul
+                                  [ngStyle]="{'background-color':i % 2 === 0 ? 'rgba(246, 246, 246, 0.831)' : null,'color': i % 2 === 0 ? '#3A3D44D4' : null, 'border-bottom': i % 2 === 0 ? '1px solid #0592D42E' : null,'border-top': i % 2 === 0 ? '1px solid #0592D42E' : null}"
+                                  style="border-radius: 10px 10px;"
+                                  class="accordion-list-data list-unstyled mx-0 my-0 p-2 d-flex justify-content-between align-items-center">
+                                  <li class="pp1">{{ i + 1 }}</li>
+
+                                  <li class="pp2">{{ cl.sparte }}</li>
+
+                                  <li class="pp3">{{ cl.agent_number }}</li>
+
+                                  <li class="pp4">{{ cl.brokerage_name }}</li>
+
+                                  <li class="pp6">
+                                    {{ cl.brokeradvisor_title }}
+                                    {{ cl.brokeradvisor_firstname }}
+                                    {{ cl.brokeradvisor_lastname }}
+                                  </li>
+
+                                  <li class="pp8 mb-2">
+                                    <button type="button" (click)="open_sparte_data(i)" id="open-sparte-data{{ i }}"
+                                      class="open-sparte-data offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1">
+                                      Öffnen
+                                    </button>
+                                  </li>
+                                </ul>
+                                <div class="col-md-12 sparte-data-row pt-4 mb-4" id="sparte-data-row{{ i }}" style="
+                                  background: #f1f1f1;
+                                  border-radius: 6px;
+                                  display: none;
+                                ">
+                                  <div class="col-12 p-0 flex-row flex-wrap"   [formGroupName]="i">
+                                    <div class="col-md-12 d-flex flex-wrap flex-row p-0 no-padding">
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field class="readonly-wrapper" appearance="outline"
+                                          style="width: 96%">
+                                          <mat-label style="color: black">Sparte</mat-label>
+                                          <mat-select class="readonly-block" [(ngModel)]="cl.sparte" matNativeControl
+                                            formControlName="sparte" [disabled]="true">
+                                            <mat-option value="Sach">Sach</mat-option>
+                                            <mat-option value="Renten/Leben">Renten/Leben</mat-option>
+                                            <mat-option value="Kranken">Kranken</mat-option>
+                                            <mat-option value="Gewerbesach">Gewerbesach</mat-option>
+
+                                            <mat-option
+                                              value="Immobilienfinanzierung">Immobilienfinanzierung</mat-option>
+                                            <mat-option value="Verbraucherkredite">Verbraucherkredite</mat-option>
+                                            <mat-option value="Unternehmensfinanzierung">Unternehmensfinanzierung
+                                            </mat-option>
+                                            <mat-option value="KFZ Kredite">KFZ Kredite</mat-option>
+
+                                            <mat-option value="Investment">Investment</mat-option>
+                                            <mat-option value="Sachwerte">Sachwerte</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-4" style="display: inline-block">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Vermittlernummer</mat-label>
+                                          <input matInput [(ngModel)]="cl.agent_number" value="{{ cl.agent_number }}"
+                                            formControlName="agent_number" placeholder="Vermittlernummer" readonly />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" class="example-chip-list"
+                                          style="width: 100%">
+                                          <mat-label>Produkttypen + </mat-label>
+                                          <mat-chip-list #chipList class="matchiptextboxbig">
+                                            <mat-chip *ngFor="
+                                              let opt of oldtypesOptionsArray[i]
+                                            " [selectable]="true" [removable]="true" style="
+                                              padding: 12px;
+                                              border-radius: 4px;
+                                              background: #184397;
+                                              color: #fff;
+                                              min-height: unset;
+                                            ">
+                                              {{ opt.value }}
+                                            </mat-chip>
+                                            <input placeholder="Produkttypen +" readonly #filterproducttype1Input
+                                              [matAutocomplete]="auto" [matChipInputFor]="chipList" />
+                                          </mat-chip-list>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-12" style="display: inline-block">
+                                        <h5>Maklerdirektion</h5>
+                                      </div>
+
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Name Maklerdirektion</mat-label>
+                                          <input matInput [(ngModel)]="cl.brokerage_name"
+                                            value="{{ cl.brokerage_name }}" formControlName="brokerage_name"
+                                            placeholder="Name Maklerdirektion" readonly />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-4 p-0" cdkScrollable>
+                                        <mat-form-field appearance="outline" style="width: 96%" cdkScrollable>
+                                          <mat-label>Straße</mat-label>
+                                          <input matInput [(ngModel)]="cl.brokerage_address"
+                                            value="{{ cl.brokerage_address }}" placeholder="Straße"
+                                            formControlName="brokerage_address" readonly class="strabe" />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Nr.</mat-label>
+                                          <input matInput [(ngModel)]="
+                                            cl.brokerage_streetNumber
+                                          " value="{{
+                                            cl.brokerage_streetNumber
+                                          }}" placeholder="Nr." formControlName="brokerage_streetNumber" readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>PLZ</mat-label>
+                                          <input matInput [(ngModel)]="cl.brokerage_postCode"
+                                            value="{{ cl.brokerage_postCode }}" placeholder="PLZ"
+                                            formControlName="brokerage_postCode" readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Stadt</mat-label>
+                                          <input matInput readonly [(ngModel)]="cl.brokerage_city"
+                                            value="{{ cl.brokerage_city }}" placeholder="brokerage_Stadt"
+                                            formControlName="brokerage_city" />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0" cdkScrollable>
+                                        <mat-form-field appearance="outline" style="width: 96%" cdkScrollable>
+                                          <mat-label>Land</mat-label>
+                                          <input matInput placeholder="Land" [(ngModel)]="
+                                            cl.brokerage_countryOfResidence
+                                          " value="{{
+                                            cl.brokerage_countryOfResidence
+                                          }}" formControlName="brokerage_countryOfResidence" readonly class="strabe" />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>E-Mail</mat-label>
+                                          <input matInput [(ngModel)]="cl.brokerage_email"
+                                            value="{{ cl.brokerage_email }}" formControlName="brokerage_email"
+                                            placeholder="E-Mail" readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Telefon</mat-label>
+
+                                          <input matInput *ngIf="cl.brokerage_telefon"
+                                            [(ngModel)]="cl.brokerage_telefon" value="{{ cl.brokerage_telefon }}"
+                                            id="brokerage_telefon{{ i }}" ngModel [maxlength]="20"
+                                            name="brokerage_telefon" formControlName="brokerage_telefon" class="test"
+                                            placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+
+                                          <input matInput *ngIf="!cl.brokerage_telefon" value="+49"
+                                            id="brokerage_telefon{{ i }}" ngModel [maxlength]="20"
+                                            name="brokerage_telefon" formControlName="brokerage_telefon" class="test"
+                                            placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-12" style="display: inline-block">
+                                        <h5>Maklerbetreuer</h5>
+                                      </div>
+
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field class="readonly-wrapper" appearance="outline"
+                                          style="width: 96%">
+                                          <mat-label>Andrede</mat-label>
+                                          <mat-select class="readonly-block" [(ngModel)]="cl.brokeradvisor_title"
+                                            matNativeControl formControlName="brokeradvisor_title">
+                                            <mat-option value="Herr">Herr</mat-option>
+                                            <mat-option value="Frau">Frau</mat-option>
+                                            <mat-option value="Divers">Divers</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Vorname</mat-label>
+                                          <input matInput [(ngModel)]="
+                                            cl.brokeradvisor_firstname
+                                          " value="{{
+                                            cl.brokeradvisor_firstname
+                                          }}" formControlName="brokeradvisor_firstname" placeholder="Vornamen"
+                                            readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Nachname</mat-label>
+                                          <input matInput [(ngModel)]="
+                                            cl.brokeradvisor_lastname
+                                          " value="{{
+                                            cl.brokeradvisor_lastname
+                                          }}" formControlName="brokeradvisor_lastname" placeholder="Nachname"
+                                            readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>E-Mail</mat-label>
+                                          <input matInput [(ngModel)]="cl.brokeradvisor_email"
+                                            value="{{ cl.brokeradvisor_email }}" formControlName="brokeradvisor_email"
+                                            placeholder="E-Mail" readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Telefon</mat-label>
+
+                                          <input matInput *ngIf="cl.brokeradvisor_telefon"
+                                            [(ngModel)]="cl.brokeradvisor_telefon"
+                                            value="{{ cl.brokeradvisor_telefon }}" id="brokeradvisor_telefon{{ i }}"
+                                            ngModel [maxlength]="20" name="brokeradvisor_telefon"
+                                            formControlName="brokeradvisor_telefon" class="test" placeholder="Telefon"
+                                            type="tel" oninput="this.value=this.value.replace(/[^0-9/+]/g,'')"
+                                            readonly />
+
+                                          <input matInput *ngIf="!cl.brokeradvisor_telefon" value="+49"
+                                            id="brokeradvisor_telefon{{ i }}" ngModel [maxlength]="20"
+                                            name="brokeradvisor_telefon" formControlName="brokeradvisor_telefon"
+                                            class="test" placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-6" style="display: inline-block">
+                                        <h5>Abteilung Vertrag</h5>
+                                      </div>
+
+                                      <div class="col-md-6" style="display: inline-block">
+                                        <h5>Abteilung Schaden</h5>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>E-Mail</mat-label>
+                                          <input matInput [(ngModel)]="
+                                            cl.contract_department_email
+                                          " value="{{
+                                            cl.contract_department_email
+                                          }}" formControlName="contract_department_email" placeholder="E-Mail"
+                                            readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Telefon</mat-label>
+
+                                          <input matInput *ngIf="cl.contract_department_telefon" [(ngModel)]="
+                                            cl.contract_department_telefon
+                                          " value="{{
+                                            cl.contract_department_telefon
+                                          }}" id="contract_department_telefon{{
+                                            i
+                                          }}" ngModel [maxlength]="20" name="contract_department_telefon"
+                                            formControlName="contract_department_telefon" class="test"
+                                            placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+
+                                          <input matInput *ngIf="
+                                            !cl.contract_department_telefon
+                                          " value="+49" id="contract_department_telefon{{
+                                            i
+                                          }}" ngModel [maxlength]="20" name="contract_department_telefon"
+                                            formControlName="contract_department_telefon" class="test"
+                                            placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>E-Mail</mat-label>
+                                          <input matInput [(ngModel)]="
+                                            cl.damage_department_email
+                                          " value="{{
+                                            cl.damage_department_email
+                                          }}" formControlName="damage_department_email" placeholder="E-Mail"
+                                            readonly />
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 p-0">
+                                        <mat-form-field appearance="outline" style="width: 96%">
+                                          <mat-label>Telefon</mat-label>
+                                          <input matInput *ngIf="cl.damage_department_telefon" [(ngModel)]="
+                                            cl.damage_department_telefon
+                                          " value="{{
+                                            cl.damage_department_telefon
+                                          }}" id="damage_department_telefon{{ i }}" ngModel [maxlength]="20"
+                                            name="damage_department_telefon" formControlName="damage_department_telefon"
+                                            class="test" placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+
+                                          <input matInput *ngIf="!cl.damage_department_telefon" value="+49" ngModel
+                                            id="damage_department_telefon{{ i }}" [maxlength]="20"
+                                            name="damage_department_telefon" formControlName="damage_department_telefon"
+                                            class="test" placeholder="Telefon" type="tel"
+                                            oninput="this.value=this.value.replace(/[^0-9/+]/g,'')" readonly />
+                                        </mat-form-field>
+                                      </div>
+
+                                      <div class="col-md-12" style="
+                                        display: inline-block;
+                                        border-bottom: 2px solid #000 !important;
+                                      "></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-tab>
+                </mat-tab-group>
+
+                <!-- </div> -->
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    <!-- </mat-tab>
+    <mat-tab label="Vertretungsberechtigte Person" id="tab2_2"> -->
+
+      <div *ngIf="hideValues.Unternehmensdaten.Vertretungsberechtigte" class="col-12 p-0">
+        <div class="col-12 p-0">
+          <div class="col-12 p-0 table-section table-min-height">
+
+          </div>
+        </div>
+      </div>
+
+    <!-- </mat-tab> -->
+
+    <!-- mat-tab label="Kontakt" id="tab3">
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="05px" class="customer-managment-content-main"
+        style="margin-top: 0px">
+        <div class="container-fluid p-4">
+          <div style="
+              background: rgba(255, 255, 255, 0.25);
+              box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+              backdrop-filter: blur(4px);
+              -webkit-backdrop-filter: blur(4px);
+              border-radius: 10px;
+              border: 1px solid rgba(255, 255, 255, 0.18);
+            " class="row">
+            <div style="
+                height: 715px;
+
+                padding: 25px 0px 25px 20px;
+              " class="col-lg-4 col-md-6 col-xs-6">
+              <div style="
+                  border-right: 2px solid #184397;
+                  background-color: rgb(0 0 0 / 7%);
+                  padding: 18px;
+                  height: 665px;
+                ">
+                <div style="justify-content: left" class="d-flex">
+                  <p style="
+                      font-size: 14px;
+                      background-color: #184397;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 5px;
+                      color: white;
+                      cursor: pointer;
+                    ">
+                    Alle Nachrichten
+                  </p>
+                  <p style="
+                      font-size: 14px;
+                      background-color: #184397;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 5px;
+                      color: white;
+                      cursor: pointer;
+                    ">
+                    Ungelesen ({{ unreadcount }})
+                  </p>
+                </div>
+                <hr style="margin: 5px 0px 5px 0px" />
+
+                <ol class="list-group" style="
+                    max-height: 570px;
+                    margin-bottom: 10px;
+                    overflow-x: hidden;
+                  ">
+                  <ng-container *ngFor="let D of newcaselistnew; let i = index">
+                    <li style="
+                        cursor: pointer;
+                        width: 100%;
+                        background-color: rgb(238 238 238);
+                      " class="list-group-item nesteslist" id="li{{ D.Activity_No }}" (click)="CurrentChat(D, i)">
+                      <div style="justify-content: space-between" class="d-flex">
+                        <p style="font-family: 'Roboto'; font-weight: 900"
+                          *ngIf="D.companyname == '42140 DFG Finanzprofi GmbH'">
+                          {{ D.usercompanyname }}
+                        </p>
+                        <p *ngIf="D.Transaction_Type != 'Angebot bekommen'">
+                          {{ D.Transaction_Type }} <br />
+                          {{ D.ptname }}
+                        </p>
+                        <p *ngIf="D.Transaction_Type == 'Angebot bekommen'">
+                          Angebotsanfrage <br />
+                          {{ D.ptname }}
+                        </p>
+                        <span class="logged-in" id="active{{ i }}">
+                          Vorgangs Nr.:<br />
+                          {{ D.Activity_No }}</span>
+                      </div>
+                      <div style="justify-content: space-between" class="d-flex"></div>
+                    </li>
+                  </ng-container>
+                </ol>
+              </div>
+            </div>
+            <div *ngIf="lastcase_no != ''" style="
+                height: 715px;
+                display: flex;
+                min-height: 100%;
+                flex-direction: column;
+                padding: 25px 25px 25px 0px;
+              " class="col-lg-8 col-md-6 col-xs-6 d-none d-md-block">
+              <div class="row chatheader">
+                <div class="col-md-6">
+                  <p style="font-size: 15px; padding: 5px 0px 4px 0px; margin: 0">
+                    Vorgangs Nr.: {{ T_N }},
+                    <span *ngIf="Transaction_Type == 'Angebot bekommen'">
+                      Angebotsanfrage ,
+                    </span>
+                    <span *ngIf="Transaction_Type != 'Angebot bekommen'">
+                      {{ Transaction_Type }} ,
+                    </span>
+                    {{ ptname }}
+                  </p>
+                  <p style="margin: 0px" *ngIf="alluserdetails.length > 0">
+                    Gruppenchat :
+                    <span *ngFor="
+                        let alluserdetails11 of alluserdetails;
+                        let i = index
+                      ">
+                      <span *ngIf="alluserdetails11.id == loginid"> You, </span>
+                      <span *ngIf="alluserdetails11.id != loginid">
+                        {{ alluserdetails11.firstname }},
+                      </span>
+                    </span>
+                  </p>
+                </div>
+                <div class="col-md-6 d-flex flex-row justify-content-end align-items-center invisible">
+                  <button class="d-flex flex-row justify-content-center align-items-center" style="
+                      font-size: 14px;
+                      background-color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      color: #184397;
+                      cursor: pointer;
+                    " (click)="openDialog()">
+                    <mat-icon>video_call</mat-icon>Besprechung starten
+                  </button>
+                </div>
+              </div>
+              <div id="style-3" style="
+                  overflow-y: scroll;
+                  overflow-x: hidden;
+                  height: 79% !important;
+                " #scrollMe [scrollTop]="scrollMe.scrollHeight" class="scrollbar">
+                <div class="col-md-12 p-0" *ngIf="messagelist.length > 0">
+                  <ul *ngFor="let D of messagelist; let i = index" class="list-group InnerLayer">
+                    <li *ngIf="D.userinfo.length > 0" [ngClass]="{
+                        msj: ppdata._id == D.mid,
+                        msj2: ppdata._id != D.mid
+                      }" [ngStyle]="{
+                        'background-color':
+                          ppdata._id == D.mid ? '#dbf4fd' : '#f2f6f9;',
+                        'margin-left': ppdata._id == D.mid ? 'auto' : null,
+                        ' border-radius':
+                          ppdata._id == D.mid ? '5px 0px 5px 5px' : null
+                      }" class="list-group-item OuterLayer">
+                      <span *ngIf="D.type == 'mcq'" class="msgspan">{{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type == 'input' && D.ans == ''" class="msgspan" style="cursor: pointer">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type != 'input' && D.type != 'mcq'" class="msgspan" style="cursor: pointer">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type == 'input' && D.ans != ''">
+                        {{ D.message }}
+                        <i class="fa fa-check-circle" style="color: green"></i></span>
+
+                      <div class="timediv">
+                        {{ D.userinfo[0].firstname }}
+                        {{ D.userinfo[0].lastname }} ({{ D.company_name }})
+
+                        {{ D.createdAt | date : "H:mm" }}
+                      </div>
+                    </li>
+                    <li *ngIf="D.specilistsinfo.length > 0" [ngClass]="{
+                        msj: ppdata._id == D.mid,
+                        msj2: ppdata._id != D.mid
+                      }" [ngStyle]="{
+                        'background-color':
+                          ppdata._id == D.mid ? '#dbf4fd' : '#f2f6f9;',
+                        'margin-left': ppdata._id == D.mid ? 'auto' : null,
+                        ' border-radius':
+                          ppdata._id == D.mid ? '5px 0px 5px 5px' : null
+                      }" class="list-group-item OuterLayer">
+                      <span *ngIf="D.type == 'mcq'" class="msgspan">{{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type == 'input' && D.ans == ''" class="msgspan" style="cursor: pointer">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type != 'input' && D.type != 'mcq'" class="msgspan" style="cursor: pointer">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type == 'input' && D.ans != ''">
+                        {{ D.message }}
+                        <i class="fa fa-check-circle" style="color: green"></i></span>
+
+                      <div class="timediv">
+                        {{ D.specilistsinfo[0].firstName }}
+                        {{ D.specilistsinfo[0].lastName }} ({{
+                        D.company_name
+                        }})
+
+                        {{ D.createdAt | date : "H:mm" }}
+                      </div>
+                    </li>
+                    <li *ngIf="D.ppinfo.length > 0" [ngClass]="{
+                        msj: ppdata._id == D.mid,
+                        msj2: ppdata._id != D.mid
+                      }" [ngStyle]="{
+                        'background-color':
+                          ppdata._id == D.mid ? '#dbf4fd' : '#f2f6f9;',
+                        'margin-left': ppdata._id == D.mid ? 'auto' : null,
+                        ' border-radius':
+                          ppdata._id == D.mid ? '5px 0px 5px 5px' : null
+                      }" class="list-group-item OuterLayer">
+                      <span *ngIf="D.type == 'mcq'" class="msgspan">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type == 'input' && D.ans == ''" class="msgspan" style="cursor: pointer">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type != 'input' && D.type != 'mcq'" class="msgspan" style="cursor: pointer">
+                        {{ D.message }}
+                      </span>
+
+                      <span *ngIf="D.type == 'input' && D.ans != ''">
+                        {{ D.message }}
+                        <i class="fa fa-check-circle" style="color: green"></i></span>
+
+                      <div class="timediv">
+                        {{ D.ppinfo[0].name_of_ceo }}
+                        {{ D.ppinfo[0].lastname_of_ceo }} ({{ D.company_name }})
+
+                        {{ D.createdAt | date : "H:mm" }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="col-md-12 p-0" style="text-align: center; margin-top: 300px"
+                  *ngIf="messagelist.length == 0">
+                  <p>Kein Chat gefunden</p>
+                </div>
+              </div>
+
+              <div class="" style="background: #fff; padding: 10px 0px">
+                <div class="col-md-12 col-10">
+                  <div style="
+                      padding: 10px;
+                      background-color: #ededed;
+
+                      border-radius: 25px;
+                    " class="typetext">
+                    <input style="
+                        outline: none;
+                        border: none;
+                        box-shadow: none;
+                        background: transparent;
+                        position: relative;
+                      " (keyup)="checkmessage()" (keyup.enter)="sendmessage()" id="inputmessage" type="text"
+                      class="form-control" placeholder="Nachricht schreiben " />
+                    <i class="fas fa-paperclip fa-2x attach-icon"></i>
+                    <button id="sendbuttonid" class="send-btn" (click)="sendmessage()"
+                      [disabled]="editsendbutton ? true : false">
+                      <i class="fas fa-paper-plane fa-2x"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="lastcase_no == ''" style="
+                height: 715px;
+                display: flex;
+                min-height: 100%;
+                flex-direction: column;
+              " class="col-lg-8 col-md-6 col-xs-6 d-none d-md-block">
+              <div style="
+                  text-align: center;
+                  font-size: 26px;
+                  font-family: revert;
+                  margin-top: 300px;
+                  display: block;
+                ">
+                <span className="noConversationText">
+                  Öffnen Sie eine Unterhaltung, um einen Chat zu starten.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab> -->
+
+    <!-- <mat-tab label="Sachbearbeiter" id="tab4"> -->
+
+      <div *ngIf="hideValues.Sachbearbeiter" class="col-12 p-0">
+        <div *ngIf="currentUserData.status != '0'" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="05px"
+          class="customer-managment-content-main" style="margin-top: 0px">
+          <div class="container-fluid p-0">
+            <div
+              class=" table-section table-min-height-top d-flex justify-content-between col-12 customer-search mb-2 rounded p-4 ">
+              <div class=" col-md-3 px-0 position-relative">
+                <form action="">
+                  <mat-icon class="position-absolute has-icon">search</mat-icon>
+                  <input class="form-control pl-5 mr-4 limitword" placeholder="Name Sachbearbeiter, Sparte, Abteilung"
+                    type="text" (keyup)="onKey_specialist($event)" id="searchid_specialist" />
+                </form>
+              </div>
+              <div class="col-md-5" style="padding: 0; margin-bottom: 13px; padding-left: 3px">
+                <div class="box-center" id="divtag"></div>
+              </div>
+
+              <button class="button-primary" style="height: 38px">
+                Anzahl der Ergebnisse: {{ startRecord_specialist }} -
+                {{ endRecord_specialist }} /
+                {{ specialists.length }}
+              </button>
+            </div>
+
+            <div class="col-12 p-4 table-section table-min-height-body" style="width: 100%">
+              <div class="col-12 p-0 " id="cardbodyid">
+                <div class="accordion-main" id="accordion">
+                  <div class="accordion-head">
+                    <ul
+                      class="accordion-head-list list-unstyled mx-0 my-1  d-flex justify-content-between align-items-center">
+                      <li class="pp1 font-weight-bold">#</li>
+
+                      <li class="pp2 font-weight-bold">
+                        Name Sachbearbeiter
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems_specialist" data-order="asc"
+                        data-name="created_byname"></i> -->
+                      </li>
+                      <li class="pp3 font-weight-bold">
+                        E-Mail
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems_specialist" data-order="asc"
+                        data-name="bill_type"></i> -->
+                      </li>
+                      <li class="pp4 font-weight-bold">
+                        Sparte
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems_specialist" data-order="asc"
+                        data-name="created_byname"></i> -->
+                      </li>
+
+                      <li class="pp5 font-weight-bold">
+                        Abteilung
+                        <!-- <i class="fa fa-sort-desc" [appSort]="pagedItems_specialist" data-order="asc"
+                        data-name="bill_type"></i> -->
+                      </li>
+
+                      <li class="pp8 font-weight-bold">
+                        Interaktionen
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="accordion-list-main">
+                    <div class="accordion-list-item" *ngFor="let cl of pagedItems_specialist; let i = index">
+                      <ul class="accordion-list-data list-unstyled d-flex" id="ul_specialist{{ cl._id }}">
+                        <li class="pp1">
+                          {{ startRecord_specialist + i }}
+                        </li>
+                        <li class="pp2">
+                          {{ cl.title }} {{ cl.firstName }} {{ cl.lastName }}
+                        </li>
+                        <li class="pp3">
+                          {{ cl.email }}
+                        </li>
+                        <li class="pp4">{{ cl.sparte }}</li>
+
+                        <li class="pp5">
+                          {{ cl.department }}
+                        </li>
+
+                        <!-- <li>
+                                  {{ cl.created_byname }}
+                                </li> -->
+
+                        <li sclass="pp8 text-center">
+                          <a class="offnen-cls btn btn-info btn-sm add-assigment mr-2 py-1 click_specialist"
+                            data-toggle="collapse1" (click)="editRecord_specialist(cl)"
+                            id="click_specialist{{ cl._id }}">Öffnen</a>
+
+                          <!-- <a class="btn btn-info btn-sm mr-2 py-1">Rechte</a> -->
+                          <a class="btn btn-danger btn-sm mr-2 py-1">Löschen</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end pagination-main mt-3">
+                  <ul *ngIf="specialists && specialists.length" class="pagination m-0 pagerAction">
+                    <li [ngClass]="{ disabled: pager_specialist.currentPage === 1 }" class="page-item">
+                      <a (click)="setPage_specialist(1)" class="page-link">
+                        << </a>
+                    </li>
+                    <li [ngClass]="{ disabled: pager_specialist.currentPage === 1 }" class="page-item">
+                      <a (click)="
+                        setPage_specialist(pager_specialist.currentPage - 1)
+                      " class="page-link">
+                        < </a>
+                    </li>
+                    <li *ngFor="let page of pager_specialist.pages" [ngClass]="{
+                      active: pager_specialist.currentPage === page
+                    }" class="page-item">
+                      <a (click)="setPage_specialist(page)" style="background-color: #184397 !important"
+                        class="page-link">{{ page }}</a>
+                    </li>
+                    <li [ngClass]="{
+                      disabled:
+                        pager_specialist.currentPage ===
+                        pager_specialist.totalPages
+                    }" class="page-item">
+                      <a (click)="
+                        setPage_specialist(pager_specialist.currentPage + 1)
+                      " class="page-link">></a>
+                    </li>
+                    <li [ngClass]="{
+                      disabled:
+                        pager_specialist.currentPage ===
+                        pager_specialist.totalPages
+                    }" class="page-item">
+                      <a (click)="setPage_specialist(pager_specialist.totalPages)" class="page-link">
+                        >>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div id="collapse1" class="collapse mb-3" data-parent="#accordion"
+                style="background: #ebebeb; border-radius: 6px">
+                <div class="card-body px-0 py-3">
+                  <div class="col-12 p-0">
+                    <div class="col-md-12" id="imagediv">
+                      <form [formGroup]="specialistformgroup" #f="ngForm" novalidate="">
+                        <div class="form-body">
+                          <div class="bgcolorgrey">
+                            <div class="row">
+                              <div class="col-md-3 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Anrede </mat-label>
+                                  <mat-select matNativeControl formControlName="title" style="font-size: 12px">
+                                    <mat-option value="Herr"> Herr </mat-option>
+                                    <mat-option value="Frau"> Frau </mat-option>
+                                    <mat-option value="Firma"> Firma </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+
+                              <input matInput formControlName="specialist_id" style="display: none" />
+
+                              <div class="col-md-3 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Vorname </mat-label>
+                                  <input matInput formControlName="firstName" placeholder="Vorname" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-3 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Nachname</mat-label>
+                                  <input matInput formControlName="lastName" placeholder="Nachname" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-3 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>E-Mail</mat-label>
+                                  <input matInput formControlName="email" placeholder="E-Mail" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Sparte</mat-label>
+                                  <input matInput formControlName="sparte" placeholder="sparte" readonly />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Abteilung</mat-label>
+                                  <input matInput formControlName="department" placeholder="Abteilung" />
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4 form-group">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Position</mat-label>
+                                  <input matInput formControlName="position" placeholder="position" />
+                                </mat-form-field>
+                              </div>
+                              <!-- <div class="col-md-12 text-right">
+                                <button class="btn btn-info" mat-raised-button (click)="update_specialist()" [disabled]="!f.form.valid" style="float: right">Änderungen Speichern</button>
+                              </div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 table-min-height-warning d-flex justify-content-center align-items-center   "
+          *ngIf="currentUserData.status == '0'">
+          <div class="col-md-11 d-flex justify-content-center align-items-center flex-column" style="font-size: 20px;
+        background: transparent; padding: 10px; ">
+
+            <img height="90px" src="./assets/exclamation.svg" />
+
+            <p style="
+            font-size: 18px;
+            font-family: system-ui;
+            font-weight: 600;
+            line-height: 23px;
+            color: rgb(10, 10, 10);
+            text-align: center;
+            margin-top: 10px;
+          ">
+              Die Anbindung zwischen CEFIMA und
+              {{ currentUserData.company_name }} wird gerade erstellt und
+              geprüft. Ihr Produktpartnerdashboard steht Ihnen nach
+              erfolgreicher Anbindung vollständig zur Verfügung. Sobald der
+              Anbindungsprozess abgeschlossen ist erhalten Sie eine E-Mail.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    <!-- </mat-tab>
+  </mat-tab-group> -->
+
+
+
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" id="opencreatespecialist" style="display: none" data-toggle="modal"
+  data-target="#exampleModal">
+  Launch demo modal
+</button>
+<!-- <div *ngIf="StpperForm">
+      <app-create-customer [componentname]="componentname"></app-create-customer>
+    </div> -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="max-width: 93%" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 18px">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Ansprechpartner zuweisen
+        </h5>
+        <button type="button" class="close" id="closecreatespecialist" (click)="closepopup()" data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="Specialistform" id="Specialistformid" #fsp1="ngForm" novalidate=""
+          class="Official-residence-form">
+          <div class="col-md-12">
+            <p>
+              <i class="fa fa-info-circle" style="color: #184397"></i>
+              &nbsp;Bitte Name oder E-Mail eingeben um bereits angelegte
+              Ansprechpartner hinzuzufügen
+            </p>
+          </div>
+
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Ansprechpartner suchen</mat-label>
+              <input type="text" aria-label="Number" placeholder="Ansprechpartner suchen" matInput
+                (keyup)="checkdata($event)" [matAutocomplete]="auto" formControlName="b2b_list" />
+
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="PatchSpecialistVaalue()">
+                <mat-option *ngFor="let kunde of SpecialistOptions | async" [value]="kunde">
+                  {{ kunde.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </form>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8 col-12">
+              <button style="
+                  width: 100%;
+                  margin-bottom: 8px;
+                  background-color: #184397;
+                " (click)="OpenStpper()" class="btn btn-primary btn-block">
+                <a class="text-white" style="text-decoration: none">
+                  Ansprechpartner anlegen +
+                </a>
+              </button>
+            </div>
+            <div class="col-md-4">
+              <div class="bottom-btn" style="float: right">
+                <button [disabled]="ShowButton" type="submit" (click)="addspecialisttocaseno()" [ngClass]="[
+                    ShowButton ? 'btn btn-secondary' : 'btn btn-primary nextBtn'
+                  ]">
+                  Hinzufügen &nbsp;
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="StpperForm">
+          <app-addspecialist [selectedcaseno]="selectedcaseno" [selectedptname]="selectedptname"
+            [specialist_id]="specialist_id" [selectedptid]="selectedptid" (StpperForm)="addStpperForm($event)"
+            (newspecialistadded)="addnewspecialistadded($event)"></app-addspecialist>
+          <!-- <app-create-customer [componentname]="componentname"></app-create-customer> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closepopup()" data-dismiss="modal">
+          Schließen
+        </button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -274,54 +274,6 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     userService.b2bDashboardItem.subscribe(data => {
       console.log(data);
 
-      console.log('this.localData.hasOwnProperty(companydata):', this.localData.hasOwnProperty('companydata'));
-      console.log(' this.checkkey(this.localData.companydata,licensesign ) :', this.checkkey(
-        this.localData.companydata,
-        'licensesign'
-      ))
-
-      console.log('this.checkkey( this.localData.companydata,Geschäftsanmeldung)  :', this.checkkey(
-        this.localData.companydata,
-        'Geschäftsanmeldung'
-      ));
-      console.log('this.checkkey( this.localData.companydata,Datenstammblatt mit Einwilligungserklärung) :', this.checkkey(
-        this.localData.companydata,
-        'Datenstammblatt mit Einwilligungserklärung'
-      ));
-      console.log('this.localData.hasOwnProperty( companydatacheckup) :', this.localData.hasOwnProperty(
-        'companydatacheckup'
-      ));
-      console.log('this.localData.hasOwnProperty( companydatacheckup :', this.localData.hasOwnProperty(
-        'companydatacheckup'
-      ));
-      console.log('this.localData.companydatacheckup?.length > 0 :', this.localData.companydatacheckup?.length > 0);
-      console.log(' this.checkkey( this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :', this.checkkey(
-        this.localData.companydatacheckup,
-        this.financialcheckdata[
-          this.financialcheckdata.length - 1
-        ]?.element?.document_name
-      ));
-      console.log(' this.checkkey(  this.localData.companydatacheckup,this.financialcheckdata[this.financialcheckdata.length - 1]?.element?.document_name) :', this.checkkey(
-        this.localData.companydatacheckup,
-        this.financialcheckdata[
-          this.financialcheckdata.length - 1
-        ]?.element?.document_name
-      )?.ans);
-      console.log('this.localData.hasOwnProperty( vermittlerstatusforbrokermanager) :', this.localData.hasOwnProperty(
-        'vermittlerstatusforbrokermanager'
-      ));
-      console.log('this.localData.vermittlerstatusforbrokermanager, lastquestion) :', this.checkkey(
-        this.localData.vermittlerstatusforbrokermanager,
-        'lastquestion'
-      ));
-
-      console.log('this.checkkey( this.localData.vermittlerstatusforbrokermanager,lastquestion). :',
-        this.checkkey(
-          this.localData.vermittlerstatusforbrokermanager,
-          'lastquestion'
-        )?.ans);
-
-
       let itemString = `${data[0]}`
 
       for (const key of Object.keys(this.hideValues)) {
