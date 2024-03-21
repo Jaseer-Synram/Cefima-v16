@@ -16,7 +16,7 @@
       <button mat-icon-button *ngIf="isExpanded" (click)="isExpanded = !isExpanded"><img src="assets/arrow.svg"
           class="arrow"></button>
       <!-- ; else productPartner -->
-      <ng-container *ngIf="!isProductPartner ">
+      <ng-container *ngIf="!router.url.includes('product-partner')">
         <p class="parent-box-title inter-font">Beratungswelt</p>
         <div class="new-side-bar1">
           <mat-nav-list>
@@ -1148,97 +1148,108 @@
         </div> -->
 
         </div>
+
       </ng-container>
       <!-- <ng-template #productPartner> -->
-      <p class="parent-box-title inter-font mt-2">Produktpartner</p>
-      <div class="new-side-bar1 sidebar-broker ">
-        <mat-nav-list>
-          <mat-accordion class="side">
-            <mat-expansion-panel class="p-0 broker">
-              <mat-expansion-panel-header (click)="clickedPartner('Anfragen','Anfragen/Vorgange');router.navigate(['/cefima/product-partner-cases'])" mat-panel-title class="px-2 py-0 parent-broker broker">
-                <mat-list-item class="not-active ps-0 ">
-                  <img *ngIf="currentTab != 'Verwaltung'" src="assets/images/broker-icon.svg">
-                  <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">
-                    Produktpartner Management
-                  </span>
-                </mat-list-item>
-              </mat-expansion-panel-header>
+      <ng-container *ngIf="router.url.includes('product-partner')">
+        <p class="parent-box-title inter-font mt-2">Produktpartner</p>
+        <div class="new-side-bar1 sidebar-broker ">
+          <mat-nav-list>
+            <mat-accordion class="side">
+              <mat-expansion-panel class="p-0 broker">
+                <mat-expansion-panel-header
+                  (click)="clickedPartner('Anfragen','Anfragen/Vorgange');router.navigate(['/cefima/product-partner-cases'])"
+                  mat-panel-title class="px-2 py-0 parent-broker broker">
+                  <mat-list-item class="not-active ps-0 ">
+                    <img *ngIf="currentTab != 'Verwaltung'" src="assets/images/broker-icon.svg">
+                    <span class="full-width ml-2 " *ngIf="isExpanded || isShowing" role="button">
+                      Produktpartner Management
+                    </span>
+                  </mat-list-item>
+                </mat-expansion-panel-header>
 
-              <ng-template [matExpansionPanelContent] class="p-0">
-                <div *ngIf="router.url == '/cefima/product-partner-cases' ">
-                  <div class="main-child-box">
-                    <div class="main-child-menu ">
-                      <div  [ngClass]="isProductPartnerInnerExpanded ? 'menu2-expanded py-1':'menu2 py-1' " >
+                <ng-template [matExpansionPanelContent] class="p-0">
+                  <div *ngIf="router.url == '/cefima/product-partner-cases' ">
+                    <div class="main-child-box">
+                      <div class="main-child-menu ">
+                        <div [ngClass]="isProductPartnerInnerExpanded ? 'menu2-expanded py-1':'menu2 py-1' ">
 
-                        <div class="side  ">
-                          <button id="unternehmen-broker-btn" (click)="clickedPartner('Anfragen','Anfragen/Vorgange')"
-                            [ngClass]=" currentTab == 'Produktpartner.Anfragen' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button '  "
-                            class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
-                            <span class="col-12 "
-                              [ngClass]=" currentTab == 'Produktpartner.Anfragen' ? 'active-sub-item': ' sidebar-not-active-item-partner'  ">
-                              Anfragen/Vorgange
-                            </span>
-                          </button>
-                          <mat-accordion class="side menu2-item"  [ngClass]="isProductPartnerInnerExpanded ? 'menu2-item-middle ':'menu2-item ' ">
-                            <mat-expansion-panel class="p-0 broker relative">
-                              <mat-expansion-panel-header (click)="isProductPartnerInnerExpanded = !isProductPartnerInnerExpanded" mat-panel-title class="px-2 py-0 parent-broker broker">
-                                <mat-list-item class="not-active ">
-                                  <span class="full-width " style="margin-left: 0rem;font-size:12.5px" *ngIf="isExpanded || isShowing" role="button">
-                                    Unternehmensdaten
-                                  </span>
-                                </mat-list-item>
-                              </mat-expansion-panel-header>
-                              <ng-template [matExpansionPanelContent] class="p-0">
-                                <div class="main-child-box">
-                                  <div class="partner-child-menu ">
-                                    <div class="menu2-child py-1" >
-                                      <div class="side  ">
-                                        <button (click)="clickedPartner('Unternehmensdaten','Unternehmensdaten','Unternehmensdaten')"
-                                          [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Unternehmensdaten' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button'  "
-                                          class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
-                                          <span class="col-12 "
-                                            [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Unternehmensdaten' ? 'active-sub-item': ' sidebar-not-active-item-partner'  ">
-                                            Unternehmensdaten
-                                          </span>
-                                        </button>
-                                        <button (click)="clickedPartner('Unternehmensdaten','Vertretungsberechtigte Person','Vertretungsberechtigte')"
-                                          [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Vertretungsberechtigte' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button'  "
-                                          class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
-                                          <span class="col-12 "
-                                            [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Vertretungsberechtigte' ? 'active-sub-item': ' sidebar-not-active-item-partner'  ">
-                                            Vertretungsberechtigte Person
-                                          </span>
-                                        </button>
+                          <div class="side  ">
+                            <button id="unternehmen-broker-btn" (click)="clickedPartner('Anfragen','Anfragen/Vorgange')"
+                              [ngClass]=" currentTab == 'Produktpartner.Anfragen' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button '  "
+                              class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
+                              <span class="col-12 "
+                                [ngClass]=" currentTab == 'Produktpartner.Anfragen' ? 'active-sub-item-partner': ' sidebar-not-active-item-partner'  ">
+                                Anfragen/Vorgange
+                              </span>
+                            </button>
+                            <mat-accordion class="side menu2-item"
+                              [ngClass]="isProductPartnerInnerExpanded ? 'menu2-item-middle ':'menu2-item ' ">
+                              <mat-expansion-panel class="p-0 partner relative">
+                                <mat-expansion-panel-header
+                                  (click)="isProductPartnerInnerExpanded = !isProductPartnerInnerExpanded"
+                                  mat-panel-title class="px-2 py-0 parent-partner partner">
+                                  <mat-list-item class="not-active-partner ">
+                                    <span class="full-width " style="margin-left: 0rem;font-size:12.5px"
+                                      *ngIf="isExpanded || isShowing" role="button">
+                                      Unternehmensdaten
+                                    </span>
+                                  </mat-list-item>
+                                </mat-expansion-panel-header>
+                                <ng-template [matExpansionPanelContent] class="p-0">
+                                  <div class="main-child-box">
+                                    <div class="partner-child-menu ">
+                                      <div class="menu2-child py-1">
+                                        <div class="side  ">
+                                          <button
+                                            (click)="clickedPartner('Unternehmensdaten','Unternehmensdaten','Unternehmensdaten')"
+                                            [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Unternehmensdaten' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                                            class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
+                                            <span class="col-12 "
+                                              [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Unternehmensdaten' ? 'active-sub-item-partner': ' sidebar-not-active-item-partner'  ">
+                                              Unternehmensdaten
+                                            </span>
+                                          </button>
+                                          <button
+                                            (click)="clickedPartner('Unternehmensdaten','Vertretungsberechtigte Person','Vertretungsberechtigte')"
+                                            [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Vertretungsberechtigte' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                                            class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
+                                            <span class="col-12 "
+                                              [ngClass]=" currentTab == 'Produktpartner.Unternehmensdaten.Vertretungsberechtigte' ? 'active-sub-item-partner': ' sidebar-not-active-item-partner'  ">
+                                              Vertretungsberechtigte Person
+                                            </span>
+                                          </button>
+                                        </div>
                                       </div>
-                                    </div>
 
+                                    </div>
                                   </div>
-                                </div>
-                              </ng-template>
-                            </mat-expansion-panel>
-                          </mat-accordion>
-                          <button (click)="clickedPartner('Sachbearbeiter','Sachbearbeiter')"
-                            [ngClass]=" currentTab == 'Produktpartner.Sachbearbeiter' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button'  "
-                            class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
-                            <span class="col-12 "
-                              [ngClass]=" currentTab == 'Produktpartner.Sachbearbeiter' ? 'active-sub-item': ' sidebar-not-active-item-partner'  ">
-                              Sachbearbeiter
-                            </span>
-                          </button>
+                                </ng-template>
+                              </mat-expansion-panel>
+                            </mat-accordion>
+                            <button (click)="clickedPartner('Sachbearbeiter','Sachbearbeiter')"
+                              [ngClass]=" currentTab == 'Produktpartner.Sachbearbeiter' ? 'stepper-btn3-focus py-0 ms-0': ' sidebar-not-active-button'  "
+                              class="stepper-btn3 px-0 transitionanimation col-12 menu2-item">
+                              <span class="col-12 "
+                                [ngClass]=" currentTab == 'Produktpartner.Sachbearbeiter' ? 'active-sub-item-partner': ' sidebar-not-active-item-partner'  ">
+                                Sachbearbeiter
+                              </span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </ng-template>
+                </ng-template>
 
-            </mat-expansion-panel>
-          </mat-accordion>
-
+              </mat-expansion-panel>
+            </mat-accordion>
 
 
-        </mat-nav-list>
-      </div>
+
+          </mat-nav-list>
+        </div>
+      </ng-container>
       <!-- </ng-template> -->
     </div>
 

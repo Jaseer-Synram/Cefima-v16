@@ -128,22 +128,9 @@ body {
   margin-left: .5rem;
 }
 
-.stepper-btn3 {
-  position: relative;
-  border: none !important;
-  background: transparent !important;
-  font-size: 12.5px;
-  color: #fff;
-  text-transform: capitalize;
-  padding: 6px 10px;
-  margin: 5px 0;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  width: 100%;
-  border-radius: 6px;
-}
+/* .stepper-btn3:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+} */
 
 /* .stepper-btn3:hover::before {
   content: "";
@@ -217,10 +204,8 @@ body {
   font-size: 12.5px;
 }
 
-.sidebar-not-active-item-partner {
-  font-size: 12.5px;
-  margin-left: .5rem ;
-}
+
+
 
 .active-sub-item {
   position: relative;
@@ -420,10 +405,6 @@ body {
 .main-child-menu {
   margin-left: 15px;
 }
-.partner-child-menu{
-  position: relative;
-  margin-left: 25px;
-}
 
 .menu1 {
   position: relative;
@@ -532,7 +513,7 @@ body {
   opacity: 1 !important;
 }
 
-.menu2-child{
+.menu2-child {
   position: relative;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -553,6 +534,118 @@ body {
   z-index: 1;
   opacity: 1 !important;
 }
+
+.partner-child-menu {
+  position: relative;
+  margin-left: 25px;
+}
+
+:host ::ng-deep .mat-expansion-panel.partner:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+  background-color: transparent;
+  opacity: 1;
+}
+
+:host ::ng-deep .partner.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+
+:host ::ng-deep .side.mat-accordion>.mat-expansion-panel>.mat-expansion-panel-header.partner:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  opacity: 1 !important;
+  border-radius: 6px;
+  width: 94%;
+  text-align: center;
+  margin-left: 1rem;
+}
+.not-active-partner{
+  color: #ffffff !important;
+  background: transparent;
+}
+
+.not-active-partner:hover {
+  color: #ffffff !important;
+  background: transparent;
+  padding: 0 0.5rem
+}
+
+.sidebar-not-active-item-partner {
+  font-size: 12.5px;
+  margin-left: .5rem;
+  padding: 6px 15px;
+}
+
+.sidebar-not-active-item-partner:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  margin-left: 1rem;
+  border-radius: 6px;
+  width: 94%;
+}
+
+.active-sub-item-partner {
+  position: relative;
+  background: #f2f2f2 !important;
+  max-width: 100%;
+  padding-left: 15px !important;
+  color: black;
+  overflow: visible !important;
+  border-radius: 6px 0px 0px 6px;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  font-size: 12.5px;
+  margin: 5px 0px 5px 20px;
+  padding: 6px 10px;
+}
+
+.active-sub-item-partner:before {
+  content: "";
+  position: absolute;
+  background-color: transparent !important;
+  top: 100%;
+  bottom: auto;
+  left: auto;
+  right: 0px;
+  height: 65px;
+  width: 20px;
+  border-top-right-radius: 40px;
+  box-shadow: 0 -20px 0 0 #f2f2f2;
+  z-index: -1;
+  opacity: 1 !important;
+}
+
+.active-sub-item-partner:after {
+  content: "";
+  position: absolute;
+  background-color: transparent !important;
+  bottom: 100%;
+  right: 0px;
+  height: 65px;
+  width: 20px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 20px 0 0 #f2f2f2;
+  z-index: -1;
+  opacity: 1 !important;
+}
+
+
+.stepper-btn3 {
+  position: relative;
+  border: none !important;
+  background: transparent !important;
+  font-size: 12.5px;
+  color: #fff;
+  text-transform: capitalize;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* .stepper-btn3:hover {
+
+} */
 
 
 :host ::ng-deep .mat-content span {

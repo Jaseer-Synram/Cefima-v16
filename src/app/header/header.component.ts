@@ -79,6 +79,8 @@ export class HeaderComponent implements OnInit {
       // this.opened_page_title = "B2B Dashboard";
     } else if (this.router.url.includes("consulting")) {
       this.opened_page_title = "Beratung ";
+    } else if (this.router.url.includes('upload-document')) {
+      this.opened_page_title = "Dokumenten Upload"
     } else {
       this.opened_page_title = "Neoloop";
     }

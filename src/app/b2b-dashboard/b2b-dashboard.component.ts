@@ -286,29 +286,39 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (this.repearPreventer) {
         // if (itemString == "Vermittlervertrag" ||  itemString == "Kundenvertrag") {
-        $("#loaderouterid").css("display", "block");
-        this.userService
-          .getDocumentsByIds(
-            this.queryID,
-            "Allgemeines Dokument",
-            "cefima_document"
-          )
-          .pipe(first())
-          .subscribe(
-            (result) => {
-              this.repearPreventer = false
-              $("#loaderouterid").css("display", "none");
-              this.documents = result;
-              console.log('result :', result);
-              this.MetaDataLooping();
-              this.setPage(1, true);
-            },
-            (error) => {
-              console.log("error2");
-              console.log(error);
-            }
-          );
-        // }
+        const getDocumentsByIds = () => {
+
+          if (this.queryID === null || this.queryID === undefined || this.queryID == '') {
+            setTimeout(function () {
+              getDocumentsByIds();
+            }, 500);
+          } else {
+            $("#loaderouterid").css("display", "block");
+            
+            this.userService
+              .getDocumentsByIds(
+                this.queryID,
+                "Allgemeines Dokument",
+                "cefima_document"
+              )
+              .pipe(first())
+              .subscribe(
+                (result) => {
+                  this.repearPreventer = false
+                  $("#loaderouterid").css("display", "none");
+                  this.documents = result;
+                  console.log('result :', result);
+                  this.MetaDataLooping();
+                  this.setPage(1, true);
+                },
+                (error) => {
+                  console.log("error2");
+                  console.log(error);
+                }
+              );
+          }
+        }
+        getDocumentsByIds()
       }
     })
 
@@ -610,90 +620,101 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         locaDataId = this.id
       }
       // console.log("sdfsfsdfs" + this.lastcase_no);
-      this.userService
-        .GetSingleDocument(this.lastcase_no, "", "")
-        .subscribe((success: any) => {
-          console.log("success  :" ,success );
+      const GetListbycaseno0 = () => {
+
+        if (locaDataId === null || locaDataId === undefined) {
+          setTimeout(function () {
+            GetListbycaseno0();
+          }, 100);
+        } else {
           this.userService
-            .GetListbycaseno0("42140 DFG Finanzprofi GmbH", locaDataId)
-            .subscribe((usercasenew: any) => {
-              console.log(usercasenew);
+            .GetSingleDocument(this.lastcase_no, "", "")
+            .subscribe((success: any) => {
+              console.log("success  :", success);
+              this.userService
+                .GetListbycaseno0("42140 DFG Finanzprofi GmbH", locaDataId)
+                .subscribe((usercasenew: any) => {
+                  console.log(usercasenew);
 
-              let newcaselistnew: any = [];
-              success.forEach((element: any) => {
-                var newdata = {
-                  employ_ids: element.employ_ids,
-                  _id: element._id,
-                  Activity_No: element.Activity_No,
-                  Transaction_Type: element.Transaction_Type,
-                  Uploaded_By: element.Uploaded_By,
-                  Proces_Date: element.Proces_Date,
-                  companyname: element.companyname,
-                  ptid: "",
-                  ppid: "",
-                  ptname: "",
-                  ppname: "",
-                };
-                // newdata.ptid=o.ptid;
-                newcaselistnew.push(newdata);
-                // newdata='';
-              });
+                  let newcaselistnew: any = [];
+                  success.forEach((element: any) => {
+                    var newdata = {
+                      employ_ids: element.employ_ids,
+                      _id: element._id,
+                      Activity_No: element.Activity_No,
+                      Transaction_Type: element.Transaction_Type,
+                      Uploaded_By: element.Uploaded_By,
+                      Proces_Date: element.Proces_Date,
+                      companyname: element.companyname,
+                      ptid: "",
+                      ppid: "",
+                      ptname: "",
+                      ppname: "",
+                    };
+                    // newdata.ptid=o.ptid;
+                    newcaselistnew.push(newdata);
+                    // newdata='';
+                  });
 
-              if (usercasenew.length > 0) {
-                usercasenew.forEach((usercasenew11: any) => {
-                  let newcase = usercasenew11.userinfo.find(
-                    (o: any) => o._id != this.localData._id
-                  );
-                  // console.log(
-                  //   "sdfdsfdsfdsfdfdhfsdhfghsdgfhjsdfsd" +
-                  //     JSON.stringify(newcase)
-                  // );
-                  var newdata = {
-                    employ_ids: usercasenew11.employ_ids,
-                    _id: usercasenew11._id,
-                    Activity_No: usercasenew11.Activity_No,
-                    Transaction_Type: "",
-                    Uploaded_By: usercasenew11.Uploaded_By,
-                    Proces_Date: usercasenew11.Proces_Date,
-                    companyname: usercasenew11.companyname,
-                    ptid: "",
-                    ppid: "",
-                    ptname: "",
-                    ppname:
-                      newcase.firstname.toUpperCase() +
-                      " " +
-                      newcase.lastname.toUpperCase(),
-                  };
-                  // newdata.ptid=o.ptid;
-                  newcaselistnew.push(newdata);
+                  if (usercasenew.length > 0) {
+                    usercasenew.forEach((usercasenew11: any) => {
+                      let newcase = usercasenew11.userinfo.find(
+                        (o: any) => o._id != this.localData._id
+                      );
+                      // console.log(
+                      //   "sdfdsfdsfdsfdfdhfsdhfghsdgfhjsdfsd" +
+                      //     JSON.stringify(newcase)
+                      // );
+                      var newdata = {
+                        employ_ids: usercasenew11.employ_ids,
+                        _id: usercasenew11._id,
+                        Activity_No: usercasenew11.Activity_No,
+                        Transaction_Type: "",
+                        Uploaded_By: usercasenew11.Uploaded_By,
+                        Proces_Date: usercasenew11.Proces_Date,
+                        companyname: usercasenew11.companyname,
+                        ptid: "",
+                        ppid: "",
+                        ptname: "",
+                        ppname:
+                          newcase.firstname.toUpperCase() +
+                          " " +
+                          newcase.lastname.toUpperCase(),
+                      };
+                      // newdata.ptid=o.ptid;
+                      newcaselistnew.push(newdata);
 
-                  // newdata='';
+                      // newdata='';
+                    });
+                  }
+                  let j = 0;
+                  newcaselistnew.forEach((usercasenew11111: any) => {
+                    if (usercasenew11111.Activity_No == this.lastcase_no) {
+                      var newdata = {
+                        employ_ids: usercasenew11111.employ_ids,
+                        _id: usercasenew11111._id,
+                        Activity_No: usercasenew11111.Activity_No,
+                        Transaction_Type: usercasenew11111.Transaction_Type,
+                        Uploaded_By: usercasenew11111.Uploaded_By,
+                        Proces_Date: usercasenew11111.Proces_Date,
+                        companyname: usercasenew11111.companyname,
+                        ptid: usercasenew11111.ptid,
+                        ppid: usercasenew11111.ppid,
+                        ptname: usercasenew11111.ptname,
+                        ppname: usercasenew11111.ppname,
+                      };
+                      this.CurrentChat(newdata, 0);
+                    }
+                    j++;
+                  });
                 });
-              }
-              let j = 0;
-              newcaselistnew.forEach((usercasenew11111: any) => {
-                if (usercasenew11111.Activity_No == this.lastcase_no) {
-                  var newdata = {
-                    employ_ids: usercasenew11111.employ_ids,
-                    _id: usercasenew11111._id,
-                    Activity_No: usercasenew11111.Activity_No,
-                    Transaction_Type: usercasenew11111.Transaction_Type,
-                    Uploaded_By: usercasenew11111.Uploaded_By,
-                    Proces_Date: usercasenew11111.Proces_Date,
-                    companyname: usercasenew11111.companyname,
-                    ptid: usercasenew11111.ptid,
-                    ppid: usercasenew11111.ppid,
-                    ptname: usercasenew11111.ptname,
-                    ppname: usercasenew11111.ppname,
-                  };
-                  this.CurrentChat(newdata, 0);
-                }
-                j++;
-              });
-            });
 
-          // this.selectedbroker=success[0].employ_ids;
-        });
+              // this.selectedbroker=success[0].employ_ids;
+            });
+        }
+      }
+      GetListbycaseno0()
+
     }
 
     // $("#datedynamic").html(todaynew1);
@@ -704,71 +725,83 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       locaDataId = this.id
     }
 
-    this.userService
-      .GetSingleDocument("42140 DFG Finanzprofi GmbH", this.id)
-      .subscribe((success: any) => {
-        $("#loaderouterid").css("display", "none");
-        console.log("success" + success);
+    const GetListbycaseno0 = () => {
 
-        console.log("value haiin");
-
-
+      if (locaDataId === null || locaDataId === undefined) {
+        setTimeout(function () {
+          GetListbycaseno0();
+        }, 100);
+      } else {
         this.userService
-          .GetListbycaseno0("42140 DFG Finanzprofi GmbH", this.localData._id)
-          .subscribe((usercasenew: any) => {
-            this.caselistnew = success;
+          .GetSingleDocument("42140 DFG Finanzprofi GmbH", this.id)
+          .subscribe((success: any) => {
+            $("#loaderouterid").css("display", "none");
+            console.log("success" + success);
 
-            this.caselistnew.forEach((element: any) => {
-              var newdata = {
-                employ_ids: element.employ_ids,
-                _id: element._id,
-                Activity_No: element.Activity_No,
-                Transaction_Type: element.Transaction_Type,
-                Uploaded_By: element.Uploaded_By,
-                Proces_Date: element.Proces_Date,
-                companyname: element.companyname,
-                ptid: "",
-                ppid: "",
-                ptname: "",
-                ppname: "",
-              };
-              // newdata.ptid=o.ptid;
-              this.newcaselistnew.push(newdata);
-              // newdata='';
-            });
+            console.log("value haiin");
 
-            if (usercasenew.length > 0) {
-              usercasenew.forEach((usercasenew11: any) => {
-                let newcase = usercasenew11.userinfo.find(
-                  (o: any) => o._id != this.localData._id
-                );
-                // console.log(
-                //   "sdfdsfdsfdsfdfdhfsdhfghsdgfhjsdfsd" + JSON.stringify(newcase)
-                // );
-                var newdata = {
-                  employ_ids: usercasenew11.employ_ids,
-                  _id: usercasenew11._id,
-                  Activity_No: usercasenew11.Activity_No,
-                  Transaction_Type: "",
-                  Uploaded_By: usercasenew11.Uploaded_By,
-                  Proces_Date: usercasenew11.Proces_Date,
-                  companyname: usercasenew11.companyname,
-                  ptid: "",
-                  ppid: "",
-                  ptname: "",
-                  ppname:
-                    newcase.firstname.toUpperCase() +
-                    " " +
-                    newcase.lastname.toUpperCase(),
-                };
-                // newdata.ptid=o.ptid;
-                this.newcaselistnew.push(newdata);
-                // newdata='';
+
+            this.userService
+              .GetListbycaseno0("42140 DFG Finanzprofi GmbH", this.localData._id)
+              .subscribe((usercasenew: any) => {
+                this.caselistnew = success;
+
+                this.caselistnew.forEach((element: any) => {
+                  var newdata = {
+                    employ_ids: element.employ_ids,
+                    _id: element._id,
+                    Activity_No: element.Activity_No,
+                    Transaction_Type: element.Transaction_Type,
+                    Uploaded_By: element.Uploaded_By,
+                    Proces_Date: element.Proces_Date,
+                    companyname: element.companyname,
+                    ptid: "",
+                    ppid: "",
+                    ptname: "",
+                    ppname: "",
+                  };
+                  // newdata.ptid=o.ptid;
+                  this.newcaselistnew.push(newdata);
+                  // newdata='';
+                });
+
+                if (usercasenew.length > 0) {
+                  usercasenew.forEach((usercasenew11: any) => {
+                    let newcase = usercasenew11.userinfo.find(
+                      (o: any) => o._id != this.localData._id
+                    );
+                    // console.log(
+                    //   "sdfdsfdsfdsfdfdhfsdhfghsdgfhjsdfsd" + JSON.stringify(newcase)
+                    // );
+                    var newdata = {
+                      employ_ids: usercasenew11.employ_ids,
+                      _id: usercasenew11._id,
+                      Activity_No: usercasenew11.Activity_No,
+                      Transaction_Type: "",
+                      Uploaded_By: usercasenew11.Uploaded_By,
+                      Proces_Date: usercasenew11.Proces_Date,
+                      companyname: usercasenew11.companyname,
+                      ptid: "",
+                      ppid: "",
+                      ptname: "",
+                      ppname:
+                        newcase.firstname.toUpperCase() +
+                        " " +
+                        newcase.lastname.toUpperCase(),
+                    };
+                    // newdata.ptid=o.ptid;
+                    this.newcaselistnew.push(newdata);
+                    // newdata='';
+                  });
+                }
               });
-            }
+            // }
           });
-        // }
-      });
+      }
+
+    }
+
+
   }
   removedatanew(id: any, index: any) {
     $("#" + id).html("");
@@ -1169,26 +1202,36 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     setTimeout(() => {
       $("#loaderouterid").css("display", "block");
-      this.userService
-        .getDocumentsByIds(
-          this.queryID,
-          "Allgemeines Dokument",
-          "cefima_document"
-        )
-        .pipe(first())
-        .subscribe(
-          (result) => {
-            this.documents = result;
-            console.log('result :', result);
-            $("#loaderouterid").css("display", "none");
-            this.MetaDataLooping();
-            this.setPage(1, true);
-          },
-          (error) => {
-            console.log("error2");
-            console.log(error);
-          }
-        );
+      const getDocumentsByIds = () => {
+
+        if (this.queryID === null || this.queryID === undefined || this.queryID == '') {
+          setTimeout(function () {
+            getDocumentsByIds();
+          }, 500);
+        } else {
+          this.userService
+            .getDocumentsByIds(
+              this.queryID,
+              "Allgemeines Dokument",
+              "cefima_document"
+            )
+            .pipe(first())
+            .subscribe(
+              (result) => {
+                this.documents = result;
+                console.log('result :', result);
+                $("#loaderouterid").css("display", "none");
+                this.MetaDataLooping();
+                this.setPage(1, true);
+              },
+              (error) => {
+                console.log("error2");
+                console.log(error);
+              }
+            );
+        }
+      }
+      getDocumentsByIds()
     }, 500);
 
 
@@ -1333,6 +1376,8 @@ export class B2bDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.getcompanydatacheckup();
           this.getceodatacheckup();
           this.getshareholderdatacheckup();
+          $("#loaderouterid").css("display", "none");
+
           this.getmiddledatacheckup();
         }, 100);
 

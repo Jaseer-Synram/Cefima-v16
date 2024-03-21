@@ -607,7 +607,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   minDate = new Date(1900, 0, 1);
   maxDate = new Date(2020, 0, 1);
   docuploaded: boolean = true;
-  customerid: any = "";
+  customerid: any ;
   unreadcount: any = 0;
   lastcase_no: any = "";
   filename: any = [];
@@ -4316,90 +4316,105 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
           "caselistnewsdfdsfdfsdsfdsfdsfasdasdasd" +
           JSON.stringify(this.caselistnew)
         );
-        this.userService
-          .GetListbycaseno0("42140 DFG Finanzprofi GmbH", this.customerid)
-          .subscribe((usercasenew: any) => {
+        const GetListbycaseno0 = ()=>{
+
+          if (this.customerid === null || this.customerid === undefined) {
+            setTimeout(function() {
+              GetListbycaseno0();
+            }, 100);
+          } else {
             this.userService
-              .GetSingleDocumentbycaseno(success)
-              .subscribe((success: any) => {
-                // $("#loaderouterid").css("display", "none");
-                console.log("success" + success);
-                console.log("value haiin");
-                this.caselistnew = success;
-                console.log(
-                  "caselistnewsdfdsfdfsdsfdsfdsf" +
-                  JSON.stringify(this.caselistnew)
-                );
-
-                this.caselistnew.forEach((element: any) => {
-                  let caseno = element.Activity_No;
-                  let checkcase = result.filter(
-                    (o: any) => o.casedata[0].Activity_No == caseno
+            .GetListbycaseno0("42140 DFG Finanprofi GmbH", this.customerid)
+            .subscribe((usercasenew: any) => {
+              this.userService
+                .GetSingleDocumentbycaseno(success)
+                .subscribe((success: any) => {
+                  // $("#loaderouterid").css("display", "none");
+                  console.log("success" + success);
+                  console.log("value haiin");
+                  this.caselistnew = success;
+                  console.log(
+                    "caselistnewsdfdsfdfsdsfdsfdsf" +
+                    JSON.stringify(this.caselistnew)
                   );
-                  console.log("sdfdsfdsfdsf" + JSON.stringify(checkcase));
-                  if (checkcase.length > 0) {
-                    checkcase.forEach((o: any) => {
-                      console.log("sdfdsfdsfdsf" + JSON.stringify(element));
 
-                      // let checkptname=checkcase.producttypeinfo.filter(o11 => o11._id==o.ptid)
-                      // console.log("sdfdsfdsfdsf"+JSON.stringify(checkptname))
-                      var newdata = {
-                        employ_ids: element.employ_ids,
-                        _id: element._id,
-                        Activity_No: element.Activity_No,
-                        Transaction_Type: element.Transaction_Type,
-                        Uploaded_By: element.Uploaded_By,
-                        Proces_Date: element.Proces_Date,
-                        companyname: element.companyname,
-                        ptid: o.producttypesinfo[0]._id,
-                        ppid: o.productpartnersinfo[0]._id,
-                        ptname: o.producttypesinfo[0].product_typename,
+                  this.caselistnew.forEach((element: any) => {
+                    let caseno = element.Activity_No;
+                    let checkcase = result.filter(
+                      (o: any) => o.casedata[0].Activity_No == caseno
+                    );
+                    console.log("sdfdsfdsfdsf" + JSON.stringify(checkcase));
+                    if (checkcase.length > 0) {
+                      checkcase.forEach((o: any) => {
+                        console.log("sdfdsfdsfdsf" + JSON.stringify(element));
+
+                        // let checkptname=checkcase.producttypeinfo.filter(o11 => o11._id==o.ptid)
+                        // console.log("sdfdsfdsfdsf"+JSON.stringify(checkptname))
+                        var newdata = {
+                          employ_ids: element.employ_ids,
+                          _id: element._id,
+                          Activity_No: element.Activity_No,
+                          Transaction_Type: element.Transaction_Type,
+                          Uploaded_By: element.Uploaded_By,
+                          Proces_Date: element.Proces_Date,
+                          companyname: element.companyname,
+                          ptid: o.producttypesinfo[0]._id,
+                          ppid: o.productpartnersinfo[0]._id,
+                          ptname: o.producttypesinfo[0].product_typename,
+                          ppname:
+                            o.productpartnersinfo[0].company_name.toUpperCase(),
+                        };
+                        // newdata.ptid=o.ptid;
+                        this.newcaselistnew.push(newdata);
+                        // newdata='';
+                      });
+                    }
+                  });
+
+                  if (usercasenew.length > 0) {
+                    usercasenew.forEach((usercasenew11: any) => {
+                      let newcase = usercasenew11.userinfo.find(
+                        (o: any) => o._id != this.customerid
+                      );
+                      console.log(
+                        "sdfdsfdsfdsfdfdhfsdhfghsdgfhjsdfsd" +
+                        JSON.stringify(newcase)
+                      );
+                      let newdata: any = {
+                        employ_ids: usercasenew11.employ_ids,
+                        _id: usercasenew11._id,
+                        Activity_No: usercasenew11.Activity_No,
+                        Transaction_Type: "",
+                        Uploaded_By: usercasenew11.Uploaded_By,
+                        Proces_Date: usercasenew11.Proces_Date,
+                        companyname: usercasenew11.companyname,
+                        ptid: "",
+                        ppid: "",
+                        ptname: "",
                         ppname:
-                          o.productpartnersinfo[0].company_name.toUpperCase(),
+                          newcase.firstname.toUpperCase() +
+                          " " +
+                          newcase.lastname.toUpperCase(),
                       };
                       // newdata.ptid=o.ptid;
                       this.newcaselistnew.push(newdata);
                       // newdata='';
                     });
                   }
+
+                  console.log(
+                    "sdfdsfdsfdsf" + JSON.stringify(this.newcaselistnew)
+                  );
                 });
+            });
+          }
 
-                if (usercasenew.length > 0) {
-                  usercasenew.forEach((usercasenew11: any) => {
-                    let newcase = usercasenew11.userinfo.find(
-                      (o: any) => o._id != this.customerid
-                    );
-                    console.log(
-                      "sdfdsfdsfdsfdfdhfsdhfghsdgfhjsdfsd" +
-                      JSON.stringify(newcase)
-                    );
-                    let newdata: any = {
-                      employ_ids: usercasenew11.employ_ids,
-                      _id: usercasenew11._id,
-                      Activity_No: usercasenew11.Activity_No,
-                      Transaction_Type: "",
-                      Uploaded_By: usercasenew11.Uploaded_By,
-                      Proces_Date: usercasenew11.Proces_Date,
-                      companyname: usercasenew11.companyname,
-                      ptid: "",
-                      ppid: "",
-                      ptname: "",
-                      ppname:
-                        newcase.firstname.toUpperCase() +
-                        " " +
-                        newcase.lastname.toUpperCase(),
-                    };
-                    // newdata.ptid=o.ptid;
-                    this.newcaselistnew.push(newdata);
-                    // newdata='';
-                  });
-                }
 
-                console.log(
-                  "sdfdsfdsfdsf" + JSON.stringify(this.newcaselistnew)
-                );
-              });
-          });
+
+        }
+        GetListbycaseno0()
+
+
       }, (error: any) => {
         console.log('error :', error);
       });
