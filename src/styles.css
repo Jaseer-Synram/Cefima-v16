@@ -1282,7 +1282,7 @@ img {
 }
 
 .Persönliche-Informationen span img {
-  max-width: 40px;
+  max-width: 40px !important;
   float: left;
   padding: 7px 10px 5px;
 }
