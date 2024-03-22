@@ -366,7 +366,7 @@ body {
 
 :host ::ng-deep .menu1 .mat-expansion-panel-body {
   position: relative;
-  padding: 0;
+  padding: 3px 0px;
   padding-left: 5px;
   margin-left: 15px;
   border-left: 1px solid #fff;
