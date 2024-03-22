@@ -391,7 +391,7 @@ export class SideBarComponent implements OnInit {
 
   DateRender(id: string, item: string) {
     this.currentTab = item
-    // console.log(item);
+    console.log(item);
     let headerData = ''
     if (item.includes('Betriebsstätte')) {
       headerData = 'Betriebsstätte hinzufügen'

@@ -719,7 +719,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   familyOrCompany: any = "";
   startRecordGDOC: any;
   endRecordGDOC: any;
-  agreementFromGroupFamily: FormGroup;
+  agreementFromGroupFamily: FormGroup = this.form_builder.group({})
   ImgUrl: string = "";
   ceoDocList: any = [];
   customervalidemail = false;
@@ -768,7 +768,7 @@ export class CustomerSideComponent implements OnInit, AfterViewInit, AfterConten
   documents: any;
   signeddoc: any = [];
   tags: any[] = [];
-  agreementFromGroup: FormGroup;
+  agreementFromGroup: FormGroup = this.form_builder.group({})
   secondcompanyaddressFormGroupdata: any = [];
   api_url: string;
   previewid: string;

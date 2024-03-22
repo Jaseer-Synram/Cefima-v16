@@ -31,8 +31,6 @@ body {
   font-size: 12.5px;
   color: #fff;
   text-transform: capitalize;
-  padding: 6px 10px;
-  margin: 5px 0;
   text-align: left;
   display: flex;
   align-items: center;
@@ -52,6 +50,18 @@ body {
   left: -6.5px;
 }
 
+.stepper-btn1-active:before {
+  content: "";
+  position: absolute;
+  height: 80%;
+  width: 3px;
+  background: #fff !important;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -6.5px;
+}
+
+
 .stepper-btn1-focus:before {
   content: "";
   position: absolute;
@@ -64,6 +74,67 @@ body {
   border-radius: 5px;
 }
 
+
+.active-sub-item {
+  position: relative;
+  /* margin-left: 20px; */
+  background: #f2f2f2 !important;
+  max-width: 100%;
+  /* padding-left: 15px !important; */
+  color: black;
+  overflow: visible !important;
+  border-radius: 6px 0px 0px 6px;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  font-size: 12.5px;
+  padding: 6px 10px 6px 15px;
+  margin: 5px 0 5px 20px;
+}
+
+.sidebar-not-active-item {
+  font-size: 12.5px;
+  /* margin-left: .5rem; */
+  padding: 6px 15px;
+}
+
+.sidebar-not-active-item:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  /* margin-left: 1rem; */
+  border-radius: 6px;
+  width: 100%;
+}
+
+
+.active-sub-item:before {
+  content: "";
+  position: absolute;
+  background-color: transparent !important;
+  top: 100%;
+  bottom: auto;
+  left: auto;
+  right: 0px;
+  height: 65px;
+  width: 20px;
+  border-top-right-radius: 40px;
+  box-shadow: 0 -20px 0 0 #f2f2f2;
+  z-index: -1;
+  opacity: 1 !important;
+}
+
+.active-sub-item:after {
+  content: "";
+  position: absolute;
+  background-color: transparent !important;
+  bottom: 100%;
+  right: 0px;
+  height: 65px;
+  width: 20px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 20px 0 0 #f2f2f2;
+  z-index: -1;
+  opacity: 1 !important;
+}
+
 :host ::ng-deep.side.mat-accordion>.mat-expansion-panel {
   background: transparent;
   border: none;
@@ -73,11 +144,6 @@ body {
   overflow: visible;
 }
 
-:host ::ng-deep .side.mat-accordion>.mat-expansion-panel>.mat-expansion-panel-header.broker:hover {
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  opacity: 1 !important;
-  border-radius: 6px;
-}
 
 :host ::ng-deep .mat-expansion-panel-header {
   padding: 0 7px;
@@ -102,9 +168,9 @@ body {
   text-decoration: underline;
 }
 
-.stepper-btn1:hover {
+/* .stepper-btn1:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
-}
+} */
 
 .stepper-btn2 {
   position: relative;
@@ -113,8 +179,8 @@ body {
   font-size: 12.5px;
   color: #fff;
   text-transform: capitalize;
-  padding: 6px 10px;
-  margin: 5px 0;
+  /* padding: 6px 10px; */
+  /* margin: 5px 0; */
   text-align: left;
   display: flex;
   align-items: center;
@@ -123,30 +189,26 @@ body {
   border-radius: 6px;
 }
 
-.stepper-btn2:hover {
+/* .stepper-btn2:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
   margin-left: .5rem;
+} */
+
+
+:host ::ng-deep .side.mat-accordion>.mat-expansion-panel>.mat-expansion-panel-header.broker:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  opacity: 1 !important;
+  border-radius: 6px;
 }
 
-/* .stepper-btn3:hover {
-  background-color: rgba(255, 255, 255, 0.2) !important;
-} */
+:host ::ng-deep .mat-expansion-panel.broker:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+  background-color: transparent;
+  opacity: 1;
+}
 
-/* .stepper-btn3:hover::before {
-  content: "";
-  position: absolute;
-  height: 80%;
-  width: 3px;
-  background: #fff !important;
-  top: 50%;
-  transform: translateY(-50%);
-  left: -6.5px;
-} */
-
-/* .stepper-btn3-focus:before {
-
-} */
-
+:host ::ng-deep .broker .mat-expansion-panel-body {
+  padding: 0 !important;
+}
 
 
 .mat-nav-list .mat-list-item:hover {
@@ -196,57 +258,6 @@ body {
   width: 20px;
   border-bottom-right-radius: 40px;
   box-shadow: 0 32px 0 0 #f2f2f2;
-  z-index: -1;
-  opacity: 1 !important;
-}
-
-.sidebar-not-active-item {
-  font-size: 12.5px;
-}
-
-
-
-
-.active-sub-item {
-  position: relative;
-  margin-left: 20px;
-  background: #f2f2f2 !important;
-  max-width: 100%;
-  padding-left: 15px !important;
-  color: black;
-  overflow: visible !important;
-  border-radius: 6px 0px 0px 6px;
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
-  font-size: 12.5px;
-}
-
-.active-sub-item:before {
-  content: "";
-  position: absolute;
-  background-color: transparent !important;
-  top: 100%;
-  bottom: auto;
-  left: auto;
-  right: 0px;
-  height: 65px;
-  width: 20px;
-  border-top-right-radius: 40px;
-  box-shadow: 0 -20px 0 0 #f2f2f2;
-  z-index: -1;
-  opacity: 1 !important;
-}
-
-.active-sub-item:after {
-  content: "";
-  position: absolute;
-  background-color: transparent !important;
-  bottom: 100%;
-  right: 0px;
-  height: 65px;
-  width: 20px;
-  border-bottom-right-radius: 40px;
-  box-shadow: 0 20px 0 0 #f2f2f2;
   z-index: -1;
   opacity: 1 !important;
 }
@@ -386,21 +397,11 @@ body {
 :host ::ng-deep .mat-expansion-indicator::after {
   color: #fff;
 }
-
-:host ::ng-deep .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+/* :not(.mat-expanded) */
+:host ::ng-deep .mat-expansion-panel .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
   background-color: rgba(255, 255, 255, 0.2);
   opacity: 1;
 }
-
-:host ::ng-deep .mat-expansion-panel.broker:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
-  background-color: transparent;
-  opacity: 1;
-}
-
-:host ::ng-deep .broker .mat-expansion-panel-body {
-  padding: 0 !important;
-}
-
 
 .main-child-menu {
   margin-left: 15px;

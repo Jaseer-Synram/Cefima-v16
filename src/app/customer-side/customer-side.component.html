@@ -2910,8 +2910,9 @@
                           id="div{{ i }}">
                           <div style="cursor: pointer;height: 250px;"
                             class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center p-1">
+                            <!-- formControlName="i" id="i" name="i" -->
                             <input style="height: 190px" multiple #input1 type="file" accept="image/*,application/pdf"
-                              class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i" (change)="
+                              class="upload-files w-100 position-absolute"  (change)="
                                         handlepassportImageChange(
                                           $event,
                                           'passportPerview',
@@ -2986,12 +2987,13 @@
                 </form>
               </mat-step>
               <mat-step [stepControl]="agreementFromGroup" *ngIf="currentActiveRole == 'customer'">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form col-12">
+                <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                   <div class="col-12 d-flex flex-column justify-content-center align-items-center gap-2 my-5">
                     <div class="col-12 row">
                       <div class="col-md-12" style="margin-top: 5px">
+
                         <!-- <div>
                             <p class="text-center">
 
@@ -4390,8 +4392,9 @@
                             <div
                               class="upload-file bg-white rounded-4 position-relative d-flex flex-column justify-content-center align-items-center"
                               style="cursor: pointer;height: 250px;">
+                              <!-- formControlName="i" id="i" -->
                               <input style="height: 190px" #input1 type="file" accept="image/*,application/pdf"
-                                class="upload-files w-100 position-absolute" formControlName="i" id="i" name="i"
+                                class="upload-files w-100 position-absolute" name="i"
                                 (change)="
                                         handlepassportImageChange(
                                           $event,
@@ -4467,7 +4470,7 @@
               </mat-step>
 
               <mat-step [stepControl]="agreementFromGroup" *ngIf="familyOrCompany == 'company'">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form col-12">
+                <form #fs2="ngForm" *ngIf="agreementFromGroup" [formGroup]="agreementFromGroup" novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                   <div class="d-flex flex-column justify-content-center align-items-center gap-2 col-12">
@@ -4853,7 +4856,7 @@
                           currentActiveRole == 'customer' &&
                           familyOrCompany == 'familymember'
                         ">
-                <form #fs2="ngForm" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form col-12">
+                <form #fs2="ngForm" *ngIf="agreementFromGroupFamily" [formGroup]="agreementFromGroupFamily" novalidate="" class="more-info-form col-12">
                   <ng-template matStepLabel>Legitimation und Signatur</ng-template>
 
                   <div class="d-flex flex-column justify-content-center align-items-center gap-2 col-12">
@@ -14036,7 +14039,7 @@
                                               </li>
                                             </ul>
                                           </div>
-                                      
+
                                           <div class="accordion-list-main">
                                             <div class="accordion-list-item" *ngFor="
                                               let cl of member
